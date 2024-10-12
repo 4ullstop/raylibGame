@@ -1,0 +1,9 @@
+{
+    "files.associations": {
+        "camera.h": "c",
+        "main.h": "c",
+        "controller.h": "c",
+        "stdio.h": "c",
+        "detectcollision.h": "c"
+    }
+}
