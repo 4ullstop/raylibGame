@@ -50,7 +50,6 @@ int main(void)
         deltaTime = now - lastTime;
         lastTime = now;
 
-
         
         InitializeModel(&cube, &texture);
         

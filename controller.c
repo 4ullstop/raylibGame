@@ -2,16 +2,13 @@
 #include <stdio.h>
 
 
-void DetectPlayerMoveInput(PlayerCam* pcam, double deltaTime, FPSPlayer* player)
+void DetectPlayerMoveInput(PlayerCam* pcam, double deltaTime, FPSPlayer* player, Mesh* mesh, CollisionPacket* colPacket)
 {
     //fwd, bwd, l, r
     float moveDistance = 10.0f*deltaTime;
-    
-    
-    
     if (IsKeyDown(KEY_W))
     {   
-        PlayerCamMoveForward(pcam, moveDistance, player);
+        PlayerCamMoveForward(pcam, moveDistance, player, colPacket, mesh);
     }
     if (IsKeyDown(KEY_A))
     {
@@ -19,14 +16,17 @@ void DetectPlayerMoveInput(PlayerCam* pcam, double deltaTime, FPSPlayer* player)
     }
     if (IsKeyDown(KEY_S))
     {
-        PlayerCamMoveForward(pcam, -moveDistance, player);
+        PlayerCamMoveForward(pcam, -moveDistance, player, colPacket, mesh);
     }
     if (IsKeyDown(KEY_D))
     {
         PlayerCamMoveRight(pcam, moveDistance, player);
     }
+    
+    
     //You'll probably throw the collide and slide here
     CalculatePlayerVelocity(player, deltaTime);
+    CollideAndSlide(colPacket, player, mesh, deltaTime);
 }
 
 void CalculatePlayerVelocity(FPSPlayer* player, double deltaTime)
@@ -38,7 +38,7 @@ void CalculatePlayerVelocity(FPSPlayer* player, double deltaTime)
 
     
     Vector3 vel = {x, y, z};
-    player->velocity = vel;
+    player->velocity = Vector3Scale(vel, deltaTime);
     player->lastPos = player->location;
     
 }
@@ -52,7 +52,7 @@ void DetectPlayerLookInput(PlayerCam* pcam)
 }
 
 //Movement
-void PlayerCamMoveForward(PlayerCam* pcam, float distance, FPSPlayer* player)
+void PlayerCamMoveForward(PlayerCam* pcam, float distance, FPSPlayer* player, CollisionPacket* colPacket, Mesh* mesh)
 {
     Vector3 forwardVector = GetCameraForwardVector(pcam);
 
@@ -61,12 +61,15 @@ void PlayerCamMoveForward(PlayerCam* pcam, float distance, FPSPlayer* player)
 
     forwardVector = Vector3Scale(forwardVector, distance);
 
-
-
-    player->location = Vector3Add(pcam->position, forwardVector);
     
+    
+    
+    player->location = Vector3Add(pcam->position, forwardVector);
+
     pcam->position = player->location;
     pcam->target = Vector3Add(pcam->target, forwardVector);
+    
+    
 }
 
 void PlayerCamMoveRight(PlayerCam* pcam, float distance, FPSPlayer* player)
@@ -160,12 +163,19 @@ void CollideAndSlide(CollisionPacket* colPacket, FPSPlayer* player, Mesh* mesh, 
     //converting back to r3
     finalPosition = Vector3Multiply(finalPosition, colPacket->eRadius);
 
-    if (finalPosition.x != 0.0f && finalPosition.y != 0.0f && finalPosition.z != 0.0f)
-    {
-        float dist = 10.0f * deltaTime;
-        finalPosition = Vector3Scale(finalPosition, dist);
-        player->attachedCam->position = Vector3Add(player->attachedCam->position, finalPosition);
-    }
+    player->location = finalPosition;
+    player->attachedCam->position = player->location;
+
+    // Vector3 adjustedTarget = Vector3Add(player->attachedCam->target, player->velocity);
+    // player->attachedCam->target = Vector3Add(finalPosition, adjustedTarget);
+
+    // if (colPacket->foundCollision && finalPosition.x != 0.0f && finalPosition.y != 0.0f && finalPosition.z != 0.0f)
+    // {
+    //     player->location = Vector3Add(player->attachedCam->position, finalPosition);
+    //     player->attachedCam->position = player->location;
+    //     Vector3 target = Vector3Multiply(colPacket->velocity, colPacket->eRadius);
+    //     player->attachedCam->target = Vector3Add(player->attachedCam->target, target);
+    // }
     
     //player->location = finalPosition;
 }

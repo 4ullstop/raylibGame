@@ -17,9 +17,9 @@ void ConstructCPlane(CPlane* plane, Vector3 inOrigin, Vector3 inNormal)
 
 void ConstructFromTriangle(CPlane* plane, Vector3 p1, Vector3 p2, Vector3 p3)
 {
-    Vector3 v1 = Vector3Subtract(p2, p1);
-    Vector3 v2 = Vector3Subtract(p3, p1);
-    plane->normal = Vector3CrossProduct(v1, v2);
+    // Vector3 v1 = Vector3Subtract(p2, p1);
+    // Vector3 v2 = Vector3Subtract(p3, p1);
+    plane->normal = Vector3CrossProduct(Vector3Subtract(p2, p1), Vector3Subtract(p3, p1));
 
     plane->normal = Vector3Normalize(plane->normal);
 

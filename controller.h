@@ -6,11 +6,11 @@
 #include "collisionplane.h"
 #endif
 
-void DetectPlayerMoveInput(PlayerCam* pcam, double deltaTime, FPSPlayer* player);
+void DetectPlayerMoveInput(PlayerCam* pcam, double deltaTime, FPSPlayer* player, Mesh* mesh, CollisionPacket* colPacket);
 
 void DetectPlayerLookInput(PlayerCam* pcam);
 
-void PlayerCamMoveForward(PlayerCam* pcam, float distance, FPSPlayer* player);
+void PlayerCamMoveForward(PlayerCam* pcam, float distance, FPSPlayer* player, CollisionPacket* colPacket, Mesh* mesh);
 
 void PlayerCamMoveRight(PlayerCam* pcam, float distance, FPSPlayer* player);
 
