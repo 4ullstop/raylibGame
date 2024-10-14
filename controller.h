@@ -30,3 +30,4 @@ void CollideAndSlide(CollisionPacket* colPacket, FPSPlayer* player, Mesh* mesh, 
 
 Vector3 CollideWithWorld(CollisionPacket* colPacket, Vector3 pos, Vector3 vel, Mesh* mesh);
 
+void PollPlayerInput(PlayerCam* pcam, double deltaTime, FPSPlayer* player, Mesh* mesh, CollisionPacket* colPacket);

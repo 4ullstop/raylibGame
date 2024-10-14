@@ -12,7 +12,8 @@ void PlayerSetup(FPSPlayer* player, PlayerCam* cam)
 
 void PollPlayer(float deltaTime, PlayerCam* pcam, FPSPlayer* player, CollisionPacket* colPacket, Mesh* mesh)
 {
-    DetectPlayerMoveInput(pcam, deltaTime, player, mesh, colPacket);
+    //DetectPlayerMoveInput(pcam, deltaTime, player, mesh, colPacket);
+    PollPlayerInput(pcam, deltaTime, player, mesh, colPacket);
     DetectPlayerLookInput(pcam);
 }
 

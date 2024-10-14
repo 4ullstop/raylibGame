@@ -29,6 +29,62 @@ void DetectPlayerMoveInput(PlayerCam* pcam, double deltaTime, FPSPlayer* player,
     CollideAndSlide(colPacket, player, mesh, deltaTime);
 }
 
+void PollPlayerInput(PlayerCam* pcam, double deltaTime, FPSPlayer* player, Mesh* mesh, CollisionPacket* colPacket)
+{
+    /*
+        This is the implementation of an accumulated velocity movement system
+        Rather than splitting everything up with separate key presses, this 
+        system takes all of the inputs and inputs their velocities into one 
+        vector that is used to direct the player for a new location
+    */
+    float moveSpeed = 10.0f;
+    Vector3 inputVelocity = {0.0f, 0.0f, 0.0f};
+
+    if (IsKeyDown(KEY_W))
+    {
+        Vector3 forward = GetCameraForwardVector(pcam);
+        forward.y = 0;
+        forward = Vector3Normalize(forward);
+        inputVelocity = Vector3Add(inputVelocity, Vector3Scale(forward, moveSpeed));
+    }
+    if (IsKeyDown(KEY_S))
+    {
+        Vector3 backward = GetCameraForwardVector(pcam);
+        backward.y = 0;
+        backward = Vector3Normalize(backward);
+        inputVelocity = Vector3Add(inputVelocity, Vector3Scale(backward, -moveSpeed));
+    }
+
+    //Left and right movement
+    if (IsKeyDown(KEY_A))
+    {
+        Vector3 left = GetCameraRightVector(pcam);
+        left.y = 0;
+        left = Vector3Normalize(left);
+        inputVelocity = Vector3Add(inputVelocity, Vector3Scale(left, -moveSpeed));
+    }
+    if (IsKeyDown(KEY_D))
+    {
+        Vector3 right = GetCameraRightVector(pcam);
+        right.y = 0;
+        right = Vector3Normalize(right);
+        inputVelocity = Vector3Add(inputVelocity, Vector3Scale(right, moveSpeed));
+    }
+
+    //Scale by delta time to ensure a consistent movement speed
+    inputVelocity = Vector3Scale(inputVelocity, deltaTime);
+
+    //Apply the accumulated velocity to the player's current velocity
+    player->velocity = inputVelocity;
+    
+
+    CollideAndSlide(colPacket, player, mesh, deltaTime);
+
+    CalculatePlayerVelocity(player, deltaTime);
+
+    
+}
+
 void CalculatePlayerVelocity(FPSPlayer* player, double deltaTime)
 {
     
@@ -164,10 +220,15 @@ void CollideAndSlide(CollisionPacket* colPacket, FPSPlayer* player, Mesh* mesh, 
     finalPosition = Vector3Multiply(finalPosition, colPacket->eRadius);
 
     player->location = finalPosition;
+    // player->location.x = finalPosition.x;
+    // player->location.z = finalPosition.z;
+    // player->location.y = 2.0f;
     player->attachedCam->position = player->location;
 
-    // Vector3 adjustedTarget = Vector3Add(player->attachedCam->target, player->velocity);
-    // player->attachedCam->target = Vector3Add(finalPosition, adjustedTarget);
+    //Vector3 adjustedTarget = Vector3Add(player->attachedCam->target, player->velocity);
+    //player->attachedCam->target = Vector3Add(finalPosition, adjustedTarget);
+
+    player->attachedCam->target = Vector3Add(player->attachedCam->target, player->velocity);
 
     // if (colPacket->foundCollision && finalPosition.x != 0.0f && finalPosition.y != 0.0f && finalPosition.z != 0.0f)
     // {
@@ -193,6 +254,7 @@ Vector3 CollideWithWorld(CollisionPacket* colPacket, Vector3 pos, Vector3 vel, M
 
     colPacket->velocity = vel;
     colPacket->normalizedVelocity = vel;
+    colPacket->normalizedVelocity = Vector3Normalize(colPacket->normalizedVelocity);
     //printf("%f, %f, %f\n", colPacket->normalizedVelocity.x, colPacket->normalizedVelocity.y, colPacket->normalizedVelocity.z);
     colPacket->basePoint = pos;
     colPacket->foundCollision = false;
@@ -236,9 +298,8 @@ Vector3 CollideWithWorld(CollisionPacket* colPacket, Vector3 pos, Vector3 vel, M
     }
 
     Vector3 slidePlaneOrigin = colPacket->intersectionPoint;
-    Vector3 slidePlaneNormal = Vector3Subtract(newBasePoint, colPacket->intersectionPoint);
+    Vector3 slidePlaneNormal = Vector3Normalize(Vector3Subtract(newBasePoint, colPacket->intersectionPoint));
 
-    slidePlaneNormal = Vector3Normalize(slidePlaneNormal);
 
     CPlane slidingPlane = {0};
     ConstructCPlane(&slidingPlane, slidePlaneOrigin, slidePlaneNormal);

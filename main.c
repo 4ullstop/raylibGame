@@ -108,7 +108,6 @@ void Draw(Model* cubeModel)
                 mesh->vertices[i * 9 + 7],
                 mesh->vertices[i * 9 + 8]
             };
-
             DrawSphere(vertex0, 0.2f, BLUE);
             DrawSphere(vertex1, 0.2f, BLUE);
             DrawSphere(vertex2, 0.2f, BLUE);

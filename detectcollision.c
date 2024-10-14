@@ -374,3 +374,4 @@ bool GetLowestRoot(float a, float b, float c, float maxR, float* root)
     //No valid solutions
     return false;
 }
+
