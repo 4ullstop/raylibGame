@@ -304,7 +304,8 @@ Vector3 CollideWithWorld(CollisionPacket* colPacket, Vector3 pos, Vector3 vel, M
     CPlane slidingPlane = {0};
     ConstructCPlane(&slidingPlane, slidePlaneOrigin, slidePlaneNormal);
 
-    Vector3 newDestinationPoint = Vector3Multiply(Vector3SubtractValue(destPoint, SignedDistanceToPlane(&slidingPlane, destPoint)), slidePlaneNormal);
+    Vector3 newDestinationPoint = Vector3Subtract(destPoint, Vector3Scale(slidePlaneNormal, SignedDistanceToPlane(&slidingPlane, destPoint)));
+    //Vector3Multiply(Vector3SubtractValue(destPoint, SignedDistanceToPlane(&slidingPlane, destPoint)), slidePlaneNormal);
     
     //Generate teh slide vector which will become our velocity vector on the next iteration
     Vector3 newVelocityVector = Vector3Subtract(newDestinationPoint, colPacket->intersectionPoint);
