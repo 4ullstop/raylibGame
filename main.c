@@ -1,6 +1,6 @@
 #include "main.h"
-#include "player.h"
-#include "window.h"
+#include "player/player.h"
+#include "initialization/window.h"
 #include <stdlib.h>
 #include <stdio.h>
 

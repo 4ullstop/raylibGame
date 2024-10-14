@@ -1,39 +1,55 @@
 CC = gcc
-SRC = main.c window.c camera.c player.c controller.c detectcollision.c collisionplane.c
-OBJ = main.o window.o camera.o player.o controller.o detectcollision.o collisionplane.o
+SRC = main.c \
+      initialization\window.c \
+      player\camera.c \
+      player\player.c \
+      player\controller.c \
+      collision\detectcollision.c \
+      collision\collisionplane.c
+OBJ = intermediate\main.o \
+      intermediate\window.o \
+      intermediate\camera.o \
+      intermediate\player.o \
+      intermediate\controller.o \
+      intermediate\detectcollision.o \
+      intermediate\collisionplane.o
 OUTPUT = test.exe
 INCLUDE = -IC:\raylib\raylib\src
 LIBS = -LC:\raylib\raylib\src -lraylib -lopengl32 -lgdi32 -lwinmm
 
 # Default target to build the executable
-all: $(OUTPUT)
+all: intermediate $(OUTPUT)
+
+# Create the intermediate directory if it doesn't exist
+intermediate:
+	@if not exist intermediate mkdir intermediate
 
 # Rule to link the object files into the final executable
 $(OUTPUT): $(OBJ)
 	$(CC) $(OBJ) -o $(OUTPUT) $(INCLUDE) $(LIBS)
 
-# Individual rules to compile each .c file into a .o file
-main.o: main.c
-	$(CC) -c main.c -o main.o $(INCLUDE)
+# Explicit rules for object file generation
+intermediate\main.o: main.c intermediate
+	$(CC) -c main.c -o intermediate\main.o $(INCLUDE)
 
-window.o: window.c
-	$(CC) -c window.c -o window.o $(INCLUDE)
+intermediate\window.o: initialization\window.c intermediate
+	$(CC) -c initialization\window.c -o intermediate\window.o $(INCLUDE)
 
-camera.o: camera.c
-	$(CC) -c camera.c -o camera.o $(INCLUDE)
-	
-player.o: player.c
-	$(CC) -c player.c -o player.o $(INCLUDE)
+intermediate\camera.o: player\camera.c intermediate
+	$(CC) -c player\camera.c -o intermediate\camera.o $(INCLUDE)
 
-controller.o: controller.c
-	$(CC) -c controller.c -o controller.o $(INCLUDE)
+intermediate\player.o: player\player.c intermediate
+	$(CC) -c player\player.c -o intermediate\player.o $(INCLUDE)
 
-detectcollision.o: detectcollision.c
-	$(CC) -c detectcollision.c -o detectcollision.o $(INCLUDE)
+intermediate\controller.o: player\controller.c intermediate
+	$(CC) -c player\controller.c -o intermediate\controller.o $(INCLUDE)
 
-collisionplane.o: collisionplane.c
-	$(CC) -c collisionplane.c -o collisionplane.o $(INCLUDE)
+intermediate\detectcollision.o: collision\detectcollision.c intermediate
+	$(CC) -c collision\detectcollision.c -o intermediate\detectcollision.o $(INCLUDE)
 
-# Clean rule to delete all generated files
-clean:
-	del *.o $(OUTPUT)
+intermediate\collisionplane.o: collision\collisionplane.c intermediate
+	$(CC) -c collision\collisionplane.c -o intermediate\collisionplane.o $(INCLUDE)
+
+# Clean rule to delete
+
+

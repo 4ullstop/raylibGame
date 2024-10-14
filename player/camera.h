@@ -2,7 +2,7 @@
 #include "C:\raylib\raylib\src\raylib.h"
 #include "C:\raylib\raylib\src\raymath.h"
 #include "C:\raylib\raylib\src\rlgl.h"
-#include "corestructs.h"
+#include "../initialization/corestructs.h"
 #endif
 
 void PlayerCamSetup(PlayerCam* pcam);

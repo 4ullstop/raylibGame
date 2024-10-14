@@ -2,8 +2,8 @@
 #include "C:\raylib\raylib\src\raylib.h"
 #include "C:\raylib\raylib\src\raymath.h"
 #include "camera.h"
-#include "detectcollision.h"  
-#include "collisionplane.h"
+#include "../collision/detectcollision.h"  
+#include "../collision/collisionplane.h"
 #endif
 
 void DetectPlayerMoveInput(PlayerCam* pcam, double deltaTime, FPSPlayer* player, Mesh* mesh, CollisionPacket* colPacket);
