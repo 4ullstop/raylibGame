@@ -29,24 +29,25 @@ CollisionPacket colPacket = {0};
 
 int main(void)
 {
+    printf("Initializing window and player camera...\n");
     CreateWindow(800, 450);
     PlayerCamSetup(&pcam);
     PlayerSetup(&player, &pcam);
-    printf("Window created, setting up player cam\n");
+    //DO NOT PUT ANYTHING ABOVE THESE LINES, YOUR CODE WILL NOT WORK
 
-    //CreateModels(models, 1);
     printf("Preparing model loading...\n");
     Model cube = LoadModel("C:/raylib/raylib/examples/models/resources/models/obj/cube.obj");
     Texture2D texture = LoadTexture("C:/raylib/raylib/examples/models/resources/models/obj/cube_diffuse.png");
     cube.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texture;
 
-    modelInfo* models[1];
-    CreateModels(models, 1);
-    printf("Creating window\n");
+    //initializing all of our models
+    modelInfo* models[NUMBER_OF_MODELS];
+    CreateModels(models);
+    
 
     colPacket.eRadius = (Vector3){1.0f, 1.0f, 1.0f};
     
-    
+    printf("Game loop starting...\n");
     while (!WindowShouldClose())
     {
         float now = GetTime();
@@ -59,12 +60,11 @@ int main(void)
         CallAllPolls(deltaTime, &cube);
         
         
-        Draw(&cube, models, 1);
+        Draw(&cube, models);
 
     }
 
-    DestroyAllModels(models, 1);
-    
+    DestroyAllModels(models);
     UnloadTexture(texture);
     UnloadModel(cube);
     CloseWindow();
@@ -77,7 +77,7 @@ void CallAllPolls(float dTime, Model* inModel)
     PollPlayer(dTime, &pcam, &player, &colPacket, inModel->meshes);
 }
 
-void Draw(Model* cubeModel, modelInfo** models, int modelSize)
+void Draw(Model* cubeModel, modelInfo** models)
 {
     Mesh* mesh = cubeModel->meshes;
     
@@ -90,12 +90,9 @@ void Draw(Model* cubeModel, modelInfo** models, int modelSize)
         //draw here
         DrawPlane((Vector3){0.0f, 0.0f, 0.0f}, (Vector2){32.0f, 32.0f}, RED);
         
-        Model mod = models[0]->model;
+        
         DrawModel(*cubeModel, cubePos, 1.0f, WHITE);
-        for (int i = 0; i < modelSize; i++)
-        {
-            DrawModel(models[i]->model, models[i]->modelLocation, 1.0f, WHITE);
-        }
+        DrawAllModels(models);
 
 
         //debugging showing verts in cube mesh

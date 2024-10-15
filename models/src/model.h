@@ -1,12 +1,15 @@
 #ifndef RAYLIB_CAMERA_HEAD
 #include "C:\raylib\raylib\src\raylib.h"
-#include "modelimport.h"
+#include "../../initialization/corestructs.h"
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
 #endif
 
+#define NUMBER_OF_MODELS 1
 
-void CreateModels(modelInfo** models, int size);
+void CreateModels(modelInfo** models);
 
-void DestroyAllModels(modelInfo** models, int size);
+void DrawAllModels(modelInfo** models);
+
+void DestroyAllModels(modelInfo** models);

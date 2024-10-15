@@ -1,6 +1,6 @@
 #include "model.h"
 
-void CreateModels(modelInfo** models, int size)
+void CreateModels(modelInfo** models)
 {
     //cube model 01
     modelInfo* cube = malloc(sizeof(modelInfo));
@@ -13,9 +13,18 @@ void CreateModels(modelInfo** models, int size)
     
 }
 
-void DestroyAllModels(modelInfo** models, int size)
+void DrawAllModels(modelInfo** models)
 {
-    for (int i = 0; i < size; i++)
+    for (int i = 0; i < NUMBER_OF_MODELS; i++)
+    {
+        DrawModel(models[i]->model, models[i]->modelLocation, 1.0f, WHITE);
+    }
+
+}
+
+void DestroyAllModels(modelInfo** models)
+{
+    for (int i = 0; i < NUMBER_OF_MODELS; i++)
     {
         UnloadTexture(models[i]->texture);
         UnloadModel(models[i]->model);
