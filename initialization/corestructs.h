@@ -45,4 +45,4 @@ typedef struct modelInfo
 } modelInfo;
 #endif
 
-#define NUMBER_OF_MODELS 1
+#define NUMBER_OF_MODELS 2

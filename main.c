@@ -56,10 +56,10 @@ int main(void)
         
         InitializeModel(&cube, &texture);
         
-        CallAllPolls(deltaTime, &cube, models);
+        CallAllPolls(deltaTime, models);
         
         
-        Draw(&cube, models);
+        Draw(models);
 
     }
 
@@ -71,14 +71,14 @@ int main(void)
     return 0;
 }
 
-void CallAllPolls(float dTime, Model* inModel, modelInfo** models)
+void CallAllPolls(float dTime, modelInfo** models)
 {
-    PollPlayer(dTime, &pcam, &player, &colPacket, inModel->meshes, models);
+    PollPlayer(dTime, &pcam, &player, &colPacket, models);
 }
 
-void Draw(Model* cubeModel, modelInfo** models)
+void Draw( modelInfo** models)
 {
-    Mesh* mesh = cubeModel->meshes;
+    
     
     BeginDrawing();
 
@@ -89,35 +89,7 @@ void Draw(Model* cubeModel, modelInfo** models)
         //draw here
         DrawPlane((Vector3){0.0f, 0.0f, 0.0f}, (Vector2){32.0f, 32.0f}, RED);
         
-        DrawModel(*cubeModel, cubePos, 1.0f, WHITE);
         DrawAllModels(models);
-
-
-        //debugging showing verts in cube mesh
-        for (int i = 0, n = mesh->triangleCount; i < n; i++)
-        {
-            Vector3 vertex0 = 
-            {
-                mesh->vertices[i * 9],
-                mesh->vertices[i * 9 + 1],
-                mesh->vertices[i * 9 + 2]
-            };
-            Vector3 vertex1 = 
-            {
-                mesh->vertices[i * 9 + 3],
-                mesh->vertices[i * 9 + 4],
-                mesh->vertices[i * 9 + 5]
-            };
-            Vector3 vertex2 = 
-            {
-                mesh->vertices[i * 9 + 6],
-                mesh->vertices[i * 9 + 7],
-                mesh->vertices[i * 9 + 8]
-            };
-            DrawSphere(vertex0, 0.2f, BLUE);
-            DrawSphere(vertex1, 0.2f, BLUE);
-            DrawSphere(vertex2, 0.2f, BLUE);
-        }
 
         
         

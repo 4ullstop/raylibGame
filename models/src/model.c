@@ -9,7 +9,14 @@ void CreateModels(modelInfo** models)
     cube->modelLocation = (Vector3){5.0f, 0.0f, 0.0f};
     cube->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = cube->texture;
     
+    modelInfo* cube_02 = malloc(sizeof(modelInfo));
+    cube_02->model = LoadModel("C:/raylib/raylib/examples/models/resources/models/obj/cube.obj");
+    cube_02->texture = LoadTexture("C:/raylib/raylib/examples/models/resources/models/obj/cube_diffuse.png");
+    cube_02->modelLocation = (Vector3){-2.0f, 0.0f, 0.0f};
+    cube_02->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = cube_02->texture;
+
     models[0] = cube;
+    models[1] = cube_02;
     
 }
 
@@ -19,7 +26,6 @@ void DrawAllModels(modelInfo** models)
     {
         DrawModel(models[i]->model, models[i]->modelLocation, 1.0f, WHITE);
     }
-
 }
 
 void DestroyAllModels(modelInfo** models)

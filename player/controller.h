@@ -20,8 +20,8 @@ Vector3 GetCameraRightVector(PlayerCam* pcam);
 
 void CalculatePlayerVelocity(FPSPlayer* player, double deltaTime);
 
-void CollideAndSlide(CollisionPacket* colPacket, FPSPlayer* player, Mesh* mesh, double deltaTime, modelInfo** models);
+void CollideAndSlide(CollisionPacket* colPacket, FPSPlayer* player, double deltaTime, modelInfo** models);
 
-Vector3 CollideWithWorld(CollisionPacket* colPacket, Vector3 pos, Vector3 vel, Mesh* mesh, modelInfo** models);
+Vector3 CollideWithWorld(CollisionPacket* colPacket, Vector3 pos, Vector3 vel, modelInfo** models);
 
-void PollPlayerInput(PlayerCam* pcam, double deltaTime, FPSPlayer* player, Mesh* mesh, CollisionPacket* colPacket, modelInfo** models);
+void PollPlayerInput(PlayerCam* pcam, double deltaTime, FPSPlayer* player, CollisionPacket* colPacket, modelInfo** models);

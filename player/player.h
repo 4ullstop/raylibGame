@@ -3,7 +3,7 @@
 #include "controller.h"
 #endif
 
-void PollPlayer(float deltaTime, PlayerCam* pcam, FPSPlayer* player, CollisionPacket* colPacket, Mesh* mesh, modelInfo** models);
+void PollPlayer(float deltaTime, PlayerCam* pcam, FPSPlayer* player, CollisionPacket* colPacket, modelInfo** models);
 
 void DrawPlayerCollisionCapsule(Vector3 location);
 
