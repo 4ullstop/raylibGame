@@ -5,14 +5,16 @@ SRC = main.c \
       player\player.c \
       player\controller.c \
       collision\detectcollision.c \
-      collision\collisionplane.c
+      collision\collisionplane.c \
+	  models\src\modelimport.c
 OBJ = intermediate\main.o \
       intermediate\window.o \
       intermediate\camera.o \
       intermediate\player.o \
       intermediate\controller.o \
       intermediate\detectcollision.o \
-      intermediate\collisionplane.o
+      intermediate\collisionplane.o \
+	  intermediate\modelimport.o
 OUTPUT = test.exe
 INCLUDE = -IC:\raylib\raylib\src
 LIBS = -LC:\raylib\raylib\src -lraylib -lopengl32 -lgdi32 -lwinmm
@@ -50,6 +52,12 @@ intermediate\detectcollision.o: collision\detectcollision.c intermediate
 intermediate\collisionplane.o: collision\collisionplane.c intermediate
 	$(CC) -c collision\collisionplane.c -o intermediate\collisionplane.o $(INCLUDE)
 
+intermediate\modelimport.o: models\src\modelimport.c intermediate
+	$(CC) -c models\src\modelimport.c -o intermediate\modelimport.o $(INCLUDE)
+
 # Clean rule to delete
+clean:
+	del /q intermediate\*.o 
+	del /q $(OUTPUT)
 
 

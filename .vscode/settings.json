@@ -4,6 +4,8 @@
         "main.h": "c",
         "controller.h": "c",
         "stdio.h": "c",
-        "detectcollision.h": "c"
+        "detectcollision.h": "c",
+        "stdlib.h": "c",
+        "modelimport.h": "c"
     }
 }

@@ -2,33 +2,6 @@
 #include <stdio.h>
 
 
-void DetectPlayerMoveInput(PlayerCam* pcam, double deltaTime, FPSPlayer* player, Mesh* mesh, CollisionPacket* colPacket)
-{
-    //fwd, bwd, l, r
-    float moveDistance = 10.0f*deltaTime;
-    if (IsKeyDown(KEY_W))
-    {   
-        PlayerCamMoveForward(pcam, moveDistance, player, colPacket, mesh);
-    }
-    if (IsKeyDown(KEY_A))
-    {
-        PlayerCamMoveRight(pcam, -moveDistance, player);
-    }
-    if (IsKeyDown(KEY_S))
-    {
-        PlayerCamMoveForward(pcam, -moveDistance, player, colPacket, mesh);
-    }
-    if (IsKeyDown(KEY_D))
-    {
-        PlayerCamMoveRight(pcam, moveDistance, player);
-    }
-    
-    
-    //You'll probably throw the collide and slide here
-    CalculatePlayerVelocity(player, deltaTime);
-    CollideAndSlide(colPacket, player, mesh, deltaTime);
-}
-
 void PollPlayerInput(PlayerCam* pcam, double deltaTime, FPSPlayer* player, Mesh* mesh, CollisionPacket* colPacket)
 {
     /*
@@ -105,41 +78,6 @@ void DetectPlayerLookInput(PlayerCam* pcam)
 
     InputCamPitch(pcam, -mouseDelta.y*0.003f, true, false);
     InputCamYaw(pcam, -mouseDelta.x*0.003f);
-}
-
-//Movement
-void PlayerCamMoveForward(PlayerCam* pcam, float distance, FPSPlayer* player, CollisionPacket* colPacket, Mesh* mesh)
-{
-    Vector3 forwardVector = GetCameraForwardVector(pcam);
-
-    forwardVector.y = 0;
-    forwardVector = Vector3Normalize(forwardVector);
-
-    forwardVector = Vector3Scale(forwardVector, distance);
-
-    
-    
-    
-    player->location = Vector3Add(pcam->position, forwardVector);
-
-    pcam->position = player->location;
-    pcam->target = Vector3Add(pcam->target, forwardVector);
-    
-    
-}
-
-void PlayerCamMoveRight(PlayerCam* pcam, float distance, FPSPlayer* player)
-{
-    Vector3 right = GetCameraRightVector(pcam);
-
-    right.y = 0;
-    right = Vector3Normalize(right);
-
-    right = Vector3Scale(right, distance);
-    player->location = Vector3Add(pcam->position, right);
-    
-    pcam->position = player->location;
-    pcam->target = Vector3Add(pcam->target, right);
 }
 
 //Get Camera Vectors
@@ -220,25 +158,9 @@ void CollideAndSlide(CollisionPacket* colPacket, FPSPlayer* player, Mesh* mesh, 
     finalPosition = Vector3Multiply(finalPosition, colPacket->eRadius);
 
     player->location = finalPosition;
-    // player->location.x = finalPosition.x;
-    // player->location.z = finalPosition.z;
-    // player->location.y = 2.0f;
     player->attachedCam->position = player->location;
 
-    //Vector3 adjustedTarget = Vector3Add(player->attachedCam->target, player->velocity);
-    //player->attachedCam->target = Vector3Add(finalPosition, adjustedTarget);
-
     player->attachedCam->target = Vector3Add(player->attachedCam->target, player->velocity);
-
-    // if (colPacket->foundCollision && finalPosition.x != 0.0f && finalPosition.y != 0.0f && finalPosition.z != 0.0f)
-    // {
-    //     player->location = Vector3Add(player->attachedCam->position, finalPosition);
-    //     player->attachedCam->position = player->location;
-    //     Vector3 target = Vector3Multiply(colPacket->velocity, colPacket->eRadius);
-    //     player->attachedCam->target = Vector3Add(player->attachedCam->target, target);
-    // }
-    
-    //player->location = finalPosition;
 }
 
 Vector3 CollideWithWorld(CollisionPacket* colPacket, Vector3 pos, Vector3 vel, Mesh* mesh)
@@ -255,7 +177,6 @@ Vector3 CollideWithWorld(CollisionPacket* colPacket, Vector3 pos, Vector3 vel, M
     colPacket->velocity = vel;
     colPacket->normalizedVelocity = vel;
     colPacket->normalizedVelocity = Vector3Normalize(colPacket->normalizedVelocity);
-    //printf("%f, %f, %f\n", colPacket->normalizedVelocity.x, colPacket->normalizedVelocity.y, colPacket->normalizedVelocity.z);
     colPacket->basePoint = pos;
     colPacket->foundCollision = false;
 
@@ -305,7 +226,6 @@ Vector3 CollideWithWorld(CollisionPacket* colPacket, Vector3 pos, Vector3 vel, M
     ConstructCPlane(&slidingPlane, slidePlaneOrigin, slidePlaneNormal);
 
     Vector3 newDestinationPoint = Vector3Subtract(destPoint, Vector3Scale(slidePlaneNormal, SignedDistanceToPlane(&slidingPlane, destPoint)));
-    //Vector3Multiply(Vector3SubtractValue(destPoint, SignedDistanceToPlane(&slidingPlane, destPoint)), slidePlaneNormal);
     
     //Generate teh slide vector which will become our velocity vector on the next iteration
     Vector3 newVelocityVector = Vector3Subtract(newDestinationPoint, colPacket->intersectionPoint);

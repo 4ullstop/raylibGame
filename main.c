@@ -1,6 +1,7 @@
 #include "main.h"
 #include "player/player.h"
 #include "initialization/window.h"
+#include "models/src/model.h"
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -24,10 +25,11 @@ Vector3 cubePos = {0.0f, 0.0f, 0.0f};
 CollisionPacket colPacket = {0};
 
 
+
 int main(void)
 {
     
-    
+    modelInfo** models = malloc(NUMBER_OF_MODELS * sizeof(modelInfo*));
     printf("Creating window\n");
 
     CreateWindow(800, 450);
@@ -43,7 +45,7 @@ int main(void)
 
     colPacket.eRadius = (Vector3){1.0f, 1.0f, 1.0f};
     
-
+    CompileModels(models, 1);
     while (!WindowShouldClose())
     {
         float now = GetTime();
@@ -60,6 +62,8 @@ int main(void)
 
     }
 
+    DestroyModels(models, 1);
+    free(models);
     UnloadTexture(texture);
     UnloadModel(cube);
     CloseWindow();
