@@ -3,26 +3,24 @@
 #include "modelimport.h"
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 #endif
 
 
 void CompileModels(modelInfo** models, int size)
 {
+    printf("yo\n");
     modelInfo cube = 
     {
-        cube.modelPathLocation = malloc(100 * sizeof(char)),
-        cube.texturePathLocation = malloc(100 * sizeof(char)),
-        cube.model = (Model){0},
-        cube.texture = (Texture2D){0},
-        cube.modelLocation = (Vector3){0.0f, 0.0f, 0.0f}
+        cube.model = LoadModel("C:/raylib/raylib/examples/models/resources/models/obj/cube.obj"),
+        cube.texture = LoadTexture("C:/raylib/raylib/examples/models/resources/models/obj/cube_diffuse.png"),
+        cube.modelLocation = (Vector3){0.0f, 5.0f, 0.0f}
     };
-    strcpy(cube.modelPathLocation, "C:/raylib/raylib/examples/models/resources/models/obj/cube_diffuse.png");
-    strcpy(cube.texturePathLocation, "C:/raylib/raylib/examples/models/resources/models/obj/cube_diffuse.png");
+    cube.model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = cube.texture;
 
 
 
     models[0] = &cube;
-    InitModels(models, size);
 }
 
 void DestroyModels(modelInfo** models, int size)
@@ -31,8 +29,6 @@ void DestroyModels(modelInfo** models, int size)
     {
         if (models[i] != NULL)
         {
-            free(models[i]->modelPathLocation);
-            free(models[i]->texturePathLocation);
             free(models[i]);
         }
     }

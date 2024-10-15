@@ -1,7 +1,7 @@
 #include "main.h"
 #include "player/player.h"
 #include "initialization/window.h"
-#include "models/src/model.h"
+
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -21,6 +21,7 @@ float zVelocity = 0.0f;
 
 
 Vector3 cubePos = {0.0f, 0.0f, 0.0f};
+Vector3 twoCube = {0.0f, 5.0f, 0.0f};
 
 CollisionPacket colPacket = {0};
 
@@ -30,6 +31,7 @@ int main(void)
 {
     
     modelInfo** models = malloc(NUMBER_OF_MODELS * sizeof(modelInfo*));
+    models[0] = malloc(sizeof(modelInfo));
     printf("Creating window\n");
 
     CreateWindow(800, 450);
@@ -53,16 +55,17 @@ int main(void)
         lastTime = now;
 
         
-        InitializeModel(&cube, &texture);
+        //InitializeModel(&cube, &texture);
         
         CallAllPolls(deltaTime, &cube);
         
         
-        Draw(&cube);
+        Draw(&cube, models);
 
     }
 
     DestroyModels(models, 1);
+    free(models[0]);
     free(models);
     UnloadTexture(texture);
     UnloadModel(cube);
@@ -76,7 +79,7 @@ void CallAllPolls(float dTime, Model* inModel)
     PollPlayer(dTime, &pcam, &player, &colPacket, inModel->meshes);
 }
 
-void Draw(Model* cubeModel)
+void Draw(Model* cubeModel, modelInfo** models)
 {
     Mesh* mesh = cubeModel->meshes;
     
@@ -90,7 +93,15 @@ void Draw(Model* cubeModel)
         DrawPlane((Vector3){0.0f, 0.0f, 0.0f}, (Vector2){32.0f, 32.0f}, RED);
 
         DrawModel(*cubeModel, cubePos, 1.0f, WHITE);
-        
+        DrawModel(models[0]->model, twoCube, 1.0f, WHITE);
+        // for (int i = 0; i < NUMBER_OF_MODELS; i++)
+        // {
+        //     if (models[i] == NULL || &models[i]->model == NULL)
+        //     {
+        //         printf("Null value\n");
+        //     }
+            
+        // }
 
         for (int i = 0, n = mesh->triangleCount; i < n; i++)
         {

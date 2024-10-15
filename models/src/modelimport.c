@@ -1,20 +1,7 @@
 #include "modelimport.h"
 #include <stdio.h>
 
-void InitModels(modelInfo** models, int size)
-{
-    printf("Log: Loading models...");
 
-    for (int i = 0; i < size; i++)
-    {
-        models[i]->modelLocation;
-        Model tempMod = LoadModel(models[i]->modelPathLocation);
-        Texture2D tempText = LoadTexture(models[i]->texturePathLocation);
-        tempMod.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = tempText;
-        models[i]->model = tempMod;
-        models[i]->texture = tempText;
-    }
-}
 
 void PollModels(modelInfo* model)
 {
@@ -41,19 +28,19 @@ void PollModels(modelInfo* model)
     }
 }
 
-void DrawModels(modelInfo* models, int size)
+void DrawModels(modelInfo** models, int size)
 {
     for (int i = 0; i < size; i++)
     {
-        DrawModel(models[i].model, models[i].modelLocation, 1.0f, WHITE);
+        DrawModel(models[i]->model, models[i]->modelLocation, 1.0f, WHITE);
     }
 }
 
-void UnloadAllModels(modelInfo* models, int size)
+void UnloadAllModels(modelInfo** models, int size)
 {
     for (int i = 0; i < size; i++)
     {
-        UnloadTexture(models[i].texture);
-        UnloadModel(models[i].model);
+        UnloadTexture(models[i]->texture);
+        UnloadModel(models[i]->model);
     }
 }

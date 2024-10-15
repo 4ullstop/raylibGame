@@ -4,8 +4,6 @@
 
 typedef struct modelInfo
 {
-    char* modelPathLocation;
-    char* texturePathLocation;
     Model model;
     Texture2D texture;
 
@@ -14,10 +12,9 @@ typedef struct modelInfo
     
 } modelInfo;
 
-void InitModels(modelInfo* models, int size);
 
-void DrawModels(modelInfo* models, int size);
+void DrawModels(modelInfo** models, int size);
 
-void UnloadAllModels(modelInfo* models, int size);
+void UnloadAllModels(modelInfo** models, int size);
 
 void PollModels(modelInfo* model);
