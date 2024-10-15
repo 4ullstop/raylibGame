@@ -6,6 +6,7 @@
         "stdio.h": "c",
         "detectcollision.h": "c",
         "stdlib.h": "c",
-        "modelimport.h": "c"
+        "modelimport.h": "c",
+        "corestructs.h": "c"
     }
 }

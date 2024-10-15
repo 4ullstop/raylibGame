@@ -5,6 +5,6 @@
 
 void CallAllPolls(float dTime, Model* inModel);
 
-void Draw(Model* cubeModel, modelInfo** models);
+void Draw(Model* cubeModel, modelInfo** models, int modelSize);
 
 void InitializeModel(Model* cube, Texture2D* text);

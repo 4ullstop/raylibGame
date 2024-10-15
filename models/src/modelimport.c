@@ -28,7 +28,7 @@ void PollModels(modelInfo* model)
     }
 }
 
-void DrawModels(modelInfo** models, int size)
+void DrawModels(modelInfo* models[], int size)
 {
     for (int i = 0; i < size; i++)
     {

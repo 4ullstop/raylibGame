@@ -3,6 +3,7 @@
 #endif
 
 #ifndef CAMERA_STRUCT
+#define CAMERA_STRUCT
 typedef struct PlayerCam3D
 {
     Vector3 position;
@@ -13,6 +14,7 @@ typedef struct PlayerCam3D
 #endif
 
 #ifndef PLAYER_STRUCT
+#define PLAYER_STRUCT
 typedef struct 
 {
     Vector3 location;
@@ -29,4 +31,17 @@ typedef struct
 
     PlayerCam* attachedCam; 
 } FPSPlayer;
+#endif
+
+#ifndef MODEL_INFO
+#define MODEL_INFO
+typedef struct modelInfo
+{
+    Model model;
+    Texture2D texture;
+
+    Vector3 modelLocation;
+    int modelArrSize;
+    
+} modelInfo;
 #endif

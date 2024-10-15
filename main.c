@@ -29,25 +29,24 @@ CollisionPacket colPacket = {0};
 
 int main(void)
 {
-    
-    modelInfo** models = malloc(NUMBER_OF_MODELS * sizeof(modelInfo*));
-    models[0] = malloc(sizeof(modelInfo));
-    printf("Creating window\n");
-
     CreateWindow(800, 450);
     PlayerCamSetup(&pcam);
     PlayerSetup(&player, &pcam);
     printf("Window created, setting up player cam\n");
 
-
+    //CreateModels(models, 1);
     printf("Preparing model loading...\n");
     Model cube = LoadModel("C:/raylib/raylib/examples/models/resources/models/obj/cube.obj");
     Texture2D texture = LoadTexture("C:/raylib/raylib/examples/models/resources/models/obj/cube_diffuse.png");
     cube.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texture;
 
+    modelInfo* models[1];
+    CreateModels(models, 1);
+    printf("Creating window\n");
+
     colPacket.eRadius = (Vector3){1.0f, 1.0f, 1.0f};
     
-    CompileModels(models, 1);
+    
     while (!WindowShouldClose())
     {
         float now = GetTime();
@@ -55,18 +54,17 @@ int main(void)
         lastTime = now;
 
         
-        //InitializeModel(&cube, &texture);
+        InitializeModel(&cube, &texture);
         
         CallAllPolls(deltaTime, &cube);
         
         
-        Draw(&cube, models);
+        Draw(&cube, models, 1);
 
     }
 
-    DestroyModels(models, 1);
-    free(models[0]);
-    free(models);
+    DestroyAllModels(models, 1);
+    
     UnloadTexture(texture);
     UnloadModel(cube);
     CloseWindow();
@@ -79,7 +77,7 @@ void CallAllPolls(float dTime, Model* inModel)
     PollPlayer(dTime, &pcam, &player, &colPacket, inModel->meshes);
 }
 
-void Draw(Model* cubeModel, modelInfo** models)
+void Draw(Model* cubeModel, modelInfo** models, int modelSize)
 {
     Mesh* mesh = cubeModel->meshes;
     
@@ -91,18 +89,16 @@ void Draw(Model* cubeModel, modelInfo** models)
 
         //draw here
         DrawPlane((Vector3){0.0f, 0.0f, 0.0f}, (Vector2){32.0f, 32.0f}, RED);
-
+        
+        Model mod = models[0]->model;
         DrawModel(*cubeModel, cubePos, 1.0f, WHITE);
-        DrawModel(models[0]->model, twoCube, 1.0f, WHITE);
-        // for (int i = 0; i < NUMBER_OF_MODELS; i++)
-        // {
-        //     if (models[i] == NULL || &models[i]->model == NULL)
-        //     {
-        //         printf("Null value\n");
-        //     }
-            
-        // }
+        for (int i = 0; i < modelSize; i++)
+        {
+            DrawModel(models[i]->model, models[i]->modelLocation, 1.0f, WHITE);
+        }
 
+
+        //debugging showing verts in cube mesh
         for (int i = 0, n = mesh->triangleCount; i < n; i++)
         {
             Vector3 vertex0 = 
