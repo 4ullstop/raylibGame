@@ -1,7 +1,7 @@
 #include "C:\raylib\raylib\src\raylib.h"
 #include "models/src/model.h"
 
-void CallAllPolls(float dTime, Model* inModel);
+void CallAllPolls(float dTime, Model* inModel, modelInfo** models);
 
 void Draw(Model* cubeModel, modelInfo** models);
 

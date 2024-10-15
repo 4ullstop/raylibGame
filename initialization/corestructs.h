@@ -41,7 +41,8 @@ typedef struct modelInfo
     Texture2D texture;
 
     Vector3 modelLocation;
-    int modelArrSize;
     
 } modelInfo;
 #endif
+
+#define NUMBER_OF_MODELS 1

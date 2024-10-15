@@ -2,7 +2,7 @@
 #include <stdio.h>
 
 
-void PollPlayerInput(PlayerCam* pcam, double deltaTime, FPSPlayer* player, Mesh* mesh, CollisionPacket* colPacket)
+void PollPlayerInput(PlayerCam* pcam, double deltaTime, FPSPlayer* player, Mesh* mesh, CollisionPacket* colPacket, modelInfo** models)
 {
     /*
         This is the implementation of an accumulated velocity movement system
@@ -51,7 +51,7 @@ void PollPlayerInput(PlayerCam* pcam, double deltaTime, FPSPlayer* player, Mesh*
     player->velocity = inputVelocity;
     
 
-    CollideAndSlide(colPacket, player, mesh, deltaTime);
+    CollideAndSlide(colPacket, player, mesh, deltaTime, models);
 
     CalculatePlayerVelocity(player, deltaTime);
 
@@ -142,7 +142,7 @@ void InputCamPitch(PlayerCam* pcam, float angle, bool lockView, bool rotateUp)
     }
 }
 
-void CollideAndSlide(CollisionPacket* colPacket, FPSPlayer* player, Mesh* mesh, double deltaTime)
+void CollideAndSlide(CollisionPacket* colPacket, FPSPlayer* player, Mesh* mesh, double deltaTime, modelInfo** models)
 {
     colPacket->R3Position = player->location;
     colPacket->R3Velocity = player->velocity;
@@ -152,10 +152,11 @@ void CollideAndSlide(CollisionPacket* colPacket, FPSPlayer* player, Mesh* mesh, 
 
     colPacket->collisionRecursionDepth = 0;
 
-    Vector3 finalPosition = CollideWithWorld(colPacket, eSpacePosition, eSpaceVelocity, mesh);
+    Vector3 finalPosition = CollideWithWorld(colPacket, eSpacePosition, eSpaceVelocity, mesh, models);
 
     //converting back to r3
     finalPosition = Vector3Multiply(finalPosition, colPacket->eRadius);
+    
 
     player->location = finalPosition;
     player->attachedCam->position = player->location;
@@ -163,7 +164,7 @@ void CollideAndSlide(CollisionPacket* colPacket, FPSPlayer* player, Mesh* mesh, 
     player->attachedCam->target = Vector3Add(player->attachedCam->target, player->velocity);
 }
 
-Vector3 CollideWithWorld(CollisionPacket* colPacket, Vector3 pos, Vector3 vel, Mesh* mesh)
+Vector3 CollideWithWorld(CollisionPacket* colPacket, Vector3 pos, Vector3 vel, Mesh* mesh, modelInfo** models)
 {
     float unitScale = 100.f / 100.f;
     float veryCloseDistance = 0.005f * unitScale;
@@ -174,6 +175,8 @@ Vector3 CollideWithWorld(CollisionPacket* colPacket, Vector3 pos, Vector3 vel, M
         return pos;
     }
 
+
+
     colPacket->velocity = vel;
     colPacket->normalizedVelocity = vel;
     colPacket->normalizedVelocity = Vector3Normalize(colPacket->normalizedVelocity);
@@ -181,7 +184,11 @@ Vector3 CollideWithWorld(CollisionPacket* colPacket, Vector3 pos, Vector3 vel, M
     colPacket->foundCollision = false;
 
     //check for collision
-    PollCollision(colPacket, mesh);
+    for (int i = 0; i < NUMBER_OF_MODELS; i++)
+    {
+        PollCollision(colPacket, models[i]->model.meshes, models[i]->modelLocation);
+    }
+    //PollCollision(colPacket, mesh);
 
     //if no collision move along the velocity
     if (colPacket->foundCollision == false)
@@ -238,5 +245,5 @@ Vector3 CollideWithWorld(CollisionPacket* colPacket, Vector3 pos, Vector3 vel, M
     }
 
     colPacket->collisionRecursionDepth++;
-    return CollideWithWorld(colPacket, newBasePoint, newVelocityVector, mesh);
+    return CollideWithWorld(colPacket, newBasePoint, newVelocityVector, mesh, models);
 }

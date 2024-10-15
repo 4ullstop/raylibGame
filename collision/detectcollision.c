@@ -22,11 +22,12 @@ Vector3 ConvertVecToEllipsoid(Vector3 r3Vector, Vector3 eRadius)
     return out;
 }
 
-void PollCollision(CollisionPacket* collPacket, Mesh* mesh)
+void PollCollision(CollisionPacket* collPacket, Mesh* mesh, Vector3 modelLocation)
 {
     Vector3 triangle;
     if (mesh->indices != NULL)
     {
+        //do we have a mesh with indexed vertices
         for (int i = 0, n = mesh->triangleCount; i < n; i++)
         {
             unsigned short index0 = mesh->indices[i * 3];
@@ -51,12 +52,17 @@ void PollCollision(CollisionPacket* collPacket, Mesh* mesh)
                 mesh->vertices[index2 * 3 + 1],
                 mesh->vertices[index2 * 3 + 2]
             };
+
+            vertex0 = Vector3Add(vertex0, modelLocation);
+            vertex1 = Vector3Add(vertex1, modelLocation);
+            vertex2 = Vector3Add(vertex2, modelLocation);
             
             CheckTriangle(collPacket, vertex0, vertex1, vertex2);
         }
     }
     else
     {
+        //do we have a mesh with non indexed vertices
         for (int i = 0, n = mesh->triangleCount; i < n; i++)
         {
             Vector3 vertex0 = 
@@ -77,21 +83,19 @@ void PollCollision(CollisionPacket* collPacket, Mesh* mesh)
                 mesh->vertices[i * 9 + 7],
                 mesh->vertices[i * 9 + 8]
             };
+
+            //making sure to add the world space to these verts so that it's translated according to the mesh!
+            vertex0 = Vector3Add(vertex0, modelLocation);
+            vertex1 = Vector3Add(vertex1, modelLocation);
+            vertex2 = Vector3Add(vertex2, modelLocation);
+            
             CheckTriangle(collPacket, vertex0, vertex1, vertex2);
         }
     }
 }
 
-
 void CheckTriangle(CollisionPacket* collPacket, Vector3 p1, Vector3 p2, Vector3 p3)
 {
-    
-    //all of this is temporary, you will need to use the verts from the models
-    
-    //
-
-    //TODO: complete all conversions into eSpace before moving on to the rest of calculations
-
     //constructing the triangle plane to run our calculations on based on the 
     //points of the triangulated mesh
     CPlane plane = {0};

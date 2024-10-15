@@ -6,7 +6,7 @@
 #include <stdio.h>
 #endif
 
-#define NUMBER_OF_MODELS 1
+
 
 void CreateModels(modelInfo** models);
 

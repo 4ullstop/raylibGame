@@ -6,7 +6,7 @@ void CreateModels(modelInfo** models)
     modelInfo* cube = malloc(sizeof(modelInfo));
     cube->model = LoadModel("C:/raylib/raylib/examples/models/resources/models/obj/cube.obj");
     cube->texture = LoadTexture("C:/raylib/raylib/examples/models/resources/models/obj/cube_diffuse.png");
-    cube->modelLocation = (Vector3){0.0f, 5.0f, 0.0f};
+    cube->modelLocation = (Vector3){5.0f, 0.0f, 0.0f};
     cube->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = cube->texture;
     
     models[0] = cube;

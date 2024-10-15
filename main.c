@@ -1,7 +1,6 @@
 #include "main.h"
 #include "player/player.h"
 #include "initialization/window.h"
-
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -20,7 +19,7 @@ float groundLevel = 2.0f;
 float zVelocity = 0.0f;
 
 
-Vector3 cubePos = {0.0f, 0.0f, 0.0f};
+Vector3 cubePos = {-5.0f, 0.0f, 0.0f};
 Vector3 twoCube = {0.0f, 5.0f, 0.0f};
 
 CollisionPacket colPacket = {0};
@@ -44,7 +43,7 @@ int main(void)
     modelInfo* models[NUMBER_OF_MODELS];
     CreateModels(models);
     
-
+    //Set the size for our ellipsoid for collision
     colPacket.eRadius = (Vector3){1.0f, 1.0f, 1.0f};
     
     printf("Game loop starting...\n");
@@ -57,7 +56,7 @@ int main(void)
         
         InitializeModel(&cube, &texture);
         
-        CallAllPolls(deltaTime, &cube);
+        CallAllPolls(deltaTime, &cube, models);
         
         
         Draw(&cube, models);
@@ -72,9 +71,9 @@ int main(void)
     return 0;
 }
 
-void CallAllPolls(float dTime, Model* inModel)
+void CallAllPolls(float dTime, Model* inModel, modelInfo** models)
 {
-    PollPlayer(dTime, &pcam, &player, &colPacket, inModel->meshes);
+    PollPlayer(dTime, &pcam, &player, &colPacket, inModel->meshes, models);
 }
 
 void Draw(Model* cubeModel, modelInfo** models)
@@ -89,7 +88,6 @@ void Draw(Model* cubeModel, modelInfo** models)
 
         //draw here
         DrawPlane((Vector3){0.0f, 0.0f, 0.0f}, (Vector2){32.0f, 32.0f}, RED);
-        
         
         DrawModel(*cubeModel, cubePos, 1.0f, WHITE);
         DrawAllModels(models);

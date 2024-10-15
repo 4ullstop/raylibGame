@@ -32,6 +32,6 @@ Vector3 ConvertVecToEllipsoid(Vector3 r3Vector, Vector3 eRadius);
 
 void CheckTriangle(CollisionPacket* collPacket, Vector3 p1, Vector3 p2, Vector3 p3);
 
-void PollCollision(CollisionPacket* collPacket, Mesh* mesh);
+void PollCollision(CollisionPacket* collPacket, Mesh* mesh, Vector3 modelLocation);
 
 bool GetLowestRoot(float a, float b, float c, float maxR, float* root);
