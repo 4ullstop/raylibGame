@@ -30,6 +30,8 @@ typedef struct
     Vector3 finalPos;
 
     PlayerCam* attachedCam; 
+
+    bool isPlayerGrounded;
 } FPSPlayer;
 #endif
 
@@ -45,4 +47,4 @@ typedef struct modelInfo
 } modelInfo;
 #endif
 
-#define NUMBER_OF_MODELS 2
+#define NUMBER_OF_MODELS 3

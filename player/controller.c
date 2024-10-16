@@ -153,10 +153,22 @@ void CollideAndSlide(CollisionPacket* colPacket, FPSPlayer* player, double delta
     colPacket->collisionRecursionDepth = 0;
 
     Vector3 finalPosition = CollideWithWorld(colPacket, eSpacePosition, eSpaceVelocity, models);
+    player->location = finalPosition;
+
+    Vector3 gravity = (Vector3){0.0f, -9.81f * deltaTime, 0.0};
+
+    //Gravity 
+    //colPacket->R3Position = Vector3Multiply(finalPosition, colPacket->eRadius);
+    colPacket->R3Velocity = gravity;
+    
+    eSpaceVelocity = Vector3Divide(gravity, colPacket->eRadius);
+
+    colPacket->collisionRecursionDepth = 0;
+
+    finalPosition = CollideWithWorld(colPacket, Vector3Divide(player->location, colPacket->eRadius), eSpaceVelocity, models);
 
     //converting back to r3
     finalPosition = Vector3Multiply(finalPosition, colPacket->eRadius);
-    
 
     player->location = finalPosition;
     player->attachedCam->position = player->location;
