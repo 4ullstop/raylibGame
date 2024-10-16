@@ -231,7 +231,7 @@ void CheckTriangle(CollisionPacket* collPacket, Vector3 p1, Vector3 p2, Vector3 
                 }
 
                 //p3
-                b = 2.0 * (Vector3DotProduct(velocity, Vector3Subtract(base, p2)));
+                b = 2.0 * (Vector3DotProduct(velocity, Vector3Subtract(base, p3)));
                 c = Vector3LengthSqr(Vector3Subtract(p3, base)) - 1.0;
                 if (GetLowestRoot(a, b, c, t, &newT))
                 {
@@ -255,7 +255,7 @@ void CheckTriangle(CollisionPacket* collPacket, Vector3 p1, Vector3 p2, Vector3 
                 c = edgeSquareLength * (1 - Vector3LengthSqr(baseToVertex)) + edgeDotBaseToVertex * edgeDotBaseToVertex;
 
                 //Does the swept sphere collide against the infinite edge?
-                if (GetLowestRoot(a ,b ,c, t, &newT))
+                if (GetLowestRoot(a, b, c, t, &newT))
                 {
                     //Check if intersection is within line segment:
                     float f = (edgeDotVelocity * newT - edgeDotBaseToVertex) / edgeSquareLength;
@@ -283,7 +283,7 @@ void CheckTriangle(CollisionPacket* collPacket, Vector3 p1, Vector3 p2, Vector3 
                 if (GetLowestRoot(a, b, c, t, &newT))
                 {
                     float f = (edgeDotVelocity * newT - edgeDotBaseToVertex) / edgeSquareLength;
-                    if (f >= 0.0 && f<= 1.0)
+                    if (f >= 0.0 && f <= 1.0)
                     {
                         t = newT;
                         foundCollision = true;
@@ -318,7 +318,7 @@ void CheckTriangle(CollisionPacket* collPacket, Vector3 p1, Vector3 p2, Vector3 
             {
                 //distance to collision 't' is time of collision
                 float distToCollision = t * Vector3Length(collPacket->velocity);
-                printf("Collision found\n");
+                //printf("Collision found\n");
 
                 //Does this triangle qualify for the closest hit?
                 //it does if it's the first hit or the closest

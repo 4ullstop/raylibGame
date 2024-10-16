@@ -61,7 +61,7 @@ bool CheckPointInTriangle(Vector3 point, Vector3 pa, Vector3 pb, Vector3 pc)
 
     float d = Vector3DotProduct(vp, e10);
     float e = Vector3DotProduct(vp, e20);
-    float x = (d * x) - (e * b);
+    float x = (d * c) - (e * b);
     float y = (e * a) - (d * b);
     float z = x + y - ac_bb;
 
