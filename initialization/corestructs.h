@@ -48,3 +48,27 @@ typedef struct modelInfo
 #endif
 
 #define NUMBER_OF_MODELS 3
+
+
+#ifndef COLBOX
+#define COLBOX
+typedef struct 
+{
+    float* verts;
+    unsigned short* indices;
+
+    int vertsNum;
+
+} ColBox;
+#endif
+
+#ifndef INTERACTABLE
+#define INTERACTABLE
+typedef struct 
+{
+    Vector3 Location;
+    Model model;
+    ColBox colBox;
+
+} Interactable;
+#endif
