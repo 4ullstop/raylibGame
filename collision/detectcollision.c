@@ -3,6 +3,12 @@
 #include <stddef.h>
 #include <stdio.h>
 
+/*
+    This collision detection algorithm was developed according to the document
+    Improved Collision Detection and Response by Kasper Faureby which you can find here:
+    https://www.peroxide.dk/papers/collision/collision.pdf
+*/
+
 Vector3 ConvertVecToEllipsoid(Vector3 r3Vector, Vector3 eRadius)
 {
     double eRadX = eRadius.x;
