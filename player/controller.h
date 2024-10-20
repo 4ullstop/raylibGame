@@ -4,6 +4,7 @@
 #include "camera.h"
 #include "../collision/detectcollision.h"  
 #include "../collision/collisionplane.h"
+//#include "../collision/interactionbox.h"
 #endif
 
 void DetectPlayerLookInput(PlayerCam* pcam);

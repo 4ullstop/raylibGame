@@ -1,25 +1,29 @@
 #include "interactionbox.h"
+#include "../externmath/externmath.h"   
 #include <stdlib.h>
 
 Interactable* ConstructInteractable(Vector3 location, ColBox* box, float boxWidth, float boxHeight, float boxLength)
 {
+    
     Interactable* interactable = malloc(sizeof(Interactable));
     interactable->Location = location;
 
-    ColBox* box = malloc(sizeof(ColBox));
+    
     box = ConstructColBox(location, boxWidth, boxHeight, boxHeight);
+    interactable->colBox = box;
+
+    return interactable;
 }
 
 void DestructInteractable(Interactable* interactable)
 {
-    DestructColBox(&interactable->colBox);
+    DestructColBox(interactable->colBox);
     free(interactable);
 }
 
 bool IsPointInInteractable(Interactable* interactable, Vector3 point)
 {
-    int vertNum = 4;
-    
+    return IsPointInColBox(interactable->colBox, point);
 }
 
 ColBox* ConstructColBox(Vector3 location, float width, float height, float length)
@@ -70,5 +74,6 @@ void DestructColBox(ColBox* box)
 {
     free(box->verts);
     free(box->indices);
+    free(box->randDirectionDebug);
     free(box);
 }

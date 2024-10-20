@@ -1,5 +1,6 @@
 #include "externmath.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 /*
     This Point inside Collision box algorithm was developed
@@ -23,6 +24,17 @@ bool IsPointInColBox(ColBox* box, Vector3 point)
 
     int intersectionCount = 0;
 
+    if (box->showDebug)
+    {
+        printf("showingDebug\n");
+        box->randDirectionDebug = malloc(sizeof(Vector3) * 12);
+        box->cubeVertsDebug = malloc(sizeof(Vector3) * 36);
+        box->debugPoint = point;
+    }
+
+    
+    int debugStartingIndex = 0;
+
     for (int i = 0; i < 12; i++)
     {
         Vector3 v1;
@@ -30,6 +42,16 @@ bool IsPointInColBox(ColBox* box, Vector3 point)
         Vector3 v3;
 
         FaceFromIndexedColBox(&v1, &v2, &v3, box, i);
+
+        if (box->showDebug)
+        {
+            box->cubeVertsDebug[debugStartingIndex];
+            box->cubeVertsDebug[debugStartingIndex + 1];
+            box->cubeVertsDebug[debugStartingIndex + 2];
+            
+            box->cubeVertsSize = 36;
+            box->randDirectionSize = 12;
+        }
 
         /*
             Solving for t
@@ -46,6 +68,13 @@ bool IsPointInColBox(ColBox* box, Vector3 point)
             (float)rand() / RAND_MAX * 2.0f - 1.0f
         };
         Vector3 b = Vector3Add(point, Vector3Scale(randomDirection, 1000.0f));
+
+        if (box->showDebug)
+        {
+            box->randDirectionDebug[i] = b;
+            debugStartingIndex += 3;
+        }
+        
 
         float numerator = Vector3DotProduct(normal, Vector3Subtract(x1, point));
         float denominator = Vector3DotProduct(normal, b);
@@ -83,7 +112,10 @@ bool IsPointInColBox(ColBox* box, Vector3 point)
         bool MatCheck = CompareMatrix(transformedVec);
 
         if (MatCheck && t > 0) intersectionCount++;
+
+        
     }
+
 
     return intersectionCount % 2 != 0;
 }

@@ -1,6 +1,7 @@
 #include "main.h"
 #include "player/player.h"
 #include "initialization/window.h"
+#include "collision/interactionbox.h" 
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -46,6 +47,22 @@ int main(void)
     //Set the size for our ellipsoid for collision
     colPacket.eRadius = (Vector3){1.0f, 1.0f, 1.0f};
     
+    Vector3 interactLoc = (Vector3){0.0f, 3.0f, -4.0f};
+    ColBox* colBox;
+    Interactable* interactable = ConstructInteractable(interactLoc, colBox, 2.0f, 2.0f, 2.0f);
+    interactable->colBox->showDebug = true;
+    bool is = IsPointInInteractable(interactable, interactLoc);
+    if (is)
+    {
+        printf("is in box\n");
+    }
+    /*
+        Issues: 
+         - is isn't true
+         - we have random crashes
+         - slow closes (most likely the result of improperly freeing memory)
+    */
+
     printf("Game loop starting...\n");
     while (!WindowShouldClose())
     {
@@ -59,10 +76,10 @@ int main(void)
         CallAllPolls(deltaTime, models);
         
         
-        Draw(models);
+        Draw(models, interactable->colBox);
 
     }
-
+    DestructInteractable(interactable);
     DestroyAllModels(models);
     UnloadTexture(texture);
     UnloadModel(cube);
@@ -76,7 +93,7 @@ void CallAllPolls(float dTime, modelInfo** models)
     PollPlayer(dTime, &pcam, &player, &colPacket, models);
 }
 
-void Draw( modelInfo** models)
+void Draw(modelInfo** models, ColBox* box)
 {
     
     
@@ -92,6 +109,20 @@ void Draw( modelInfo** models)
         DrawAllModels(models);
 
         
+
+        if (box->showDebug)
+        {
+            
+            for (int i = 0; i < box->randDirectionSize; i++)
+            {
+                DrawLine3D(box->debugPoint, box->randDirectionDebug[i], RED);
+            }
+            for (int i = 0; i < box->cubeVertsSize; i++)
+            {
+                DrawPoint3D(box->cubeVertsDebug[i], BLUE);
+            }
+            DrawPoint3D(box->debugPoint, GREEN);
+        }
         
 
         DrawPlayerCollisionCapsule(player.location);

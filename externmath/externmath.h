@@ -8,4 +8,4 @@ bool IsPointInColBox(ColBox* box, Vector3 point);
 
 void FaceFromIndexedColBox(Vector3* v1, Vector3* v2, Vector3* v3, ColBox* box, int i);
 
-bool CompareMatrix(Matrix* mat);
+bool CompareMatrix(Vector3 transformedVector);

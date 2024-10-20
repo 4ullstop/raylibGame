@@ -3,7 +3,7 @@
 #include "../initialization/corestructs.h"
 #endif
 
-Interactable* ConstructInteractable(Vector3 location, ColBox* box, float boxSize);
+Interactable* ConstructInteractable(Vector3 location, ColBox* box, float boxWidth, float boxHeight, float boxLength);
 
 void DestructInteractable(Interactable* interactable);
 

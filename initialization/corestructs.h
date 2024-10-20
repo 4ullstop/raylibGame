@@ -56,8 +56,16 @@ typedef struct
 {
     float* verts;
     unsigned short* indices;
-
     int vertsNum;
+
+    Vector3 location;
+    //debug
+    bool showDebug;
+    Vector3* randDirectionDebug;
+    Vector3 debugPoint;
+    Vector3* cubeVertsDebug;
+    int cubeVertsSize;
+    int randDirectionSize;
 
 } ColBox;
 #endif
@@ -68,7 +76,9 @@ typedef struct
 {
     Vector3 Location;
     Model model;
-    ColBox colBox;
+    ColBox* colBox;
+
+    
 
 } Interactable;
 #endif
