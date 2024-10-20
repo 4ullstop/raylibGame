@@ -30,6 +30,8 @@ bool IsPointInColBox(ColBox* box, Vector3 point)
         box->randDirectionDebug = malloc(sizeof(Vector3) * 12);
         box->cubeVertsDebug = malloc(sizeof(Vector3) * 36);
         box->debugPoint = point;
+        box->cubeVertsSize = 36;
+        box->randDirectionSize = 12;
     }
 
     
@@ -48,9 +50,8 @@ bool IsPointInColBox(ColBox* box, Vector3 point)
             box->cubeVertsDebug[debugStartingIndex];
             box->cubeVertsDebug[debugStartingIndex + 1];
             box->cubeVertsDebug[debugStartingIndex + 2];
-            
-            box->cubeVertsSize = 36;
-            box->randDirectionSize = 12;
+            debugStartingIndex += 3;
+            printf("%f, %f, %f\n", box->cubeVertsDebug[debugStartingIndex].x, box->cubeVertsDebug[debugStartingIndex + 1].y, box->cubeVertsDebug[debugStartingIndex + 2].z);
         }
 
         /*
@@ -72,7 +73,7 @@ bool IsPointInColBox(ColBox* box, Vector3 point)
         if (box->showDebug)
         {
             box->randDirectionDebug[i] = b;
-            debugStartingIndex += 3;
+            //printf("%i\n", i);
         }
         
 
@@ -123,6 +124,7 @@ bool IsPointInColBox(ColBox* box, Vector3 point)
 
 void FaceFromIndexedColBox(Vector3* v1, Vector3* v2, Vector3* v3, ColBox* box, int i)
 {
+    //the error is probably here somewhere
     unsigned short index0 = box->indices[i * 3];
     unsigned short index1 = box->indices[i * 3 + 1];
     unsigned short index2 = box->indices[i * 3 + 2];
@@ -147,6 +149,10 @@ void FaceFromIndexedColBox(Vector3* v1, Vector3* v2, Vector3* v3, ColBox* box, i
         box->verts[index2 * 3 + 1],
         box->verts[index2 * 3 + 2]
     };
+
+    printf("\n");
+    printf("%f, %f, %f\n", vert1.x, vert1.y, vert1.z);
+    printf("\n");
 
     *v1 = vert1;
     *v2 = vert2;

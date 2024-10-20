@@ -48,10 +48,11 @@ int main(void)
     colPacket.eRadius = (Vector3){1.0f, 1.0f, 1.0f};
     
     Vector3 interactLoc = (Vector3){0.0f, 3.0f, -4.0f};
-    ColBox* colBox;
-    Interactable* interactable = ConstructInteractable(interactLoc, colBox, 2.0f, 2.0f, 2.0f);
-    interactable->colBox->showDebug = true;
-    bool is = IsPointInInteractable(interactable, interactLoc);
+    ColBox colBox = {0};
+    Interactable interactable = {0};
+    ConstructInteractable(&interactable, interactLoc, &colBox, 2.0f, 2.0f, 2.0f);
+    interactable.colBox->showDebug = true;
+    bool is = IsPointInInteractable(&interactable, interactLoc);
     if (is)
     {
         printf("is in box\n");
@@ -76,10 +77,10 @@ int main(void)
         CallAllPolls(deltaTime, models);
         
         
-        Draw(models, interactable->colBox);
+        Draw(models, interactable.colBox);
 
     }
-    DestructInteractable(interactable);
+    DestructInteractable(&interactable);
     DestroyAllModels(models);
     UnloadTexture(texture);
     UnloadModel(cube);

@@ -3,12 +3,12 @@
 #include "../initialization/corestructs.h"
 #endif
 
-Interactable* ConstructInteractable(Vector3 location, ColBox* box, float boxWidth, float boxHeight, float boxLength);
+void ConstructInteractable(Interactable* interactable, Vector3 location, ColBox* box, float boxWidth, float boxHeight, float boxLength);
 
 void DestructInteractable(Interactable* interactable);
 
 bool IsPointInInteractable(Interactable* interactable, Vector3 point);
 
-ColBox* ConstructColBox(Vector3 location, float width, float height, float length);
+void ConstructColBox(ColBox* box, Vector3 location, float width, float height, float length);
 
 void DestructColBox(ColBox* box);

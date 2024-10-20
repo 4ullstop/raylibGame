@@ -1,18 +1,20 @@
 #include "interactionbox.h"
 #include "../externmath/externmath.h"   
 #include <stdlib.h>
+#include <stdio.h>
 
-Interactable* ConstructInteractable(Vector3 location, ColBox* box, float boxWidth, float boxHeight, float boxLength)
+void ConstructInteractable(Interactable* interactable, Vector3 location, ColBox* box, float boxWidth, float boxHeight, float boxLength)
 {
-    
-    Interactable* interactable = malloc(sizeof(Interactable));
+    if (interactable == NULL)
+    {
+        printf("ERROR: Interactable is invalid!\n");
+    }
     interactable->Location = location;
 
     
-    box = ConstructColBox(location, boxWidth, boxHeight, boxHeight);
+    ConstructColBox(box, interactable->Location, boxWidth, boxHeight, boxLength);
     interactable->colBox = box;
 
-    return interactable;
 }
 
 void DestructInteractable(Interactable* interactable)
@@ -26,12 +28,15 @@ bool IsPointInInteractable(Interactable* interactable, Vector3 point)
     return IsPointInColBox(interactable->colBox, point);
 }
 
-ColBox* ConstructColBox(Vector3 location, float width, float height, float length)
+void ConstructColBox(ColBox* box, Vector3 location, float width, float height, float length)
 {
-    ColBox* box = malloc(sizeof(ColBox));
     box->vertsNum = 8;
     
     box->verts = malloc(sizeof(float) * 24);
+
+    // printf("\n");
+    // printf("%f, %f, %f\n", location.x, location.y, location.z);
+    // printf("\n");
     
 
     float unassignedVerts[] = {
@@ -46,10 +51,12 @@ ColBox* ConstructColBox(Vector3 location, float width, float height, float lengt
         location.x - width/2, location.y + height/2, location.z + length/2 //top left front (7)
     };
 
-    for (int i = 0; i < 23; i++)
+    for (int i = 0; i < 24; i++)
     {
         box->verts[i] = unassignedVerts[i];
+        printf("%f\n", box->verts[i]);
     }
+    printf("\n");
 
     unsigned short unassignedIndicies[] = {
         0, 1, 2,  2, 3, 0, //back face
@@ -66,8 +73,6 @@ ColBox* ConstructColBox(Vector3 location, float width, float height, float lengt
     {
         box->indices[i] = unassignedIndicies[i];
     }
-
-    return box;
 }
 
 void DestructColBox(ColBox* box)
