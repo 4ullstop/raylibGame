@@ -62,6 +62,11 @@ int main(void)
          - is isn't true
          - we have random crashes
          - slow closes (most likely the result of improperly freeing memory)
+        Where are we?:
+         - box is creation seems to be working
+         - no more random crashes?
+         - still have slow closes
+         - is still isn't true
     */
 
     printf("Game loop starting...\n");
@@ -113,15 +118,15 @@ void Draw(modelInfo** models, ColBox* box)
 
         if (box->showDebug)
         {
-            
             for (int i = 0; i < box->randDirectionSize; i++)
             {
                 DrawLine3D(box->debugPoint, box->randDirectionDebug[i], RED);
             }
-            for (int i = 0; i < box->cubeVertsSize; i++)
+            for (int i = 0; i < 12; i++)
             {
-                DrawPoint3D(box->cubeVertsDebug[i], BLUE);
+                DrawSphere(box->cubeVertsDebug[i], 0.1f, GREEN);
             }
+            DrawSphere(box->debugPoint, 0.1f, RED);
             DrawPoint3D(box->debugPoint, GREEN);
         }
         

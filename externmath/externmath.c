@@ -14,19 +14,12 @@ bool IsPointInColBox(ColBox* box, Vector3 point)
     //make an affine transform matrix at some point
     //
 
-    Matrix affineTrans = 
-    {
-        0.0f, 1.0f, 0.0f, 0.0f,
-        0.0f, 0.0f, 1.0f, 0.0f,
-        0.0f, 0.0f, 0.0f, 1.0f,
-        1.0f, 1.0f, 1.0f, 1.0f
-    };
+    
 
     int intersectionCount = 0;
 
     if (box->showDebug)
     {
-        printf("showingDebug\n");
         box->randDirectionDebug = malloc(sizeof(Vector3) * 12);
         box->cubeVertsDebug = malloc(sizeof(Vector3) * 36);
         box->debugPoint = point;
@@ -39,6 +32,7 @@ bool IsPointInColBox(ColBox* box, Vector3 point)
 
     for (int i = 0; i < 12; i++)
     {
+        
         Vector3 v1;
         Vector3 v2;
         Vector3 v3;
@@ -47,21 +41,8 @@ bool IsPointInColBox(ColBox* box, Vector3 point)
 
         if (box->showDebug)
         {
-            box->cubeVertsDebug[debugStartingIndex];
-            box->cubeVertsDebug[debugStartingIndex + 1];
-            box->cubeVertsDebug[debugStartingIndex + 2];
-            debugStartingIndex += 3;
-            printf("%f, %f, %f\n", box->cubeVertsDebug[debugStartingIndex].x, box->cubeVertsDebug[debugStartingIndex + 1].y, box->cubeVertsDebug[debugStartingIndex + 2].z);
+            box->cubeVertsDebug[i] = v1;
         }
-
-        /*
-            Solving for t
-        */
-        Vector3 normal = Vector3CrossProduct(Vector3Subtract(v2, v1), Vector3Subtract(v3, v1));
-
-        if (Vector3Length(normal) == 0.0f) continue;
-
-        Vector3 x1 = v1;
 
         Vector3 randomDirection = (Vector3){
             (float)rand() / RAND_MAX * 2.0f - 1.0f,
@@ -69,50 +50,71 @@ bool IsPointInColBox(ColBox* box, Vector3 point)
             (float)rand() / RAND_MAX * 2.0f - 1.0f
         };
         Vector3 b = Vector3Add(point, Vector3Scale(randomDirection, 1000.0f));
+        //our random direction seems fine as viewable with our raycasts
 
         if (box->showDebug)
         {
             box->randDirectionDebug[i] = b;
-            //printf("%i\n", i);
         }
         
-
-        float numerator = Vector3DotProduct(normal, Vector3Subtract(x1, point));
-        float denominator = Vector3DotProduct(normal, b);
-
-        if (denominator == 0.0f) continue;
-
-        float t = numerator / denominator;
-
-        if (t <= 0) continue;
-
-        
         /*
-            Solving for D
-            D = MC
-
-            Where c is the test if the intersection between the line and face
-            And m is the affine transform matrix based on our dimensions * the transform matrix of the object
+            At this point I'm reusing code from my collision detection algorithm
+            At some point I will come along and tighten everything up with universal
+            functions but that point has yet to come
         */
+        Vector3 normal = Vector3CrossProduct(Vector3Subtract(v2, v1), Vector3Subtract(v3, v1));
 
-        Matrix facemat = 
+        double t0, t1;
+
+        double equationVal = -(normal.x * box->location.x, normal.y * box->location.y, normal.z * box->location.z);
+        double signedDistToTrianglePlane = Vector3DotProduct(point, normal) + equationVal;
+
+        float normalDotB = Vector3Dot(normal, b);
+
+        if (normalDotB == 0.0f)
         {
-            v1.x, v2.x, v3.x, normal.x,
-            v1.y, v2.y, v3.y, normal.y,
-            v1.z, v2.z, v3.z, normal.z,
-            1.0f, 1.0f, 1.0f, 1.0f
-        };
+            if (fabs(signedDistToTrianglePlane) >= 1.0f)
+            {
+                continue;
+            }
+            else
+            {
+                t0 = 0.0;
+                t1 = 1.0;
+            }
+        }
+        else
+        {
+            t0 = (-1.0 - signedDistToTrianglePlane) / normalDotB;
+            t1 = (1.0 - signedDistToTrianglePlane) / normalDotB;
 
-        Vector3 c = Vector3Add(Vector3Scale(b, t), point);
+            if (t0 > t1)
+            {
+                double temp = t1;
+                t1 = t0;
+                t0 = temp;
+            }
 
-        Matrix invertedFaceMat = MatrixInvert(facemat);
-        Matrix m = MatrixMultiply(affineTrans, invertedFaceMat);
+            if (t0 > 1.0f || t1 < 0.0f)
+            {
+                continue;
+            }
+            if (t0 < 0.0) t0 = 0.0;
+            if (t1 < 0.0) t1 = 0.0;
+            if (t0 > 1.0) t0 = 1.0;
+            if (t1 > 1.0) t1 = 1.0;
+        }
 
-        Vector3 transformedVec = Vector3Transform(c, m);
-        
-        bool MatCheck = CompareMatrix(transformedVec);
+        Vector3 collisionPoint;
+        bool foundCollision = false;
+        float t = 1.0;
 
-        if (MatCheck && t > 0) intersectionCount++;
+        Vector3 intersectionPoint = Vector3Add(Vector3Subtract(box->location, normal), Vector3Scale(b, t0));
+
+        if (CheckPointInTriangle(intersectionPoint, v1, v2, v3))
+        {
+            
+        }
 
         
     }
@@ -150,19 +152,7 @@ void FaceFromIndexedColBox(Vector3* v1, Vector3* v2, Vector3* v3, ColBox* box, i
         box->verts[index2 * 3 + 2]
     };
 
-    printf("\n");
-    printf("%f, %f, %f\n", vert1.x, vert1.y, vert1.z);
-    printf("\n");
-
     *v1 = vert1;
     *v2 = vert2;
     *v3 = vert3;
-}
-
-bool CompareMatrix(Vector3 transformedVector)
-{
-    if (transformedVector.x < 0.0f || transformedVector.y < 0.0f || transformedVector.z < 0.0f) return false;
-    float sum = transformedVector.x + transformedVector.y;
-    if (sum < 1.0f) return true;
-    else return false;
 }

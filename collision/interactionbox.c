@@ -34,16 +34,13 @@ void ConstructColBox(ColBox* box, Vector3 location, float width, float height, f
     
     box->verts = malloc(sizeof(float) * 24);
 
-    // printf("\n");
-    // printf("%f, %f, %f\n", location.x, location.y, location.z);
-    // printf("\n");
     
 
     float unassignedVerts[] = {
         location.x - width/2, location.y - height/2, location.z - length/2, //bottom left back (0)
         location.x + width/2, location.y - height/2, location.z - length/2, //bottom right back (1)
         location.x + width/2, location.y + height/2, location.z - length/2, //top right back (2)
-        location.x - width/2, location.y + height/2, location.z + length/2, //top left back (3)
+        location.x - width/2, location.y + height/2, location.z - length/2, //top left back (3)
 
         location.x - width/2, location.y - height/2, location.z + length/2, //bottom left fron (4)
         location.x + width/2, location.y - height/2, location.z + length/2, //bottom right front (5)
@@ -54,7 +51,6 @@ void ConstructColBox(ColBox* box, Vector3 location, float width, float height, f
     for (int i = 0; i < 24; i++)
     {
         box->verts[i] = unassignedVerts[i];
-        printf("%f\n", box->verts[i]);
     }
     printf("\n");
 
@@ -69,7 +65,7 @@ void ConstructColBox(ColBox* box, Vector3 location, float width, float height, f
 
     box->indices = malloc(sizeof(unsigned short) * 36);
 
-    for (int i = 0; i < 35; i++)
+    for (int i = 0; i < 36; i++)
     {
         box->indices[i] = unassignedIndicies[i];
     }
