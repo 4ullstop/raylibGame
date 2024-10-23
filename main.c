@@ -48,25 +48,18 @@ int main(void)
     colPacket.eRadius = (Vector3){1.0f, 1.0f, 1.0f};
     
     Vector3 interactLoc = (Vector3){0.0f, 3.0f, -4.0f};
+    Vector3 point = (Vector3){0.0f, 3.0f, -4.0f};
     ColBox colBox = {0};
     Interactable interactable = {0};
     ConstructInteractable(&interactable, interactLoc, &colBox, 2.0f, 2.0f, 2.0f);
     interactable.colBox->showDebug = true;
-    bool is = IsPointInInteractable(&interactable, interactLoc);
+    bool is = IsPointInInteractable(&interactable, point);
     if (is)
     {
         printf("is in box\n");
     }
     /*
-        Issues: 
-         - is isn't true
-         - we have random crashes
-         - slow closes (most likely the result of improperly freeing memory)
         Where are we?:
-         - box is creation seems to be working
-         - no more random crashes?
-         - still have slow closes
-         - is still isn't true
     */
 
     printf("Game loop starting...\n");
@@ -81,9 +74,7 @@ int main(void)
         
         CallAllPolls(deltaTime, models);
         
-        
         Draw(models, interactable.colBox);
-
     }
     DestructInteractable(&interactable);
     DestroyAllModels(models);
@@ -102,7 +93,6 @@ void CallAllPolls(float dTime, modelInfo** models)
 void Draw(modelInfo** models, ColBox* box)
 {
     
-    
     BeginDrawing();
 
         ClearBackground(RAYWHITE);
@@ -116,25 +106,22 @@ void Draw(modelInfo** models, ColBox* box)
 
         
 
-        if (box->showDebug)
-        {
-            for (int i = 0; i < box->randDirectionSize; i++)
-            {
-                DrawLine3D(box->debugPoint, box->randDirectionDebug[i], RED);
-            }
-            for (int i = 0; i < 12; i++)
-            {
-                DrawSphere(box->cubeVertsDebug[i], 0.1f, GREEN);
-            }
-            DrawSphere(box->debugPoint, 0.1f, RED);
-            DrawPoint3D(box->debugPoint, GREEN);
-        }
+        // if (box->showDebug)
+        // {
+        //     DrawLine3D(box->debugPoint, box->randDirectionDebug[0], RED);
+        //     for (int i = 0; i < 8; i++)
+        //     {
+        //         DrawSphere(box->cubeVertsDebug[i], 0.1f, GREEN);
+        //     }
+        //     DrawSphere(box->debugPoint, 0.1f, RED);
+        //     DrawPoint3D(box->debugPoint, GREEN);
+        // }
         
 
         DrawPlayerCollisionCapsule(player.location);
-
+        
         Complete3DMode();
-
+    
     EndDrawing();
 }
 

@@ -20,7 +20,7 @@ void ConstructInteractable(Interactable* interactable, Vector3 location, ColBox*
 void DestructInteractable(Interactable* interactable)
 {
     DestructColBox(interactable->colBox);
-    free(interactable);
+    //free(interactable);
 }
 
 bool IsPointInInteractable(Interactable* interactable, Vector3 point)
@@ -76,5 +76,6 @@ void DestructColBox(ColBox* box)
     free(box->verts);
     free(box->indices);
     free(box->randDirectionDebug);
-    free(box);
+    free(box->cubeVertsDebug);
+    //free(box);
 }

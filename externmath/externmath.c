@@ -21,7 +21,7 @@ bool IsPointInColBox(ColBox* box, Vector3 point)
     if (box->showDebug)
     {
         box->randDirectionDebug = malloc(sizeof(Vector3) * 12);
-        box->cubeVertsDebug = malloc(sizeof(Vector3) * 36);
+        box->cubeVertsDebug = malloc(sizeof(Vector3) * 8);
         box->debugPoint = point;
         box->cubeVertsSize = 36;
         box->randDirectionSize = 12;
@@ -30,7 +30,14 @@ bool IsPointInColBox(ColBox* box, Vector3 point)
     
     int debugStartingIndex = 0;
 
-    for (int i = 0; i < 12; i++)
+    Vector3 randomDirection = (Vector3)
+    {
+        (float)rand() / RAND_MAX * 2.0f - 1.0f,
+        (float)rand() / RAND_MAX * 2.0f -1.0f,
+        (float)rand() / RAND_MAX * 2.0f - 1.0f
+    };
+
+    for (int i = 0; i < 8; i++)
     {
         
         Vector3 v1;
@@ -44,11 +51,7 @@ bool IsPointInColBox(ColBox* box, Vector3 point)
             box->cubeVertsDebug[i] = v1;
         }
 
-        Vector3 randomDirection = (Vector3){
-            (float)rand() / RAND_MAX * 2.0f - 1.0f,
-            (float)rand() / RAND_MAX * 2.0f -1.0f,
-            (float)rand() / RAND_MAX * 2.0f - 1.0f
-        };
+        
         Vector3 b = Vector3Add(point, Vector3Scale(randomDirection, 1000.0f));
         //our random direction seems fine as viewable with our raycasts
 
@@ -62,14 +65,19 @@ bool IsPointInColBox(ColBox* box, Vector3 point)
             At some point I will come along and tighten everything up with universal
             functions but that point has yet to come
         */
-        Vector3 normal = Vector3CrossProduct(Vector3Subtract(v2, v1), Vector3Subtract(v3, v1));
+        Vector3 normal = (Vector3CrossProduct(Vector3Subtract(v2, v1), Vector3Subtract(v3, v1)));
 
+        
         double t0, t1;
 
-        double equationVal = -(normal.x * box->location.x, normal.y * box->location.y, normal.z * box->location.z);
+        /*
+            Originally what was wrong was that rather than using the location of the triangle, you were 
+            using the location of the box itself
+        */
+        double equationVal = -(normal.x * v1.x + normal.y * v1.y + normal.z * v1.z);
         double signedDistToTrianglePlane = Vector3DotProduct(point, normal) + equationVal;
 
-        float normalDotB = Vector3Dot(normal, b);
+        float normalDotB = (Vector3DotProduct(normal, b));
 
         if (normalDotB == 0.0f)
         {
@@ -107,15 +115,24 @@ bool IsPointInColBox(ColBox* box, Vector3 point)
 
         Vector3 collisionPoint;
         bool foundCollision = false;
-        float t = 1.0;
 
-        Vector3 intersectionPoint = Vector3Add(Vector3Subtract(box->location, normal), Vector3Scale(b, t0));
+        /*
+            The intersection point was also wrong as you weren't scaling it properly according
+            to the point
+        */
+        Vector3 intersectionPoint = Vector3Add(point, Vector3Scale(b, t1));
 
+        
         if (CheckPointInTriangle(intersectionPoint, v1, v2, v3))
         {
-            
+            intersectionCount++;
         }
 
+        /*
+            Since we are working with triangles, a good idea might be to
+            structure it with running two triangles per face rather than 
+            what it is now where we are going through 12 facess
+        */
         
     }
 
@@ -155,4 +172,5 @@ void FaceFromIndexedColBox(Vector3* v1, Vector3* v2, Vector3* v3, ColBox* box, i
     *v1 = vert1;
     *v2 = vert2;
     *v3 = vert3;
+
 }

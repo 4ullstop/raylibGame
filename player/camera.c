@@ -38,8 +38,8 @@ void StartMode3D(PlayerCam pcam)
 
 void Complete3DMode(void)
 {
+    
     rlDrawRenderBatchActive();
-
     rlMatrixMode(RL_PROJECTION);
     rlPopMatrix();
 
@@ -52,5 +52,4 @@ void Complete3DMode(void)
     rlMultMatrixf(MatrixToFloat(screenScale));
 
     rlDisableDepthTest();
-
 }
