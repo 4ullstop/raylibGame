@@ -58,6 +58,17 @@ void PollPlayerInput(PlayerCam* pcam, double deltaTime, FPSPlayer* player, Colli
     
 }
 
+void PollPlayerSecondaryInputs(FPSPlayer* player, Ray* interactRay)
+{
+    if (IsKeyPressed(KEY_E))
+    {
+        /*
+            Ok... guess I'm making my own raycast system
+        */
+        
+    }
+}
+
 void CalculatePlayerVelocity(FPSPlayer* player, double deltaTime)
 {
     

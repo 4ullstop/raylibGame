@@ -26,3 +26,5 @@ void CollideAndSlide(CollisionPacket* colPacket, FPSPlayer* player, double delta
 Vector3 CollideWithWorld(CollisionPacket* colPacket, Vector3 pos, Vector3 vel, modelInfo** models);
 
 void PollPlayerInput(PlayerCam* pcam, double deltaTime, FPSPlayer* player, CollisionPacket* colPacket, modelInfo** models);
+
+void PollPlayerSecondaryInputs(FPSPlayer* player, Ray* interactRay);
