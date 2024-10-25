@@ -113,7 +113,7 @@ bool SetT(float normalDotComparison, float signedDistToPlane, bool* embeddedInPl
         if (*t0 < 0.0) *t0 = 0.0;
         if (*t1 < 0.0) *t1 = 0.0;
         if (*t0 > 1.0) *t0 = 1.0;
-        if (*t1 < 1.0) *t1 = 1.0;
+        if (*t1 > 1.0) *t1 = 1.0;
     }
     return true;
 }

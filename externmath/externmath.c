@@ -3,19 +3,12 @@
 #include <stdio.h>
 
 /*
-    This Point inside Collision box algorithm was developed
-    according to the article Checking if A Point is Inside a Shape
-    which you can find here: https://mathsfromnothing.au/checking-if-a-point-is-inside-a-shape/?i=2
+    I'm using the same algorithm of checking lines and triangles as I did with 
+    detecting player collision https://www.peroxide.dk/papers/collision/collision.pdf
 */
 
 bool IsPointInColBox(ColBox* box, Vector3 point)
 {
-    //12 triangles to check
-    //make an affine transform matrix at some point
-    //
-
-    
-
     int intersectionCount = 0;
 
     if (box->showDebug)
@@ -27,7 +20,6 @@ bool IsPointInColBox(ColBox* box, Vector3 point)
         box->randDirectionSize = 12;
     }
 
-    
     int debugStartingIndex = 0;
 
     Vector3 randomDirection = (Vector3)
@@ -75,40 +67,6 @@ bool IsPointInColBox(ColBox* box, Vector3 point)
         double signedDistToTrianglePlane = Vector3DotProduct(point, normal) + equationVal;
 
         float normalDotB = (Vector3DotProduct(normal, b));
-
-        // if (normalDotB == 0.0f)
-        // {
-        //     if (fabs(signedDistToTrianglePlane) >= 1.0f)
-        //     {
-        //         continue;
-        //     }
-        //     else
-        //     {
-        //         t0 = 0.0;
-        //         t1 = 1.0;
-        //     }
-        // }
-        // else
-        // {
-        //     t0 = (-1.0 - signedDistToTrianglePlane) / normalDotB;
-        //     t1 = (1.0 - signedDistToTrianglePlane) / normalDotB;
-
-        //     if (t0 > t1)
-        //     {
-        //         double temp = t1;
-        //         t1 = t0;
-        //         t0 = temp;
-        //     }
-
-        //     if (t0 > 1.0f || t1 < 0.0f)
-        //     {
-        //         continue;
-        //     }
-        //     if (t0 < 0.0) t0 = 0.0;
-        //     if (t1 < 0.0) t1 = 0.0;
-        //     if (t0 > 1.0) t0 = 1.0;
-        //     if (t1 > 1.0) t1 = 1.0;
-        // }
         
         if (!SetT(normalDotB, signedDistToTrianglePlane, NULL, &t0, &t1))
         {
@@ -131,7 +89,6 @@ bool IsPointInColBox(ColBox* box, Vector3 point)
         }
         
     }
-
 
     return intersectionCount % 2 != 0;
 }

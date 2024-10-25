@@ -8,6 +8,7 @@
         "stdlib.h": "c",
         "modelimport.h": "c",
         "corestructs.h": "c",
-        "cmath": "c"
+        "cmath": "c",
+        "collisionplane.h": "c"
     }
 }

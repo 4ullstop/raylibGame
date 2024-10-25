@@ -60,9 +60,7 @@ int main(void)
     }
     /*
         Where are we?:
-            - Currently, after swapping the code in externmath for setting our t values, the is 
-            point in box stopped working. Curiously, the collision system is working fine so I'm not sure
-            what the error is
+            - 
     */
 
     printf("Game loop starting...\n");
