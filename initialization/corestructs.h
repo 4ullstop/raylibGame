@@ -1,6 +1,7 @@
 #ifndef RAYLIB_CAMERA_HEAD
 #include "C:\raylib\raylib\src\raylib.h"
-#endif
+#include "../libs/drawingstructs.h"
+#endif  
 
 #ifndef CAMERA_STRUCT
 #define CAMERA_STRUCT
@@ -91,5 +92,9 @@ typedef struct
 {
     Vector3 hitLocation;
     float rayLength;
+
+    bool showDebugLines;
+
+    Drawline* linesToDraw;
 } Raycast;
 #endif

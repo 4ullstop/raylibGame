@@ -1,5 +1,6 @@
 #include "raycasting.h"
 #include <stddef.h>
+#include <stdlib.h>
 
 bool CastRayLine(FPSPlayer* player, Raycast* ray, ColBox* allLocalBoxes)
 {
@@ -42,4 +43,22 @@ bool HitDetected(Vector3 start, Vector3 end, Raycast* ray, ColBox* allLocalBoxes
         }
     }
     return false;
+}
+
+void DrawNewLine(Raycast* ray, Vector3 start, Vector3 end)
+{
+    Drawline* line = malloc(sizeof(Drawline));
+    line->start = start;
+    line->end = end;
+    line->color = RED;
+
+    line->next = NULL;
+    if (ray->linesToDraw == NULL)
+    {
+        ray->linesToDraw = line;
+    }
+    else
+    {
+        
+    }
 }

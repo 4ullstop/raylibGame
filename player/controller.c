@@ -54,8 +54,6 @@ void PollPlayerInput(PlayerCam* pcam, double deltaTime, FPSPlayer* player, Colli
     CollideAndSlide(colPacket, player, deltaTime, models);
 
     CalculatePlayerVelocity(player, deltaTime);
-
-    
 }
 
 void PollPlayerSecondaryInputs(FPSPlayer* player, Raycast* interactRay, ColBox* localBox)

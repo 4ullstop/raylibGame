@@ -75,7 +75,7 @@ int main(void)
         
         CallAllPolls(deltaTime, models, &interactable);
         
-        Draw(models, interactable.colBox);
+        Draw(models, interactable.colBox, &ray);
     }
     DestructInteractable(&interactable);
     DestroyAllModels(models);
@@ -92,7 +92,7 @@ void CallAllPolls(float dTime, modelInfo** models, Interactable* interactable)
     PollPlayerSecondary(interactable->colBox, &player, &ray);
 }
 
-void Draw(modelInfo** models, ColBox* box)
+void Draw(modelInfo** models, ColBox* box, Raycast* ray)
 {
     
     BeginDrawing();
@@ -107,7 +107,13 @@ void Draw(modelInfo** models, ColBox* box)
         DrawAllModels(models);
 
         
+        Drawline* line = ray->linesToDraw;
 
+        while (line != NULL)
+        {
+            DrawLine3D(ray->linesToDraw->start, ray->linesToDraw->end, ray->linesToDraw->color);
+            line = ray->linesToDraw->next;
+        }
         // if (box->showDebug)
         // {
         //     DrawLine3D(box->debugPoint, box->randDirectionDebug[0], RED);
