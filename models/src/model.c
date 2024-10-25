@@ -18,7 +18,7 @@ void CreateModels(modelInfo** models)
     modelInfo* floor = malloc(sizeof(modelInfo));
     floor->model = LoadModel("D:/CFiles/FirstGame/models/obj/floor.obj");
     floor->texture = LoadTexture("C:/raylib/raylib/examples/models/resources/models/obj/cube_diffuse.png");
-    floor->modelLocation = (Vector3){0.0f, 0.0f, 0.0f};
+    floor->modelLocation = (Vector3){0.0, 0.0, 0.0};
     floor->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = floor->texture;
 
     models[0] = cube;

@@ -40,11 +40,8 @@ bool IsPointInColBox(ColBox* box, Vector3 point)
     for (int i = 0; i < 8; i++)
     {
         
-        Vector3 v1;
-        Vector3 v2;
-        Vector3 v3;
-
-        FaceFromIndexedColBox(&v1, &v2, &v3, box, i);
+        Vector3 v1, v2, v3;
+        GetVertsForIndexedMesh(box->verts, box->indices, i, &v1, &v2, &v3);
 
         if (box->showDebug)
         {
@@ -79,38 +76,43 @@ bool IsPointInColBox(ColBox* box, Vector3 point)
 
         float normalDotB = (Vector3DotProduct(normal, b));
 
-        if (normalDotB == 0.0f)
-        {
-            if (fabs(signedDistToTrianglePlane) >= 1.0f)
-            {
-                continue;
-            }
-            else
-            {
-                t0 = 0.0;
-                t1 = 1.0;
-            }
-        }
-        else
-        {
-            t0 = (-1.0 - signedDistToTrianglePlane) / normalDotB;
-            t1 = (1.0 - signedDistToTrianglePlane) / normalDotB;
+        // if (normalDotB == 0.0f)
+        // {
+        //     if (fabs(signedDistToTrianglePlane) >= 1.0f)
+        //     {
+        //         continue;
+        //     }
+        //     else
+        //     {
+        //         t0 = 0.0;
+        //         t1 = 1.0;
+        //     }
+        // }
+        // else
+        // {
+        //     t0 = (-1.0 - signedDistToTrianglePlane) / normalDotB;
+        //     t1 = (1.0 - signedDistToTrianglePlane) / normalDotB;
 
-            if (t0 > t1)
-            {
-                double temp = t1;
-                t1 = t0;
-                t0 = temp;
-            }
+        //     if (t0 > t1)
+        //     {
+        //         double temp = t1;
+        //         t1 = t0;
+        //         t0 = temp;
+        //     }
 
-            if (t0 > 1.0f || t1 < 0.0f)
-            {
-                continue;
-            }
-            if (t0 < 0.0) t0 = 0.0;
-            if (t1 < 0.0) t1 = 0.0;
-            if (t0 > 1.0) t0 = 1.0;
-            if (t1 > 1.0) t1 = 1.0;
+        //     if (t0 > 1.0f || t1 < 0.0f)
+        //     {
+        //         continue;
+        //     }
+        //     if (t0 < 0.0) t0 = 0.0;
+        //     if (t1 < 0.0) t1 = 0.0;
+        //     if (t0 > 1.0) t0 = 1.0;
+        //     if (t1 > 1.0) t1 = 1.0;
+        // }
+        
+        if (!SetT(normalDotB, signedDistToTrianglePlane, NULL, &t0, &t1))
+        {
+            continue;
         }
 
         Vector3 collisionPoint;
@@ -127,12 +129,6 @@ bool IsPointInColBox(ColBox* box, Vector3 point)
         {
             intersectionCount++;
         }
-
-        /*
-            Since we are working with triangles, a good idea might be to
-            structure it with running two triangles per face rather than 
-            what it is now where we are going through 12 facess
-        */
         
     }
 
@@ -141,36 +137,3 @@ bool IsPointInColBox(ColBox* box, Vector3 point)
 }
 
 
-void FaceFromIndexedColBox(Vector3* v1, Vector3* v2, Vector3* v3, ColBox* box, int i)
-{
-    //the error is probably here somewhere
-    unsigned short index0 = box->indices[i * 3];
-    unsigned short index1 = box->indices[i * 3 + 1];
-    unsigned short index2 = box->indices[i * 3 + 2];
-
-    Vector3 vert1 = 
-    {
-        box->verts[index0 * 3],
-        box->verts[index0 * 3 + 1],
-        box->verts[index0 * 3 + 2]
-    };
-
-    Vector3 vert2 = 
-    {
-        box->verts[index1 * 3],
-        box->verts[index1 * 3 + 1],
-        box->verts[index1 * 3 + 2]
-    };
-
-    Vector3 vert3 = 
-    {
-        box->verts[index2 * 3],
-        box->verts[index2 * 3 + 1],
-        box->verts[index2 * 3 + 2]
-    };
-
-    *v1 = vert1;
-    *v2 = vert2;
-    *v3 = vert3;
-
-}

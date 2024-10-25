@@ -1,6 +1,7 @@
 #ifndef RAYLIB_CAMERA_HEAD
 #include "C:\raylib\raylib\src\raylib.h"
 #include "C:\raylib\raylib\src\raymath.h"
+#include "externcollision.h"
 #endif
 
 typedef struct CollisionPacket

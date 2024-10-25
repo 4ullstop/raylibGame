@@ -9,7 +9,8 @@ SRC = main.c \
 	  models\src\modelimport.c \
 	  models\src\model.c \
 	  collision\interactionbox.c \
-	  externmath\externmath.c 
+	  externmath\externmath.c \
+	  collision\externcollision.c
 OBJ = intermediate\main.o \
       intermediate\window.o \
       intermediate\camera.o \
@@ -20,7 +21,8 @@ OBJ = intermediate\main.o \
 	  intermediate\modelimport.o \
 	  intermediate\model.o \
 	  intermediate\interactionbox.o \
-	  intermediate\externmath.o
+	  intermediate\externmath.o \
+	  intermediate\externcollision.o
 OUTPUT = test.exe
 INCLUDE = -IC:\raylib\raylib\src
 LIBS = -LC:\raylib\raylib\src -lraylib -lopengl32 -lgdi32 -lwinmm
@@ -69,6 +71,9 @@ intermediate\interactionbox.o: collision\interactionbox.c intermediate
 
 intermediate\externmath.o: externmath\externmath.c intermediate
 	$(CC) -c externmath\externmath.c -o intermediate\externmath.o $(INCLUDE)
+
+intermediate\externcollision.o: collision\externcollision.c intermediate
+	$(CC) -c collision\externcollision.c -o intermediate\externcollision.o $(INCLUDE)
 # Clean rule to delete
 clean:
 	del /q intermediate\*.o 

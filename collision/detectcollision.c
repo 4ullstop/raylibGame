@@ -36,28 +36,8 @@ void PollCollision(CollisionPacket* collPacket, Mesh* mesh, Vector3 modelLocatio
         //do we have a mesh with indexed vertices
         for (int i = 0, n = mesh->triangleCount; i < n; i++)
         {
-            unsigned short index0 = mesh->indices[i * 3];
-            unsigned short index1 = mesh->indices[i * 3 + 1];
-            unsigned short index2 = mesh->indices[i * 3 + 2];
-
-            Vector3 vertex0 = 
-            {
-                mesh->vertices[index0 * 3],
-                mesh->vertices[index0 * 3 + 1],
-                mesh->vertices[index0 * 3 + 2]
-            };
-            Vector3 vertex1 =
-            {
-                mesh->vertices[index1 * 3],
-                mesh->vertices[index1 * 3 + 1],
-                mesh->vertices[index1 * 3 + 2]
-            };
-            Vector3 vertex2 = 
-            {
-                mesh->vertices[index2 * 3],
-                mesh->vertices[index2 * 3 + 1],
-                mesh->vertices[index2 * 3 + 2]
-            };
+            Vector3 vertex0, vertex1, vertex2;
+            GetVertsForIndexedMesh(mesh->vertices, mesh->indices, i, &vertex0, &vertex1, &vertex2);
 
             vertex0 = Vector3Add(vertex0, modelLocation);
             vertex1 = Vector3Add(vertex1, modelLocation);
@@ -71,24 +51,8 @@ void PollCollision(CollisionPacket* collPacket, Mesh* mesh, Vector3 modelLocatio
         //do we have a mesh with non indexed vertices
         for (int i = 0, n = mesh->triangleCount; i < n; i++)
         {
-            Vector3 vertex0 = 
-            {
-                mesh->vertices[i * 9],
-                mesh->vertices[i * 9 + 1],
-                mesh->vertices[i * 9 + 2]
-            };
-            Vector3 vertex1 = 
-            {
-                mesh->vertices[i * 9 + 3],
-                mesh->vertices[i * 9 + 4],
-                mesh->vertices[i * 9 + 5]
-            };
-            Vector3 vertex2 = 
-            {
-                mesh->vertices[i * 9 + 6],
-                mesh->vertices[i * 9 + 7],
-                mesh->vertices[i * 9 + 8]
-            };
+            Vector3 vertex0, vertex1, vertex2;
+            GetVertsForNonIndexedMesh(mesh->vertices, i, &vertex0, &vertex1, &vertex2);
 
             //making sure to add the world space to these verts so that it's translated according to the mesh!
             vertex0 = Vector3Add(vertex0, modelLocation);
@@ -120,54 +84,9 @@ void CheckTriangle(CollisionPacket* collPacket, Vector3 p1, Vector3 p2, Vector3 
         //gonna need this a couple of times so cache it
         float normalDotVelocity = Vector3DotProduct(plane.normal, collPacket->velocity);
         
-        //check if the sphere is travelling parallel, then we don't need to run any calculations
-        if (normalDotVelocity == 0.0f)
+        if (!SetT(normalDotVelocity, signedDistToTrianglePlane, &embededInPlane, &t0, &t1))
         {
-            if (fabs(signedDistToTrianglePlane) >= 1.0f)
-            {
-                //the sphere is not embedded in the plane, no collision is possible so we
-                //return
-                return;
-            }
-            else
-            {
-                //the sphere is embedded in the plane
-                //it intersects with the whole range [0...1]
-                embededInPlane = true;
-                t0 = 0.0;
-                t1 = 1.0f;
-            }
-        }
-        //the swept sphere is going to intersect with the triangle, so run this
-        else
-        {
-            //this is where we use our giant math equation to determine t0 and t1
-            //and get the first time (t0) that the triangle will intersect with our plane
-            t0 = (-1.0 - signedDistToTrianglePlane) / normalDotVelocity;
-            t1 = (1.0 - signedDistToTrianglePlane) / normalDotVelocity;
-
-            //swap our values t0 and t1 if t1 is less (ie we are approaching 
-            //the plane from behind)
-            if (t0 > t1)
-            {
-                double temp = t1;
-                t1 = t0;
-                t0 = temp;
-            }
-
-            //check that at least one result is within our time range
-            if (t0 > 1.0f || t1 < 0.0f)
-            {
-                //both t values are outside [0, 1]
-                //No collision is possible
-                return;
-            }
-
-            //clamp to [0, 1]
-            if (t0 < 0.0) t0 = 0.0;
-            if (t1 < 0.0) t1 = 0.0;
-            if (t0 > 1.0) t0 = 1.0;
-            if (t1 < 1.0) t1 = 1.0;
+            return;
         }
 
         //Collision is likley to happen, now it's time to run our

@@ -3,7 +3,7 @@
 
 void PlayerSetup(FPSPlayer* player, PlayerCam* cam)
 {
-    player->location = (Vector3){0.0f, 5.0f, 4.0f};
+    player->location = (Vector3){0.0, 5.0, 4.0};
     player->currPos = player->location;
     player->lastPos = player->location;
     player->velocity = (Vector3){0.0f, 0.0f, 0.0f};

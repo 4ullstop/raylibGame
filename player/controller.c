@@ -166,7 +166,7 @@ void CollideAndSlide(CollisionPacket* colPacket, FPSPlayer* player, double delta
     Vector3 finalPosition = CollideWithWorld(colPacket, eSpacePosition, eSpaceVelocity, models);
     player->location = finalPosition;
 
-    Vector3 gravity = (Vector3){0.0f, -9.81f * deltaTime, 0.0};
+    Vector3 gravity = (Vector3){0.0, -9.81 * deltaTime, 0.0};
 
     //Gravity 
     //colPacket->R3Position = Vector3Multiply(finalPosition, colPacket->eRadius);
