@@ -3,6 +3,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+void InteractionBoxInteract(void)
+{
+    //do stuff here later
+    printf("You interacted and everything works!\n");
+}
+
 void ConstructInteractable(Interactable* interactable, Vector3 location, ColBox* box, float boxWidth, float boxHeight, float boxLength)
 {
     if (interactable == NULL)
@@ -34,7 +40,7 @@ void ConstructColBox(ColBox* box, Vector3 location, float width, float height, f
     
     box->verts = malloc(sizeof(float) * 24);
 
-    
+    box->interact = InteractionBoxInteract;
 
     float unassignedVerts[] = {
         location.x - width/2, location.y - height/2, location.z - length/2, //bottom left back (0)

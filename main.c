@@ -25,7 +25,7 @@ Vector3 twoCube = {0.0f, 5.0f, 0.0f};
 
 CollisionPacket colPacket = {0};
 
-
+Raycast ray = {0};
 
 int main(void)
 {
@@ -73,7 +73,7 @@ int main(void)
         
         InitializeModel(&cube, &texture);
         
-        CallAllPolls(deltaTime, models);
+        CallAllPolls(deltaTime, models, &interactable);
         
         Draw(models, interactable.colBox);
     }
@@ -86,9 +86,10 @@ int main(void)
     return 0;
 }
 
-void CallAllPolls(float dTime, modelInfo** models)
+void CallAllPolls(float dTime, modelInfo** models, Interactable* interactable)
 {
     PollPlayer(dTime, &pcam, &player, &colPacket, models);
+    PollPlayerSecondary(interactable->colBox, &player, &ray);
 }
 
 void Draw(modelInfo** models, ColBox* box)

@@ -1,9 +1,11 @@
-#ifndef RAYLIB_CAMERA_HEAD
+#ifndef CONTROLLER_HEADER
+#define CONTROLLER_HEADER
 #include "C:\raylib\raylib\src\raylib.h"
 #include "C:\raylib\raylib\src\raymath.h"
 #include "camera.h"
 #include "../collision/detectcollision.h"  
 #include "../collision/collisionplane.h"
+#include "../collision/raycasting.h"
 //#include "../collision/interactionbox.h"
 #endif
 
@@ -27,4 +29,4 @@ Vector3 CollideWithWorld(CollisionPacket* colPacket, Vector3 pos, Vector3 vel, m
 
 void PollPlayerInput(PlayerCam* pcam, double deltaTime, FPSPlayer* player, CollisionPacket* colPacket, modelInfo** models);
 
-void PollPlayerSecondaryInputs(FPSPlayer* player, Ray* interactRay);
+void PollPlayerSecondaryInputs(FPSPlayer* player, Raycast* interactRay, ColBox* localBox);

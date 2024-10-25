@@ -1,4 +1,5 @@
-#ifndef RAYLIB_CAMERA_HEADER
+#ifndef PLAYER_HEADER
+#define PLAYER_HEADER
 #include "C:\raylib\raylib\src\raylib.h"
 #include "controller.h"
 #endif
@@ -9,8 +10,4 @@ void DrawPlayerCollisionCapsule(Vector3 location);
 
 void PlayerSetup(FPSPlayer* player, PlayerCam* cam);
 
-
-
-
-
-
+void PollPlayerSecondary(ColBox* colBox, FPSPlayer* player, Raycast* interactRay);

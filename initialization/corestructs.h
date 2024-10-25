@@ -59,6 +59,8 @@ typedef struct
     int vertsNum;
 
     Vector3 location;
+
+    void (*interact)(void);
     //debug
     bool showDebug;
     Vector3* randDirectionDebug;
@@ -81,4 +83,13 @@ typedef struct
     
 
 } Interactable;
+#endif
+
+#ifndef RAYCAST
+#define RAYCAST
+typedef struct 
+{
+    Vector3 hitLocation;
+    float rayLength;
+} Raycast;
 #endif

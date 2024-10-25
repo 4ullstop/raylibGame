@@ -58,14 +58,18 @@ void PollPlayerInput(PlayerCam* pcam, double deltaTime, FPSPlayer* player, Colli
     
 }
 
-void PollPlayerSecondaryInputs(FPSPlayer* player, Ray* interactRay)
+void PollPlayerSecondaryInputs(FPSPlayer* player, Raycast* interactRay, ColBox* localBox)
 {
     if (IsKeyPressed(KEY_E))
     {
         /*
             Ok... guess I'm making my own raycast system
         */
+        printf("interact button pressed\n");
+
+        //TODO: run your calculations on localizing boxes here
         
+        bool hit = CastRayLine(player, interactRay, localBox);
     }
 }
 

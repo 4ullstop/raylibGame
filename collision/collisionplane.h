@@ -1,3 +1,5 @@
+#pragma once
+
 #ifndef RAYLIB_COLLISION_HEAD
 #include "C:\raylib\raylib\src\raylib.h"
 #include "C:\raylib\raylib\src\raymath.h"

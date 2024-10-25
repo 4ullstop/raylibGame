@@ -1,4 +1,5 @@
-#ifndef RAYLIB_CAMERA_HEADER
+#ifndef EXTERN_COLLISION_HEADER
+#define EXTERN_COLLISION_HEADER
 #include "C:\raylib\raylib\src\raylib.h"
 #endif
 
