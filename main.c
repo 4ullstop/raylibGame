@@ -36,7 +36,7 @@ int main(void)
     //DO NOT PUT ANYTHING ABOVE THESE LINES, YOUR CODE WILL NOT WORK
 
 
-    //ray.showDebugLines = true;
+    ray.showDebugLines = true;
     ray.rayLength = 10.f;
     printf("Preparing model loading...\n");
     Model cube = LoadModel("C:/raylib/raylib/examples/models/resources/models/obj/cube.obj");
@@ -63,7 +63,10 @@ int main(void)
     }
     /*
         Where are we?:
-            - 
+            - Interaction system basics essentially works, I sort of tested it thats why I'm skeptical
+            - I need to round out the system so that it takes into account player location
+            to designated boxes so we aren't querying all of the boxes in the world inefficiently
+
     */
 
     printf("Game loop starting...\n");
@@ -117,7 +120,7 @@ void Draw(modelInfo** models, ColBox* box, Raycast* ray)
         {
             //printf("drawing new line\n");
             DrawLine3D(ray->linesToDraw->start, ray->linesToDraw->end, ray->linesToDraw->color);
-            line = ray->linesToDraw->next;
+            line = line->next;
         }
         // if (box->showDebug)
         // {

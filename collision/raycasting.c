@@ -68,6 +68,7 @@ void DrawNewLine(Raycast* ray, Vector3 start, Vector3 end)
     {
         line->next = ray->linesToDraw;
         ray->linesToDraw = line;
+        line->next = NULL;
     }
 }
 
