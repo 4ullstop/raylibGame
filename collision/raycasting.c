@@ -1,12 +1,18 @@
 #include "raycasting.h"
 #include <stddef.h>
 #include <stdlib.h>
+#include <stdio.h>
 
-bool CastRayLine(FPSPlayer* player, Raycast* ray, ColBox* allLocalBoxes)
+bool CastRayLine(FPSPlayer* player, Vector3 camForward, Raycast* ray, ColBox* allLocalBoxes)
 {
     Vector3 start = player->location;
-    Vector3 end = Vector3Add(start, Vector3Scale(player->attachedCam->target, ray->rayLength));
+    
+    Vector3 end = Vector3Add(start, Vector3Scale(camForward, ray->rayLength));
     bool hit = HitDetected(start, end, ray, allLocalBoxes);
+    if (ray->showDebugLines)
+    {
+        DrawNewLine(ray, start, end);
+    }
     return hit;
 }
 
@@ -47,6 +53,7 @@ bool HitDetected(Vector3 start, Vector3 end, Raycast* ray, ColBox* allLocalBoxes
 
 void DrawNewLine(Raycast* ray, Vector3 start, Vector3 end)
 {
+    printf("new line added\n");
     Drawline* line = malloc(sizeof(Drawline));
     line->start = start;
     line->end = end;
@@ -59,6 +66,20 @@ void DrawNewLine(Raycast* ray, Vector3 start, Vector3 end)
     }
     else
     {
-        
+        line->next = ray->linesToDraw;
+        ray->linesToDraw = line;
+    }
+}
+
+void DestroyLines(Drawline* line)
+{
+    if (line == NULL)
+    {
+        return;
+    }
+    else
+    {
+        DestroyLines(line->next);
+        free(line);
     }
 }

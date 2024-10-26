@@ -35,6 +35,9 @@ int main(void)
     PlayerSetup(&player, &pcam);
     //DO NOT PUT ANYTHING ABOVE THESE LINES, YOUR CODE WILL NOT WORK
 
+
+    //ray.showDebugLines = true;
+    ray.rayLength = 10.f;
     printf("Preparing model loading...\n");
     Model cube = LoadModel("C:/raylib/raylib/examples/models/resources/models/obj/cube.obj");
     Texture2D texture = LoadTexture("C:/raylib/raylib/examples/models/resources/models/obj/cube_diffuse.png");
@@ -80,6 +83,7 @@ int main(void)
     DestructInteractable(&interactable);
     DestroyAllModels(models);
     UnloadTexture(texture);
+    DestroyLines(ray.linesToDraw);
     UnloadModel(cube);
     CloseWindow();
 
@@ -111,6 +115,7 @@ void Draw(modelInfo** models, ColBox* box, Raycast* ray)
 
         while (line != NULL)
         {
+            //printf("drawing new line\n");
             DrawLine3D(ray->linesToDraw->start, ray->linesToDraw->end, ray->linesToDraw->color);
             line = ray->linesToDraw->next;
         }

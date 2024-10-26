@@ -66,8 +66,9 @@ void PollPlayerSecondaryInputs(FPSPlayer* player, Raycast* interactRay, ColBox* 
         printf("interact button pressed\n");
 
         //TODO: run your calculations on localizing boxes here
+        Vector3 forward = GetCameraForwardVector(player->attachedCam);
         
-        bool hit = CastRayLine(player, interactRay, localBox);
+        bool hit = CastRayLine(player, forward, interactRay, localBox);
     }
 }
 
