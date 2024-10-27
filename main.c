@@ -31,6 +31,7 @@ int main(void)
 {
     printf("Initializing window and player camera...\n");
     CreateWindow(800, 450);
+    
     PlayerCamSetup(&pcam);
     PlayerSetup(&player, &pcam);
     //DO NOT PUT ANYTHING ABOVE THESE LINES, YOUR CODE WILL NOT WORK
@@ -46,6 +47,11 @@ int main(void)
     //initializing all of our models
     modelInfo* models[NUMBER_OF_MODELS];
     CreateModels(models);
+
+    Interactable* interactables[NUMBER_OF_INTERACTABLES];
+    QueryBox* areaQueryBoxes[NUMBER_OF_AREA_QUERY_BOXES];
+    CreatePlayerAreaQueries(areaQueryBoxes);
+    CreateInteractables(interactables, areaQueryBoxes);
     
     //Set the size for our ellipsoid for collision
     colPacket.eRadius = (Vector3){1.0f, 1.0f, 1.0f};
@@ -81,7 +87,7 @@ int main(void)
         
         CallAllPolls(deltaTime, models, &interactable);
         
-        Draw(models, interactable.colBox, &ray);
+        Draw(models, interactable.colBox, &ray, areaQueryBoxes);
     }
     DestructInteractable(&interactable);
     DestroyAllModels(models);
@@ -99,7 +105,7 @@ void CallAllPolls(float dTime, modelInfo** models, Interactable* interactable)
     PollPlayerSecondary(interactable->colBox, &player, &ray);
 }
 
-void Draw(modelInfo** models, ColBox* box, Raycast* ray)
+void Draw(modelInfo** models, ColBox* box, Raycast* ray, QueryBox** queryBoxes)
 {
     
     BeginDrawing();
@@ -109,10 +115,20 @@ void Draw(modelInfo** models, ColBox* box, Raycast* ray)
         StartMode3D(pcam);
 
         //draw here
-        //DrawPlane((Vector3){0.0f, 0.0f, 0.0f}, (Vector2){32.0f, 32.0f}, RED);
+        
         
         DrawAllModels(models);
 
+        for (int i = 0; i < NUMBER_OF_AREA_QUERY_BOXES; i++)
+        {
+            //printf("%f\n", queryBoxes[i]->width);
+            DrawCubeWires(queryBoxes[i]->location, queryBoxes[i]->width, queryBoxes[i]->height, queryBoxes[i]->length, BLUE);
+            
+            for (int i = 0, n = queryBoxes[i]->numberOfInteractables; i < n; i++)
+            {
+                DrawCubeWires(queryBoxes[i]->associatedInteractables[0]->Location, 2.0f, 2.0f, 2.0f, RED);
+            }
+        }
         
         Drawline* line = ray->linesToDraw;
 
@@ -120,21 +136,28 @@ void Draw(modelInfo** models, ColBox* box, Raycast* ray)
         {
             //printf("drawing new line\n");
             DrawLine3D(ray->linesToDraw->start, ray->linesToDraw->end, ray->linesToDraw->color);
+            DrawSphere(line->hitpoint, 0.08f, RED);
             line = line->next;
         }
-        // if (box->showDebug)
-        // {
-        //     DrawLine3D(box->debugPoint, box->randDirectionDebug[0], RED);
-        //     for (int i = 0; i < 8; i++)
-        //     {
-        //         DrawSphere(box->cubeVertsDebug[i], 0.1f, GREEN);
-        //     }
-        //     DrawSphere(box->debugPoint, 0.1f, RED);
-        //     DrawPoint3D(box->debugPoint, GREEN);
-        // }
         
+        
+        
+        if (box->showDebug)
+        {
+            DrawLine3D(box->debugPoint, box->randDirectionDebug[0], RED);
+            for (int i = 0; i < box->vertsNum; i++)
+            {
+                DrawSphere(box->cubeVertsDebug[i], 0.1f, GREEN);
+                //printf("Point %i: %f, %f, %f\n", i, box->cubeVertsDebug[i].x, box->cubeVertsDebug[i].y, box->cubeVertsDebug[i].z);
+            }
+            DrawSphere(box->debugPoint, 0.1f, RED);
+            DrawPoint3D(box->debugPoint, GREEN);
+        }
+        // printf("\n");
+        // printf("\n");
+        // printf("\n");
 
-        DrawPlayerCollisionCapsule(player.location);
+        //DrawPlayerCollisionCapsule(player.location);
         
         Complete3DMode();
     
@@ -165,5 +188,4 @@ void InitializeModel(Model* cube, Texture2D* text)
         }
         UnloadDroppedFiles(droppedFiles);
     }
-    
 }

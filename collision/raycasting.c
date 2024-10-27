@@ -40,7 +40,7 @@ bool HitDetected(Vector3 start, Vector3 end, Raycast* ray, ColBox* allLocalBoxes
         bool foundCollision = false;
 
         Vector3 intersectionPoint = Vector3Add(start, Vector3Scale(end, t1));
-
+        ray->hitLocation = intersectionPoint;
         if (CheckPointInTriangle(intersectionPoint, v1, v2, v3))
         {
             ray->hitLocation = intersectionPoint;
@@ -58,6 +58,7 @@ void DrawNewLine(Raycast* ray, Vector3 start, Vector3 end)
     line->start = start;
     line->end = end;
     line->color = RED;
+    line->hitpoint = ray->hitLocation;
 
     line->next = NULL;
     if (ray->linesToDraw == NULL)

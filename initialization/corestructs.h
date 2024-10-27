@@ -1,7 +1,11 @@
 #ifndef RAYLIB_CAMERA_HEAD
 #include "C:\raylib\raylib\src\raylib.h"
 #include "../libs/drawingstructs.h"
-#endif  
+#endif 
+
+#define NUMBER_OF_MODELS 3
+#define NUMBER_OF_INTERACTABLES 1
+#define NUMBER_OF_AREA_QUERY_BOXES 1
 
 #ifndef CAMERA_STRUCT
 #define CAMERA_STRUCT
@@ -48,20 +52,23 @@ typedef struct modelInfo
 } modelInfo;
 #endif
 
-#define NUMBER_OF_MODELS 3
+
 
 
 #ifndef COLBOX
 #define COLBOX
-typedef struct 
+typedef struct ColBox
 {
+    //Basic setup info
     float* verts;
     unsigned short* indices;
     int vertsNum;
-
     Vector3 location;
 
+    //The interact function
     void (*interact)(void);
+
+
     //debug
     bool showDebug;
     Vector3* randDirectionDebug;
@@ -84,6 +91,23 @@ typedef struct
     
 
 } Interactable;
+#endif
+
+#ifndef AREA_QUERY_BOX
+#define AREA_QUERY_BOX
+typedef struct 
+{
+    ColBox* areaBox;
+    Interactable* associatedInteractables[NUMBER_OF_INTERACTABLES];
+
+    Vector3 location;
+    float height;
+    float width;
+    float length;
+
+    int numberOfInteractables;
+
+} QueryBox;
 #endif
 
 #ifndef RAYCAST

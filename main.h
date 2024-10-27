@@ -4,7 +4,7 @@
 
 void CallAllPolls(float dTime, modelInfo** models, Interactable* interactable);
 
-void Draw(modelInfo** models, ColBox* box, Raycast* ray);
+void Draw(modelInfo** models, ColBox* box, Raycast* ray, QueryBox** queryBoxes);
 
 void InitializeModel(Model* cube, Texture2D* text);
 

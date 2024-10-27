@@ -14,3 +14,7 @@ void ConstructColBox(ColBox* box, Vector3 location, float width, float height, f
 void DestructColBox(ColBox* box);
 
 void InteractionBoxInteract(void);
+
+void CreatePlayerAreaQueries(QueryBox** areaQueryBoxes);
+
+void CreateInteractables(Interactable** interactables, QueryBox** areaQueryBoxes);

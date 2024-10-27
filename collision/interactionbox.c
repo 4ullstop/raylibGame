@@ -58,7 +58,7 @@ void ConstructColBox(ColBox* box, Vector3 location, float width, float height, f
     {
         box->verts[i] = unassignedVerts[i];
     }
-    printf("\n");
+    
 
     unsigned short unassignedIndicies[] = {
         0, 1, 2,  2, 3, 0, //back face
@@ -84,4 +84,29 @@ void DestructColBox(ColBox* box)
     free(box->randDirectionDebug);
     free(box->cubeVertsDebug);
     //free(box);
+}
+
+void CreatePlayerAreaQueries(QueryBox** areaQueryBoxes)
+{
+    QueryBox* box_01 = malloc(sizeof(QueryBox));
+    box_01->areaBox = malloc(sizeof(ColBox));
+    box_01->location = (Vector3){2.0, 2.0, -2.0};
+    box_01->length = 10.f;
+    box_01->width = 10.f;
+    box_01->height = 10.f;
+    ConstructColBox(box_01->areaBox, box_01->location, box_01->width, box_01->height, box_01->length);
+
+    areaQueryBoxes[0] = box_01;
+    areaQueryBoxes[0]->numberOfInteractables = 1;
+}
+
+void CreateInteractables(Interactable** interactables, QueryBox** areaQueryBoxes)
+{
+    ColBox* colBox_01 = malloc(sizeof(ColBox));
+    Interactable* interactable_01 = malloc(sizeof(Interactable));
+    ConstructInteractable(interactable_01, (Vector3){0.0f, 3.0f, -4.0f}, colBox_01, 1.0f, 1.0f, 1.0f);
+
+
+    interactables[0] = interactable_01;
+    areaQueryBoxes[0]->associatedInteractables[0] = interactable_01;
 }

@@ -12,6 +12,8 @@ typedef struct Drawline
     Vector3 end;
     Color color;
 
+    Vector3 hitpoint;
+
     struct Drawline* next;
 } Drawline;
 #endif
