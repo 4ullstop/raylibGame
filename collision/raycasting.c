@@ -6,12 +6,17 @@
 bool CastRayLine(FPSPlayer* player, Vector3 camForward, Raycast* ray, ColBox* allLocalBoxes)
 {
     Vector3 start = player->location;
-    
+    ray->showDebugLines = true;
     Vector3 end = Vector3Add(start, Vector3Scale(camForward, ray->rayLength));
     bool hit = HitDetected(start, end, ray, allLocalBoxes);
-    if (ray->showDebugLines)
+    if (ray->showDebugLines == true)
     {
+        printf("about to draw line\n");
         DrawNewLine(ray, start, end);
+    }
+    else
+    {
+        printf("this is false for some reason\n");
     }
     return hit;
 }
@@ -39,7 +44,15 @@ bool HitDetected(Vector3 start, Vector3 end, Raycast* ray, ColBox* allLocalBoxes
         
         bool foundCollision = false;
 
-        Vector3 intersectionPoint = Vector3Add(start, Vector3Scale(end, t1));
+        /*
+            Something is wrong with this intersection point, when printed out on 
+            certain parts of the cube, it is in a weird place
+            This could be the result of an improper calculation of the 
+            intersectionPoint or it could have something to do with an improper
+            calculation of the triangle
+        */
+        float t = 1.0;
+        Vector3 intersectionPoint = Vector3Add(start, Vector3Scale(end, t0));
         ray->hitLocation = intersectionPoint;
         if (CheckPointInTriangle(intersectionPoint, v1, v2, v3))
         {
@@ -47,6 +60,28 @@ bool HitDetected(Vector3 start, Vector3 end, Raycast* ray, ColBox* allLocalBoxes
             allLocalBoxes->interact();
             return true;
         }
+        // else
+        // {
+        //     CheckVertice(end, start, &t, v1, &foundCollision, &intersectionPoint);
+        //     CheckVertice(end, start, &t, v2, &foundCollision, &intersectionPoint);
+        //     CheckVertice(end, start, &t, v3, &foundCollision, &intersectionPoint);
+
+        //     CheckEdge(v1, v2, start, end, &t, &foundCollision, &intersectionPoint);
+        //     CheckEdge(v2, v3, start, end, &t, &foundCollision, &intersectionPoint);
+        //     CheckEdge(v3, v1, start, end, &t, &foundCollision, &intersectionPoint);
+        // }
+
+        // if (foundCollision == true)
+        // {
+        //     float distToCollision = t * Vector3Length(end);
+
+        //     if (ray->foundCollision == false || distToCollision < ray->nearestCollision)
+        //     {
+        //         ray->nearestCollision = distToCollision;
+        //         ray->hitLocation = intersectionPoint;
+        //         ray->foundCollision = true;
+        //     }
+        // }
     }
     return false;
 }

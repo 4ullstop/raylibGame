@@ -117,3 +117,98 @@ bool SetT(float normalDotComparison, float signedDistToPlane, bool* embeddedInPl
     }
     return true;
 }
+
+/*
+    Checking each vertice for collision
+*/
+void CheckVertice(Vector3 vector, Vector3 base, float* t, Vector3 vertex, bool* foundCollision, Vector3* collisionPoint)
+{
+    float vectorSquaredLength = Vector3LengthSqr(vector);
+    float a, b, c;
+    float newT;
+
+    a = vectorSquaredLength;
+    b = 2.0 * (Vector3DotProduct(vector, Vector3Subtract(base, vertex)));
+    c = Vector3LengthSqr(Vector3Subtract(vertex, base)) - 1.0;
+    if (GetLowestRoot(a, b, c, *t, &newT))
+    {
+        *t = newT;
+        *foundCollision = true;
+        *collisionPoint = vertex;
+    }
+}
+
+/*
+    Checking each edge of the triangle
+*/
+void CheckEdge(Vector3 p1, Vector3 p2, Vector3 base, Vector3 vector, float* t, bool* foundCollision, Vector3* collisionPoint)
+{
+    Vector3 edge = Vector3Subtract(p2, p1);
+    Vector3 baseToVertex = Vector3Subtract(p1, base);
+    float vectorSquaredLength = Vector3LengthSqr(vector);
+    float edgeSquareLength = Vector3LengthSqr(edge);
+    float edgeDotVector = Vector3DotProduct(edge, vector);
+    float edgeDotBaseToVertex = Vector3DotProduct(edge, baseToVertex);
+    float a, b, c;
+    float newT;
+
+    a = edgeSquareLength * -vectorSquaredLength + edgeDotVector * edgeDotVector;
+    b = edgeSquareLength * (2 * Vector3DotProduct(vector, baseToVertex)) - 2.0 * edgeDotVector * edgeDotBaseToVertex;
+    c = edgeSquareLength * (1 - Vector3LengthSqr(baseToVertex)) + edgeDotBaseToVertex * edgeDotBaseToVertex;
+
+    if (GetLowestRoot(a, b, c, *t, &newT))
+    {
+        float f = (edgeDotVector * newT - edgeDotBaseToVertex) / edgeSquareLength;
+
+        if (f >= 0.0 && f <= 1.0f)
+        {
+            *t = newT;
+            *foundCollision = true;
+            *collisionPoint = Vector3Add(p1, Vector3Scale(edge, f));
+        }
+    }
+}
+
+/*
+    This function solves a quadratic equation and returns the lowest root, 
+    below a certain threshold (maxR)
+*/
+bool GetLowestRoot(float a, float b, float c, float maxR, float* root)
+{
+    //check if the solution exists
+    float determinant = b * b - 4.0 * a * c;
+
+    //if determinant is negative, it means no solutions
+    if (determinant < 0.0f) return false;
+
+    //calculate the two roots: (if determinante == 0 then x1==x2 or something?)
+    float sqrtD = sqrt(determinant);
+    float r1 = (-b - sqrtD) / (2 * a);
+    float r2 = (-b + sqrtD) / (2 * a);
+
+    //Sort so x1 <= x2
+    if (r1 > r2)
+    {
+        float temp = r2;
+        r2 = r1;
+        r1 = temp;
+    }
+
+    //get lowest root
+    if (r1 > 0 && r1 < maxR)
+    {
+        *root = r1;
+        return true;
+    }
+
+    //It is possible that we want x2
+    //This can happen if x1 < 0
+    if (r2 > 0 && r2 < maxR)
+    {
+        *root = r2;
+        return true;
+    }
+
+    //No valid solutions
+    return false;
+}

@@ -82,13 +82,7 @@ bool IsPointInColBox(ColBox* box, Vector3 point)
         */
         Vector3 intersectionPoint = Vector3Add(point, Vector3Scale(b, t1));
 
-        /*
-            Something is wrong with this intersection point, when printed out on 
-            certain parts of the cube, it is in a weird place
-            This could be the result of an improper calculation of the 
-            intersectionPoint or it could have something to do with an improper
-            calculation of the triangle
-        */
+        
         
         if (CheckPointInTriangle(intersectionPoint, v1, v2, v3))
         {

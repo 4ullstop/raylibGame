@@ -35,4 +35,3 @@ void CheckTriangle(CollisionPacket* collPacket, Vector3 p1, Vector3 p2, Vector3 
 
 void PollCollision(CollisionPacket* collPacket, Mesh* mesh, Vector3 modelLocation);
 
-bool GetLowestRoot(float a, float b, float c, float maxR, float* root);

@@ -120,123 +120,28 @@ void CheckTriangle(CollisionPacket* collPacket, Vector3 p1, Vector3 p2, Vector3 
                 triangle
             */
 
-           if (foundCollision == false)
-           {
+            if (foundCollision == false)
+            {
                 //printf("Not Collision found\n");
                 //storing some commonly used terms
                 Vector3 velocity = collPacket->velocity;
                 Vector3 base = collPacket->basePoint;
-                float velocitySquaredLength = Vector3LengthSqr(velocity);
-                float a, b, c; //params for the equation
-                float newT;
 
                 //For each vertex or edge, a quadratic equation will need to be solved
                 //So we'll parameterize things to make them more readable
 
-                a = velocitySquaredLength;
-
-                //p1
-                b = 2.0 * (Vector3DotProduct(velocity, Vector3Subtract(base, p1)));
-                c = Vector3LengthSqr(Vector3Subtract(p1, base)) - 1.0;
-                if (GetLowestRoot(a, b, c, t, &newT))
-                {
-                    t = newT;
-                    foundCollision = true;
-                    collisionPoint = p1;
-                }
-
-                //p2
-                b = 2.0 * (Vector3DotProduct(velocity, Vector3Subtract(base, p2)));
-                c = Vector3LengthSqr(Vector3Subtract(p2, base)) - 1.0;
-                if (GetLowestRoot(a, b, c, t, &newT))
-                {
-                    t = newT;
-                    foundCollision = true;
-                    collisionPoint = p2;
-                }
-
-                //p3
-                b = 2.0 * (Vector3DotProduct(velocity, Vector3Subtract(base, p3)));
-                c = Vector3LengthSqr(Vector3Subtract(p3, base)) - 1.0;
-                if (GetLowestRoot(a, b, c, t, &newT))
-                {
-                    t = newT;
-                    foundCollision = true;
-                    collisionPoint = p3;
-                }
+                CheckVertice(velocity, base, &t, p1, &foundCollision, &collisionPoint);
+                CheckVertice(velocity, base, &t, p2, &foundCollision, &collisionPoint);
+                CheckVertice(velocity, base, &t, p3, &foundCollision, &collisionPoint);
 
                 //now we check against the edges
 
                 //p1 -> p2
-                Vector3 edge = Vector3Subtract(p2, p1);
-                Vector3 baseToVertex = Vector3Subtract(p1, base);
-                float edgeSquareLength = Vector3LengthSqr(edge);
-                float edgeDotVelocity = Vector3DotProduct(edge, velocity);
-                float edgeDotBaseToVertex = Vector3DotProduct(edge, baseToVertex);
-
-                //Calcuate parameters for the equation
-                a = edgeSquareLength * -velocitySquaredLength + edgeDotVelocity * edgeDotVelocity;
-                b = edgeSquareLength * (2 * Vector3DotProduct(velocity, baseToVertex)) - 2.0 * edgeDotVelocity * edgeDotBaseToVertex;
-                c = edgeSquareLength * (1 - Vector3LengthSqr(baseToVertex)) + edgeDotBaseToVertex * edgeDotBaseToVertex;
-
-                //Does the swept sphere collide against the infinite edge?
-                if (GetLowestRoot(a, b, c, t, &newT))
-                {
-                    //Check if intersection is within line segment:
-                    float f = (edgeDotVelocity * newT - edgeDotBaseToVertex) / edgeSquareLength;
-
-                    if (f >= 0.0 && f <= 1.0)
-                    {
-                        //intersection took place withint the segment
-                        t = newT;
-                        foundCollision = true;
-                        collisionPoint = Vector3Add(p1, Vector3Scale(edge, f));
-                    }
-                }
-                
+                CheckEdge(p1, p2, base, velocity, &t, &foundCollision, &collisionPoint);
                 //p2 -> p3
-                edge = Vector3Subtract(p3, p2);
-                baseToVertex = Vector3Subtract(p2, base);
-                edgeSquareLength = Vector3LengthSqr(edge);
-                edgeDotVelocity = Vector3DotProduct(edge, velocity);
-                edgeDotBaseToVertex = Vector3DotProduct(edge, baseToVertex);
-
-                a = edgeSquareLength * -velocitySquaredLength + edgeDotVelocity * edgeDotVelocity;
-                b = edgeSquareLength * (2 * Vector3DotProduct(velocity, baseToVertex)) - 2.0 * edgeDotVelocity * edgeDotBaseToVertex;
-                c = edgeSquareLength * (1 - Vector3LengthSqr(baseToVertex)) + edgeDotBaseToVertex * edgeDotBaseToVertex;
-                
-                if (GetLowestRoot(a, b, c, t, &newT))
-                {
-                    float f = (edgeDotVelocity * newT - edgeDotBaseToVertex) / edgeSquareLength;
-                    if (f >= 0.0 && f <= 1.0)
-                    {
-                        t = newT;
-                        foundCollision = true;
-                        collisionPoint = Vector3Add(p2, Vector3Scale(edge, f));
-                    }
-                }
-
+                CheckEdge(p2, p3, base, velocity, &t, &foundCollision, &collisionPoint);
                 //p3 -> p1
-                edge = Vector3Subtract(p1, p3);
-                baseToVertex = Vector3Subtract(p3, base);
-                edgeSquareLength = Vector3LengthSqr(edge);
-                edgeDotVelocity = Vector3DotProduct(edge, velocity);
-                edgeDotBaseToVertex = Vector3DotProduct(edge, baseToVertex);
-                
-                a = edgeSquareLength * -velocitySquaredLength + edgeDotVelocity * edgeDotVelocity;
-                b = edgeSquareLength * (2 * Vector3DotProduct(velocity, baseToVertex)) - 2.0 * edgeDotVelocity * edgeDotBaseToVertex;
-                c = edgeSquareLength * (1 - Vector3LengthSqr(baseToVertex)) + edgeDotBaseToVertex * edgeDotBaseToVertex;
-
-                if (GetLowestRoot(a, b, c, t, &newT))
-                {
-                    float f = (edgeDotVelocity * newT - edgeDotBaseToVertex) / edgeSquareLength;
-                    if (f >= 0.0f && f <= 1.0)
-                    {
-                        t = newT;
-                        foundCollision = true;
-                        collisionPoint = Vector3Add(p3, Vector3Scale(edge, f));
-                    }
-                }
+                CheckEdge(p3, p1, base, velocity, &t, &foundCollision, &collisionPoint);
             }
 
             if (foundCollision == true)
@@ -260,47 +165,5 @@ void CheckTriangle(CollisionPacket* collPacket, Vector3 p1, Vector3 p2, Vector3 
     }
 }
 
-/*
-    This function solves a quadratic equation and returns the lowest root, 
-    below a certain threshold (maxR)
-*/
-bool GetLowestRoot(float a, float b, float c, float maxR, float* root)
-{
-    //check if the solution exists
-    float determinant = b * b - 4.0 * a * c;
 
-    //if determinant is negative, it means no solutions
-    if (determinant < 0.0f) return false;
-
-    //calculate the two roots: (if determinante == 0 then x1==x2 or something?)
-    float sqrtD = sqrt(determinant);
-    float r1 = (-b - sqrtD) / (2 * a);
-    float r2 = (-b + sqrtD) / (2 * a);
-
-    //Sort so x1 <= x2
-    if (r1 > r2)
-    {
-        float temp = r2;
-        r2 = r1;
-        r1 = temp;
-    }
-
-    //get lowest root
-    if (r1 > 0 && r1 < maxR)
-    {
-        *root = r1;
-        return true;
-    }
-
-    //It is possible that we want x2
-    //This can happen if x1 < 0
-    if (r2 > 0 && r2 < maxR)
-    {
-        *root = r2;
-        return true;
-    }
-
-    //No valid solutions
-    return false;
-}
 

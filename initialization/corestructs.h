@@ -116,6 +116,10 @@ typedef struct
 {
     Vector3 hitLocation;
     float rayLength;
+    
+
+    float nearestCollision;
+    bool foundCollision;
 
     bool showDebugLines;
 

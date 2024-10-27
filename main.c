@@ -136,7 +136,7 @@ void Draw(modelInfo** models, ColBox* box, Raycast* ray, QueryBox** queryBoxes)
         {
             //printf("drawing new line\n");
             DrawLine3D(ray->linesToDraw->start, ray->linesToDraw->end, ray->linesToDraw->color);
-            DrawSphere(line->hitpoint, 0.08f, RED);
+            DrawSphere(line->hitpoint, 0.08f, PURPLE);
             line = line->next;
         }
         
