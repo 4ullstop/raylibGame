@@ -85,7 +85,7 @@ int main(void)
         
         InitializeModel(&cube, &texture);
         
-        CallAllPolls(deltaTime, models, &interactable);
+        CallAllPolls(deltaTime, models, &interactable, areaQueryBoxes);
         
         Draw(models, interactable.colBox, &ray, areaQueryBoxes);
     }
@@ -99,10 +99,10 @@ int main(void)
     return 0;
 }
 
-void CallAllPolls(float dTime, modelInfo** models, Interactable* interactable)
+void CallAllPolls(float dTime, modelInfo** models, Interactable* interactable, QueryBox** areaBoxes)
 {
     PollPlayer(dTime, &pcam, &player, &colPacket, models);
-    PollPlayerSecondary(interactable->colBox, &player, &ray);
+    PollPlayerSecondary(interactable->colBox, &player, &ray, areaBoxes);
 }
 
 void Draw(modelInfo** models, ColBox* box, Raycast* ray, QueryBox** queryBoxes)

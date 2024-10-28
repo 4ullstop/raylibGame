@@ -10,4 +10,4 @@ void DrawPlayerCollisionCapsule(Vector3 location);
 
 void PlayerSetup(FPSPlayer* player, PlayerCam* cam);
 
-void PollPlayerSecondary(ColBox* colBox, FPSPlayer* player, Raycast* interactRay);
+void PollPlayerSecondary(ColBox* colBox, FPSPlayer* player, Raycast* interactRay, QueryBox** areaBoxes);

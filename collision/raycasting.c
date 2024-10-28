@@ -24,7 +24,6 @@ bool HitDetected(Vector3 start, Vector3 end, Raycast* ray, ColBox* allLocalBoxes
         Vector3 v1, v2, v3;
         GetVertsForIndexedMesh(allLocalBoxes->verts, allLocalBoxes->indices, i, &v1, &v2, &v3);
         
-        //GetVertsForNonIndexedMesh(allLocalBoxes->verts, i, &v1, &v2, &v3);
         Vector3 normal = Vector3CrossProduct(Vector3Subtract(v2, v1), Vector3Subtract(v3, v1));
         normal = Vector3Normalize(normal);
 
@@ -35,25 +34,13 @@ bool HitDetected(Vector3 start, Vector3 end, Raycast* ray, ColBox* allLocalBoxes
 
         float normalDotEnd = Vector3DotProduct(normal, end);
 
-        printf("Equation val: %f\n", equationVal);
-        printf("Signed Dist: %f\n", signedDistToTrianglePlane);
 
-
-        //it must be something above this
         if (!SetT(normalDotEnd, signedDistToTrianglePlane, NULL, &t0, &t1))
         {
             continue;
         }
         
         bool foundCollision = false;
-
-        /*
-            Something is wrong with this intersection point, when printed out on 
-            certain parts of the cube, it is in a weird place
-            This could be the result of an improper calculation of the 
-            intersectionPoint or it could have something to do with an improper
-            calculation of the triangle
-        */
         float t = 1.0;
 
         //it turns out the intersection point was the problem, the direction wasn't normalized 

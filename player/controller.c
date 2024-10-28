@@ -56,7 +56,7 @@ void PollPlayerInput(PlayerCam* pcam, double deltaTime, FPSPlayer* player, Colli
     CalculatePlayerVelocity(player, deltaTime);
 }
 
-void PollPlayerSecondaryInputs(FPSPlayer* player, Raycast* interactRay, ColBox* localBox)
+void PollPlayerSecondaryInputs(FPSPlayer* player, Raycast* interactRay, ColBox* localBox, QueryBox** areaBoxes)
 {
     if (IsKeyPressed(KEY_E))
     {
@@ -66,9 +66,22 @@ void PollPlayerSecondaryInputs(FPSPlayer* player, Raycast* interactRay, ColBox* 
         printf("interact button pressed\n");
 
         //TODO: run your calculations on localizing boxes here
+
+        //run through the boxes
+        //determine if the player is in the box
+        //only check line casts against the boxes in the large box
+
         Vector3 forward = GetCameraForwardVector(player->attachedCam);
-        
-        bool hit = CastRayLine(player, forward, interactRay, localBox);
+        for (int i = 0; i < NUMBER_OF_AREA_QUERY_BOXES; i++)
+        {
+            if (IsPointInColBox(areaBoxes[i]->areaBox, player->location))
+            {
+                for (int j = 0; j < areaBoxes[i]->numberOfInteractables; j++)
+                {
+                    bool hit = CastRayLine(player, forward, interactRay, areaBoxes[i]->associatedInteractables[j]->colBox);
+                }
+            }
+        }
     }
 }
 

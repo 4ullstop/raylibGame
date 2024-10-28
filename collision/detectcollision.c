@@ -92,7 +92,7 @@ void CheckTriangle(CollisionPacket* collPacket, Vector3 p1, Vector3 p2, Vector3 
         //Collision is likley to happen, now it's time to run our
         //three test cases for collision wherein our player is going to hit:
         //  Inside of the triangle ||
-        //  A triangle vertice ||
+        //  A triangle edge ||
         //  A triangle vertex
 
         Vector3 collisionPoint;

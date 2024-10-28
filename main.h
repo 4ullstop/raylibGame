@@ -2,7 +2,7 @@
 #include "models/src/model.h"
 #include "libs/drawingstructs.h"
 
-void CallAllPolls(float dTime, modelInfo** models, Interactable* interactable);
+void CallAllPolls(float dTime, modelInfo** models, Interactable* interactable, QueryBox** areaBoxes);
 
 void Draw(modelInfo** models, ColBox* box, Raycast* ray, QueryBox** queryBoxes);
 
