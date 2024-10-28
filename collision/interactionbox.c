@@ -43,15 +43,15 @@ void ConstructColBox(ColBox* box, Vector3 location, float width, float height, f
     box->interact = InteractionBoxInteract;
 
     float unassignedVerts[] = {
-        location.x - width/2, location.y - height/2, location.z - length/2, //bottom left back (0)
-        location.x + width/2, location.y - height/2, location.z - length/2, //bottom right back (1)
-        location.x + width/2, location.y + height/2, location.z - length/2, //top right back (2)
-        location.x - width/2, location.y + height/2, location.z - length/2, //top left back (3)
-
-        location.x - width/2, location.y - height/2, location.z + length/2, //bottom left fron (4)
-        location.x + width/2, location.y - height/2, location.z + length/2, //bottom right front (5)
-        location.x + width/2, location.y + height/2, location.z + length/2, //top right front (6)
-        location.x - width/2, location.y + height/2, location.z + length/2 //top left front (7)
+        location.x - width/2, location.y - height/2, location.z - length/2, // bottom left back (0)
+        location.x + width/2, location.y - height/2, location.z - length/2, // bottom right back (1)
+        location.x + width/2, location.y + height/2, location.z - length/2, // top right back (2)
+        location.x - width/2, location.y + height/2, location.z - length/2, // top left back (3)
+    
+        location.x - width/2, location.y - height/2, location.z + length/2, // bottom left front (4)
+        location.x + width/2, location.y - height/2, location.z + length/2, // bottom right front (5)
+        location.x + width/2, location.y + height/2, location.z + length/2, // top right front (6)
+        location.x - width/2, location.y + height/2, location.z + length/2  // top left front (7)
     };
 
     for (int i = 0; i < 24; i++)

@@ -14,7 +14,7 @@ bool IsPointInColBox(ColBox* box, Vector3 point)
     if (box->showDebug)
     {
         box->randDirectionDebug = malloc(sizeof(Vector3) * 12);
-        box->cubeVertsDebug = malloc(sizeof(Vector3) * 8);
+        box->cubeVertsDebug = malloc(sizeof(Vector3) * 12);
         box->debugPoint = point;
         box->cubeVertsSize = 36;
         box->randDirectionSize = 12;
@@ -29,7 +29,7 @@ bool IsPointInColBox(ColBox* box, Vector3 point)
         (float)rand() / RAND_MAX * 2.0f - 1.0f
     };
 
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < 12; i++)
     {
         
         Vector3 v1, v2, v3;

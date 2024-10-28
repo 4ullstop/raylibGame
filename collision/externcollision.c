@@ -8,6 +8,7 @@ void GetVertsForIndexedMesh(float* allVerts, unsigned short* indices, int i, Vec
     unsigned short index0 = indices[i * 3];
     unsigned short index1 = indices[i * 3 + 1];
     unsigned short index2 = indices[i * 3 + 2];
+    
 
     Vector3 vert1 = 
     {
@@ -29,6 +30,8 @@ void GetVertsForIndexedMesh(float* allVerts, unsigned short* indices, int i, Vec
         allVerts[index2 * 3 + 1],
         allVerts[index2 * 3 + 2]
     };
+
+    
 
     *v1 = vert1;
     *v2 = vert2;

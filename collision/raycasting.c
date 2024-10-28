@@ -6,7 +6,7 @@
 bool CastRayLine(FPSPlayer* player, Vector3 camForward, Raycast* ray, ColBox* allLocalBoxes)
 {
     Vector3 start = player->location;
-    ray->showDebugLines = true;
+    //ray->showDebugLines = true;
     Vector3 end = Vector3Add(start, Vector3Scale(camForward, ray->rayLength));
     bool hit = HitDetected(start, end, ray, allLocalBoxes);
     if (ray->showDebugLines == true)
@@ -14,21 +14,19 @@ bool CastRayLine(FPSPlayer* player, Vector3 camForward, Raycast* ray, ColBox* al
         printf("about to draw line\n");
         DrawNewLine(ray, start, end);
     }
-    else
-    {
-        printf("this is false for some reason\n");
-    }
     return hit;
 }
 
 bool HitDetected(Vector3 start, Vector3 end, Raycast* ray, ColBox* allLocalBoxes)
 {
-    for (int i = 0, n = allLocalBoxes->vertsNum; i < n; i++)
+    for (int i = 0; i < 12; i++)
     {
         Vector3 v1, v2, v3;
         GetVertsForIndexedMesh(allLocalBoxes->verts, allLocalBoxes->indices, i, &v1, &v2, &v3);
-
+        
+        //GetVertsForNonIndexedMesh(allLocalBoxes->verts, i, &v1, &v2, &v3);
         Vector3 normal = Vector3CrossProduct(Vector3Subtract(v2, v1), Vector3Subtract(v3, v1));
+        normal = Vector3Normalize(normal);
 
         double t0, t1;
 
@@ -37,6 +35,11 @@ bool HitDetected(Vector3 start, Vector3 end, Raycast* ray, ColBox* allLocalBoxes
 
         float normalDotEnd = Vector3DotProduct(normal, end);
 
+        printf("Equation val: %f\n", equationVal);
+        printf("Signed Dist: %f\n", signedDistToTrianglePlane);
+
+
+        //it must be something above this
         if (!SetT(normalDotEnd, signedDistToTrianglePlane, NULL, &t0, &t1))
         {
             continue;
@@ -52,8 +55,11 @@ bool HitDetected(Vector3 start, Vector3 end, Raycast* ray, ColBox* allLocalBoxes
             calculation of the triangle
         */
         float t = 1.0;
-        Vector3 intersectionPoint = Vector3Add(start, Vector3Scale(end, t0));
-        ray->hitLocation = intersectionPoint;
+
+        //it turns out the intersection point was the problem, the direction wasn't normalized 
+        //before scaling it by t0
+        Vector3 intersectionPoint = Vector3Add(start, Vector3Scale(Vector3Subtract(end, start), t0));
+        
         if (CheckPointInTriangle(intersectionPoint, v1, v2, v3))
         {
             ray->hitLocation = intersectionPoint;
