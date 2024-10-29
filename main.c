@@ -27,6 +27,8 @@ CollisionPacket colPacket = {0};
 
 Raycast ray = {0};
 
+enum Gamemode gamemode = normal;
+
 int main(void)
 {
     printf("Initializing window and player camera...\n");
@@ -46,7 +48,10 @@ int main(void)
 
     //initializing all of our models
     modelInfo* models[NUMBER_OF_MODELS];
-    CreateModels(models);
+    //put the creation of gameplay elements here
+    int lastModelIndex = 0;
+
+    CreateModels(models, lastModelIndex);
 
     Interactable* interactables[NUMBER_OF_INTERACTABLES];
     QueryBox* areaQueryBoxes[NUMBER_OF_AREA_QUERY_BOXES];
@@ -55,23 +60,10 @@ int main(void)
     
     //Set the size for our ellipsoid for collision
     colPacket.eRadius = (Vector3){1.0f, 1.0f, 1.0f};
-    
-    // Vector3 interactLoc = (Vector3){0.0f, 3.0f, -4.0f};
-    // Vector3 point = (Vector3){0.0f, 3.0f, -4.0f};
-    // ColBox colBox = {0};
-    // Interactable interactable = {0};
-    // ConstructInteractable(&interactable, interactLoc, &colBox, 2.0f, 2.0f, 2.0f);
-    // interactable.colBox->showDebug = true;
-    // bool is = IsPointInInteractable(&interactable, point);
-    // if (is)
-    // {
-    //     printf("is in box\n");
-    // }
+
     /*
         Where are we?:
-            - Interaction system basics essentially works, I sort of tested it thats why I'm skeptical
-            - I need to round out the system so that it takes into account player location
-            to designated boxes so we aren't querying all of the boxes in the world inefficiently
+            - Tomorrow will probably be the start of our mechanic system
 
     */
 
@@ -82,9 +74,6 @@ int main(void)
         deltaTime = now - lastTime;
         lastTime = now;
 
-        
-        
-        
         CallAllPolls(deltaTime, models, areaQueryBoxes);
         
         Draw(models, &ray, areaQueryBoxes);

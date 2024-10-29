@@ -48,6 +48,8 @@ typedef struct modelInfo
     Texture2D texture;
 
     Vector3 modelLocation;
+
+    int lastModelIndex;
     
 } modelInfo;
 #endif
@@ -125,4 +127,13 @@ typedef struct
 
     Drawline* linesToDraw;
 } Raycast;
+#endif
+
+#ifndef E_GAMEMODE
+#define E_GAMEMODE
+enum Gamemode
+{
+    normal,
+    puzzle
+};
 #endif

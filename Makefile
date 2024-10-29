@@ -25,7 +25,9 @@ OBJ = intermediate\main.o \
 	  intermediate\externmath.o \
 	  intermediate\externcollision.o \
 	  intermediate\raycasting.o 
+!IFNDEF OUTPUT
 OUTPUT = test.exe
+!ENDIF
 INCLUDE = -IC:\raylib\raylib\src
 LIBS = -LC:\raylib\raylib\src -lraylib -lopengl32 -lgdi32 -lwinmm
 

@@ -79,6 +79,31 @@ void PollPlayerSecondaryInputs(FPSPlayer* player, Raycast* interactRay, QueryBox
     }
 }
 
+void PollPlayerPuzzleInputs(void)
+{
+    if (IsKeyPressed(KEY_LEFT))
+    {
+
+    }
+    if (IsKeyPressed(KEY_UP))
+    {
+
+    }
+    if (IsKeyPressed(KEY_RIGHT))
+    {
+
+    }
+    if (IsKeyPressed(KEY_DOWN))
+    {
+
+    }
+
+    if (IsKeyPressed(KEY_ENTER))
+    {
+        
+    }
+}
+
 void CalculatePlayerVelocity(FPSPlayer* player, double deltaTime)
 {
     

@@ -8,7 +8,7 @@
 
 
 
-void CreateModels(modelInfo** models);
+void CreateModels(modelInfo** models, int* lastModelIndex);
 
 void DrawAllModels(modelInfo** models);
 
