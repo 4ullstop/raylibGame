@@ -30,4 +30,4 @@ Vector3 CollideWithWorld(CollisionPacket* colPacket, Vector3 pos, Vector3 vel, m
 
 void PollPlayerInput(PlayerCam* pcam, double deltaTime, FPSPlayer* player, CollisionPacket* colPacket, modelInfo** models);
 
-void PollPlayerSecondaryInputs(FPSPlayer* player, Raycast* interactRay, ColBox* localBox, QueryBox** areaBoxes);
+void PollPlayerSecondaryInputs(FPSPlayer* player, Raycast* interactRay, QueryBox** areaBoxes);

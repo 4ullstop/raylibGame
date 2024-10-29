@@ -56,17 +56,17 @@ int main(void)
     //Set the size for our ellipsoid for collision
     colPacket.eRadius = (Vector3){1.0f, 1.0f, 1.0f};
     
-    Vector3 interactLoc = (Vector3){0.0f, 3.0f, -4.0f};
-    Vector3 point = (Vector3){0.0f, 3.0f, -4.0f};
-    ColBox colBox = {0};
-    Interactable interactable = {0};
-    ConstructInteractable(&interactable, interactLoc, &colBox, 2.0f, 2.0f, 2.0f);
-    interactable.colBox->showDebug = true;
-    bool is = IsPointInInteractable(&interactable, point);
-    if (is)
-    {
-        printf("is in box\n");
-    }
+    // Vector3 interactLoc = (Vector3){0.0f, 3.0f, -4.0f};
+    // Vector3 point = (Vector3){0.0f, 3.0f, -4.0f};
+    // ColBox colBox = {0};
+    // Interactable interactable = {0};
+    // ConstructInteractable(&interactable, interactLoc, &colBox, 2.0f, 2.0f, 2.0f);
+    // interactable.colBox->showDebug = true;
+    // bool is = IsPointInInteractable(&interactable, point);
+    // if (is)
+    // {
+    //     printf("is in box\n");
+    // }
     /*
         Where are we?:
             - Interaction system basics essentially works, I sort of tested it thats why I'm skeptical
@@ -83,29 +83,30 @@ int main(void)
         lastTime = now;
 
         
-        InitializeModel(&cube, &texture);
         
-        CallAllPolls(deltaTime, models, &interactable, areaQueryBoxes);
         
-        Draw(models, interactable.colBox, &ray, areaQueryBoxes);
+        CallAllPolls(deltaTime, models, areaQueryBoxes);
+        
+        Draw(models, &ray, areaQueryBoxes);
     }
-    DestructInteractable(&interactable);
+    DestroyAreasAndInteractables(areaQueryBoxes);
     DestroyAllModels(models);
     UnloadTexture(texture);
     DestroyLines(ray.linesToDraw);
     UnloadModel(cube);
+    printf("destroyed\n");
     CloseWindow();
 
     return 0;
 }
 
-void CallAllPolls(float dTime, modelInfo** models, Interactable* interactable, QueryBox** areaBoxes)
+void CallAllPolls(float dTime, modelInfo** models, QueryBox** areaBoxes)
 {
     PollPlayer(dTime, &pcam, &player, &colPacket, models);
-    PollPlayerSecondary(interactable->colBox, &player, &ray, areaBoxes);
+    PollPlayerSecondary(&player, &ray, areaBoxes);
 }
 
-void Draw(modelInfo** models, ColBox* box, Raycast* ray, QueryBox** queryBoxes)
+void Draw(modelInfo** models, Raycast* ray, QueryBox** queryBoxes)
 {
     
     BeginDrawing();
@@ -142,18 +143,18 @@ void Draw(modelInfo** models, ColBox* box, Raycast* ray, QueryBox** queryBoxes)
         
         
         
-        if (box->showDebug)
-        {
-            DrawLine3D(box->debugPoint, box->randDirectionDebug[0], RED);
-            for (int i = 0; i < 12; i++)
-            {
-                DrawSphere(box->cubeVertsDebug[i], 0.1f, GREEN);
-                //printf("%i\n", i);
-                //printf("Point %i: %f, %f, %f\n", i, box->cubeVertsDebug[i].x, box->cubeVertsDebug[i].y, box->cubeVertsDebug[i].z);
-            }
-            DrawSphere(box->debugPoint, 0.1f, RED);
-            DrawPoint3D(box->debugPoint, GREEN);
-        }
+        // if (box->showDebug)
+        // {
+        //     DrawLine3D(box->debugPoint, box->randDirectionDebug[0], RED);
+        //     for (int i = 0; i < 12; i++)
+        //     {
+        //         DrawSphere(box->cubeVertsDebug[i], 0.1f, GREEN);
+        //         //printf("%i\n", i);
+        //         //printf("Point %i: %f, %f, %f\n", i, box->cubeVertsDebug[i].x, box->cubeVertsDebug[i].y, box->cubeVertsDebug[i].z);
+        //     }
+        //     DrawSphere(box->debugPoint, 0.1f, RED);
+        //     DrawPoint3D(box->debugPoint, GREEN);
+        // }
         // printf("\n");
         // printf("\n");
         // printf("\n");
@@ -165,28 +166,3 @@ void Draw(modelInfo** models, ColBox* box, Raycast* ray, QueryBox** queryBoxes)
     EndDrawing();
 }
 
-void InitializeModel(Model* cube, Texture2D* text)
-{
-    if (IsFileDropped())
-    {
-        FilePathList droppedFiles = LoadDroppedFiles();
-
-        if (droppedFiles.count == 1)
-        {
-            if(IsFileExtension(droppedFiles.paths[0], ".obj"))
-            {
-                UnloadModel(*cube);
-                *cube = LoadModel(droppedFiles.paths[0]);
-                cube->materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = *text;
-            }
-            else if (IsFileExtension(droppedFiles.paths[0], ".png"))
-            {
-                UnloadTexture(*text);
-                *text = LoadTexture(droppedFiles.paths[0]);
-                cube->materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = *text;
-            }
-            
-        }
-        UnloadDroppedFiles(droppedFiles);
-    }
-}

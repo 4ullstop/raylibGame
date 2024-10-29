@@ -80,10 +80,21 @@ void ConstructColBox(ColBox* box, Vector3 location, float width, float height, f
 void DestructColBox(ColBox* box)
 {
     free(box->verts);
+    box->verts = NULL;
     free(box->indices);
-    free(box->randDirectionDebug);
-    free(box->cubeVertsDebug);
-    //free(box);
+    box->indices = NULL;
+    // if (box->randDirectionDebug != NULL)
+    // {
+    //     free(box->randDirectionDebug);
+    //     box->randDirectionDebug = NULL;
+    // }
+    // if (box->cubeVertsDebug != NULL)
+    // {
+    //     free(box->cubeVertsDebug);
+    //     box->cubeVertsDebug = NULL;
+    // }
+    
+    free(box);
 }
 
 void CreatePlayerAreaQueries(QueryBox** areaQueryBoxes)
@@ -103,10 +114,29 @@ void CreatePlayerAreaQueries(QueryBox** areaQueryBoxes)
 void CreateInteractables(Interactable** interactables, QueryBox** areaQueryBoxes)
 {
     ColBox* colBox_01 = malloc(sizeof(ColBox));
+    colBox_01->randDirectionDebug = NULL;
+    colBox_01->verts = NULL;
+    colBox_01->indices = NULL;
+    colBox_01->randDirectionDebug = NULL;
     Interactable* interactable_01 = malloc(sizeof(Interactable));
     ConstructInteractable(interactable_01, (Vector3){0.0f, 3.0f, -4.0f}, colBox_01, 1.0f, 1.0f, 1.0f);
 
 
     interactables[0] = interactable_01;
     areaQueryBoxes[0]->associatedInteractables[0] = interactable_01;
+}
+
+void DestroyAreasAndInteractables(QueryBox** areaQueryBoxes)
+{
+    for (int i = 0; i < NUMBER_OF_AREA_QUERY_BOXES; i++)
+    {
+        for (int j = 0; j < NUMBER_OF_INTERACTABLES; j++)
+        {
+            DestructInteractable(areaQueryBoxes[i]->associatedInteractables[j]);
+            free(areaQueryBoxes[i]->associatedInteractables[j]);
+        }
+        DestructColBox(areaQueryBoxes[i]->areaBox);
+        //Wouldn't doubt if there were still things that needed to be freed
+        //but uhh... you got this Windows
+    }
 }

@@ -2,9 +2,8 @@
 #include "models/src/model.h"
 #include "libs/drawingstructs.h"
 
-void CallAllPolls(float dTime, modelInfo** models, Interactable* interactable, QueryBox** areaBoxes);
+void CallAllPolls(float dTime, modelInfo** models, QueryBox** areaBoxes);
 
-void Draw(modelInfo** models, ColBox* box, Raycast* ray, QueryBox** queryBoxes);
+void Draw(modelInfo** models, Raycast* ray, QueryBox** queryBoxes);
 
-void InitializeModel(Model* cube, Texture2D* text);
 

@@ -18,9 +18,9 @@ void PollPlayer(float deltaTime, PlayerCam* pcam, FPSPlayer* player, CollisionPa
     DetectPlayerLookInput(pcam);
 }
 
-void PollPlayerSecondary(ColBox* colBox, FPSPlayer* player, Raycast* interactRay, QueryBox** areaBoxes)
+void PollPlayerSecondary(FPSPlayer* player, Raycast* interactRay, QueryBox** areaBoxes)
 {
-    PollPlayerSecondaryInputs(player, interactRay, colBox, areaBoxes);
+    PollPlayerSecondaryInputs(player, interactRay, areaBoxes);
 }
 
 void DrawPlayerCollisionCapsule(Vector3 location)
