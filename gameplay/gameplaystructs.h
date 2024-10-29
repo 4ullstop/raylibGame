@@ -28,10 +28,10 @@ typedef struct Button
     modelInfo* model;
 
     //n(direction) (aka neighbor(direction))
-    Button* nLeft;
-    Button* nRight;
-    Button* nAbove;
-    Button* nBelow;
+    struct Button* nLeft;
+    struct Button* nRight;
+    struct Button* nAbove;
+    struct Button* nBelow;
 } Button;
 #endif
 

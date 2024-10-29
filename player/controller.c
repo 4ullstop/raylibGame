@@ -100,7 +100,7 @@ void PollPlayerPuzzleInputs(void)
 
     if (IsKeyPressed(KEY_ENTER))
     {
-        
+
     }
 }
 
@@ -244,10 +244,9 @@ Vector3 CollideWithWorld(CollisionPacket* colPacket, Vector3 pos, Vector3 vel, m
     //check for collision
     for (int i = 0; i < NUMBER_OF_MODELS; i++)
     {
+        if (models[i]->collisionDisabled == true) continue;
         PollCollision(colPacket, models[i]->model.meshes, models[i]->modelLocation);
-        //printf("%i", i);
     }
-    //PollCollision(colPacket, mesh);
 
     //if no collision move along the velocity
     if (colPacket->foundCollision == false)

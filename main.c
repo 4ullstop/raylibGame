@@ -1,4 +1,5 @@
 #include "main.h"
+#include "gameplay/masterbuttons.h"
 #include "player/player.h"
 #include "initialization/window.h"
 #include "collision/interactionbox.h" 
@@ -51,7 +52,14 @@ int main(void)
     //put the creation of gameplay elements here
     int lastModelIndex = 0;
 
-    CreateModels(models, lastModelIndex);
+    ButtonMaster puzzle_01;
+    puzzle_01.columns = 3;
+    puzzle_01.rows = 3;
+    puzzle_01.location = (Vector3){0.0f, 2.0f, 0.0f};
+    puzzle_01.buttonSpread = 0.5f;
+    
+    CreateAllButtons(&puzzle_01, models, &lastModelIndex);
+    CreateModels(models, &lastModelIndex);
 
     Interactable* interactables[NUMBER_OF_INTERACTABLES];
     QueryBox* areaQueryBoxes[NUMBER_OF_AREA_QUERY_BOXES];

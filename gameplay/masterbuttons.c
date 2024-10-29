@@ -1,5 +1,6 @@
 #include "masterbuttons.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 void CreateAllButtons(ButtonMaster* master, modelInfo** dynamicModels, int* lastModelIndex)
 {
@@ -12,6 +13,7 @@ void CreateAllButtons(ButtonMaster* master, modelInfo** dynamicModels, int* last
     {
         master->childButtons[i] = (Button*)malloc(c * sizeof(Button));
     }
+    printf("%i\n", *lastModelIndex);
 
     int centerR = round((float)r / 2.0);
     int centerC = round((float)c / 2.0); 
@@ -26,6 +28,7 @@ void CreateAllButtons(ButtonMaster* master, modelInfo** dynamicModels, int* last
 
 void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelIndex, modelInfo** dynamicModels)
 {
+    printf("%i\n", *lastModelIndex);
     int centerR = round((float)master->rows / 2.0);
     int centerC = round((float)master->columns / 2.0);
 
@@ -36,7 +39,7 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
     float locX = master->location.x + (multipleR * master->buttonSpread);
     int multipleC = j - centerC;
     float locY = master->location.y + (multipleC * master->buttonSpread);
-    master->childButtons[i][j].location = (Vector3){locX, locY, master->location.z};
+    master->childButtons[i][j].location = (Vector3){master->location.x, locY, locX};
     
     //setting up our neighbors which will be important when cycling through
     //based on the player input
@@ -52,14 +55,16 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
 
     //initializng the associated models for the mechanic
     master->childButtons[i][j].model = malloc(sizeof(modelInfo));
+    master->childButtons[i][j].model->collisionDisabled = true;
     master->childButtons[i][j].model->modelLocation = master->childButtons[i][j].location;
-    // master->childButtons[i][j].model->model = LoadModel();
-    // master->childButtons[i][j].model->texture = LoadTexture();
-    dynamicModels[*lastModelIndex] = &master->childButtons[i][j].model;
-    *lastModelIndex++;
+    master->childButtons[i][j].model->model = LoadModel("D:/CFiles/FirstGame/models/obj/button.obj");
+    master->childButtons[i][j].model->texture = LoadTexture("C:/raylib/raylib/examples/models/resources/models/obj/cube_diffuse.png");
+    dynamicModels[*lastModelIndex] = master->childButtons[i][j].model;
+    *lastModelIndex = *lastModelIndex + 1;
     //highlighting our middle button
     if (i == centerR && j == centerC)
     {
         master->childButtons[i][j].highlighted = true;
     }
+    
 }

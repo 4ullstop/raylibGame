@@ -11,7 +11,8 @@ SRC = main.c \
 	  collision\interactionbox.c \
 	  externmath\externmath.c \
 	  collision\externcollision.c \
-	  collision\raycasting.c
+	  collision\raycasting.c \
+	  gameplay\masterbuttons.c
 OBJ = intermediate\main.o \
       intermediate\window.o \
       intermediate\camera.o \
@@ -24,7 +25,8 @@ OBJ = intermediate\main.o \
 	  intermediate\interactionbox.o \
 	  intermediate\externmath.o \
 	  intermediate\externcollision.o \
-	  intermediate\raycasting.o 
+	  intermediate\raycasting.o \
+	  intermediate\masterbuttons.o
 !IFNDEF OUTPUT
 OUTPUT = test.exe
 !ENDIF
@@ -81,6 +83,10 @@ intermediate\externcollision.o: collision\externcollision.c intermediate
 
 intermediate\raycasting.o: collision\raycasting.c intermediate
 	$(CC) -c collision\raycasting.c -o intermediate\raycasting.o $(INCLUDE)
+
+intermediate\masterbuttons.o: gameplay\masterbuttons.c intermediate
+	$(CC) -c gameplay\masterbuttons.c -o intermediate\masterbuttons.o $(INCLUDE)
+
 # Clean rule to delete
 clean:
 	del /q intermediate\*.o 

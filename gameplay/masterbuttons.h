@@ -7,4 +7,4 @@
 
 void CreateAllButtons(ButtonMaster* master, modelInfo** dynamicModels, int* lastModelIndex);
 
-void ConstructSingleButton(ButtonMaster* master, int i, int j, int k, modelInfo** dynamicModels);
+void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelIndex, modelInfo** dynamicModels);

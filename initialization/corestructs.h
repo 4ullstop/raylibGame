@@ -3,7 +3,7 @@
 #include "../libs/drawingstructs.h"
 #endif 
 
-#define NUMBER_OF_MODELS 3
+#define NUMBER_OF_MODELS 12
 #define NUMBER_OF_INTERACTABLES 1
 #define NUMBER_OF_AREA_QUERY_BOXES 1
 
@@ -50,6 +50,8 @@ typedef struct modelInfo
     Vector3 modelLocation;
 
     int lastModelIndex;
+
+    bool collisionDisabled;
     
 } modelInfo;
 #endif

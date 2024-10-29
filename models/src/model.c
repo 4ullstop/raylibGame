@@ -15,7 +15,7 @@ void CreateModels(modelInfo** models, int* lastModelIndex)
     cube->modelLocation = (Vector3){5.0f, 0.0f, 0.0f};
     cube->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = cube->texture;
     models[*lastModelIndex] = cube;
-    *lastModelIndex++;
+    *lastModelIndex = *lastModelIndex + 1;
     
 
     modelInfo* cube_02 = malloc(sizeof(modelInfo));
@@ -24,7 +24,7 @@ void CreateModels(modelInfo** models, int* lastModelIndex)
     cube_02->modelLocation = (Vector3){-2.0f, 0.0f, 0.0f};
     cube_02->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = cube_02->texture;
     models[*lastModelIndex] = cube_02;
-    *lastModelIndex++;
+    *lastModelIndex = *lastModelIndex + 1;
 
     modelInfo* floor = malloc(sizeof(modelInfo));
     floor->model = LoadModel("D:/CFiles/FirstGame/models/obj/floor.obj");
@@ -33,7 +33,7 @@ void CreateModels(modelInfo** models, int* lastModelIndex)
     floor->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = floor->texture;
     floor->lastModelIndex = 2;
     models[*lastModelIndex] = floor;
-    *lastModelIndex++;
+    *lastModelIndex = *lastModelIndex + 1;
 
     
 }
