@@ -1,0 +1,48 @@
+
+
+ - To separate between the actual game and editor, create the ability to add command line arguments to differentiate between the two
+
+ - At some point it might be nice to try and figure out how to import raymarching for ultimate pretty
+
+ - So what if we had two windows
+
+How does this correlate to the idea you had that you wanted to communicate?
+ 
+
+ - SetWindowPosition() is a function you can use to set the window position on the monitor
+ - For the interaction system you can use function pointers inside of structs and do stuff that way
+
+
+
+Sadly, raylib does not support multiple windows in one instance
+What you can do instead is create multiple executables and then create some sort of file to transfer data over from one executable to the other
+
+system("file.exe") will run the executable, it's included in <stdlib.h>
+
+
+ - Create the functionality for switch between contexts (press f and switch depending on where the mouse is hovering which you should be able to do)
+ - Create states for 
+
+What is our best course of action here:
+
+Creating two entirely different games, or creating one inside of the other
+I feel like one inside of the other would be cooler also a lot easier for not duplicating code
+The only issue I see is the difficulty in trying to keep the two creations separate from each other
+
+It will probably be best if you make a shared folder for all of the shared stuff that will be needed by both games as you have created so far
+And then have separate folders for each side of the game
+
+Buttons:
+ - highlight functionality (changing color, submission functionality)
+ - arranged in a matrix/array//
+ - all buttons know their neighbor//
+
+Master:
+ - all buttons must be navigable by arrow keys
+ - must know when the puzzle is complete by checking all of the required correct inputs
+ 
+
+Make a function to check highlights, this should be called anytime an arrow key is pressed and at the beginning of entering the puzzle 
+Create a function to check the correctness of the puzzle every time the enter button is pressed
+
+Make an interaction box work with the button system - probably make the master button have some sort of relation to an interaction box

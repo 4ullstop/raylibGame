@@ -68,3 +68,16 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
     }
     
 }
+
+void DestructAllButtons(ButtonMaster* master)
+{
+    for (int i = 0; i < master->rows; i++)
+    {
+        free(master->childButtons[i]);
+    }
+}
+
+void AssignInteractBoxesToPuzzle(Interactable** interactables, ButtonMaster* master)
+{
+    
+}

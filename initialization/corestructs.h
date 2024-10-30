@@ -51,6 +51,7 @@ typedef struct modelInfo
 
     int lastModelIndex;
 
+    //always set this on creation otherwise you could get a value greater than 0 which would mean true which could cause unwanted behavior
     bool collisionDisabled;
     
 } modelInfo;

@@ -51,5 +51,7 @@ typedef struct ButtonMaster
     Vector3 location;
 
     float buttonSpread;
+
+    Interactable* associatedBox;
 } ButtonMaster;
 #endif

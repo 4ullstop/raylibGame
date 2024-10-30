@@ -43,20 +43,19 @@ int main(void)
     ray.showDebugLines = true;
     ray.rayLength = 10.f;
     printf("Preparing model loading...\n");
-    Model cube = LoadModel("C:/raylib/raylib/examples/models/resources/models/obj/cube.obj");
-    Texture2D texture = LoadTexture("C:/raylib/raylib/examples/models/resources/models/obj/cube_diffuse.png");
-    cube.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texture;
 
     //initializing all of our models
     modelInfo* models[NUMBER_OF_MODELS];
     //put the creation of gameplay elements here
     int lastModelIndex = 0;
 
+    //At some point it would be nice to move this part to a separate file
     ButtonMaster puzzle_01;
     puzzle_01.columns = 3;
     puzzle_01.rows = 3;
     puzzle_01.location = (Vector3){0.0f, 2.0f, 0.0f};
     puzzle_01.buttonSpread = 0.5f;
+    //
     
     CreateAllButtons(&puzzle_01, models, &lastModelIndex);
     CreateModels(models, &lastModelIndex);
@@ -71,7 +70,9 @@ int main(void)
 
     /*
         Where are we?:
-            - Tomorrow will probably be the start of our mechanic system
+            - Buttons are initialized according to the system I designed and developed
+            - Button functionality is the next thing as well as trying to make them
+            look good so you have better visual feedback
 
     */
 
@@ -87,10 +88,9 @@ int main(void)
         Draw(models, &ray, areaQueryBoxes);
     }
     DestroyAreasAndInteractables(areaQueryBoxes);
+    DestructAllButtons(&puzzle_01);
     DestroyAllModels(models);
-    UnloadTexture(texture);
     DestroyLines(ray.linesToDraw);
-    UnloadModel(cube);
     printf("destroyed\n");
     CloseWindow();
 
