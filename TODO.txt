@@ -25,10 +25,6 @@ system("file.exe") will run the executable, it's included in <stdlib.h>
 
 What is our best course of action here:
 
-Creating two entirely different games, or creating one inside of the other
-I feel like one inside of the other would be cooler also a lot easier for not duplicating code
-The only issue I see is the difficulty in trying to keep the two creations separate from each other
-
 It will probably be best if you make a shared folder for all of the shared stuff that will be needed by both games as you have created so far
 And then have separate folders for each side of the game
 
@@ -46,3 +42,5 @@ Make a function to check highlights, this should be called anytime an arrow key 
 Create a function to check the correctness of the puzzle every time the enter button is pressed
 
 Make an interaction box work with the button system - probably make the master button have some sort of relation to an interaction box
+ - Assign an enum to it and check the enum to assign it to an interactable
+ - Create interactable boxes alongside the button masters 

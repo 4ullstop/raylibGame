@@ -49,21 +49,18 @@ int main(void)
     //put the creation of gameplay elements here
     int lastModelIndex = 0;
 
-    //At some point it would be nice to move this part to a separate file
-    ButtonMaster puzzle_01;
-    puzzle_01.columns = 3;
-    puzzle_01.rows = 3;
-    puzzle_01.location = (Vector3){0.0f, 2.0f, 0.0f};
-    puzzle_01.buttonSpread = 0.5f;
-    //
+    ButtonMaster* allPuzzles[NUMBER_OF_PUZZLES];
+    ConstructPuzzles(allPuzzles, models, &lastModelIndex);
     
-    CreateAllButtons(&puzzle_01, models, &lastModelIndex);
+    //CreateAllButtons(&puzzle_01, models, &lastModelIndex);
     CreateModels(models, &lastModelIndex);
 
     Interactable* interactables[NUMBER_OF_INTERACTABLES];
     QueryBox* areaQueryBoxes[NUMBER_OF_AREA_QUERY_BOXES];
     CreatePlayerAreaQueries(areaQueryBoxes);
     CreateInteractables(interactables, areaQueryBoxes);
+
+    AssignInteractBoxesToPuzzle(interactables, allPuzzles);
     
     //Set the size for our ellipsoid for collision
     colPacket.eRadius = (Vector3){1.0f, 1.0f, 1.0f};
@@ -88,7 +85,7 @@ int main(void)
         Draw(models, &ray, areaQueryBoxes);
     }
     DestroyAreasAndInteractables(areaQueryBoxes);
-    DestructAllButtons(&puzzle_01);
+    DestructAllPuzzles(allPuzzles);
     DestroyAllModels(models);
     DestroyLines(ray.linesToDraw);
     printf("destroyed\n");
@@ -120,11 +117,12 @@ void Draw(modelInfo** models, Raycast* ray, QueryBox** queryBoxes)
         for (int i = 0; i < NUMBER_OF_AREA_QUERY_BOXES; i++)
         {
             //printf("%f\n", queryBoxes[i]->width);
+            //printf("%i", i);
             DrawCubeWires(queryBoxes[i]->location, queryBoxes[i]->width, queryBoxes[i]->height, queryBoxes[i]->length, BLUE);
             
-            for (int i = 0, n = queryBoxes[i]->numberOfInteractables; i < n; i++)
+            for (int j = 0, n = queryBoxes[i]->numberOfInteractables; j < n; j++)
             {
-                DrawCubeWires(queryBoxes[i]->associatedInteractables[0]->Location, 2.0f, 2.0f, 2.0f, RED);
+                DrawCubeWires(queryBoxes[i]->associatedInteractables[j]->Location, queryBoxes[i]->associatedInteractables[j]->width, queryBoxes[i]->associatedInteractables[j]->height, queryBoxes[i]->associatedInteractables[j]->length, RED);
             }
         }
         

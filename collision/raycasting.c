@@ -16,12 +16,13 @@ bool CastRayLine(FPSPlayer* player, Vector3 camForward, Raycast* ray, ColBox* al
     Vector3 start = player->location;
     //ray->showDebugLines = true;
     Vector3 end = Vector3Add(start, Vector3Scale(camForward, ray->rayLength));
-    bool hit = HitDetected(start, end, ray, allLocalBoxes);
+    
     if (ray->showDebugLines == true)
     {
         printf("about to draw line\n");
         DrawNewLine(ray, start, end);
     }
+    bool hit = HitDetected(start, end, ray, allLocalBoxes);
     return hit;
 }
 
@@ -59,18 +60,26 @@ bool HitDetected(Vector3 start, Vector3 end, Raycast* ray, ColBox* allLocalBoxes
         {
             ray->hitLocation = intersectionPoint;
             allLocalBoxes->interact();
+            printf("Hit found\n");
             return true;
         }
-        // else
-        // {
-        //     CheckVertice(end, start, &t, v1, &foundCollision, &intersectionPoint);
-        //     CheckVertice(end, start, &t, v2, &foundCollision, &intersectionPoint);
-        //     CheckVertice(end, start, &t, v3, &foundCollision, &intersectionPoint);
+        else
+        {
+            CheckVertice(end, start, &t, v1, &foundCollision, &intersectionPoint);
+            CheckVertice(end, start, &t, v2, &foundCollision, &intersectionPoint);
+            CheckVertice(end, start, &t, v3, &foundCollision, &intersectionPoint);
 
-        //     CheckEdge(v1, v2, start, end, &t, &foundCollision, &intersectionPoint);
-        //     CheckEdge(v2, v3, start, end, &t, &foundCollision, &intersectionPoint);
-        //     CheckEdge(v3, v1, start, end, &t, &foundCollision, &intersectionPoint);
-        // }
+            CheckEdge(v1, v2, start, end, &t, &foundCollision, &intersectionPoint);
+            CheckEdge(v2, v3, start, end, &t, &foundCollision, &intersectionPoint);
+            CheckEdge(v3, v1, start, end, &t, &foundCollision, &intersectionPoint);
+        }
+
+        if (foundCollision == true)
+        {
+            ray->hitLocation = intersectionPoint;
+            allLocalBoxes->interact();
+            return true;
+        }
 
         // if (foundCollision == true)
         // {

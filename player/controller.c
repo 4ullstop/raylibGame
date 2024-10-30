@@ -73,6 +73,8 @@ void PollPlayerSecondaryInputs(FPSPlayer* player, Raycast* interactRay, QueryBox
                 for (int j = 0; j < areaBoxes[i]->numberOfInteractables; j++)
                 {
                     bool hit = CastRayLine(player, forward, interactRay, areaBoxes[i]->associatedInteractables[j]->colBox);
+                    printf("rolling\n");
+                    if (hit) return;
                 }
             }
         }

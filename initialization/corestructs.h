@@ -4,8 +4,18 @@
 #endif 
 
 #define NUMBER_OF_MODELS 12
-#define NUMBER_OF_INTERACTABLES 1
+#define NUMBER_OF_INTERACTABLES 2
 #define NUMBER_OF_AREA_QUERY_BOXES 1
+#define NUMBER_OF_PUZZLES 1
+
+#ifndef E_GAMEMODE
+#define E_GAMEMODE
+enum Gamemode
+{
+    normal,
+    puzzle
+};
+#endif
 
 #ifndef CAMERA_STRUCT
 #define CAMERA_STRUCT
@@ -85,6 +95,15 @@ typedef struct ColBox
 } ColBox;
 #endif
 
+#ifndef INTERACTABLE_TYPE
+#define INTERACTABLE_TYPE
+enum InteractableType
+{
+    ITT_Unassigned,
+    ITT_Puzzle
+};
+#endif
+
 #ifndef INTERACTABLE
 #define INTERACTABLE
 typedef struct 
@@ -93,7 +112,14 @@ typedef struct
     Model model;
     ColBox* colBox;
 
-    
+    bool hasBeenUsed;
+
+    enum InteractableType type;
+
+    float width;
+    float height;
+    float length;
+
 
 } Interactable;
 #endif
@@ -132,11 +158,3 @@ typedef struct
 } Raycast;
 #endif
 
-#ifndef E_GAMEMODE
-#define E_GAMEMODE
-enum Gamemode
-{
-    normal,
-    puzzle
-};
-#endif

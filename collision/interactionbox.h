@@ -20,3 +20,5 @@ void CreatePlayerAreaQueries(QueryBox** areaQueryBoxes);
 void CreateInteractables(Interactable** interactables, QueryBox** areaQueryBoxes);
 
 void DestroyAreasAndInteractables(QueryBox** areaQueryBoxes);
+
+void NullifyColBoxValues(ColBox* box);

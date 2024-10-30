@@ -2,6 +2,22 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+void ConstructPuzzles(ButtonMaster** allPuzzles, modelInfo** dynamicModels, int* lastModelIndex)
+{
+    ButtonMaster* puzzle_01 = malloc(sizeof(ButtonMaster));
+    puzzle_01->columns = 3;
+    puzzle_01->rows = 3;
+    puzzle_01->location = (Vector3){0.0f, 2.0f, 0.0f};
+    puzzle_01->buttonSpread = 0.5f;
+    allPuzzles[0] = puzzle_01;
+
+    for (int i = 0; i < NUMBER_OF_PUZZLES; i++)
+    {
+        CreateAllButtons(allPuzzles[i], dynamicModels, lastModelIndex);
+    }
+
+}
+
 void CreateAllButtons(ButtonMaster* master, modelInfo** dynamicModels, int* lastModelIndex)
 {
     master->totalButtons = master->rows * master->columns;
@@ -69,6 +85,15 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
     
 }
 
+void DestructAllPuzzles(ButtonMaster** allPuzzles)
+{
+    for (int i = 0; i < NUMBER_OF_PUZZLES; i++)
+    {
+        DestructAllButtons(allPuzzles[i]);
+        free(allPuzzles[i]);
+    }
+}
+
 void DestructAllButtons(ButtonMaster* master)
 {
     for (int i = 0; i < master->rows; i++)
@@ -77,7 +102,39 @@ void DestructAllButtons(ButtonMaster* master)
     }
 }
 
-void AssignInteractBoxesToPuzzle(Interactable** interactables, ButtonMaster* master)
+void AssignInteractBoxesToPuzzle(Interactable** interactables, ButtonMaster** master)
 {
-    
+    //set location
+    //set interact function
+    //set size probably?
+    //assign to puzzle
+    for (int i = 0; i < NUMBER_OF_PUZZLES; i++)
+    {
+        for (int j = 0; j < NUMBER_OF_INTERACTABLES; j++)
+        {
+            if (interactables[j]->type == puzzle && interactables[j]->hasBeenUsed == false)
+            {
+                interactables[j]->hasBeenUsed = true;
+                master[i]->associatedBox = interactables[j];
+                SetupInteractBoxForPuzzle(master[i]);
+                break;
+            }
+        }
+    }
+}
+
+void SetupInteractBoxForPuzzle(ButtonMaster* master)
+{
+    printf("assigning interactable to puzzle\n");
+    master->associatedBox->Location = master->location;
+    if (master->associatedBox->colBox->interact == NULL)
+    {
+        printf("null value\n");
+    }
+    master->associatedBox->colBox->interact = PuzzleInteract;
+}
+
+void PuzzleInteract(void)
+{
+    printf("puzzle interact!\n");
 }

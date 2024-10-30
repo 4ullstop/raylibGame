@@ -16,7 +16,9 @@ void ConstructInteractable(Interactable* interactable, Vector3 location, ColBox*
         printf("ERROR: Interactable is invalid!\n");
     }
     interactable->Location = location;
-
+    interactable->width = boxWidth;
+    interactable->height = boxHeight;
+    interactable->length = boxLength;
     
     ConstructColBox(box, interactable->Location, boxWidth, boxHeight, boxLength);
     interactable->colBox = box;
@@ -108,22 +110,35 @@ void CreatePlayerAreaQueries(QueryBox** areaQueryBoxes)
     ConstructColBox(box_01->areaBox, box_01->location, box_01->width, box_01->height, box_01->length);
 
     areaQueryBoxes[0] = box_01;
-    areaQueryBoxes[0]->numberOfInteractables = 1;
+    areaQueryBoxes[0]->numberOfInteractables = 2;
 }
 
 void CreateInteractables(Interactable** interactables, QueryBox** areaQueryBoxes)
 {
     ColBox* colBox_01 = malloc(sizeof(ColBox));
-    colBox_01->randDirectionDebug = NULL;
-    colBox_01->verts = NULL;
-    colBox_01->indices = NULL;
-    colBox_01->randDirectionDebug = NULL;
+    NullifyColBoxValues(colBox_01);
     Interactable* interactable_01 = malloc(sizeof(Interactable));
-    ConstructInteractable(interactable_01, (Vector3){0.0f, 3.0f, -4.0f}, colBox_01, 1.0f, 1.0f, 1.0f);
+    ConstructInteractable(interactable_01, (Vector3){0.0f, 3.0f, -4.0f}, colBox_01, 2.0f, 2.0f, 2.0f);
 
+    ColBox* puzzleBox_01 = malloc(sizeof(ColBox));
+    NullifyColBoxValues(puzzleBox_01);
+    Interactable* interactable_02 = malloc(sizeof(Interactable));
+    interactable_02->type = ITT_Puzzle;
+    interactable_02->hasBeenUsed = false;
+    ConstructInteractable(interactable_02, (Vector3){0.0f, 0.0f, 0.0f}, puzzleBox_01, 2.0f, 2.0f, 2.0f);
 
     interactables[0] = interactable_01;
     areaQueryBoxes[0]->associatedInteractables[0] = interactable_01;
+
+    interactables[1] = interactable_02;
+    areaQueryBoxes[0]->associatedInteractables[1] = interactable_02;
+}
+
+void NullifyColBoxValues(ColBox* box)
+{
+    box->randDirectionDebug = NULL;
+    box->verts = NULL;
+    box->indices = NULL;
 }
 
 void DestroyAreasAndInteractables(QueryBox** areaQueryBoxes)
