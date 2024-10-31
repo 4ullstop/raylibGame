@@ -21,7 +21,6 @@ system("file.exe") will run the executable, it's included in <stdlib.h>
 
 
  - Create the functionality for switch between contexts (press f and switch depending on where the mouse is hovering which you should be able to do)
- - Create states for 
 
 What is our best course of action here:
 
@@ -44,3 +43,7 @@ Create a function to check the correctness of the puzzle every time the enter bu
 Make an interaction box work with the button system - probably make the master button have some sort of relation to an interaction box
  - Assign an enum to it and check the enum to assign it to an interactable
  - Create interactable boxes alongside the button masters 
+
+ Figure out how to rotate the entire ButtonMaster struct
+
+ Things are setup, but we crash whenever we interact with a puzzle

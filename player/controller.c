@@ -56,7 +56,7 @@ void PollPlayerInput(PlayerCam* pcam, double deltaTime, FPSPlayer* player, Colli
     CalculatePlayerVelocity(player, deltaTime);
 }
 
-void PollPlayerSecondaryInputs(FPSPlayer* player, Raycast* interactRay, QueryBox** areaBoxes)
+void PollPlayerSecondaryInputs(FPSPlayer* player, Raycast* interactRay, QueryBox** areaBoxes, enum Gamemode* mode, Interactable* interactedItem)
 {
     if (IsKeyPressed(KEY_E))
     {
@@ -72,38 +72,45 @@ void PollPlayerSecondaryInputs(FPSPlayer* player, Raycast* interactRay, QueryBox
             {
                 for (int j = 0; j < areaBoxes[i]->numberOfInteractables; j++)
                 {
-                    bool hit = CastRayLine(player, forward, interactRay, areaBoxes[i]->associatedInteractables[j]->colBox);
+                    bool hit = CastRayLine(player, forward, interactRay, areaBoxes[i]->associatedInteractables[j]->colBox, mode);
                     printf("rolling\n");
-                    if (hit) return;
+                    if (hit)
+                    {
+                        interactedItem = areaBoxes[i]->associatedInteractables[j]; 
+                        return;
+                    } 
                 }
             }
         }
     }
 }
 
-void PollPlayerPuzzleInputs(void)
+void PollPlayerPuzzleInputs(ButtonMaster* master)
 {
+    enum Direction direction = 0;
     if (IsKeyPressed(KEY_LEFT))
     {
-
+        direction = ED_Left;
     }
     if (IsKeyPressed(KEY_UP))
     {
-
+        direction = ED_Up;
     }
     if (IsKeyPressed(KEY_RIGHT))
     {
-
+        direction = ED_Right;
     }
     if (IsKeyPressed(KEY_DOWN))
     {
-
+        direction = ED_Down;
     }
 
     if (IsKeyPressed(KEY_ENTER))
     {
-
+        direction = ED_Enter;
     }
+
+    MoveCursor(direction, master);
 }
 
 void CalculatePlayerVelocity(FPSPlayer* player, double deltaTime)

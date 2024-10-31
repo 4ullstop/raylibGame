@@ -18,14 +18,19 @@ void PollPlayer(float deltaTime, PlayerCam* pcam, FPSPlayer* player, CollisionPa
     DetectPlayerLookInput(pcam);
 }
 
-void PollPlayerSecondary(FPSPlayer* player, Raycast* interactRay, QueryBox** areaBoxes)
+void PollPlayerSecondary(FPSPlayer* player, Raycast* interactRay, QueryBox** areaBoxes, enum Gamemode* mode, Interactable* interactedItem)
 {
-    PollPlayerSecondaryInputs(player, interactRay, areaBoxes);
+    PollPlayerSecondaryInputs(player, interactRay, areaBoxes, mode, interactedItem);
 }
 
 void DrawPlayerCollisionCapsule(Vector3 location)
 {
     DrawCapsuleWires((Vector3){location.x, location.y + 1.0f, location.z}, (Vector3){location.x, location.y - 1.0f, location.z}, 1.0f, 8, 8, VIOLET);
+}
+
+void PollPlayerPuzzle(ButtonMaster* master)
+{
+    PollPlayerPuzzleInputs(master);
 }
 
 

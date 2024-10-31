@@ -11,7 +11,7 @@
     of the game.
 */
 
-bool CastRayLine(FPSPlayer* player, Vector3 camForward, Raycast* ray, ColBox* allLocalBoxes)
+bool CastRayLine(FPSPlayer* player, Vector3 camForward, Raycast* ray, ColBox* allLocalBoxes, enum Gamemode* mode)
 {
     Vector3 start = player->location;
     //ray->showDebugLines = true;
@@ -22,11 +22,11 @@ bool CastRayLine(FPSPlayer* player, Vector3 camForward, Raycast* ray, ColBox* al
         printf("about to draw line\n");
         DrawNewLine(ray, start, end);
     }
-    bool hit = HitDetected(start, end, ray, allLocalBoxes);
+    bool hit = HitDetected(start, end, ray, allLocalBoxes, mode);
     return hit;
 }
 
-bool HitDetected(Vector3 start, Vector3 end, Raycast* ray, ColBox* allLocalBoxes)
+bool HitDetected(Vector3 start, Vector3 end, Raycast* ray, ColBox* allLocalBoxes, enum Gamemode* mode)
 {
     for (int i = 0; i < 12; i++)
     {
@@ -78,6 +78,7 @@ bool HitDetected(Vector3 start, Vector3 end, Raycast* ray, ColBox* allLocalBoxes
         {
             ray->hitLocation = intersectionPoint;
             allLocalBoxes->interact();
+            *mode = EGM_Puzzle;
             return true;
         }
 

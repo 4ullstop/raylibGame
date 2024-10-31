@@ -9,7 +9,9 @@ void ConstructPuzzles(ButtonMaster** allPuzzles, modelInfo** dynamicModels, int*
     puzzle_01->rows = 3;
     puzzle_01->location = (Vector3){0.0f, 2.0f, 0.0f};
     puzzle_01->buttonSpread = 0.5f;
+    puzzle_01->hasBoxAssigned = false;
     allPuzzles[0] = puzzle_01;
+
 
     for (int i = 0; i < NUMBER_OF_PUZZLES; i++)
     {
@@ -74,13 +76,15 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
     master->childButtons[i][j].model->collisionDisabled = true;
     master->childButtons[i][j].model->modelLocation = master->childButtons[i][j].location;
     master->childButtons[i][j].model->model = LoadModel("D:/CFiles/FirstGame/models/obj/button.obj");
-    master->childButtons[i][j].model->texture = LoadTexture("C:/raylib/raylib/examples/models/resources/models/obj/cube_diffuse.png");
+    master->childButtons[i][j].model->texture = LoadTexture("D:/CFiles/FirstGame/models/obj/buttonIdle.png");
+    master->childButtons[i][j].model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = master->childButtons[i][j].model->texture;
     dynamicModels[*lastModelIndex] = master->childButtons[i][j].model;
     *lastModelIndex = *lastModelIndex + 1;
     //highlighting our middle button
     if (i == centerR && j == centerC)
     {
         master->childButtons[i][j].highlighted = true;
+        AddHighlight(&master->childButtons[i][j]);
     }
     
 }
@@ -102,39 +106,100 @@ void DestructAllButtons(ButtonMaster* master)
     }
 }
 
-void AssignInteractBoxesToPuzzle(Interactable** interactables, ButtonMaster** master)
-{
-    //set location
-    //set interact function
-    //set size probably?
-    //assign to puzzle
-    for (int i = 0; i < NUMBER_OF_PUZZLES; i++)
-    {
-        for (int j = 0; j < NUMBER_OF_INTERACTABLES; j++)
-        {
-            if (interactables[j]->type == puzzle && interactables[j]->hasBeenUsed == false)
-            {
-                interactables[j]->hasBeenUsed = true;
-                master[i]->associatedBox = interactables[j];
-                SetupInteractBoxForPuzzle(master[i]);
-                break;
-            }
-        }
-    }
-}
+// void AssignInteractBoxesToPuzzle(Interactable** interactables, ButtonMaster** master)
+// {
+//     //set location
+//     //set interact function
+//     //set size probably?
+//     //assign to puzzle
+//     for (int i = 0; i < NUMBER_OF_PUZZLES; i++)
+//     {
+//         for (int j = 0; j < NUMBER_OF_INTERACTABLES; j++)
+//         {
+//             if (interactables[j]->type == EGM_Puzzle && interactables[j]->hasBeenUsed == false)
+//             {
+//                 interactables[j]->hasBeenUsed = true;
+//                 master[i]->associatedBox = interactables[j];
+//                 SetupInteractBoxForPuzzle(master[i]);
+//                 break;
+//             }
+//         }
+//     }
+// }
 
-void SetupInteractBoxForPuzzle(ButtonMaster* master)
-{
-    printf("assigning interactable to puzzle\n");
-    master->associatedBox->Location = master->location;
-    if (master->associatedBox->colBox->interact == NULL)
-    {
-        printf("null value\n");
-    }
-    master->associatedBox->colBox->interact = PuzzleInteract;
-}
+// void SetupInteractBoxForPuzzle(ButtonMaster* master)
+// {
+    
+//     master->associatedBox->Location = master->location;
+//     master->associatedBox->colBox->interact = PuzzleInteract;
+// }
 
 void PuzzleInteract(void)
 {
     printf("puzzle interact!\n");
+}
+
+void MoveCursor(enum Direction direction, ButtonMaster* master)
+{
+    Button* currSelectedButton;
+    bool found = false;
+    for (int i = 0; i < master->rows; i++)
+    {
+        for (int j = 0; j < master->columns; j++)
+        {
+            if (master->childButtons[i][j].highlighted)
+            {
+                currSelectedButton = &master->childButtons[i][j];
+                found = true;
+                break;
+            }
+        }
+        if (found)
+        {
+            break;
+        }
+    }
+    
+    switch (direction)
+    {
+        case ED_Up:
+            RemoveHighlight(currSelectedButton);
+            currSelectedButton = currSelectedButton->nAbove;
+            AddHighlight(currSelectedButton);
+            break;
+        case ED_Down:
+            RemoveHighlight(currSelectedButton);
+            currSelectedButton = currSelectedButton->nBelow;
+            AddHighlight(currSelectedButton);
+            break;
+        case ED_Left:
+            RemoveHighlight(currSelectedButton);
+            currSelectedButton = currSelectedButton->nLeft;
+            AddHighlight(currSelectedButton);
+            break;
+        case ED_Right:
+            RemoveHighlight(currSelectedButton);
+            currSelectedButton = currSelectedButton->nRight;
+            AddHighlight(currSelectedButton);
+            break;
+        case ED_Enter:
+            break;
+        default:
+            printf("error default case run on switching highlight");
+            break;
+    }
+}
+
+void RemoveHighlight(Button* button)
+{
+    button->highlighted = false;
+    button->model->texture = LoadTexture("D:/CFiles/FirstGame/models/obj/buttonIdle.png");
+    button->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = button->model->texture; 
+}
+
+void AddHighlight(Button* button)
+{
+    button->highlighted = true;
+    button->model->texture = LoadTexture("D:/CFiles/FirstGame/models/obj/buttonHighlighted.png");
+    button->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = button->model->texture; 
 }

@@ -11,12 +11,18 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
 
 void DestructAllButtons(ButtonMaster* master);
 
-void AssignInteractBoxesToPuzzle(Interactable** interactables, ButtonMaster** master);
+//void AssignInteractBoxesToPuzzle(Interactable** interactables, ButtonMaster** master);
 
 void ConstructPuzzles(ButtonMaster** allPuzzles, modelInfo** dynamicModels, int* lastModelIndex);
 
 void DestructAllPuzzles(ButtonMaster** allPuzzles);
 
-void SetupInteractBoxForPuzzle(ButtonMaster* master);
+//void SetupInteractBoxForPuzzle(ButtonMaster* master);
 
 void PuzzleInteract(void);
+
+void MoveCursor(enum Direction direction, ButtonMaster* master);
+
+void RemoveHighlight(Button* button);
+
+void AddHighlight(Button* button);

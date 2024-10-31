@@ -28,7 +28,9 @@ CollisionPacket colPacket = {0};
 
 Raycast ray = {0};
 
-enum Gamemode gamemode = normal;
+enum Gamemode gamemode = EGM_Normal;
+
+Interactable interactedItem = {0};
 
 int main(void)
 {
@@ -58,9 +60,10 @@ int main(void)
     Interactable* interactables[NUMBER_OF_INTERACTABLES];
     QueryBox* areaQueryBoxes[NUMBER_OF_AREA_QUERY_BOXES];
     CreatePlayerAreaQueries(areaQueryBoxes);
-    CreateInteractables(interactables, areaQueryBoxes);
+    CreateInteractables(interactables, areaQueryBoxes, allPuzzles);
+    
 
-    AssignInteractBoxesToPuzzle(interactables, allPuzzles);
+    //AssignInteractBoxesToPuzzle(interactables, allPuzzles);
     
     //Set the size for our ellipsoid for collision
     colPacket.eRadius = (Vector3){1.0f, 1.0f, 1.0f};
@@ -96,8 +99,16 @@ int main(void)
 
 void CallAllPolls(float dTime, modelInfo** models, QueryBox** areaBoxes)
 {
-    PollPlayer(dTime, &pcam, &player, &colPacket, models);
-    PollPlayerSecondary(&player, &ray, areaBoxes);
+    if (gamemode == EGM_Normal)
+    {
+        PollPlayer(dTime, &pcam, &player, &colPacket, models);
+        PollPlayerSecondary(&player, &ray, areaBoxes, &gamemode, &interactedItem);
+    }
+    else if (gamemode == EGM_Puzzle)
+    {
+        PollPlayerPuzzle(interactedItem.associatedPuzzle);
+    }
+    
 }
 
 void Draw(modelInfo** models, Raycast* ray, QueryBox** queryBoxes)

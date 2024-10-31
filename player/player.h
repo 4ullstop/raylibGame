@@ -10,6 +10,6 @@ void DrawPlayerCollisionCapsule(Vector3 location);
 
 void PlayerSetup(FPSPlayer* player, PlayerCam* cam);
 
-void PollPlayerSecondary(FPSPlayer* player, Raycast* interactRay, QueryBox** areaBoxes);
+void PollPlayerSecondary(FPSPlayer* player, Raycast* interactRay, QueryBox** areaBoxes, enum Gamemode* mode, Interactable* interactedItem);
 
-void PollPlayerPuzzleInputs(void);
+void PollPlayerPuzzle(ButtonMaster* master);

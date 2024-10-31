@@ -7,6 +7,7 @@
 #include "../collision/collisionplane.h"
 #include "../collision/raycasting.h"
 #include "../externmath/externmath.h"
+#include "../gameplay/masterbuttons.h"
 //#include "../collision/interactionbox.h"
 #endif
 
@@ -30,4 +31,6 @@ Vector3 CollideWithWorld(CollisionPacket* colPacket, Vector3 pos, Vector3 vel, m
 
 void PollPlayerInput(PlayerCam* pcam, double deltaTime, FPSPlayer* player, CollisionPacket* colPacket, modelInfo** models);
 
-void PollPlayerSecondaryInputs(FPSPlayer* player, Raycast* interactRay, QueryBox** areaBoxes);
+void PollPlayerSecondaryInputs(FPSPlayer* player, Raycast* interactRay, QueryBox** areaBoxes, enum Gamemode* mode, Interactable* interactedItem);
+
+void PollPlayerPuzzleInputs(ButtonMaster* master);

@@ -1,6 +1,7 @@
 #ifndef RAYLIB_CAMERA_HEAD
 #include "C:\raylib\raylib\src\raylib.h"
 #include "../libs/drawingstructs.h"
+#include "../gameplay/gameplaystructs.h"
 #endif 
 
 #define NUMBER_OF_MODELS 12
@@ -12,10 +13,33 @@
 #define E_GAMEMODE
 enum Gamemode
 {
-    normal,
-    puzzle
+    EGM_Normal,
+    EGM_Puzzle
 };
 #endif
+
+#ifndef E_DIRECTION
+#define E_DIRECTION
+enum Direction
+{
+    ED_Up,
+    ED_Down,
+    ED_Left,
+    ED_Right,
+    ED_Enter
+};
+#endif
+
+#ifndef VECTOR_2_INT
+#define VECTOR_2_INT
+typedef struct 
+{
+    int x;
+    int y;
+} Vector2Int;
+#endif
+
+
 
 #ifndef CAMERA_STRUCT
 #define CAMERA_STRUCT
@@ -67,7 +91,49 @@ typedef struct modelInfo
 } modelInfo;
 #endif
 
+#ifndef BUTTON
+#define BUTTON
+typedef struct Button
+{
+    Vector3 location;
+    bool solutionButton;
+    bool highlighted;
+    bool submitted;
 
+    Vector2Int buttonVectorLocation;
+
+    modelInfo* model;
+
+    //n(direction) (aka neighbor(direction))
+    struct Button* nLeft;
+    struct Button* nRight;
+    struct Button* nAbove;
+    struct Button* nBelow;
+} Button;
+#endif
+
+#ifndef MASTER_OF_BUTTONS
+#define MASTER_OF_BUTTONS
+typedef struct ButtonMaster
+{
+    Button** childButtons;
+    
+    unsigned int rows;
+    unsigned int columns;
+
+    Vector2Int highlightLocation;
+    unsigned int totalButtons;
+    bool solved;
+
+    Vector3 location;
+
+    float buttonSpread;
+
+    //Interactable* associatedBox;
+
+    bool hasBoxAssigned;
+} ButtonMaster;
+#endif
 
 
 #ifndef COLBOX
@@ -81,7 +147,7 @@ typedef struct ColBox
     Vector3 location;
 
     //The interact function
-    void (*interact)(void);
+    void (*interact)();
 
 
     //debug
@@ -104,6 +170,8 @@ enum InteractableType
 };
 #endif
 
+
+
 #ifndef INTERACTABLE
 #define INTERACTABLE
 typedef struct 
@@ -120,8 +188,17 @@ typedef struct
     float height;
     float length;
 
-
+    ButtonMaster* associatedPuzzle;
 } Interactable;
+#endif
+
+#ifndef INTERACT_INFO
+#define INTERACT_INFO
+typedef struct
+{
+    enum Gamemode gamemode;
+    Interactable* interactable;
+} InteractInfo;
 #endif
 
 #ifndef AREA_QUERY_BOX
@@ -157,4 +234,5 @@ typedef struct
     Drawline* linesToDraw;
 } Raycast;
 #endif
+
 

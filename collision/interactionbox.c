@@ -113,7 +113,7 @@ void CreatePlayerAreaQueries(QueryBox** areaQueryBoxes)
     areaQueryBoxes[0]->numberOfInteractables = 2;
 }
 
-void CreateInteractables(Interactable** interactables, QueryBox** areaQueryBoxes)
+void CreateInteractables(Interactable** interactables, QueryBox** areaQueryBoxes, ButtonMaster** allPuzzles)
 {
     ColBox* colBox_01 = malloc(sizeof(ColBox));
     NullifyColBoxValues(colBox_01);
@@ -126,6 +126,7 @@ void CreateInteractables(Interactable** interactables, QueryBox** areaQueryBoxes
     interactable_02->type = ITT_Puzzle;
     interactable_02->hasBeenUsed = false;
     ConstructInteractable(interactable_02, (Vector3){0.0f, 0.0f, 0.0f}, puzzleBox_01, 2.0f, 2.0f, 2.0f);
+    AssignInteractionBoxToPuzzle(allPuzzles, interactable_02);
 
     interactables[0] = interactable_01;
     areaQueryBoxes[0]->associatedInteractables[0] = interactable_01;
@@ -153,5 +154,19 @@ void DestroyAreasAndInteractables(QueryBox** areaQueryBoxes)
         DestructColBox(areaQueryBoxes[i]->areaBox);
         //Wouldn't doubt if there were still things that needed to be freed
         //but uhh... you got this Windows
+    }
+}
+
+void AssignInteractionBoxToPuzzle(ButtonMaster** master, Interactable* interactable)
+{
+    //do our other setup stuff as well
+    for (int i = 0; i < NUMBER_OF_PUZZLES; i++)
+    {
+        if (!master[i]->hasBoxAssigned)
+        {
+            interactable->associatedPuzzle = master[i];
+            interactable->Location = master[i]->location;
+            return;
+        }
     }
 }
