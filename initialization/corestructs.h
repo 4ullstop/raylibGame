@@ -129,7 +129,7 @@ typedef struct ButtonMaster
     Vector3 location;
 
     float buttonSpread;
-
+    Vector2Int** solutionLocations;
     //Interactable* associatedBox;
 
     bool hasBoxAssigned;

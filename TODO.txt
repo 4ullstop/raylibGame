@@ -24,7 +24,7 @@ system("file.exe") will run the executable, it's included in <stdlib.h>
 
 What is our best course of action here:
 
-It will probably be best if you make a shared folder for all of the shared stuff that will be needed by both games as you have created so far
+It will probably be best if you make a shared folder for all of the shared stuff that will be needed by both games as yo u have created so far
 And then have separate folders for each side of the game
 
 
@@ -44,3 +44,14 @@ Create a function to check the correctness of the puzzle every time the enter bu
 
 
  IsCursorOnScreen() does exactly what you thought it would! You can use it for focusing and unfocusing the mouse cursor on the windows
+
+
+ Should you load in solutions via csv file?
+  - makes iteration a lot simpler
+  - may be a little difficult to implement at first
+  - 
+
+  While value != NULL 
+   - iterate rows every time through this while loop
+   - while token != NULLL
+        - iterate the columns each time through this loop 

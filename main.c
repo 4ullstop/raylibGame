@@ -3,6 +3,7 @@
 #include "player/player.h"
 #include "initialization/window.h"
 #include "collision/interactionbox.h" 
+#include "filereading/filereader.h"
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -34,6 +35,7 @@ enum Gamemode gamemode = EGM_Normal;
 
 int main(void)
 {
+    ReadPuzzleCSV();
     printf("Initializing window and player camera...\n");
     CreateWindow(800, 450);
     

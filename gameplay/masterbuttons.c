@@ -10,6 +10,7 @@ void ConstructPuzzles(ButtonMaster** allPuzzles, modelInfo** dynamicModels, int*
     puzzle_01->location = (Vector3){0.0f, 2.0f, 0.0f};
     puzzle_01->buttonSpread = 0.5f;
     puzzle_01->hasBoxAssigned = false;
+    //puzzle_01->solutionLocations = 
     allPuzzles[0] = puzzle_01;
 
 
