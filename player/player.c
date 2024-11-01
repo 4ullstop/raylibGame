@@ -28,9 +28,9 @@ void DrawPlayerCollisionCapsule(Vector3 location)
     DrawCapsuleWires((Vector3){location.x, location.y + 1.0f, location.z}, (Vector3){location.x, location.y - 1.0f, location.z}, 1.0f, 8, 8, VIOLET);
 }
 
-void PollPlayerPuzzle(ButtonMaster* master)
+void PollPlayerPuzzle(Interactable* interactedItem)
 {
-    PollPlayerPuzzleInputs(master);
+    PollPlayerPuzzleInputs(interactedItem);
 }
 
 

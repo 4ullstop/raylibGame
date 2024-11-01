@@ -189,6 +189,8 @@ typedef struct
     float length;
 
     ButtonMaster* associatedPuzzle;
+
+    int id;
 } Interactable;
 #endif
 

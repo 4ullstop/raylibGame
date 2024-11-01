@@ -12,4 +12,4 @@ void PlayerSetup(FPSPlayer* player, PlayerCam* cam);
 
 void PollPlayerSecondary(FPSPlayer* player, Raycast* interactRay, QueryBox** areaBoxes, enum Gamemode* mode, Interactable* interactedItem);
 
-void PollPlayerPuzzle(ButtonMaster* master);
+void PollPlayerPuzzle(Interactable* interactedItem);

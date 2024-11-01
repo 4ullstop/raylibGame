@@ -21,7 +21,7 @@ void DestructAllPuzzles(ButtonMaster** allPuzzles);
 
 void PuzzleInteract(void);
 
-void MoveCursor(enum Direction direction, ButtonMaster* master);
+void MoveCursor(enum Direction direction, Interactable* interactedItem);
 
 void RemoveHighlight(Button* button);
 

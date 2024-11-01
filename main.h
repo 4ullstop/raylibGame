@@ -3,7 +3,7 @@
 #include "libs/drawingstructs.h"
 #include "gameplay/gameplaystructs.h"
 
-void CallAllPolls(float dTime, modelInfo** models, QueryBox** areaBoxes);
+void CallAllPolls(float dTime, modelInfo** models, QueryBox** areaBoxes, Interactable* interactedItem);
 
 void Draw(modelInfo** models, Raycast* ray, QueryBox** queryBoxes);
 

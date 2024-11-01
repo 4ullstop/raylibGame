@@ -46,9 +46,11 @@ void CreateAllButtons(ButtonMaster* master, modelInfo** dynamicModels, int* last
 
 void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelIndex, modelInfo** dynamicModels)
 {
-    printf("%i\n", *lastModelIndex);
-    int centerR = round((float)master->rows / 2.0);
-    int centerC = round((float)master->columns / 2.0);
+    //printf("%i\n", *lastModelIndex);
+    int centerR = ceil((float)master->rows / 2.0);
+    int centerC = ceil((float)master->columns / 2.0);
+    printf("i: %i, j: %i\n", i, j);
+    printf("r: %i, c: %i\n", centerR, centerC);
 
     master->childButtons[i][j].buttonVectorLocation.x = i;
     master->childButtons[i][j].buttonVectorLocation.y = j;
@@ -61,15 +63,15 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
     
     //setting up our neighbors which will be important when cycling through
     //based on the player input
-    int above = i < 1 ? master->rows - 1 : i - 1;
-    int below = i >= master->rows ? 0 : i + 1;
-    int left = j < 1 ? master->columns - 1 : j - 1;
-    int right = j >= master->columns ? 0 : j + 1;
+    int below = j < 1 ? master->columns - 1 : j - 1;
+    int above = j + 1 >= master->columns ? 0 : j + 1;
+    int left = i < 1 ? master->rows - 1 : i - 1;
+    int right = i + 1 >= master->rows ? 0 : i + 1;
 
-    master->childButtons[i][j].nAbove = &master->childButtons[above][j];
-    master->childButtons[i][j].nBelow = &master->childButtons[below][j];
-    master->childButtons[i][j].nLeft = &master->childButtons[i][left];
-    master->childButtons[i][j].nRight = &master->childButtons[i][right];
+    master->childButtons[i][j].nAbove = &master->childButtons[i][above];
+    master->childButtons[i][j].nBelow = &master->childButtons[i][below];
+    master->childButtons[i][j].nLeft = &master->childButtons[left][j];
+    master->childButtons[i][j].nRight = &master->childButtons[right][j];
 
     //initializng the associated models for the mechanic
     master->childButtons[i][j].model = malloc(sizeof(modelInfo));
@@ -81,9 +83,10 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
     dynamicModels[*lastModelIndex] = master->childButtons[i][j].model;
     *lastModelIndex = *lastModelIndex + 1;
     //highlighting our middle button
-    if (i == centerR && j == centerC)
+    if (i == centerC && j == centerR)
     {
         master->childButtons[i][j].highlighted = true;
+        printf("Highlighting\n");
         AddHighlight(&master->childButtons[i][j]);
     }
     
@@ -139,25 +142,38 @@ void PuzzleInteract(void)
     printf("puzzle interact!\n");
 }
 
-void MoveCursor(enum Direction direction, ButtonMaster* master)
+void MoveCursor(enum Direction direction, Interactable* interactedItem)
 {
+    ButtonMaster* master = interactedItem->associatedPuzzle;
     Button* currSelectedButton;
-    bool found = false;
-    for (int i = 0; i < master->rows; i++)
+    if (master == NULL)
     {
-        for (int j = 0; j < master->columns; j++)
+        printf("master is null\n");
+        return;
+    }
+    bool found = false;
+    for (int i = 0; i < master->columns; i++)
+    {
+        for (int j = 0; j < master->rows; j++)
         {
-            if (master->childButtons[i][j].highlighted)
+            if (master->childButtons[i][j].highlighted == true)
             {
                 currSelectedButton = &master->childButtons[i][j];
+                printf("x: %i, y: %i\n", currSelectedButton->buttonVectorLocation.x, currSelectedButton->buttonVectorLocation.y);
+                printf("i: %i, j: %i\n", i, j);
                 found = true;
                 break;
             }
         }
         if (found)
         {
+            printf("highlighted found\n");
             break;
         }
+    }
+    if (!found)
+    {
+        printf("highlighted button not found there is an error somewhere\n");
     }
     
     switch (direction)

@@ -76,7 +76,21 @@ void PollPlayerSecondaryInputs(FPSPlayer* player, Raycast* interactRay, QueryBox
                     printf("rolling\n");
                     if (hit)
                     {
-                        interactedItem = areaBoxes[i]->associatedInteractables[j]; 
+                        *interactedItem = *areaBoxes[i]->associatedInteractables[j]; 
+                        printf("Controller id: %i\n", interactedItem->id);
+                        if (interactedItem->associatedPuzzle == NULL)
+                        {
+                            printf("null in interaction\n");
+                        }
+                        if (interactedItem == NULL)
+                        {
+                            printf("interacted item is null\n");
+                        }
+                        if (interactedItem->type == ITT_Puzzle)
+                        {
+                            *mode = EGM_Puzzle;
+                        }
+                        
                         return;
                     } 
                 }
@@ -85,32 +99,31 @@ void PollPlayerSecondaryInputs(FPSPlayer* player, Raycast* interactRay, QueryBox
     }
 }
 
-void PollPlayerPuzzleInputs(ButtonMaster* master)
+void PollPlayerPuzzleInputs(Interactable* interactedItem)
 {
-    enum Direction direction = 0;
     if (IsKeyPressed(KEY_LEFT))
     {
-        direction = ED_Left;
+        MoveCursor(ED_Left, interactedItem);
     }
     if (IsKeyPressed(KEY_UP))
     {
-        direction = ED_Up;
+        MoveCursor(ED_Up, interactedItem);
     }
     if (IsKeyPressed(KEY_RIGHT))
     {
-        direction = ED_Right;
+        MoveCursor(ED_Right, interactedItem);
     }
     if (IsKeyPressed(KEY_DOWN))
     {
-        direction = ED_Down;
+        MoveCursor(ED_Down, interactedItem);
     }
 
     if (IsKeyPressed(KEY_ENTER))
     {
-        direction = ED_Enter;
+        
     }
 
-    MoveCursor(direction, master);
+    
 }
 
 void CalculatePlayerVelocity(FPSPlayer* player, double deltaTime)

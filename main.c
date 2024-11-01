@@ -30,7 +30,7 @@ Raycast ray = {0};
 
 enum Gamemode gamemode = EGM_Normal;
 
-Interactable interactedItem = {0};
+
 
 int main(void)
 {
@@ -41,7 +41,7 @@ int main(void)
     PlayerSetup(&player, &pcam);
     //DO NOT PUT ANYTHING ABOVE THESE LINES, YOUR CODE WILL NOT WORK
 
-
+    Interactable interactedItem = {0};
     ray.showDebugLines = true;
     ray.rayLength = 10.f;
     printf("Preparing model loading...\n");
@@ -83,7 +83,7 @@ int main(void)
         deltaTime = now - lastTime;
         lastTime = now;
 
-        CallAllPolls(deltaTime, models, areaQueryBoxes);
+        CallAllPolls(deltaTime, models, areaQueryBoxes, &interactedItem);
         
         Draw(models, &ray, areaQueryBoxes);
     }
@@ -97,16 +97,17 @@ int main(void)
     return 0;
 }
 
-void CallAllPolls(float dTime, modelInfo** models, QueryBox** areaBoxes)
+void CallAllPolls(float dTime, modelInfo** models, QueryBox** areaBoxes, Interactable* interactedItem)
 {
     if (gamemode == EGM_Normal)
     {
         PollPlayer(dTime, &pcam, &player, &colPacket, models);
-        PollPlayerSecondary(&player, &ray, areaBoxes, &gamemode, &interactedItem);
+        PollPlayerSecondary(&player, &ray, areaBoxes, &gamemode, interactedItem);
     }
     else if (gamemode == EGM_Puzzle)
     {
-        PollPlayerPuzzle(interactedItem.associatedPuzzle);
+        //printf("Main id: %i\n", interactedItem.id);
+        PollPlayerPuzzle(interactedItem);
     }
     
 }
