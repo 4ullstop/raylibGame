@@ -86,6 +86,8 @@ int main(void)
         CallAllPolls(deltaTime, models, areaQueryBoxes, &interactedItem);
         
         Draw(models, &ray, areaQueryBoxes);
+
+        
     }
     DestroyAreasAndInteractables(areaQueryBoxes);
     DestructAllPuzzles(allPuzzles);
@@ -108,6 +110,10 @@ void CallAllPolls(float dTime, modelInfo** models, QueryBox** areaBoxes, Interac
     {
         //printf("Main id: %i\n", interactedItem.id);
         PollPlayerPuzzle(interactedItem);
+    }
+    else if (gamemode == EGM_Inactive)
+    {
+        PollPlayerInactiveStateInputs(&gamemode);
     }
     
 }

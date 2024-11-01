@@ -129,5 +129,6 @@ void DestroyLines(Drawline* line)
     {
         DestroyLines(line->next);
         free(line);
+        line = NULL;
     }
 }

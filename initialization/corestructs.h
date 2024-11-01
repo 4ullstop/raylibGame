@@ -14,7 +14,8 @@
 enum Gamemode
 {
     EGM_Normal,
-    EGM_Puzzle
+    EGM_Puzzle,
+    EGM_Inactive
 };
 #endif
 

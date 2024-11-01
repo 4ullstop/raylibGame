@@ -98,6 +98,7 @@ void DestructAllPuzzles(ButtonMaster** allPuzzles)
     {
         DestructAllButtons(allPuzzles[i]);
         free(allPuzzles[i]);
+        allPuzzles[i] = NULL;
     }
 }
 
@@ -106,6 +107,7 @@ void DestructAllButtons(ButtonMaster* master)
     for (int i = 0; i < master->rows; i++)
     {
         free(master->childButtons[i]);
+        master->childButtons[i] = NULL;
     }
 }
 

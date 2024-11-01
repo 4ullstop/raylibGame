@@ -47,3 +47,5 @@ Make an interaction box work with the button system - probably make the master b
  Figure out how to rotate the entire ButtonMaster struct
 
  Things are setup, but we crash whenever we interact with a puzzle
+
+ IsCursorOnScreen() does exactly what you thought it would! You can use it for focusing and unfocusing the mouse cursor on the windows

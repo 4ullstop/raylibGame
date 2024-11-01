@@ -97,6 +97,7 @@ void DestructColBox(ColBox* box)
     // }
     
     free(box);
+    box = NULL;
 }
 
 void CreatePlayerAreaQueries(QueryBox** areaQueryBoxes)

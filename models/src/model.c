@@ -57,5 +57,6 @@ void DestroyAllModels(modelInfo** models)
         UnloadTexture(models[i]->texture);
         UnloadModel(models[i]->model);
         free(models[i]);
+        models[i] = NULL;
     }
 }

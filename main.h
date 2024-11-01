@@ -2,6 +2,7 @@
 #include "models/src/model.h"
 #include "libs/drawingstructs.h"
 #include "gameplay/gameplaystructs.h"
+#include "gameplay/inactivestate.h"
 
 void CallAllPolls(float dTime, modelInfo** models, QueryBox** areaBoxes, Interactable* interactedItem);
 
