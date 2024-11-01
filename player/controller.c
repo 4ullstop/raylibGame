@@ -124,7 +124,7 @@ void PollPlayerPuzzleInputs(Interactable* interactedItem)
 
     if (IsKeyPressed(KEY_ENTER))
     {
-        
+        MoveCursor(ED_Enter, interactedItem);
     }
 
     

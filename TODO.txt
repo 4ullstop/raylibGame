@@ -27,25 +27,20 @@ What is our best course of action here:
 It will probably be best if you make a shared folder for all of the shared stuff that will be needed by both games as you have created so far
 And then have separate folders for each side of the game
 
-Buttons:
- - highlight functionality (changing color, submission functionality)
- - arranged in a matrix/array//
- - all buttons know their neighbor//
+
 
 Master:
- - all buttons must be navigable by arrow keys
+ - all buttons must be navigable by arrow keys//
  - must know when the puzzle is complete by checking all of the required correct inputs
+ - Create a way to exit the puzzle at any time as well as whenever it is completed
  
-
-Make a function to check highlights, this should be called anytime an arrow key is pressed and at the beginning of entering the puzzle 
 Create a function to check the correctness of the puzzle every time the enter button is pressed
+ - Create an array of all correct locations (using our vector2 struct (not Vector2D))
+ - Compare the array with the location as the buttons are being constructed to determine whether to set the "IsCorrectAnswer" bool
+ - Upon pressing enter, run through all of the buttons to see if the correct ones are highlighted
 
-Make an interaction box work with the button system - probably make the master button have some sort of relation to an interaction box
- - Assign an enum to it and check the enum to assign it to an interactable
- - Create interactable boxes alongside the button masters 
 
  Figure out how to rotate the entire ButtonMaster struct
 
- Things are setup, but we crash whenever we interact with a puzzle
 
  IsCursorOnScreen() does exactly what you thought it would! You can use it for focusing and unfocusing the mouse cursor on the windows

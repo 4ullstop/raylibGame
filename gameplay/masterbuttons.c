@@ -79,6 +79,8 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
     master->childButtons[i][j].model->model = LoadModel("D:/CFiles/FirstGame/models/obj/button.obj");
     master->childButtons[i][j].model->texture = LoadTexture("D:/CFiles/FirstGame/models/obj/buttonIdle.png");
     master->childButtons[i][j].model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = master->childButtons[i][j].model->texture;
+    master->childButtons[i][j].highlighted = false;
+    master->childButtons[i][j].submitted = false;
     dynamicModels[*lastModelIndex] = master->childButtons[i][j].model;
     *lastModelIndex = *lastModelIndex + 1;
     //highlighting our middle button
@@ -196,6 +198,8 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem)
             AddHighlight(currSelectedButton);
             break;
         case ED_Enter:
+            ChangeSelection(currSelectedButton);
+            printf("changing selection\n");
             break;
         default:
             printf("error default case run on switching highlight");
@@ -206,8 +210,16 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem)
 void RemoveHighlight(Button* button)
 {
     button->highlighted = false;
-    button->model->texture = LoadTexture("D:/CFiles/FirstGame/models/obj/buttonIdle.png");
-    button->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = button->model->texture; 
+    if (button->submitted)
+    {
+        button->model->texture = LoadTexture("D:/CFiles/FirstGame/models/obj/buttonSelected.png");
+        button->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = button->model->texture;
+    }
+    else
+    {
+        button->model->texture = LoadTexture("D:/CFiles/FirstGame/models/obj/buttonIdle.png");
+        button->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = button->model->texture;
+    }
 }
 
 void AddHighlight(Button* button)
@@ -215,4 +227,18 @@ void AddHighlight(Button* button)
     button->highlighted = true;
     button->model->texture = LoadTexture("D:/CFiles/FirstGame/models/obj/buttonHighlighted.png");
     button->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = button->model->texture; 
+}
+
+void ChangeSelection(Button* button)
+{
+    if (!button->submitted)
+    {
+        button->submitted = true;
+        button->model->texture = LoadTexture("D:/CFiles/FirstGame/models/obj/buttonSelected.png");
+        button->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = button->model->texture;
+    }
+    else
+    {
+        button->submitted = false;
+    }
 }

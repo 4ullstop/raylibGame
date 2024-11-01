@@ -26,3 +26,5 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem);
 void RemoveHighlight(Button* button);
 
 void AddHighlight(Button* button);
+
+void ChangeSelection(Button* button);
