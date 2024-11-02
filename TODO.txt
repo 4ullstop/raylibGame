@@ -55,3 +55,5 @@ Create a function to check the correctness of the puzzle every time the enter bu
    - iterate rows every time through this while loop
    - while token != NULLL
         - iterate the columns each time through this loop 
+
+Separate the rows into different arrays that can be reversed, then put all of the rows in order into the 2d array, loop through the 2d array to get the locations of the values of 1

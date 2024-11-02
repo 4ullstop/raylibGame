@@ -3,6 +3,7 @@
 #include "C:\raylib\raylib\src\raymath.h"
 #include "gameplaystructs.h"
 #include "../initialization/corestructs.h"
+#include "../filereading/filereader.h"
 #endif
 
 void CreateAllButtons(ButtonMaster* master, modelInfo** dynamicModels, int* lastModelIndex);
@@ -11,13 +12,11 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
 
 void DestructAllButtons(ButtonMaster* master);
 
-//void AssignInteractBoxesToPuzzle(Interactable** interactables, ButtonMaster** master);
-
 void ConstructPuzzles(ButtonMaster** allPuzzles, modelInfo** dynamicModels, int* lastModelIndex);
 
 void DestructAllPuzzles(ButtonMaster** allPuzzles);
 
-//void SetupInteractBoxForPuzzle(ButtonMaster* master);
+void DestructAllSolutionLocations(ButtonMaster* master);
 
 void PuzzleInteract(void);
 
@@ -28,3 +27,5 @@ void RemoveHighlight(Button* button);
 void AddHighlight(Button* button);
 
 void ChangeSelection(Button* button);
+
+void CheckForSolution(Button* button, ButtonMaster* master);

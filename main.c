@@ -35,7 +35,7 @@ enum Gamemode gamemode = EGM_Normal;
 
 int main(void)
 {
-    ReadPuzzleCSV();
+    
     printf("Initializing window and player camera...\n");
     CreateWindow(800, 450);
     

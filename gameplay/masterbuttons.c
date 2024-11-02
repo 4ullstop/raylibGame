@@ -11,6 +11,7 @@ void ConstructPuzzles(ButtonMaster** allPuzzles, modelInfo** dynamicModels, int*
     puzzle_01->buttonSpread = 0.5f;
     puzzle_01->hasBoxAssigned = false;
     //puzzle_01->solutionLocations = 
+    ReadPuzzleCSV(puzzle_01);
     allPuzzles[0] = puzzle_01;
 
 
@@ -73,6 +74,14 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
     master->childButtons[i][j].nLeft = &master->childButtons[left][j];
     master->childButtons[i][j].nRight = &master->childButtons[right][j];
 
+    for (int k = 0; k < master->rows; k++)
+    {
+        if (master->solutionLocations[k].x == i && master->solutionLocations[k].y == j)
+        {
+            master->childButtons[i][j].solutionButton = true;
+        }
+    }
+
     //initializng the associated models for the mechanic
     master->childButtons[i][j].model = malloc(sizeof(modelInfo));
     master->childButtons[i][j].model->collisionDisabled = true;
@@ -98,6 +107,7 @@ void DestructAllPuzzles(ButtonMaster** allPuzzles)
     for (int i = 0; i < NUMBER_OF_PUZZLES; i++)
     {
         DestructAllButtons(allPuzzles[i]);
+        DestructAllSolutionLocations(allPuzzles[i]);
         free(allPuzzles[i]);
         allPuzzles[i] = NULL;
     }
@@ -112,33 +122,11 @@ void DestructAllButtons(ButtonMaster* master)
     }
 }
 
-// void AssignInteractBoxesToPuzzle(Interactable** interactables, ButtonMaster** master)
-// {
-//     //set location
-//     //set interact function
-//     //set size probably?
-//     //assign to puzzle
-//     for (int i = 0; i < NUMBER_OF_PUZZLES; i++)
-//     {
-//         for (int j = 0; j < NUMBER_OF_INTERACTABLES; j++)
-//         {
-//             if (interactables[j]->type == EGM_Puzzle && interactables[j]->hasBeenUsed == false)
-//             {
-//                 interactables[j]->hasBeenUsed = true;
-//                 master[i]->associatedBox = interactables[j];
-//                 SetupInteractBoxForPuzzle(master[i]);
-//                 break;
-//             }
-//         }
-//     }
-// }
-
-// void SetupInteractBoxForPuzzle(ButtonMaster* master)
-// {
-    
-//     master->associatedBox->Location = master->location;
-//     master->associatedBox->colBox->interact = PuzzleInteract;
-// }
+void DestructAllSolutionLocations(ButtonMaster* master)
+{
+    free(master->solutionLocations);
+    master->solutionLocations = NULL;
+}
 
 void PuzzleInteract(void)
 {
@@ -200,6 +188,7 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem)
             break;
         case ED_Enter:
             ChangeSelection(currSelectedButton);
+            CheckForSolution(currSelectedButton, master);
             printf("changing selection\n");
             break;
         default:
@@ -241,5 +230,39 @@ void ChangeSelection(Button* button)
     else
     {
         button->submitted = false;
+    }
+}
+
+void CheckForSolution(Button* button, ButtonMaster* master)
+{
+    /*
+        There is something wrong in here
+        If you put in the solution with more than the solution, it still tells you
+        you got the solution when this should not be the case, to be solved
+    */
+    if (button->submitted)
+    {
+        //check to see if all of the answers have been input
+        int numberOfSolved = 0;
+        for (int i = 0; i < master->rows; i++)
+        {
+            for (int j = 0; j < master->columns; j++)
+            {
+                if (master->childButtons[i][j].submitted && master->childButtons[i][j].solutionButton)
+                {
+                    numberOfSolved++;
+                    printf("this was one of the buttons\n");
+                }
+                else if (master->childButtons[i][j].submitted && !master->childButtons[i][j].solutionButton)
+                {
+                    numberOfSolved = 0;
+                    printf("this was NOT one of the buttons\n");
+                }
+            }
+            if (master->numberOfSolutions == numberOfSolved)
+            {
+                printf("congrats you solved the puzzle\n");
+            }
+        }
     }
 }

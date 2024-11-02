@@ -1,3 +1,7 @@
 #pragma once
 
-void ReadPuzzleCSV(void);
+#ifndef FILEREADER_HEADER
+#include "../initialization/corestructs.h"
+#endif
+
+void ReadPuzzleCSV(ButtonMaster* master);
