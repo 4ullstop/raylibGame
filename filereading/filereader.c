@@ -14,7 +14,7 @@
 
 #define MAXCHAR 1000
 
-void ReadPuzzleCSV(ButtonMaster* master)
+void ReadPuzzleCSV(ButtonMaster* master, char* fileLocation)
 {
     FILE* pz;
     char row[MAXCHAR];
@@ -32,7 +32,7 @@ void ReadPuzzleCSV(ButtonMaster* master)
         csvFileInts[i] = malloc(sizeof(int) * master->columns);
     }
 
-    pz = fopen("D:/CFiles/FirstGame/filereading/csv/puzzle_01.csv", "r");
+    pz = fopen(fileLocation, "r");
 
     //File reading stuff
     printf("file opened\n");

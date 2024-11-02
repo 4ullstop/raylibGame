@@ -94,4 +94,13 @@ bool IsPointInColBox(ColBox* box, Vector3 point)
     return intersectionCount % 2 != 0;
 }
 
+Vector3 RotateAroundPoint(Vector3 vector, Vector3 point, float angle, Vector3 axis)
+{
+    Matrix rotMat = MatrixRotate(axis, angle);
+    Vector3 pointToOrigin = Vector3Subtract(vector, point);
+    Vector3 rotatedPoint = Vector3Transform(pointToOrigin, rotMat);
+    Vector3 final = Vector3Add(rotatedPoint, point);
+    return final;
+}
+
 

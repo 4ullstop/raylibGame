@@ -11,7 +11,8 @@ void ConstructPuzzles(ButtonMaster** allPuzzles, modelInfo** dynamicModels, int*
     puzzle_01->buttonSpread = 0.5f;
     puzzle_01->hasBoxAssigned = false;
     //puzzle_01->solutionLocations = 
-    ReadPuzzleCSV(puzzle_01);
+    ReadPuzzleCSV(puzzle_01,"D:/CFiles/FirstGame/filereading/csv/puzzle_01.csv");
+    //
     allPuzzles[0] = puzzle_01;
 
 
@@ -19,7 +20,7 @@ void ConstructPuzzles(ButtonMaster** allPuzzles, modelInfo** dynamicModels, int*
     {
         CreateAllButtons(allPuzzles[i], dynamicModels, lastModelIndex);
     }
-
+    RotateButtonMaster(puzzle_01, 180.f, (Vector3){0.0f, 1.0f, 0.0f});
 }
 
 void CreateAllButtons(ButtonMaster* master, modelInfo** dynamicModels, int* lastModelIndex)
@@ -100,6 +101,27 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
         AddHighlight(&master->childButtons[i][j]);
     }
     
+}
+
+void RotateButtonMaster(ButtonMaster* master, float angle, Vector3 axis)
+{
+    int centerR = floor((float)master->rows / 2.0);
+    int centerC = floor((float)master->columns / 2.0);
+    for (int i = 0; i < master->rows; i++)
+    {
+        for (int j = 0; j < master->columns; j++)
+        {
+            if (i == centerR && j == centerC)
+            {
+                master->childButtons[i][j].model->model.transform = MatrixRotateXYZ((Vector3){axis.x * angle, axis.y * angle, axis.z * angle});
+                continue;
+            }
+            Vector3 newLocation = RotateAroundPoint(master->childButtons[i][j].location, master->childButtons[centerR][centerC].location, angle, axis);
+            master->childButtons[i][j].location = newLocation;
+            master->childButtons[i][j].model->modelLocation = master->childButtons[i][j].location; 
+            master->childButtons[i][j].model->model.transform = MatrixRotateXYZ((Vector3){axis.x * angle, axis.y * angle, axis.z * angle});
+        }
+    }
 }
 
 void DestructAllPuzzles(ButtonMaster** allPuzzles)
@@ -189,7 +211,6 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem)
         case ED_Enter:
             ChangeSelection(currSelectedButton);
             CheckForSolution(currSelectedButton, master);
-            printf("changing selection\n");
             break;
         default:
             printf("error default case run on switching highlight");
@@ -202,11 +223,13 @@ void RemoveHighlight(Button* button)
     button->highlighted = false;
     if (button->submitted)
     {
+        UnloadTexture(button->model->texture);
         button->model->texture = LoadTexture("D:/CFiles/FirstGame/models/obj/buttonSelected.png");
         button->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = button->model->texture;
     }
     else
     {
+        UnloadTexture(button->model->texture);
         button->model->texture = LoadTexture("D:/CFiles/FirstGame/models/obj/buttonIdle.png");
         button->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = button->model->texture;
     }
@@ -215,6 +238,7 @@ void RemoveHighlight(Button* button)
 void AddHighlight(Button* button)
 {
     button->highlighted = true;
+    UnloadTexture(button->model->texture);
     button->model->texture = LoadTexture("D:/CFiles/FirstGame/models/obj/buttonHighlighted.png");
     button->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = button->model->texture; 
 }
@@ -224,6 +248,7 @@ void ChangeSelection(Button* button)
     if (!button->submitted)
     {
         button->submitted = true;
+        UnloadTexture(button->model->texture);
         button->model->texture = LoadTexture("D:/CFiles/FirstGame/models/obj/buttonSelected.png");
         button->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = button->model->texture;
     }

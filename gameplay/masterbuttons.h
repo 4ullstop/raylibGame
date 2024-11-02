@@ -4,6 +4,7 @@
 #include "gameplaystructs.h"
 #include "../initialization/corestructs.h"
 #include "../filereading/filereader.h"
+#include "../externmath/externmath.h"
 #endif
 
 void CreateAllButtons(ButtonMaster* master, modelInfo** dynamicModels, int* lastModelIndex);
@@ -29,3 +30,5 @@ void AddHighlight(Button* button);
 void ChangeSelection(Button* button);
 
 void CheckForSolution(Button* button, ButtonMaster* master);
+
+void RotateButtonMaster(ButtonMaster* master, float angle, Vector3 axis);

@@ -29,31 +29,10 @@ And then have separate folders for each side of the game
 
 
 
-Master:
- - all buttons must be navigable by arrow keys//
- - must know when the puzzle is complete by checking all of the required correct inputs
- - Create a way to exit the puzzle at any time as well as whenever it is completed
- 
-Create a function to check the correctness of the puzzle every time the enter button is pressed
- - Create an array of all correct locations (using our vector2 struct (not Vector2D))
- - Compare the array with the location as the buttons are being constructed to determine whether to set the "IsCorrectAnswer" bool
- - Upon pressing enter, run through all of the buttons to see if the correct ones are highlighted
-
-
- Figure out how to rotate the entire ButtonMaster struct
+ Make it so when you interact, it interacts with the first thing hit rather than the last bc if you try to interact with the puzzle atm from an angle that allows the ray
+ to go through another box, it will interact with that box instead of the one with the puzzle in it
 
 
  IsCursorOnScreen() does exactly what you thought it would! You can use it for focusing and unfocusing the mouse cursor on the windows
 
 
- Should you load in solutions via csv file?
-  - makes iteration a lot simpler
-  - may be a little difficult to implement at first
-  - 
-
-  While value != NULL 
-   - iterate rows every time through this while loop
-   - while token != NULLL
-        - iterate the columns each time through this loop 
-
-Separate the rows into different arrays that can be reversed, then put all of the rows in order into the 2d array, loop through the 2d array to get the locations of the values of 1

@@ -4,4 +4,4 @@
 #include "../initialization/corestructs.h"
 #endif
 
-void ReadPuzzleCSV(ButtonMaster* master);
+void ReadPuzzleCSV(ButtonMaster* master, char* fileLocation);
