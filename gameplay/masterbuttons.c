@@ -230,39 +230,34 @@ void ChangeSelection(Button* button)
     else
     {
         button->submitted = false;
+        AddHighlight(button);
     }
 }
 
 void CheckForSolution(Button* button, ButtonMaster* master)
 {
-    /*
-        There is something wrong in here
-        If you put in the solution with more than the solution, it still tells you
-        you got the solution when this should not be the case, to be solved
-    */
-    if (button->submitted)
+    
+    int numberOfSolved = 0;
+    for (int i = 0; i < master->rows; i++)
     {
-        //check to see if all of the answers have been input
-        int numberOfSolved = 0;
-        for (int i = 0; i < master->rows; i++)
+        for (int j = 0; j < master->columns; j++)
         {
-            for (int j = 0; j < master->columns; j++)
+            if (master->childButtons[i][j].submitted && master->childButtons[i][j].solutionButton)
             {
-                if (master->childButtons[i][j].submitted && master->childButtons[i][j].solutionButton)
-                {
-                    numberOfSolved++;
-                    printf("this was one of the buttons\n");
-                }
-                else if (master->childButtons[i][j].submitted && !master->childButtons[i][j].solutionButton)
-                {
-                    numberOfSolved = 0;
-                    printf("this was NOT one of the buttons\n");
-                }
+                numberOfSolved++;
+                printf("this was one of the buttons\n");
             }
-            if (master->numberOfSolutions == numberOfSolved)
+            else if (master->childButtons[i][j].submitted && !master->childButtons[i][j].solutionButton)
             {
-                printf("congrats you solved the puzzle\n");
+                numberOfSolved = 0;
+                printf("this was NOT one of the buttons\n");
             }
         }
+        
     }
+    if (master->numberOfSolutions == numberOfSolved)
+    {
+        printf("congrats you solved the puzzle\n");
+    }
+    
 }

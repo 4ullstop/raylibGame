@@ -73,6 +73,8 @@ void ReadPuzzleCSV(ButtonMaster* master)
         {
             csvFileInts[j][i] = temp[i];
         }
+        free(temp);
+        temp = NULL;
     }
     
     for (int i = master->rows - 1; i >= 0; i--)
