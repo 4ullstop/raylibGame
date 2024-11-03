@@ -19,6 +19,15 @@ enum Gamemode
 };
 #endif
 
+#ifndef E_GAMETYPE
+#define E_GAMETYPE
+enum Gametype
+{
+    EGT_A,
+    EGT_B
+};
+#endif
+
 #ifndef E_DIRECTION
 #define E_DIRECTION
 enum Direction

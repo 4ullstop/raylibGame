@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-void ConstructPuzzles(ButtonMaster** allPuzzles, modelInfo** dynamicModels, int* lastModelIndex)
+void ConstructPuzzles(ButtonMaster** allPuzzles, modelInfo** dynamicModels, int* lastModelIndex, enum Gametype gametype)
 {
     ButtonMaster* puzzle_01 = malloc(sizeof(ButtonMaster));
     puzzle_01->columns = 3;
@@ -10,9 +10,7 @@ void ConstructPuzzles(ButtonMaster** allPuzzles, modelInfo** dynamicModels, int*
     puzzle_01->location = (Vector3){0.0f, 2.0f, 0.0f};
     puzzle_01->buttonSpread = 0.5f;
     puzzle_01->hasBoxAssigned = false;
-    //puzzle_01->solutionLocations = 
     ReadPuzzleCSV(puzzle_01,"D:/CFiles/FirstGame/filereading/csv/puzzle_01.csv");
-    //
     allPuzzles[0] = puzzle_01;
 
 
@@ -270,7 +268,7 @@ void CheckForSolution(Button* button, ButtonMaster* master)
             if (master->childButtons[i][j].submitted && master->childButtons[i][j].solutionButton)
             {
                 numberOfSolved++;
-                printf("this was one of the buttons\n");
+                printf("this was one of the buttons, %i\n", numberOfSolved);
             }
             else if (master->childButtons[i][j].submitted && !master->childButtons[i][j].solutionButton)
             {

@@ -6,9 +6,16 @@
     entities... probably
 */
 
-void CreateModels(modelInfo** models, int* lastModelIndex)
+void CreateModels(modelInfo** models, int* lastModelIndex, enum Gametype gametype)
 {
+    if (gametype == EGT_A)
+    {
 
+    }
+    else
+    {
+        
+    }
     modelInfo* floor = malloc(sizeof(modelInfo));
     floor->collisionDisabled = false;
     floor->model = LoadModel("D:/CFiles/FirstGame/models/obj/floor.obj");

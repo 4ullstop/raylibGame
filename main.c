@@ -31,10 +31,13 @@ Raycast ray = {0};
 
 enum Gamemode gamemode = EGM_Normal;
 
+enum Gametype gametype = EGT_A;
 
 
-int main(void)
+int main(int argc, char* argv[])
 {
+    printf("%i\n", argc);
+    if (argc > 1) gametype = EGT_B;
     
     printf("Initializing window and player camera...\n");
     CreateWindow(800, 450);
@@ -54,10 +57,10 @@ int main(void)
     int lastModelIndex = 0;
 
     ButtonMaster* allPuzzles[NUMBER_OF_PUZZLES];
-    ConstructPuzzles(allPuzzles, models, &lastModelIndex);
+    ConstructPuzzles(allPuzzles, models, &lastModelIndex, gametype);
     
     //CreateAllButtons(&puzzle_01, models, &lastModelIndex);
-    CreateModels(models, &lastModelIndex);
+    CreateModels(models, &lastModelIndex, gametype);
 
     Interactable* interactables[NUMBER_OF_INTERACTABLES];
     QueryBox* areaQueryBoxes[NUMBER_OF_AREA_QUERY_BOXES];

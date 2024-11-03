@@ -8,7 +8,7 @@
 
 
 
-void CreateModels(modelInfo** models, int* lastModelIndex);
+void CreateModels(modelInfo** models, int* lastModelIndex, enum Gametype gametype);
 
 void DrawAllModels(modelInfo** models);
 

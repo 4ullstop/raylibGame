@@ -100,6 +100,7 @@ void PollPlayerSecondaryInputs(FPSPlayer* player, Raycast* interactRay, QueryBox
     if (IsKeyPressed(KEY_F))
     {
         *mode = EGM_Inactive;
+        ShowCursor();
     }
 }
 
