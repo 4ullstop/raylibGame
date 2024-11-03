@@ -39,3 +39,5 @@ Design a rule for a puzzle for the beginning
 
 
 Figure out how to $(SolutionDir) things to make it possible for other machines to get the imported info for things like models and textures
+
+It would also probably be nice if you made the player a little taller

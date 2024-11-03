@@ -5,11 +5,12 @@
 #include "../initialization/corestructs.h"
 #include "../filereading/filereader.h"
 #include "../externmath/externmath.h"
+#include "sharedbuttons.h"
 #endif
 
-void CreateAllButtons(ButtonMaster* master, modelInfo** dynamicModels, int* lastModelIndex);
+//void CreateAllButtons(ButtonMaster* master, modelInfo** dynamicModels, int* lastModelIndex);
 
-void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelIndex, modelInfo** dynamicModels);
+//void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelIndex, modelInfo** dynamicModels);
 
 void DestructAllButtons(ButtonMaster* master);
 
@@ -25,7 +26,7 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem);
 
 void RemoveHighlight(Button* button);
 
-void AddHighlight(Button* button);
+//void AddHighlight(Button* button);
 
 void ChangeSelection(Button* button);
 

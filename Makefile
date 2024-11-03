@@ -15,7 +15,8 @@ SRC = main.c \
 	  gameplay\masterbuttons.c \
 	  gameplay\inactivestate.c \
 	  filereading\filereader.c \
-	  gamea\gameamodels.c
+	  gamea\gameamodels.c \
+	  gameplay\sharedbuttons.c
 OBJ = intermediate\main.o \
       intermediate\window.o \
       intermediate\camera.o \
@@ -32,7 +33,8 @@ OBJ = intermediate\main.o \
 	  intermediate\masterbuttons.o \
 	  intermediate\inactivestate.o \
 	  intermediate\filereader.o \
-	  intermediate\gameamodels.o
+	  intermediate\gameamodels.o \
+	  intermediate\sharedbuttons.o
 !IFNDEF OUTPUT
 OUTPUT = test.exe
 !ENDIF
@@ -101,6 +103,9 @@ intermediate\filereader.o: filereading\filereader.c intermediate
 
 intermediate\gameamodels.o: gamea\gameamodels.c intermediate
 	$(CC) -c gamea\gameamodels.c -o intermediate\gameamodels.o $(INCLUDE)
+
+intermediate\sharedbuttons.o: gameplay\sharedbuttons.c intermediate
+	$(CC) -c gameplay\sharedbuttons.c -o intermediate\sharedbuttons.o $(INCLUDE)
 # Clean rule to delete
 clean:
 	del /q intermediate\*.o 

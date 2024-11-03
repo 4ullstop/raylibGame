@@ -4,7 +4,7 @@
 
 void CreateModelsForGameA(modelInfo** models, int* lastModelIndex)
 {
-    printf("model here\n");
+    //room 1
     modelInfo* floor = malloc(sizeof(modelInfo));
     floor->collisionDisabled = false;
     floor->model = LoadModel("D:/CFiles/FirstGame/models/obj/floor.obj");
@@ -14,7 +14,6 @@ void CreateModelsForGameA(modelInfo** models, int* lastModelIndex)
     models[*lastModelIndex] = floor;
     *lastModelIndex = *lastModelIndex + 1;
     
-
     modelInfo* wall_01 = malloc(sizeof(modelInfo));
     wall_01->collisionDisabled = false;
     wall_01->model = LoadModel("D:/CFiles/FirstGame/models/obj/walls.obj");
@@ -24,4 +23,5 @@ void CreateModelsForGameA(modelInfo** models, int* lastModelIndex)
     models[*lastModelIndex] = wall_01;
     *lastModelIndex = *lastModelIndex + 1;
     
+    //
 }
