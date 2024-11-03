@@ -7,7 +7,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+//telling opengl to use the graphics card and not the cpu
+typedef unsigned long DWORD;
 
+__declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001;
 
 PlayerCam pcam = {0};
 FPSPlayer player = {0};
@@ -38,7 +41,6 @@ int main(int argc, char* argv[])
 {
     printf("%i\n", argc);
     if (argc > 1) gametype = EGT_B;
-    
     printf("Initializing window and player camera...\n");
     CreateWindow(800, 450);
     
@@ -58,8 +60,7 @@ int main(int argc, char* argv[])
 
     ButtonMaster* allPuzzles[NUMBER_OF_PUZZLES];
     ConstructPuzzles(allPuzzles, models, &lastModelIndex, gametype);
-    
-    //CreateAllButtons(&puzzle_01, models, &lastModelIndex);
+    printf("puzzles constructed\n");
     CreateModels(models, &lastModelIndex, gametype);
 
     Interactable* interactables[NUMBER_OF_INTERACTABLES];
@@ -68,16 +69,13 @@ int main(int argc, char* argv[])
     CreateInteractables(interactables, areaQueryBoxes, allPuzzles);
     
 
-    //AssignInteractBoxesToPuzzle(interactables, allPuzzles);
     
     //Set the size for our ellipsoid for collision
     colPacket.eRadius = (Vector3){1.0f, 1.0f, 1.0f};
 
     /*
         Where are we?:
-            - Buttons are initialized according to the system I designed and developed
-            - Button functionality is the next thing as well as trying to make them
-            look good so you have better visual feedback
+            - 
 
     */
 
@@ -113,7 +111,6 @@ void CallAllPolls(float dTime, modelInfo** models, QueryBox** areaBoxes, Interac
     }
     else if (gamemode == EGM_Puzzle)
     {
-        //printf("Main id: %i\n", interactedItem.id);
         PollPlayerPuzzle(interactedItem);
     }
     else if (gamemode == EGM_Inactive)

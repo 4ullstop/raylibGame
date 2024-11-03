@@ -4,7 +4,7 @@
 #include "../gameplay/gameplaystructs.h"
 #endif 
 
-#define NUMBER_OF_MODELS 12
+#define NUMBER_OF_MODELS 11
 #define NUMBER_OF_INTERACTABLES 2
 #define NUMBER_OF_AREA_QUERY_BOXES 1
 #define NUMBER_OF_PUZZLES 1

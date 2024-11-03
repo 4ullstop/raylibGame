@@ -8,4 +8,8 @@ void PollPlayerInactiveStateInputs(enum Gamemode* mode)
         HideCursor();
         DisableCursor();
     }   
+    if (IsCursorOnScreen())
+    {
+        
+    }
 }

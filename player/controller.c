@@ -267,7 +267,6 @@ Vector3 CollideWithWorld(CollisionPacket* colPacket, Vector3 pos, Vector3 vel, m
     colPacket->normalizedVelocity = Vector3Normalize(colPacket->normalizedVelocity);
     colPacket->basePoint = pos;
     colPacket->foundCollision = false;
-
     //check for collision
     for (int i = 0; i < NUMBER_OF_MODELS; i++)
     {

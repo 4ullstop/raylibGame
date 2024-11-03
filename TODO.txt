@@ -32,6 +32,10 @@ And then have separate folders for each side of the game
  Make it so when you interact, it interacts with the first thing hit rather than the last bc if you try to interact with the puzzle atm from an angle that allows the ray
  to go through another box, it will interact with that box instead of the one with the puzzle in it
 
+Do the assignation of the button symbols after the all of the assigning of the buttons materials and such
+
+Begin the daunting task of creating two games in one
+Design a rule for a puzzle for the beginning
 
 
-
+Figure out how to $(SolutionDir) things to make it possible for other machines to get the imported info for things like models and textures
