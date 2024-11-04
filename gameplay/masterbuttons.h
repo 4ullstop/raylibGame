@@ -5,6 +5,8 @@
 #include "../initialization/corestructs.h"
 #include "../filereading/filereader.h"
 #include "../externmath/externmath.h"
+#include "../gamea/gameapuzzles.h"
+#include "../gameb/gamebpuzzles.h"
 #include "sharedbuttons.h"
 #endif
 

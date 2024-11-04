@@ -16,7 +16,10 @@ SRC = main.c \
 	  gameplay\inactivestate.c \
 	  filereading\filereader.c \
 	  gamea\gameamodels.c \
-	  gameplay\sharedbuttons.c
+	  gameplay\sharedbuttons.c \
+	  gamea\gameapuzzles.c \
+	  gameb\gamebpuzzles.c \
+	  gameb\gamebmodels.c
 OBJ = intermediate\main.o \
       intermediate\window.o \
       intermediate\camera.o \
@@ -34,7 +37,10 @@ OBJ = intermediate\main.o \
 	  intermediate\inactivestate.o \
 	  intermediate\filereader.o \
 	  intermediate\gameamodels.o \
-	  intermediate\sharedbuttons.o
+	  intermediate\sharedbuttons.o \
+	  intermediate\gameapuzzles.o \
+	  intermediate\gamebpuzzles.o \
+	  intermediate\gamebmodels.o
 !IFNDEF OUTPUT
 OUTPUT = test.exe
 !ENDIF
@@ -106,6 +112,16 @@ intermediate\gameamodels.o: gamea\gameamodels.c intermediate
 
 intermediate\sharedbuttons.o: gameplay\sharedbuttons.c intermediate
 	$(CC) -c gameplay\sharedbuttons.c -o intermediate\sharedbuttons.o $(INCLUDE)
+
+intermediate\gameapuzzles.o: gamea\gameapuzzles.c intermediate
+	$(CC) -c gamea\gameapuzzles.c -o intermediate\gameapuzzles.o $(INCLUDE)
+
+intermediate\gamebpuzzles.o: gameb\gamebpuzzles.c intermediate
+	$(CC) -c gameb\gamebpuzzles.c -o intermediate\gamebpuzzles.o $(INCLUDE)
+
+intermediate\gamebmodels.o: gameb\gamebmodels.c intermediate
+	$(CC) -c gameb\gamebmodels.c -o intermediate\gamebmodels.o $(INCLUDE)
+
 # Clean rule to delete
 clean:
 	del /q intermediate\*.o 

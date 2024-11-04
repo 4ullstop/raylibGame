@@ -89,3 +89,24 @@ void AddHighlight(Button* button)
     button->model->texture = LoadTexture("D:/CFiles/FirstGame/models/obj/buttonHighlighted.png");
     button->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = button->model->texture; 
 }
+
+void RotateButtonMaster(ButtonMaster* master, float angle, Vector3 axis)
+{
+    int centerR = floor((float)master->rows / 2.0);
+    int centerC = floor((float)master->columns / 2.0);
+    for (int i = 0; i < master->rows; i++)
+    {
+        for (int j = 0; j < master->columns; j++)
+        {
+            if (i == centerR && j == centerC)
+            {
+                master->childButtons[i][j].model->model.transform = MatrixRotateXYZ((Vector3){axis.x * angle, axis.y * angle, axis.z * angle});
+                continue;
+            }
+            Vector3 newLocation = RotateAroundPoint(master->childButtons[i][j].location, master->childButtons[centerR][centerC].location, angle, axis);
+            master->childButtons[i][j].location = newLocation;
+            master->childButtons[i][j].model->modelLocation = master->childButtons[i][j].location; 
+            master->childButtons[i][j].model->model.transform = MatrixRotateXYZ((Vector3){axis.x * angle, axis.y * angle, axis.z * angle});
+        }
+    }
+}

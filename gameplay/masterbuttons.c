@@ -4,42 +4,15 @@
 
 void ConstructPuzzles(ButtonMaster** allPuzzles, modelInfo** dynamicModels, int* lastModelIndex, enum Gametype gametype)
 {
-    ButtonMaster* puzzle_01 = malloc(sizeof(ButtonMaster));
-    puzzle_01->columns = 3;
-    puzzle_01->rows = 3;
-    puzzle_01->location = (Vector3){0.0f, 2.0f, 0.0f};
-    puzzle_01->buttonSpread = 0.5f;
-    puzzle_01->hasBoxAssigned = false;
-    ReadPuzzleCSV(puzzle_01,"D:/CFiles/FirstGame/filereading/csv/puzzle_01.csv");
-    allPuzzles[0] = puzzle_01;
-
-
-    for (int i = 0; i < NUMBER_OF_PUZZLES; i++)
+    if (gametype == EGT_A)
     {
-        CreateAllButtons(allPuzzles[i], dynamicModels, lastModelIndex);
+        ConstructGameAPuzzles(allPuzzles, dynamicModels, lastModelIndex);
     }
-    RotateButtonMaster(puzzle_01, 180.f, (Vector3){0.0f, 1.0f, 0.0f});
-}
-
-void RotateButtonMaster(ButtonMaster* master, float angle, Vector3 axis)
-{
-    int centerR = floor((float)master->rows / 2.0);
-    int centerC = floor((float)master->columns / 2.0);
-    for (int i = 0; i < master->rows; i++)
+    else
     {
-        for (int j = 0; j < master->columns; j++)
-        {
-            if (i == centerR && j == centerC)
-            {
-                master->childButtons[i][j].model->model.transform = MatrixRotateXYZ((Vector3){axis.x * angle, axis.y * angle, axis.z * angle});
-                continue;
-            }
-            Vector3 newLocation = RotateAroundPoint(master->childButtons[i][j].location, master->childButtons[centerR][centerC].location, angle, axis);
-            master->childButtons[i][j].location = newLocation;
-            master->childButtons[i][j].model->modelLocation = master->childButtons[i][j].location; 
-            master->childButtons[i][j].model->model.transform = MatrixRotateXYZ((Vector3){axis.x * angle, axis.y * angle, axis.z * angle});
-        }
+        ConstructGameBPuzzles(allPuzzles, dynamicModels, lastModelIndex);
     }
+    
 }
 
 void DestructAllPuzzles(ButtonMaster** allPuzzles)

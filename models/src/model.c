@@ -8,7 +8,6 @@
 
 void CreateModels(modelInfo** models, int* lastModelIndex, enum Gametype gametype)
 {
-    printf("creating models?\n");
     if (gametype == EGT_A)
     {
         printf("hello model here\n");
@@ -16,7 +15,7 @@ void CreateModels(modelInfo** models, int* lastModelIndex, enum Gametype gametyp
     }
     else
     {
-        printf("we are here for some reason\n");
+        CreateModelsForGameB(models, lastModelIndex);
     }
 
     

@@ -2,6 +2,7 @@
 #include "C:\raylib\raylib\src\raylib.h"
 #include "../../initialization/corestructs.h"
 #include "../../gamea/gameamodels.h"
+#include "../../gameb/gamebmodels.h"
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
