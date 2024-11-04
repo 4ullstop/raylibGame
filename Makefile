@@ -19,7 +19,8 @@ SRC = main.c \
 	  gameplay\sharedbuttons.c \
 	  gamea\gameapuzzles.c \
 	  gameb\gamebpuzzles.c \
-	  gameb\gamebmodels.c
+	  gameb\gamebmodels.c \
+	  ui\src\ui.c
 OBJ = intermediate\main.o \
       intermediate\window.o \
       intermediate\camera.o \
@@ -40,7 +41,8 @@ OBJ = intermediate\main.o \
 	  intermediate\sharedbuttons.o \
 	  intermediate\gameapuzzles.o \
 	  intermediate\gamebpuzzles.o \
-	  intermediate\gamebmodels.o
+	  intermediate\gamebmodels.o \
+	  intermediate\ui.o
 !IFNDEF OUTPUT
 OUTPUT = test.exe
 !ENDIF
@@ -121,6 +123,10 @@ intermediate\gamebpuzzles.o: gameb\gamebpuzzles.c intermediate
 
 intermediate\gamebmodels.o: gameb\gamebmodels.c intermediate
 	$(CC) -c gameb\gamebmodels.c -o intermediate\gamebmodels.o $(INCLUDE)
+
+intermediate\ui.o: ui\src\ui.c intermediate
+	$(CC) -c ui\src\ui.c -o intermediate\ui.o $(INCLUDE)
+
 
 # Clean rule to delete
 clean:

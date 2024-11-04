@@ -68,7 +68,9 @@ int main(int argc, char* argv[])
     CreatePlayerAreaQueries(areaQueryBoxes);
     CreateInteractables(interactables, areaQueryBoxes, allPuzzles);
     
-
+    //intialize UI
+    UIElements* ui[UI_ELEMENT_TOTAL];
+    ConstructUIElements(ui);
     
     //Set the size for our ellipsoid for collision
     colPacket.eRadius = (Vector3){1.0f, 1.0f, 1.0f};
@@ -88,7 +90,7 @@ int main(int argc, char* argv[])
 
         CallAllPolls(deltaTime, models, areaQueryBoxes, &interactedItem);
         
-        Draw(models, &ray, areaQueryBoxes);
+        Draw(models, &ray, areaQueryBoxes, ui);
 
         
     }
@@ -120,7 +122,7 @@ void CallAllPolls(float dTime, modelInfo** models, QueryBox** areaBoxes, Interac
     
 }
 
-void Draw(modelInfo** models, Raycast* ray, QueryBox** queryBoxes)
+void Draw(modelInfo** models, Raycast* ray, QueryBox** queryBoxes, UIElements** ui)
 {
     
     BeginDrawing();
@@ -177,7 +179,20 @@ void Draw(modelInfo** models, Raycast* ray, QueryBox** queryBoxes)
         //DrawPlayerCollisionCapsule(player.location);
         
         Complete3DMode();
-    
+
+        Draw2D(ui);
     EndDrawing();
+}
+
+void Draw2D(UIElements** ui)
+{
+    //draw all UI here
+    for (int i = 0; i < UI_ELEMENT_TOTAL; i++)
+    {
+        if (ui[i]->hidden == false)
+        {
+            DrawTextureEx(ui[i]->texture, (Vector2){GetScreenWidth() - ui[i]->texture.width* 4 - 20, 20.f}, 0.0f, ui[i]->scale, BLACK);
+        }
+    }
 }
 

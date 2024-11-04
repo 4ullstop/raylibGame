@@ -41,3 +41,7 @@ Design a rule for a puzzle for the beginning
 Figure out how to $(SolutionDir) things to make it possible for other machines to get the imported info for things like models and textures
 
 It would also probably be nice if you made the player a little taller
+
+Create some sort of gate (a door, or maybe a platform that appears) to prevent the player from moving forward without having to solve any puzzles
+
+Create UI pieces to tell the player how to interact with the puzzles 
