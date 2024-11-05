@@ -170,11 +170,18 @@ typedef struct ColBox
     //debug
     bool showDebug;
     Vector3* randDirectionDebug;
-    Vector3 debugPoint;
+    
     Vector3* cubeVertsDebug;
     int cubeVertsSize;
     int randDirectionSize;
 
+    bool debugBool;
+    Vector3 randDirectionDebugPoint;
+    Vector3 startDebugPoint;
+    Vector3 debugPoint;
+    Vector3 intersectionPointDebug;
+    int intersectionCount;
+    Vector3* intersectionPoints;
 } ColBox;
 #endif
 

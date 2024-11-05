@@ -39,7 +39,7 @@ bool IsPointInInteractable(Interactable* interactable, Vector3 point)
 void ConstructColBox(ColBox* box, Vector3 location, float width, float height, float length)
 {
     box->vertsNum = 8;
-    
+    box->debugBool = true;
     box->verts = malloc(sizeof(float) * 24);
 
     box->interact = InteractionBoxInteract;

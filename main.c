@@ -180,6 +180,7 @@ void Draw(modelInfo** models, Raycast* ray, QueryBox** queryBoxes, UIElements** 
             if (overlapQueryList[i]->shouldDetect == true)
             {
                 DrawCubeWires(overlapQueryList[i]->location, overlapQueryList[i]->width, overlapQueryList[i]->height, overlapQueryList[i]->length, BLACK);
+                
             }
         }
         

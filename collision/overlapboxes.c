@@ -12,7 +12,7 @@ void ConstructOverlapBoxes(OverlapBox** allBoxes)
     OverlapBox* interactHintOverlap = malloc(sizeof(OverlapBox));
     ColBox* overlapBox = malloc(sizeof(ColBox));
     interactHintOverlap->collisionBox = overlapBox;
-    interactHintOverlap->location = (Vector3){3.0f, 0.0f, -4.0f};
+    interactHintOverlap->location = (Vector3){3.0f, 2.0f, -4.0f};
     overlapBox->location = interactHintOverlap->location;
     interactHintOverlap->height = 7.0f;
     interactHintOverlap->width = 7.0f;
@@ -52,6 +52,8 @@ void PollOverlaps(OverlapBox** queryList, FPSPlayer* player)
     for (int i = 0; i < NUMBER_OF_OVERLAP_BOXES_A; i++)
     {
         bool playerInOverlap = IsPointInColBox(queryList[i]->collisionBox, player->location);
+        //printf("%f, %f, %f\n", player->location.x, player->location.y, player->location.z);
+        //printf("%i\n", queryList[i]->id);
         if (playerInOverlap == true)
         {
             queryList[i]->OnOverlap(player);

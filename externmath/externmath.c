@@ -9,6 +9,7 @@
 
 bool IsPointInColBox(ColBox* box, Vector3 point)
 {
+    
     int intersectionCount = 0;
 
     if (box->showDebug)
@@ -20,15 +21,20 @@ bool IsPointInColBox(ColBox* box, Vector3 point)
         box->randDirectionSize = 12;
     }
 
-    int debugStartingIndex = 0;
+    
 
-    Vector3 randomDirection = (Vector3)
-    {
-        (float)rand() / RAND_MAX * 2.0f - 1.0f,
-        (float)rand() / RAND_MAX * 2.0f - 1.0f,
-        (float)rand() / RAND_MAX * 2.0f - 1.0f
-    };
+    // Vector3 randomDirection = (Vector3)
+    // {
+    //     (float)rand() / RAND_MAX * 2.0f - 1.0f,
+    //     (float)rand() / RAND_MAX * 2.0f - 1.0f,
+    //     (float)rand() / RAND_MAX * 2.0f - 1.0f
+    // };
 
+    Vector3 randomDirection = (Vector3){1.0f, 0.0f, 0.0f};
+
+
+    //randomDirection = Vector3Scale(randomDirection, 1000.0f);
+    Vector3 debugPoint = {0};
     for (int i = 0; i < 12; i++)
     {
         
@@ -58,6 +64,7 @@ bool IsPointInColBox(ColBox* box, Vector3 point)
 
         
         double t0, t1;
+        float t = 1.0f;
 
         /*
             Originally what was wrong was that rather than using the location of the triangle, you were 
@@ -82,15 +89,30 @@ bool IsPointInColBox(ColBox* box, Vector3 point)
         */
         Vector3 intersectionPoint = Vector3Add(point, Vector3Scale(b, t1));
 
-        
+        debugPoint = intersectionPoint;
         
         if (CheckPointInTriangle(intersectionPoint, v1, v2, v3))
         {
             intersectionCount++;
+            continue;
         }
-        
-    }
+        else
+        {
+            CheckVertice(randomDirection, point, &t, v1, &foundCollision, &intersectionPoint);
+            CheckVertice(randomDirection, point, &t, v2, &foundCollision, &intersectionPoint);
+            CheckVertice(randomDirection, point, &t, v3, &foundCollision, &intersectionPoint);
 
+            CheckEdge(v1, v2, point, randomDirection, &t, &foundCollision, &intersectionPoint);
+            CheckEdge(v2, v3, point, randomDirection, &t, &foundCollision, &intersectionPoint);
+            CheckEdge(v3, v1, point, randomDirection, &t, &foundCollision, &intersectionPoint);
+        }
+
+        if (foundCollision == true)
+        {
+            intersectionCount++;
+        }
+    }
+    
     return intersectionCount % 2 != 0;
 }
 
