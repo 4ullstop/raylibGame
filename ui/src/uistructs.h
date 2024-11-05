@@ -1,9 +1,8 @@
 #ifndef UISTRUCTS_HEAD
 #include "C:\raylib\raylib\src\raylib.h"
-#include "../../initialization/corestructs.h"
 #endif
 
-#define UI_ELEMENT_TOTAL 1
+#define UI_ELEMENT_TOTAL 2
 
 #ifndef ELEMENTS
 #define ELEMENTS
@@ -15,5 +14,9 @@ typedef struct UIElements
     bool hidden;
     int id;
 
+    bool startHide;
+    Color tint;
+
+    double fadeAlpha;
 } UIElements;
 #endif

@@ -6,3 +6,9 @@
 void ConstructUIElements(UIElements** elements);
 
 void ToggleMovementHintUI(bool hidden, UIElements** elements);
+
+void FadeUIElement(UIElements* element);
+
+void FadeComplete(UIElements* element);
+
+void DestructAllUIElements(UIElements** elements);

@@ -44,8 +44,12 @@ int main(int argc, char* argv[])
     printf("Initializing window and player camera...\n");
     CreateWindow(800, 450);
     
+    //intialize UI
+    UIElements* ui[UI_ELEMENT_TOTAL];
+    ConstructUIElements(ui);
+
     PlayerCamSetup(&pcam);
-    PlayerSetup(&player, &pcam);
+    PlayerSetup(&player, &pcam, ui);
     //DO NOT PUT ANYTHING ABOVE THESE LINES, YOUR CODE WILL NOT WORK
 
     Interactable interactedItem = {0};
@@ -58,19 +62,27 @@ int main(int argc, char* argv[])
     //put the creation of gameplay elements here
     int lastModelIndex = 0;
 
+    /*
+        Creation of puzzles
+    */
     ButtonMaster* allPuzzles[NUMBER_OF_PUZZLES];
     ConstructPuzzles(allPuzzles, models, &lastModelIndex, gametype);
     printf("puzzles constructed\n");
     CreateModels(models, &lastModelIndex, gametype);
 
+    /*
+        Creation of interactables
+    */
     Interactable* interactables[NUMBER_OF_INTERACTABLES];
     QueryBox* areaQueryBoxes[NUMBER_OF_AREA_QUERY_BOXES];
     CreatePlayerAreaQueries(areaQueryBoxes);
     CreateInteractables(interactables, areaQueryBoxes, allPuzzles);
     
-    //intialize UI
-    UIElements* ui[UI_ELEMENT_TOTAL];
-    ConstructUIElements(ui);
+    
+
+    OverlapBox* allBoxes[NUMBER_OF_OVERLAP_BOXES_A];
+    ConstructOverlapBoxes(allBoxes);
+    
     
     //Set the size for our ellipsoid for collision
     colPacket.eRadius = (Vector3){1.0f, 1.0f, 1.0f};
@@ -88,9 +100,9 @@ int main(int argc, char* argv[])
         deltaTime = now - lastTime;
         lastTime = now;
 
-        CallAllPolls(deltaTime, models, areaQueryBoxes, &interactedItem);
+        CallAllPolls(deltaTime, models, areaQueryBoxes, &interactedItem, allBoxes);
         
-        Draw(models, &ray, areaQueryBoxes, ui);
+        Draw(models, &ray, areaQueryBoxes, ui, allBoxes);
 
         
     }
@@ -98,18 +110,21 @@ int main(int argc, char* argv[])
     DestructAllPuzzles(allPuzzles);
     DestroyAllModels(models);
     DestroyLines(ray.linesToDraw);
+    DestructAllUIElements(ui);
+    DestroyOverlapBoxes(allBoxes);
     printf("destroyed\n");
     CloseWindow();
 
     return 0;
 }
 
-void CallAllPolls(float dTime, modelInfo** models, QueryBox** areaBoxes, Interactable* interactedItem)
+void CallAllPolls(float dTime, modelInfo** models, QueryBox** areaBoxes, Interactable* interactedItem, OverlapBox** overlapBoxes)
 {
     if (gamemode == EGM_Normal)
     {
         PollPlayer(dTime, &pcam, &player, &colPacket, models);
         PollPlayerSecondary(&player, &ray, areaBoxes, &gamemode, interactedItem);
+        PollOverlaps(overlapBoxes, &player);
     }
     else if (gamemode == EGM_Puzzle)
     {
@@ -122,7 +137,7 @@ void CallAllPolls(float dTime, modelInfo** models, QueryBox** areaBoxes, Interac
     
 }
 
-void Draw(modelInfo** models, Raycast* ray, QueryBox** queryBoxes, UIElements** ui)
+void Draw(modelInfo** models, Raycast* ray, QueryBox** queryBoxes, UIElements** ui, OverlapBox** overlapQueryList)
 {
     
     BeginDrawing();
@@ -158,7 +173,15 @@ void Draw(modelInfo** models, Raycast* ray, QueryBox** queryBoxes, UIElements** 
             line = line->next;
         }
         
+        //printf("about to draw overlap box\n");
         
+        for (int i = 0; i < NUMBER_OF_OVERLAP_BOXES_A; i++)
+        {
+            if (overlapQueryList[i]->shouldDetect == true)
+            {
+                DrawCubeWires(overlapQueryList[i]->location, overlapQueryList[i]->width, overlapQueryList[i]->height, overlapQueryList[i]->length, BLACK);
+            }
+        }
         
         // if (box->showDebug)
         // {
@@ -189,9 +212,18 @@ void Draw2D(UIElements** ui)
     //draw all UI here
     for (int i = 0; i < UI_ELEMENT_TOTAL; i++)
     {
-        if (ui[i]->hidden == false)
+        if (ui[i]->hidden == false && ui[i]->startHide == false)
         {
-            DrawTextureEx(ui[i]->texture, (Vector2){GetScreenWidth() - ui[i]->texture.width* 4 - 20, 20.f}, 0.0f, ui[i]->scale, BLACK);
+            DrawTextureEx(ui[i]->texture, (Vector2){10.f, 320.f}, 0.0f, ui[i]->scale, ui[i]->tint);
+        }
+        else if (ui[i]->hidden == false && ui[i]->startHide == true)
+        {
+            ui[i]->fadeAlpha += 0.00001 * deltaTime;
+            if (ui[i]->fadeAlpha >= 1.0)
+            {
+                ui[i]->fadeAlpha = 0.0;
+                FadeUIElement(ui[i]);
+            }
         }
     }
 }

@@ -2,12 +2,14 @@
 #include "C:\raylib\raylib\src\raylib.h"
 #include "../libs/drawingstructs.h"
 #include "../gameplay/gameplaystructs.h"
+#include "../ui/src/uistructs.h"
 #endif 
 
 #define NUMBER_OF_MODELS 11
 #define NUMBER_OF_INTERACTABLES 2
 #define NUMBER_OF_AREA_QUERY_BOXES 1
 #define NUMBER_OF_PUZZLES 1
+#define NUMBER_OF_OVERLAP_BOXES_A 1
 
 #ifndef E_GAMEMODE
 #define E_GAMEMODE
@@ -81,6 +83,10 @@ typedef struct
     PlayerCam* attachedCam; 
 
     bool isPlayerGrounded;
+
+    bool firstInput;
+
+    UIElements** playerHUD;
 } FPSPlayer;
 #endif
 
@@ -247,5 +253,26 @@ typedef struct
     Drawline* linesToDraw;
 } Raycast;
 #endif
+
+#ifndef BOX_OVERLAP
+#define BOX_OVERLAP
+typedef struct OverlapBox
+{
+    ColBox* collisionBox;
+    float width;
+    float height;
+    float length;
+    Vector3 location;
+    
+    int id;
+
+    void (*OnOverlap)(FPSPlayer* player);
+
+    struct OverlapBox* next;
+
+    bool shouldDetect;
+} OverlapBox;
+#endif
+
 
 

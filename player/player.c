@@ -1,13 +1,15 @@
 #include "player.h"
 #include <stdio.h>
 
-void PlayerSetup(FPSPlayer* player, PlayerCam* cam)
+void PlayerSetup(FPSPlayer* player, PlayerCam* cam, UIElements** hud)
 {
     player->location = (Vector3){0.0, 5.0, 4.0};
     player->currPos = player->location;
     player->lastPos = player->location;
     player->velocity = (Vector3){0.0f, 0.0f, 0.0f};
     player->attachedCam = cam;
+    player->firstInput = true;
+    player->playerHUD = hud;
 }
 
 void PollPlayer(float deltaTime, PlayerCam* pcam, FPSPlayer* player, CollisionPacket* colPacket, modelInfo** models)
@@ -33,4 +35,7 @@ void PollPlayerPuzzle(Interactable* interactedItem)
     PollPlayerPuzzleInputs(interactedItem);
 }
 
-
+void PollPlayerOverlaps(OverlapBox** queryList, FPSPlayer* player)
+{
+    PollOverlaps(queryList, player);
+}

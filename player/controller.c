@@ -12,13 +12,14 @@ void PollPlayerInput(PlayerCam* pcam, double deltaTime, FPSPlayer* player, Colli
     */
     float moveSpeed = 10.0f;
     Vector3 inputVelocity = {0.0f, 0.0f, 0.0f};
-
+    bool keyPressed = false;
     if (IsKeyDown(KEY_W))
     {
         Vector3 forward = GetCameraForwardVector(pcam);
         forward.y = 0;
         forward = Vector3Normalize(forward);
         inputVelocity = Vector3Add(inputVelocity, Vector3Scale(forward, moveSpeed));
+        keyPressed = true;
     }
     if (IsKeyDown(KEY_S))
     {
@@ -26,6 +27,7 @@ void PollPlayerInput(PlayerCam* pcam, double deltaTime, FPSPlayer* player, Colli
         backward.y = 0;
         backward = Vector3Normalize(backward);
         inputVelocity = Vector3Add(inputVelocity, Vector3Scale(backward, -moveSpeed));
+        keyPressed = true;
     }
 
     //Left and right movement
@@ -35,6 +37,7 @@ void PollPlayerInput(PlayerCam* pcam, double deltaTime, FPSPlayer* player, Colli
         left.y = 0;
         left = Vector3Normalize(left);
         inputVelocity = Vector3Add(inputVelocity, Vector3Scale(left, -moveSpeed));
+        keyPressed = true;
     }
     if (IsKeyDown(KEY_D))
     {
@@ -42,6 +45,15 @@ void PollPlayerInput(PlayerCam* pcam, double deltaTime, FPSPlayer* player, Colli
         right.y = 0;
         right = Vector3Normalize(right);
         inputVelocity = Vector3Add(inputVelocity, Vector3Scale(right, moveSpeed));
+        keyPressed = true;
+    }
+
+    if (keyPressed == true)
+    {
+        if (player->firstInput == true)
+        {
+            player->playerHUD[0]->startHide = true;
+        }
     }
 
     //Scale by delta time to ensure a consistent movement speed

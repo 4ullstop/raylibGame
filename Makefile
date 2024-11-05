@@ -20,7 +20,8 @@ SRC = main.c \
 	  gamea\gameapuzzles.c \
 	  gameb\gamebpuzzles.c \
 	  gameb\gamebmodels.c \
-	  ui\src\ui.c
+	  ui\src\ui.c \
+	  collision\overlapboxes.c
 OBJ = intermediate\main.o \
       intermediate\window.o \
       intermediate\camera.o \
@@ -42,7 +43,8 @@ OBJ = intermediate\main.o \
 	  intermediate\gameapuzzles.o \
 	  intermediate\gamebpuzzles.o \
 	  intermediate\gamebmodels.o \
-	  intermediate\ui.o
+	  intermediate\ui.o \
+	  intermediate\overlapboxes.o
 !IFNDEF OUTPUT
 OUTPUT = test.exe
 !ENDIF
@@ -126,6 +128,9 @@ intermediate\gamebmodels.o: gameb\gamebmodels.c intermediate
 
 intermediate\ui.o: ui\src\ui.c intermediate
 	$(CC) -c ui\src\ui.c -o intermediate\ui.o $(INCLUDE)
+
+intermediate\overlapboxes.o: collision\overlapboxes.c intermediate
+	$(CC) -c collision\overlapboxes.c -o intermediate\overlapboxes.o $(INCLUDE)
 
 
 # Clean rule to delete

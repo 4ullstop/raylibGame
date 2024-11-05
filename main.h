@@ -6,9 +6,9 @@
 #include "ui/src/uistructs.h"
 #include "ui/src/ui.h"
 
-void CallAllPolls(float dTime, modelInfo** models, QueryBox** areaBoxes, Interactable* interactedItem);
+void CallAllPolls(float dTime, modelInfo** models, QueryBox** areaBoxes, Interactable* interactedItem, OverlapBox** overlapBoxes);
 
-void Draw(modelInfo** models, Raycast* ray, QueryBox** queryBoxes, UIElements** ui);
+void Draw(modelInfo** models, Raycast* ray, QueryBox** queryBoxes, UIElements** ui, OverlapBox** overlapQueryList);
 
 void Draw2D(UIElements** ui);
 
