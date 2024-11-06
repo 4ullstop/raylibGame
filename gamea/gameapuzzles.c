@@ -10,6 +10,8 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, modelInfo** dynamicModel
     puzzle_01->location = (Vector3){0.0f, 1.0f, 0.0f};
     puzzle_01->buttonSpread = 0.5f;
     puzzle_01->hasBoxAssigned = false;
+    puzzle_01->id = 123;
+    puzzle_01->numberOfSolutions = 0;
     ReadPuzzleCSV(puzzle_01, "D:/CFiles/FirstGame/filereading/csv/puzzle_01.csv");
     gameAPuzzles[0] = puzzle_01;
 
@@ -20,6 +22,8 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, modelInfo** dynamicModel
     puzzle_02->location = (Vector3){3.0f, 1.0f, 0.0f};
     puzzle_02->buttonSpread = 0.5f;
     puzzle_02->hasBoxAssigned = false;
+    puzzle_02->id = 234;
+    puzzle_02->numberOfSolutions = 0;
     ReadPuzzleCSV(puzzle_02, "D:/CFiles/FirstGame/filereading/csv/puzzle_02.csv");
     gameAPuzzles[1] = puzzle_02;
 

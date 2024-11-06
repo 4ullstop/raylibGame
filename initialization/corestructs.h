@@ -151,6 +151,8 @@ typedef struct ButtonMaster
     //Interactable* associatedBox;
 
     bool hasBoxAssigned;
+
+    int id;
 } ButtonMaster;
 #endif
 

@@ -88,6 +88,8 @@ void ReadPuzzleCSV(ButtonMaster* master, char* fileLocation)
                 master->solutionLocations[locationIndex].y = j;
                 locationIndex++;
                 master->numberOfSolutions++;
+                printf("Number of solutions: %i\n", master->numberOfSolutions);
+                printf("\n");
             }
         }
     }

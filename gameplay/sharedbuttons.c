@@ -41,7 +41,7 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
     float locX = master->location.x + (multipleR * master->buttonSpread);
     int multipleC = j - centerC;
     float locY = master->location.y + (multipleC * master->buttonSpread);
-    master->childButtons[i][j].location = (Vector3){master->location.x, locY, locX};
+    master->childButtons[i][j].location = (Vector3){locX, locY, master->location.z};
     
     printf("Button location: %f, %f, %f\n", master->location.x, locY, locX);
     //setting up our neighbors which will be important when cycling through
@@ -58,7 +58,7 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
 
     for (int k = 0; k < master->rows; k++)
     {
-        if (master->solutionLocations[k].x == i && master->solutionLocations[k].y == j)
+        if (master->solutionLocations[k].x == j && master->solutionLocations[k].y == i)
         {
             master->childButtons[i][j].solutionButton = true;
         }
@@ -68,7 +68,7 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
     master->childButtons[i][j].model = malloc(sizeof(modelInfo));
     master->childButtons[i][j].model->collisionDisabled = true;
     master->childButtons[i][j].model->modelLocation = master->childButtons[i][j].location;
-    master->childButtons[i][j].model->model = LoadModel("D:/CFiles/FirstGame/models/obj/button.obj");
+    master->childButtons[i][j].model->model = LoadModel("D:/CFiles/FirstGame/models/obj/button2.obj");
     master->childButtons[i][j].model->texture = LoadTexture("D:/CFiles/FirstGame/models/obj/buttonIdle.png");
     master->childButtons[i][j].model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = master->childButtons[i][j].model->texture;
     master->childButtons[i][j].highlighted = false;
