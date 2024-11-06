@@ -6,6 +6,7 @@ void ConstructPuzzles(ButtonMaster** allPuzzles, modelInfo** dynamicModels, int*
 {
     if (gametype == EGT_A)
     {
+        printf("last model index in construct puzzles: %i\n", *lastModelIndex);
         ConstructGameAPuzzles(allPuzzles, dynamicModels, lastModelIndex);
     }
     else

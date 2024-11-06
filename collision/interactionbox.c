@@ -3,6 +3,48 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+void CreateInteractables(Interactable** interactables, QueryBox** areaQueryBoxes, ButtonMaster** allPuzzles)
+{
+    ColBox* colBox_01 = malloc(sizeof(ColBox));
+    NullifyColBoxValues(colBox_01);
+    Interactable* interactable_01 = malloc(sizeof(Interactable));
+    interactable_01->associatedPuzzle = NULL;
+    ConstructInteractable(interactable_01, (Vector3){0.0f, 3.0f, -4.0f}, colBox_01, 2.0f, 2.0f, 2.0f);
+
+    ColBox* puzzleBox_01 = malloc(sizeof(ColBox));
+    NullifyColBoxValues(puzzleBox_01);
+    Interactable* interactable_02 = malloc(sizeof(Interactable));
+    interactable_02->type = ITT_Puzzle;
+    interactable_02->hasBeenUsed = false;
+    interactable_02->id = 23;
+    ConstructInteractable(interactable_02, (Vector3){0.0f, 0.0f, 0.0f}, puzzleBox_01, 2.0f, 2.0f, 2.0f);
+    //AssignInteractionBoxToPuzzle(allPuzzles, interactable_02);
+    interactable_02->associatedPuzzle = allPuzzles[0];
+    interactable_02->Location = allPuzzles[0]->location;
+
+    ColBox* puzzleBox_02 = malloc(sizeof(ColBox));
+    NullifyColBoxValues(puzzleBox_02);
+    Interactable* interactable_03 = malloc(sizeof(Interactable));
+    interactable_03->type = ITT_Puzzle;
+    interactable_03->hasBeenUsed = false;
+    interactable_03->id = 3;
+    ConstructInteractable(interactable_03, (Vector3){3.0f, 0.0f, -4.0f}, puzzleBox_02, 2.0f, 2.0f, 2.0f);
+    //AssignInteractionBoxToPuzzle(allPuzzles, interactable_03);
+    interactable_03->associatedPuzzle = allPuzzles[1];
+    interactable_03->Location = allPuzzles[1]->location;
+    printf("%f, %f, %f\n", interactable_03->Location.x, interactable_03->Location.y, interactable_03->Location.z);
+
+    interactables[0] = interactable_01;
+    areaQueryBoxes[0]->associatedInteractables[0] = interactable_01;
+
+    interactables[1] = interactable_02;
+    areaQueryBoxes[0]->associatedInteractables[1] = interactable_02;
+
+    interactables[2] = interactable_03;
+    areaQueryBoxes[0]->associatedInteractables[2] = interactable_03;
+}
+
+
 void InteractionBoxInteract(void)
 {
     //do stuff here later
@@ -39,7 +81,6 @@ bool IsPointInInteractable(Interactable* interactable, Vector3 point)
 void ConstructColBox(ColBox* box, Vector3 location, float width, float height, float length)
 {
     box->vertsNum = 8;
-    box->debugBool = true;
     box->verts = malloc(sizeof(float) * 24);
 
     box->interact = InteractionBoxInteract;
@@ -111,32 +152,9 @@ void CreatePlayerAreaQueries(QueryBox** areaQueryBoxes)
     ConstructColBox(box_01->areaBox, box_01->location, box_01->width, box_01->height, box_01->length);
 
     areaQueryBoxes[0] = box_01;
-    areaQueryBoxes[0]->numberOfInteractables = 2;
+    areaQueryBoxes[0]->numberOfInteractables = 3;
 }
 
-void CreateInteractables(Interactable** interactables, QueryBox** areaQueryBoxes, ButtonMaster** allPuzzles)
-{
-    ColBox* colBox_01 = malloc(sizeof(ColBox));
-    NullifyColBoxValues(colBox_01);
-    Interactable* interactable_01 = malloc(sizeof(Interactable));
-    interactable_01->associatedPuzzle = NULL;
-    ConstructInteractable(interactable_01, (Vector3){0.0f, 3.0f, -4.0f}, colBox_01, 2.0f, 2.0f, 2.0f);
-
-    ColBox* puzzleBox_01 = malloc(sizeof(ColBox));
-    NullifyColBoxValues(puzzleBox_01);
-    Interactable* interactable_02 = malloc(sizeof(Interactable));
-    interactable_02->type = ITT_Puzzle;
-    interactable_02->hasBeenUsed = false;
-    interactable_02->id = 23;
-    ConstructInteractable(interactable_02, (Vector3){0.0f, 0.0f, 0.0f}, puzzleBox_01, 2.0f, 2.0f, 2.0f);
-    AssignInteractionBoxToPuzzle(allPuzzles, interactable_02);
-
-    interactables[0] = interactable_01;
-    areaQueryBoxes[0]->associatedInteractables[0] = interactable_01;
-
-    interactables[1] = interactable_02;
-    areaQueryBoxes[0]->associatedInteractables[1] = interactable_02;
-}
 
 void NullifyColBoxValues(ColBox* box)
 {
@@ -163,6 +181,7 @@ void DestroyAreasAndInteractables(QueryBox** areaQueryBoxes)
 void AssignInteractionBoxToPuzzle(ButtonMaster** master, Interactable* interactable)
 {
     //do our other setup stuff as well
+    printf("about to assign boxes\n");
     for (int i = 0; i < NUMBER_OF_PUZZLES; i++)
     {
         if (!master[i]->hasBoxAssigned)

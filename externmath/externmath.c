@@ -16,7 +16,6 @@ bool IsPointInColBox(ColBox* box, Vector3 point)
     {
         box->randDirectionDebug = malloc(sizeof(Vector3) * 12);
         box->cubeVertsDebug = malloc(sizeof(Vector3) * 12);
-        box->debugPoint = point;
         box->cubeVertsSize = 36;
         box->randDirectionSize = 12;
     }
@@ -125,4 +124,8 @@ Vector3 RotateAroundPoint(Vector3 vector, Vector3 point, float angle, Vector3 ax
     return final;
 }
 
-
+bool IsPointInDistanceTo(Vector3 pointA, Vector3 pointB, float distanceToObject)
+{
+    float length = Vector3Distance(pointA, pointB);
+    return length <= distanceToObject;
+}

@@ -47,3 +47,5 @@ Create some sort of gate (a door, or maybe a platform that appears) to prevent t
 Create UI pieces to tell the player how to interact with the puzzles 
 
 Rename NUMBER_OF_MODELS and NUMBER_OF_PUZZLES for both A and B type games
+
+Separate interactable into gamea and gameb 

@@ -1,4 +1,5 @@
 #include "model.h"
+#include <stdio.h>
 
 /*
     Used for construction, destruction and drawing of static models
@@ -10,6 +11,7 @@ void CreateModels(modelInfo** models, int* lastModelIndex, enum Gametype gametyp
 {
     if (gametype == EGT_A)
     {
+        printf("last model index in model.c: %i\n", lastModelIndex);
         CreateModelsForGameA(models, lastModelIndex);
     }
     else

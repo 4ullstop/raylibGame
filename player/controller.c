@@ -56,6 +56,7 @@ void PollPlayerInput(PlayerCam* pcam, double deltaTime, FPSPlayer* player, Colli
         }
     }
 
+    player->playerLookForward = GetCameraForwardVector(pcam);
     //Scale by delta time to ensure a consistent movement speed
     inputVelocity = Vector3Scale(inputVelocity, deltaTime);
 

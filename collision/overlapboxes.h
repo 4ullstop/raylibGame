@@ -12,6 +12,6 @@ void RemoveBoxFromQueryList(OverlapBox* boxToRemove, int id);
 
 void DestroyOverlapBoxes(OverlapBox** allBoxes);
 
-void PlayerInInteractHintBox(FPSPlayer* player);
+void PlayerInInteractHintBox(FPSPlayer* player, OverlapBox* box);
 
 void PollOverlaps(OverlapBox** queryList, FPSPlayer* player);

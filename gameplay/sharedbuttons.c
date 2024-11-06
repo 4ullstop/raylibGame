@@ -7,13 +7,13 @@ void CreateAllButtons(ButtonMaster* master, modelInfo** dynamicModels, int* last
     master->totalButtons = master->rows * master->columns;
     master->childButtons = (Button**)malloc(master->rows * sizeof(Button*));
     Vector3 location = master->location;
+    printf("%f, %f, %f\n", location.x, location.y, location.z);
     int r = master->rows;
     int c = master->columns;
     for (int i = 0; i < r; i++)
     {
         master->childButtons[i] = (Button*)malloc(c * sizeof(Button));
     }
-    printf("%i\n", *lastModelIndex);
 
     int centerR = round((float)r / 2.0);
     int centerC = round((float)c / 2.0); 
@@ -28,12 +28,14 @@ void CreateAllButtons(ButtonMaster* master, modelInfo** dynamicModels, int* last
 
 void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelIndex, modelInfo** dynamicModels)
 {
-    //printf("%i\n", *lastModelIndex);
+    
     int centerR = floor((float)master->rows / 2.0);
     int centerC = floor((float)master->columns / 2.0);
 
     master->childButtons[i][j].buttonVectorLocation.x = i;
     master->childButtons[i][j].buttonVectorLocation.y = j;
+
+    printf("master loc: %f, %f, %f\n", master->location.x, master->location.y, master->location.z);
 
     int multipleR = i - centerR;
     float locX = master->location.x + (multipleR * master->buttonSpread);
@@ -41,7 +43,7 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
     float locY = master->location.y + (multipleC * master->buttonSpread);
     master->childButtons[i][j].location = (Vector3){master->location.x, locY, locX};
     
-    
+    printf("Button location: %f, %f, %f\n", master->location.x, locY, locX);
     //setting up our neighbors which will be important when cycling through
     //based on the player input
     int below = j < 1 ? master->columns - 1 : j - 1;

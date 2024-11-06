@@ -5,10 +5,10 @@
 #include "../ui/src/uistructs.h"
 #endif 
 
-#define NUMBER_OF_MODELS 11
-#define NUMBER_OF_INTERACTABLES 2
+#define NUMBER_OF_MODELS 12
+#define NUMBER_OF_INTERACTABLES 3
 #define NUMBER_OF_AREA_QUERY_BOXES 1
-#define NUMBER_OF_PUZZLES 1
+#define NUMBER_OF_PUZZLES 2
 #define NUMBER_OF_OVERLAP_BOXES_A 1
 
 #ifndef E_GAMEMODE
@@ -71,6 +71,8 @@ typedef struct
     Vector3 location;
     Vector3 forwardVector;
     Vector3 velocity;
+
+    Vector3 playerLookForward;
 
     Vector3 lastPos;
     Vector3 currPos;
@@ -175,13 +177,6 @@ typedef struct ColBox
     int cubeVertsSize;
     int randDirectionSize;
 
-    bool debugBool;
-    Vector3 randDirectionDebugPoint;
-    Vector3 startDebugPoint;
-    Vector3 debugPoint;
-    Vector3 intersectionPointDebug;
-    int intersectionCount;
-    Vector3* intersectionPoints;
 } ColBox;
 #endif
 
@@ -273,7 +268,7 @@ typedef struct OverlapBox
     
     int id;
 
-    void (*OnOverlap)(FPSPlayer* player);
+    void (*OnOverlap)(FPSPlayer* player, struct OverlapBox* box);
 
     struct OverlapBox* next;
 

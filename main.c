@@ -62,6 +62,8 @@ int main(int argc, char* argv[])
     //put the creation of gameplay elements here
     int lastModelIndex = 0;
 
+
+    //
     /*
         Creation of puzzles
     */
@@ -100,10 +102,11 @@ int main(int argc, char* argv[])
         deltaTime = now - lastTime;
         lastTime = now;
 
+        
         CallAllPolls(deltaTime, models, areaQueryBoxes, &interactedItem, allBoxes);
         
         Draw(models, &ray, areaQueryBoxes, ui, allBoxes);
-
+        //printf("draw called\n");
         
     }
     DestroyAreasAndInteractables(areaQueryBoxes);
@@ -148,9 +151,9 @@ void Draw(modelInfo** models, Raycast* ray, QueryBox** queryBoxes, UIElements** 
 
         //draw here
         
-        
+        DrawSphere((Vector3){3.0f, 1.0f, -4.0f}, 0.2f, BLUE);
         DrawAllModels(models);
-
+        
         for (int i = 0; i < NUMBER_OF_AREA_QUERY_BOXES; i++)
         {
             //printf("%f\n", queryBoxes[i]->width);
@@ -159,9 +162,11 @@ void Draw(modelInfo** models, Raycast* ray, QueryBox** queryBoxes, UIElements** 
             
             for (int j = 0, n = queryBoxes[i]->numberOfInteractables; j < n; j++)
             {
+                //printf("%i\n", j);
                 DrawCubeWires(queryBoxes[i]->associatedInteractables[j]->Location, queryBoxes[i]->associatedInteractables[j]->width, queryBoxes[i]->associatedInteractables[j]->height, queryBoxes[i]->associatedInteractables[j]->length, RED);
             }
         }
+        
         
         Drawline* line = ray->linesToDraw;
 
@@ -172,6 +177,7 @@ void Draw(modelInfo** models, Raycast* ray, QueryBox** queryBoxes, UIElements** 
             DrawSphere(line->hitpoint, 0.08f, PURPLE);
             line = line->next;
         }
+        
         
         //printf("about to draw overlap box\n");
         
@@ -203,7 +209,7 @@ void Draw(modelInfo** models, Raycast* ray, QueryBox** queryBoxes, UIElements** 
         //DrawPlayerCollisionCapsule(player.location);
         
         Complete3DMode();
-
+        
         Draw2D(ui);
     EndDrawing();
 }
@@ -213,12 +219,17 @@ void Draw2D(UIElements** ui)
     //draw all UI here
     for (int i = 0; i < UI_ELEMENT_TOTAL; i++)
     {
+        if (ui[i] == NULL)
+        {
+            continue;
+        }
         if (ui[i]->hidden == false && ui[i]->startHide == false)
         {
             DrawTextureEx(ui[i]->texture, (Vector2){10.f, 320.f}, 0.0f, ui[i]->scale, ui[i]->tint);
         }
         else if (ui[i]->hidden == false && ui[i]->startHide == true)
         {
+            //printf("yo\n");
             ui[i]->fadeAlpha += 0.00001 * deltaTime;
             if (ui[i]->fadeAlpha >= 1.0)
             {
@@ -226,6 +237,7 @@ void Draw2D(UIElements** ui)
                 FadeUIElement(ui[i]);
             }
         }
+        
     }
 }
 

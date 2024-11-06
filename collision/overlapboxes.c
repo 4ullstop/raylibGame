@@ -36,9 +36,21 @@ void DestroyOverlapBoxes(OverlapBox** allBoxes)
     
 }
 
-void PlayerInInteractHintBox(FPSPlayer* player)
+void PlayerInInteractHintBox(FPSPlayer* player, OverlapBox* box)
 {
-    printf("player in interaction hit box\n");
+    Vector3 puzzleLocation = (Vector3){0.0f, 0.0f, 0.0f};
+    float lookRange = 0.1f;
+    if (IsPointInDistanceTo(player->location, puzzleLocation, 2.0f))
+    {
+        float dot = Vector3DotProduct(player->playerLookForward, puzzleLocation);
+        if ((dot <= lookRange && dot >= 0) || (dot >= -(lookRange) && dot <= 0))
+        {
+            //show the widget
+            player->playerHUD[1]->hidden = false;
+            box->shouldDetect = false;
+            printf("displaying interact widget now\n");
+        }
+    }
 }
 
 /*
@@ -51,12 +63,11 @@ void PollOverlaps(OverlapBox** queryList, FPSPlayer* player)
     
     for (int i = 0; i < NUMBER_OF_OVERLAP_BOXES_A; i++)
     {
+        if (queryList[i]->shouldDetect == false) continue;
         bool playerInOverlap = IsPointInColBox(queryList[i]->collisionBox, player->location);
-        //printf("%f, %f, %f\n", player->location.x, player->location.y, player->location.z);
-        //printf("%i\n", queryList[i]->id);
         if (playerInOverlap == true)
         {
-            queryList[i]->OnOverlap(player);
+            queryList[i]->OnOverlap(player, queryList[i]);
             return;
         }
     }

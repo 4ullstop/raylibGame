@@ -11,3 +11,5 @@ bool IsPointInColBox(ColBox* box, Vector3 point);
 
 Vector3 RotateAroundPoint(Vector3 point, Vector3 origin, float angle, Vector3 axis);
 
+bool IsPointInDistanceTo(Vector3 pointA, Vector3 pointB, float distanceToObject);
+
