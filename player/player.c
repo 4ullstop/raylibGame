@@ -31,9 +31,9 @@ void DrawPlayerCollisionCapsule(Vector3 location)
     DrawCapsuleWires((Vector3){location.x, location.y + 1.0f, location.z}, (Vector3){location.x, location.y - 1.0f, location.z}, 1.0f, 8, 8, VIOLET);
 }
 
-void PollPlayerPuzzle(Interactable* interactedItem)
+void PollPlayerPuzzle(Interactable* interactedItem, enum Gamemode* mode)
 {
-    PollPlayerPuzzleInputs(interactedItem);
+    PollPlayerPuzzleInputs(interactedItem, mode);
 }
 
 void PollPlayerOverlaps(OverlapBox** queryList, FPSPlayer* player)

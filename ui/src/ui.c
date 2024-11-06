@@ -40,9 +40,22 @@ void ConstructUIElements(UIElements** elements)
     enterSubmitUI->tint = (Color){255, 255, 255, 255};
     enterSubmitUI->fadeAlpha = 0.0f;
 
+    UIElements* arrowHintUI = malloc(sizeof(UIElements));
+    arrowHintUI->hidden = true;
+    image = LoadImage("D:/CFiles/FirstGame/UI/png/arrows.png");
+    arrowHintUI->texture = LoadTextureFromImage(image);
+    UnloadImage(image);
+    arrowHintUI->screenLocation = (Vector2){100.0f, 200.0f};
+    arrowHintUI->scale = 1.0f;
+    arrowHintUI->id = 4;
+    arrowHintUI->startHide = false;
+    arrowHintUI->tint = (Color){255, 255, 255, 255};
+    arrowHintUI->fadeAlpha = 0.0f;
+
     elements[0] = movementHintUI;
     elements[1] = interactHintUI;
     elements[2] = enterSubmitUI;
+    elements[3] = arrowHintUI;
 }
 
 void DestructAllUIElements(UIElements** elements)

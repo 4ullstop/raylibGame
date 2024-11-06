@@ -13,6 +13,6 @@ void PlayerSetup(FPSPlayer* player, PlayerCam* cam, UIElements** hud, enum Gamem
 
 void PollPlayerSecondary(FPSPlayer* player, Raycast* interactRay, QueryBox** areaBoxes, enum Gamemode* mode, Interactable* interactedItem);
 
-void PollPlayerPuzzle(Interactable* interactedItem);
+void PollPlayerPuzzle(Interactable* interactedItem, enum Gamemode* mode);
 
 void PollPlayerOverlaps(OverlapBox** queryList, FPSPlayer* player);

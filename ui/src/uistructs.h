@@ -2,7 +2,7 @@
 #include "C:\raylib\raylib\src\raylib.h"
 #endif
 
-#define UI_ELEMENT_TOTAL 3
+#define UI_ELEMENT_TOTAL 4
 
 #ifndef ELEMENTS
 #define ELEMENTS

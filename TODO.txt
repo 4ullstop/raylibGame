@@ -44,10 +44,9 @@ It would also probably be nice if you made the player a little taller
 
 Create some sort of gate (a door, or maybe a platform that appears) to prevent the player from moving forward without having to solve any puzzles
 
-Create UI pieces to tell the player how to interact with the puzzles 
+Create UI pieces to tell the player how to interact with the puzzles 1/2
 
 Rename NUMBER_OF_MODELS and NUMBER_OF_PUZZLES for both A and B type games
 
 Separate interactable into gamea and gameb 
 
-Ability to exit the puzzles at any time and when you solve it

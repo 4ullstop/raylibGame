@@ -10,16 +10,20 @@ void CreateInteractables(Interactable** interactables, QueryBox** areaQueryBoxes
     Interactable* interactable_01 = malloc(sizeof(Interactable));
     interactable_01->associatedPuzzle = NULL;
     interactable_01->id = 432;
+    interactable_01->showsArrowKeyHint = false;
     ConstructInteractable(interactable_01, (Vector3){0.0f, 3.0f, -4.0f}, colBox_01, 2.0f, 2.0f, 2.0f);
 
     ColBox* puzzleBox_01 = malloc(sizeof(ColBox));
     NullifyColBoxValues(puzzleBox_01);
+    puzzleBox_01->id = 2;
     Interactable* interactable_02 = malloc(sizeof(Interactable));
     interactable_02->type = ITT_Puzzle;
     interactable_02->hasBeenUsed = false;
     interactable_02->id = 23;
+    interactable_02->showsArrowKeyHint = true;
     ConstructInteractable(interactable_02, (Vector3){0.0f, 0.0f, 0.0f}, puzzleBox_01, 2.0f, 2.0f, 2.0f);
     //AssignInteractionBoxToPuzzle(allPuzzles, interactable_02);
+    puzzleBox_01->interact = PuzzleInteract;
     interactable_02->associatedPuzzle = allPuzzles[0];
     interactable_02->Location = allPuzzles[0]->location;
 
@@ -30,6 +34,7 @@ void CreateInteractables(Interactable** interactables, QueryBox** areaQueryBoxes
     interactable_03->type = ITT_Puzzle;
     interactable_03->hasBeenUsed = false;
     interactable_03->id = 3;
+    interactable_01->showsArrowKeyHint = false;
     ConstructInteractable(interactable_03, (Vector3){3.0f, 0.0f, -4.0f}, puzzleBox_02, 2.0f, 2.0f, 2.0f);
     //AssignInteractionBoxToPuzzle(allPuzzles, interactable_03);
     puzzleBox_02->interact = PuzzleInteract;
@@ -205,5 +210,9 @@ void PuzzleInteract(FPSPlayer* player, ColBox* box)
         //hide 'e' to interact hint show 'enter' to select button hint
         player->playerHUD[1]->hidden = true;
         player->playerHUD[2]->hidden = false;
+    }
+    if (box->id == 2)
+    {
+        player->playerHUD[3]->hidden = false;
     }
 }

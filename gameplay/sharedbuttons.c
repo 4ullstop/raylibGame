@@ -8,7 +8,6 @@ void CreateAllButtons(ButtonMaster* master, modelInfo** dynamicModels, int* last
     master->childButtons = (Button**)malloc(master->rows * sizeof(Button*));
     master->OnPuzzleSolved = OnPuzzleCompleted;
     Vector3 location = master->location;
-    printf("%f, %f, %f\n", location.x, location.y, location.z);
     int r = master->rows;
     int c = master->columns;
     for (int i = 0; i < r; i++)
@@ -36,7 +35,6 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
     master->childButtons[i][j].buttonVectorLocation.x = i;
     master->childButtons[i][j].buttonVectorLocation.y = j;
 
-    printf("master loc: %f, %f, %f\n", master->location.x, master->location.y, master->location.z);
 
     int multipleR = i - centerR;
     float locX = master->location.x + (multipleR * master->buttonSpread);
@@ -44,7 +42,6 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
     float locY = master->location.y + (multipleC * master->buttonSpread);
     master->childButtons[i][j].location = (Vector3){locX, locY, master->location.z};
     
-    printf("Button location: %f, %f, %f\n", master->location.x, locY, locX);
     //setting up our neighbors which will be important when cycling through
     //based on the player input
     int below = j < 1 ? master->columns - 1 : j - 1;
@@ -120,5 +117,4 @@ void OnPuzzleCompleted(ButtonMaster* master)
     {
         master->player->playerHUD[2]->hidden = true;
     }
-    master->player->gamemode = EGM_Normal;
 }

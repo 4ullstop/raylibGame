@@ -117,28 +117,47 @@ void PollPlayerSecondaryInputs(FPSPlayer* player, Raycast* interactRay, QueryBox
     }
 }
 
-void PollPlayerPuzzleInputs(Interactable* interactedItem)
+void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode)
 {
+    bool directionalKeyPressed = false;
     if (IsKeyPressed(KEY_LEFT))
     {
-        MoveCursor(ED_Left, interactedItem);
+        MoveCursor(ED_Left, interactedItem, mode);
+        directionalKeyPressed = true;
     }
     if (IsKeyPressed(KEY_UP))
     {
-        MoveCursor(ED_Up, interactedItem);
+        MoveCursor(ED_Up, interactedItem, mode);
+        directionalKeyPressed = true;
     }
     if (IsKeyPressed(KEY_RIGHT))
     {
-        MoveCursor(ED_Right, interactedItem);
+        MoveCursor(ED_Right, interactedItem, mode);
+        directionalKeyPressed = true;
     }
     if (IsKeyPressed(KEY_DOWN))
     {
-        MoveCursor(ED_Down, interactedItem);
+        MoveCursor(ED_Down, interactedItem, mode);
+        directionalKeyPressed = true;
     }
 
     if (IsKeyPressed(KEY_ENTER))
     {
-        MoveCursor(ED_Enter, interactedItem);
+        MoveCursor(ED_Enter, interactedItem, mode);
+    }
+
+    if (IsKeyPressed(KEY_E))
+    {
+        *mode = EGM_Normal;
+    }
+
+    if (directionalKeyPressed == true)
+    {
+        if (interactedItem->showsArrowKeyHint && interactedItem->id == 23)
+        {
+            interactedItem->associatedPuzzle->player->playerHUD[3]->hidden = true;
+            interactedItem->showsArrowKeyHint = false;
+        }
     }
 
     

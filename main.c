@@ -106,7 +106,6 @@ int main(int argc, char* argv[])
         CallAllPolls(deltaTime, models, areaQueryBoxes, &interactedItem, allBoxes);
         
         Draw(models, &ray, areaQueryBoxes, ui, allBoxes);
-        //printf("draw called\n");
         
     }
     DestroyAreasAndInteractables(areaQueryBoxes);
@@ -131,7 +130,7 @@ void CallAllPolls(float dTime, modelInfo** models, QueryBox** areaBoxes, Interac
     }
     else if (gamemode == EGM_Puzzle)
     {
-        PollPlayerPuzzle(interactedItem);
+        PollPlayerPuzzle(interactedItem, &gamemode);
     }
     else if (gamemode == EGM_Inactive)
     {
@@ -155,13 +154,10 @@ void Draw(modelInfo** models, Raycast* ray, QueryBox** queryBoxes, UIElements** 
         
         for (int i = 0; i < NUMBER_OF_AREA_QUERY_BOXES; i++)
         {
-            //printf("%f\n", queryBoxes[i]->width);
-            //printf("%i", i);
             DrawCubeWires(queryBoxes[i]->location, queryBoxes[i]->width, queryBoxes[i]->height, queryBoxes[i]->length, BLUE);
             
             for (int j = 0, n = queryBoxes[i]->numberOfInteractables; j < n; j++)
             {
-                //printf("%i\n", j);
                 DrawCubeWires(queryBoxes[i]->associatedInteractables[j]->Location, queryBoxes[i]->associatedInteractables[j]->width, queryBoxes[i]->associatedInteractables[j]->height, queryBoxes[i]->associatedInteractables[j]->length, RED);
             }
         }
@@ -171,14 +167,12 @@ void Draw(modelInfo** models, Raycast* ray, QueryBox** queryBoxes, UIElements** 
 
         while (line != NULL)
         {
-            //printf("drawing new line\n");
             DrawLine3D(ray->linesToDraw->start, ray->linesToDraw->end, ray->linesToDraw->color);
             DrawSphere(line->hitpoint, 0.08f, PURPLE);
             line = line->next;
         }
         
         
-        //printf("about to draw overlap box\n");
         
         for (int i = 0; i < NUMBER_OF_OVERLAP_BOXES_A; i++)
         {
@@ -228,7 +222,6 @@ void Draw2D(UIElements** ui)
         }
         else if (ui[i]->hidden == false && ui[i]->startHide == true)
         {
-            //printf("yo\n");
             ui[i]->fadeAlpha += 0.00001 * deltaTime;
             if (ui[i]->fadeAlpha >= 1.0)
             {

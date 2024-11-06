@@ -44,7 +44,7 @@ void DestructAllSolutionLocations(ButtonMaster* master)
 
 
 
-void MoveCursor(enum Direction direction, Interactable* interactedItem)
+void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gamemode* mode)
 {
     ButtonMaster* master = interactedItem->associatedPuzzle;
     Button* currSelectedButton;
@@ -99,7 +99,7 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem)
             break;
         case ED_Enter:
             ChangeSelection(currSelectedButton);
-            CheckForSolution(currSelectedButton, master);
+            CheckForSolution(currSelectedButton, master, mode);
             break;
         default:
             printf("error default case run on switching highlight");
@@ -140,7 +140,7 @@ void ChangeSelection(Button* button)
     }
 }
 
-void CheckForSolution(Button* button, ButtonMaster* master)
+void CheckForSolution(Button* button, ButtonMaster* master, enum Gamemode* mode)
 {
     int numberOfSolved = 0;
     for (int i = 0; i < master->rows; i++)
@@ -163,6 +163,7 @@ void CheckForSolution(Button* button, ButtonMaster* master)
     if (master->numberOfSolutions == numberOfSolved)
     {
         printf("congrats you solved the puzzle\n");
+        *mode = EGM_Normal;
         master->OnPuzzleSolved(master);
     }
 }

@@ -22,7 +22,7 @@ void DestructAllPuzzles(ButtonMaster** allPuzzles);
 
 void DestructAllSolutionLocations(ButtonMaster* master);
 
-void MoveCursor(enum Direction direction, Interactable* interactedItem);
+void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gamemode* mode);
 
 void RemoveHighlight(Button* button);
 
@@ -30,6 +30,6 @@ void RemoveHighlight(Button* button);
 
 void ChangeSelection(Button* button);
 
-void CheckForSolution(Button* button, ButtonMaster* master);
+void CheckForSolution(Button* button, ButtonMaster* master, enum Gamemode* mode);
 
 void RotateButtonMaster(ButtonMaster* master, float angle, Vector3 axis);

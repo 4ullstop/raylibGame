@@ -216,6 +216,8 @@ typedef struct
     ButtonMaster* associatedPuzzle;
 
     int id;
+
+    bool showsArrowKeyHint;
 } Interactable;
 #endif
 

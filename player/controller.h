@@ -33,4 +33,4 @@ void PollPlayerInput(PlayerCam* pcam, double deltaTime, FPSPlayer* player, Colli
 
 void PollPlayerSecondaryInputs(FPSPlayer* player, Raycast* interactRay, QueryBox** areaBoxes, enum Gamemode* mode, Interactable* interactedItem);
 
-void PollPlayerPuzzleInputs(Interactable* interactedItem);
+void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode);
