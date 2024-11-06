@@ -14,7 +14,9 @@ void ConstructColBox(ColBox* box, Vector3 location, float width, float height, f
 
 void DestructColBox(ColBox* box);
 
-void InteractionBoxInteract(void);
+void PuzzleInteract(FPSPlayer* player, ColBox* box);
+
+void InteractionBoxInteract(FPSPlayer* player, ColBox* box);
 
 void CreatePlayerAreaQueries(QueryBox** areaQueryBoxes);
 

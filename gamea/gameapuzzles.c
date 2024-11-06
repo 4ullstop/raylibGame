@@ -19,7 +19,7 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, modelInfo** dynamicModel
     ButtonMaster* puzzle_02 = malloc(sizeof(ButtonMaster));
     puzzle_02->columns = 1;
     puzzle_02->rows = 1;
-    puzzle_02->location = (Vector3){3.0f, 1.0f, 0.0f};
+    puzzle_02->location = (Vector3){3.0f, 1.0f, -4.0f};
     puzzle_02->buttonSpread = 0.5f;
     puzzle_02->hasBoxAssigned = false;
     puzzle_02->id = 234;

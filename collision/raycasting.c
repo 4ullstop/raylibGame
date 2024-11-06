@@ -22,11 +22,11 @@ bool CastRayLine(FPSPlayer* player, Vector3 camForward, Raycast* ray, ColBox* al
         printf("about to draw line\n");
         DrawNewLine(ray, start, end);
     }
-    bool hit = HitDetected(start, end, ray, allLocalBoxes, mode);
+    bool hit = HitDetected(player, start, end, ray, allLocalBoxes, mode);
     return hit;
 }
 
-bool HitDetected(Vector3 start, Vector3 end, Raycast* ray, ColBox* allLocalBoxes, enum Gamemode* mode)
+bool HitDetected(FPSPlayer* player, Vector3 start, Vector3 end, Raycast* ray, ColBox* allLocalBoxes, enum Gamemode* mode)
 {
     for (int i = 0; i < 12; i++)
     {
@@ -59,7 +59,7 @@ bool HitDetected(Vector3 start, Vector3 end, Raycast* ray, ColBox* allLocalBoxes
         if (CheckPointInTriangle(intersectionPoint, v1, v2, v3))
         {
             ray->hitLocation = intersectionPoint;
-            allLocalBoxes->interact();
+            allLocalBoxes->interact(player, allLocalBoxes);
             printf("Hit found\n");
             return true;
         }
@@ -77,7 +77,7 @@ bool HitDetected(Vector3 start, Vector3 end, Raycast* ray, ColBox* allLocalBoxes
         if (foundCollision == true)
         {
             ray->hitLocation = intersectionPoint;
-            allLocalBoxes->interact();
+            allLocalBoxes->interact(player, allLocalBoxes);
             *mode = EGM_Puzzle;
             return true;
         }

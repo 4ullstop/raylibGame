@@ -151,7 +151,6 @@ void Draw(modelInfo** models, Raycast* ray, QueryBox** queryBoxes, UIElements** 
 
         //draw here
         
-        DrawSphere((Vector3){3.0f, 1.0f, -4.0f}, 0.2f, BLUE);
         DrawAllModels(models);
         
         for (int i = 0; i < NUMBER_OF_AREA_QUERY_BOXES; i++)

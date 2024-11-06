@@ -42,10 +42,7 @@ void DestructAllSolutionLocations(ButtonMaster* master)
     master->solutionLocations = NULL;
 }
 
-void PuzzleInteract(void)
-{
-    printf("puzzle interact!\n");
-}
+
 
 void MoveCursor(enum Direction direction, Interactable* interactedItem)
 {

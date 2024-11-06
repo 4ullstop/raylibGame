@@ -38,11 +38,13 @@ void DestroyOverlapBoxes(OverlapBox** allBoxes)
 
 void PlayerInInteractHintBox(FPSPlayer* player, OverlapBox* box)
 {
-    Vector3 puzzleLocation = (Vector3){0.0f, 0.0f, 0.0f};
-    float lookRange = 0.1f;
+    Vector3 puzzleLocation = (Vector3){3.0f, 1.0f, -4.0f};
+    
+    float lookRange = 5.f;
     if (IsPointInDistanceTo(player->location, puzzleLocation, 2.0f))
     {
         float dot = Vector3DotProduct(player->playerLookForward, puzzleLocation);
+        printf("dot: %f\n", dot);
         if ((dot <= lookRange && dot >= 0) || (dot >= -(lookRange) && dot <= 0))
         {
             //show the widget

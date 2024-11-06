@@ -49,3 +49,5 @@ Create UI pieces to tell the player how to interact with the puzzles
 Rename NUMBER_OF_MODELS and NUMBER_OF_PUZZLES for both A and B type games
 
 Separate interactable into gamea and gameb 
+
+Ability to exit the puzzles at any time and when you solve it

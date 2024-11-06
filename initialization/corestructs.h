@@ -168,7 +168,7 @@ typedef struct ColBox
     Vector3 location;
 
     //The interact function
-    void (*interact)();
+    void (*interact)(FPSPlayer* player, struct ColBox* box);
 
 
     //debug
@@ -178,6 +178,8 @@ typedef struct ColBox
     Vector3* cubeVertsDebug;
     int cubeVertsSize;
     int randDirectionSize;
+
+    int id;
 
 } ColBox;
 #endif
@@ -190,7 +192,6 @@ enum InteractableType
     ITT_Puzzle
 };
 #endif
-
 
 
 #ifndef INTERACTABLE

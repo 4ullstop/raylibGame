@@ -9,6 +9,7 @@ void CreateInteractables(Interactable** interactables, QueryBox** areaQueryBoxes
     NullifyColBoxValues(colBox_01);
     Interactable* interactable_01 = malloc(sizeof(Interactable));
     interactable_01->associatedPuzzle = NULL;
+    interactable_01->id = 432;
     ConstructInteractable(interactable_01, (Vector3){0.0f, 3.0f, -4.0f}, colBox_01, 2.0f, 2.0f, 2.0f);
 
     ColBox* puzzleBox_01 = malloc(sizeof(ColBox));
@@ -24,12 +25,14 @@ void CreateInteractables(Interactable** interactables, QueryBox** areaQueryBoxes
 
     ColBox* puzzleBox_02 = malloc(sizeof(ColBox));
     NullifyColBoxValues(puzzleBox_02);
+    puzzleBox_02->id = 1;
     Interactable* interactable_03 = malloc(sizeof(Interactable));
     interactable_03->type = ITT_Puzzle;
     interactable_03->hasBeenUsed = false;
     interactable_03->id = 3;
     ConstructInteractable(interactable_03, (Vector3){3.0f, 0.0f, -4.0f}, puzzleBox_02, 2.0f, 2.0f, 2.0f);
     //AssignInteractionBoxToPuzzle(allPuzzles, interactable_03);
+    puzzleBox_02->interact = PuzzleInteract;
     interactable_03->associatedPuzzle = allPuzzles[1];
     interactable_03->Location = allPuzzles[1]->location;
     printf("%f, %f, %f\n", interactable_03->Location.x, interactable_03->Location.y, interactable_03->Location.z);
@@ -45,7 +48,7 @@ void CreateInteractables(Interactable** interactables, QueryBox** areaQueryBoxes
 }
 
 
-void InteractionBoxInteract(void)
+void InteractionBoxInteract(FPSPlayer* player, ColBox* box)
 {
     //do stuff here later
     printf("You interacted and everything works!\n");
@@ -191,5 +194,15 @@ void AssignInteractionBoxToPuzzle(ButtonMaster** master, Interactable* interacta
             printf("assigning puzzle to interactable\n");
             return;
         }
+    }
+}
+
+void PuzzleInteract(FPSPlayer* player, ColBox* box)
+{
+    printf("puzzle interact! %i\n", box->id);
+    if (box->id == 1)
+    {
+        //hide 'e' to interact hint show 'enter' to select button hint
+        player->playerHUD[1]->hidden = true;
     }
 }
