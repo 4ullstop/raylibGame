@@ -28,9 +28,21 @@ void ConstructUIElements(UIElements** elements)
     interactHintUI->tint = (Color){255, 255, 255, 255};
     interactHintUI->fadeAlpha = 0.0f;
 
+    UIElements* enterSubmitUI = malloc(sizeof(UIElements));
+    enterSubmitUI->hidden = true;
+    image = LoadImage("D:/CFiles/FirstGame/UI/png/enter.png");
+    enterSubmitUI->texture = LoadTextureFromImage(image);
+    UnloadImage(image);
+    enterSubmitUI->screenLocation = (Vector2){100.0f, 200.0f};
+    enterSubmitUI->scale = 0.9f;
+    enterSubmitUI->id = 3;
+    enterSubmitUI->startHide = false;
+    enterSubmitUI->tint = (Color){255, 255, 255, 255};
+    enterSubmitUI->fadeAlpha = 0.0f;
 
     elements[0] = movementHintUI;
     elements[1] = interactHintUI;
+    elements[2] = enterSubmitUI;
 }
 
 void DestructAllUIElements(UIElements** elements)

@@ -16,7 +16,7 @@
 
 void DestructAllButtons(ButtonMaster* master);
 
-void ConstructPuzzles(ButtonMaster** allPuzzles, modelInfo** dynamicModels, int* lastModelIndex, enum Gametype gametype);
+void ConstructPuzzles(ButtonMaster** allPuzzles, modelInfo** dynamicModels, int* lastModelIndex, enum Gametype gametype, FPSPlayer* player);
 
 void DestructAllPuzzles(ButtonMaster** allPuzzles);
 

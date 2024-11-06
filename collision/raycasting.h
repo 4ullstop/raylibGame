@@ -10,7 +10,7 @@
 
 bool CastRayLine(FPSPlayer* player, Vector3 camForward, Raycast* ray, ColBox* allLocalBoxes, enum Gamemode* mode);
 
-bool HitDetected(FPSPlayer* player,Vector3 start, Vector3 end, Raycast* ray, ColBox* allLocalBoxes, enum Gamemode* mode);
+bool HitDetected(FPSPlayer* player, Vector3 start, Vector3 end, Raycast* ray, ColBox* allLocalBoxes, enum Gamemode* mode);
 
 void DrawNewLine(Raycast* ray, Vector3 start, Vector3 end);
 

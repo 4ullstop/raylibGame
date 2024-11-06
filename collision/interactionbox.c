@@ -204,5 +204,6 @@ void PuzzleInteract(FPSPlayer* player, ColBox* box)
     {
         //hide 'e' to interact hint show 'enter' to select button hint
         player->playerHUD[1]->hidden = true;
+        player->playerHUD[2]->hidden = false;
     }
 }

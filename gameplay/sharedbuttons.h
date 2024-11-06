@@ -12,3 +12,5 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
 void AddHighlight(Button* button);
 
 void RotateButtonMaster(ButtonMaster* master, float angle, Vector3 axis);
+
+void OnPuzzleCompleted(ButtonMaster* master);

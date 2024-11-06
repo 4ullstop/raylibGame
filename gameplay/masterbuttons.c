@@ -2,12 +2,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-void ConstructPuzzles(ButtonMaster** allPuzzles, modelInfo** dynamicModels, int* lastModelIndex, enum Gametype gametype)
+void ConstructPuzzles(ButtonMaster** allPuzzles, modelInfo** dynamicModels, int* lastModelIndex, enum Gametype gametype, FPSPlayer* player)
 {
     if (gametype == EGT_A)
     {
         printf("last model index in construct puzzles: %i\n", *lastModelIndex);
-        ConstructGameAPuzzles(allPuzzles, dynamicModels, lastModelIndex);
+        ConstructGameAPuzzles(allPuzzles, dynamicModels, lastModelIndex, player);
     }
     else
     {
@@ -142,7 +142,6 @@ void ChangeSelection(Button* button)
 
 void CheckForSolution(Button* button, ButtonMaster* master)
 {
-    
     int numberOfSolved = 0;
     for (int i = 0; i < master->rows; i++)
     {
@@ -159,12 +158,11 @@ void CheckForSolution(Button* button, ButtonMaster* master)
                 printf("this was NOT one of the buttons\n");
             }
         }
-        
     }
     printf("number of solutions: %i\n", master->numberOfSolutions);
     if (master->numberOfSolutions == numberOfSolved)
     {
         printf("congrats you solved the puzzle\n");
+        master->OnPuzzleSolved(master);
     }
-    
 }

@@ -1,7 +1,7 @@
 #include "player.h"
 #include <stdio.h>
 
-void PlayerSetup(FPSPlayer* player, PlayerCam* cam, UIElements** hud)
+void PlayerSetup(FPSPlayer* player, PlayerCam* cam, UIElements** hud, enum Gamemode* mode)
 {
     player->location = (Vector3){0.0, 5.0, 4.0};
     player->currPos = player->location;
@@ -10,6 +10,7 @@ void PlayerSetup(FPSPlayer* player, PlayerCam* cam, UIElements** hud)
     player->attachedCam = cam;
     player->firstInput = true;
     player->playerHUD = hud;
+    player->gamemode = mode;
 }
 
 void PollPlayer(float deltaTime, PlayerCam* pcam, FPSPlayer* player, CollisionPacket* colPacket, modelInfo** models)

@@ -6,6 +6,7 @@ void CreateAllButtons(ButtonMaster* master, modelInfo** dynamicModels, int* last
 {
     master->totalButtons = master->rows * master->columns;
     master->childButtons = (Button**)malloc(master->rows * sizeof(Button*));
+    master->OnPuzzleSolved = OnPuzzleCompleted;
     Vector3 location = master->location;
     printf("%f, %f, %f\n", location.x, location.y, location.z);
     int r = master->rows;
@@ -111,4 +112,13 @@ void RotateButtonMaster(ButtonMaster* master, float angle, Vector3 axis)
             master->childButtons[i][j].model->model.transform = MatrixRotateXYZ((Vector3){axis.x * angle, axis.y * angle, axis.z * angle});
         }
     }
+}
+
+void OnPuzzleCompleted(ButtonMaster* master)
+{
+    if (master->id == 234)
+    {
+        master->player->playerHUD[2]->hidden = true;
+    }
+    master->player->gamemode = EGM_Normal;
 }

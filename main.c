@@ -49,7 +49,7 @@ int main(int argc, char* argv[])
     ConstructUIElements(ui);
 
     PlayerCamSetup(&pcam);
-    PlayerSetup(&player, &pcam, ui);
+    PlayerSetup(&player, &pcam, ui, &gamemode);
     //DO NOT PUT ANYTHING ABOVE THESE LINES, YOUR CODE WILL NOT WORK
 
     Interactable interactedItem = {0};
@@ -68,7 +68,7 @@ int main(int argc, char* argv[])
         Creation of puzzles
     */
     ButtonMaster* allPuzzles[NUMBER_OF_PUZZLES];
-    ConstructPuzzles(allPuzzles, models, &lastModelIndex, gametype);
+    ConstructPuzzles(allPuzzles, models, &lastModelIndex, gametype, &player);
     printf("puzzles constructed\n");
     CreateModels(models, &lastModelIndex, gametype);
 

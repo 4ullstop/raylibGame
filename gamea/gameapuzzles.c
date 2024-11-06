@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, modelInfo** dynamicModels, int* lastModelIndex)
+void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, modelInfo** dynamicModels, int* lastModelIndex, FPSPlayer* player)
 {
     ButtonMaster* puzzle_01 = malloc(sizeof(ButtonMaster));
     puzzle_01->columns = 3;
@@ -12,6 +12,7 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, modelInfo** dynamicModel
     puzzle_01->hasBoxAssigned = false;
     puzzle_01->id = 123;
     puzzle_01->numberOfSolutions = 0;
+    puzzle_01->player = player;
     ReadPuzzleCSV(puzzle_01, "D:/CFiles/FirstGame/filereading/csv/puzzle_01.csv");
     gameAPuzzles[0] = puzzle_01;
 
@@ -24,6 +25,7 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, modelInfo** dynamicModel
     puzzle_02->hasBoxAssigned = false;
     puzzle_02->id = 234;
     puzzle_02->numberOfSolutions = 0;
+    puzzle_02->player = player;
     ReadPuzzleCSV(puzzle_02, "D:/CFiles/FirstGame/filereading/csv/puzzle_02.csv");
     gameAPuzzles[1] = puzzle_02;
 

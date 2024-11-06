@@ -9,7 +9,7 @@ void PollPlayer(float deltaTime, PlayerCam* pcam, FPSPlayer* player, CollisionPa
 
 void DrawPlayerCollisionCapsule(Vector3 location);
 
-void PlayerSetup(FPSPlayer* player, PlayerCam* cam, UIElements** hud);
+void PlayerSetup(FPSPlayer* player, PlayerCam* cam, UIElements** hud, enum Gamemode* mode);
 
 void PollPlayerSecondary(FPSPlayer* player, Raycast* interactRay, QueryBox** areaBoxes, enum Gamemode* mode, Interactable* interactedItem);
 

@@ -89,6 +89,8 @@ typedef struct
     bool firstInput;
 
     UIElements** playerHUD;
+
+    enum Gamemode* gamemode;
 } FPSPlayer;
 #endif
 
@@ -153,9 +155,10 @@ typedef struct ButtonMaster
     bool hasBoxAssigned;
 
     int id;
+    FPSPlayer* player;
+    void (*OnPuzzleSolved)(struct ButtonMaster* master);
 } ButtonMaster;
 #endif
-
 
 #ifndef COLBOX
 #define COLBOX
