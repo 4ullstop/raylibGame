@@ -8,6 +8,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#define GLSL_VERSION 330
+
 //telling opengl to use the graphics card and not the cpu
 typedef unsigned long DWORD;
 
@@ -29,6 +31,8 @@ float zVelocity = 0.0f;
 Vector3 cubePos = {-5.0f, 0.0f, 0.0f};
 Vector3 twoCube = {0.0f, 5.0f, 0.0f};
 
+
+
 CollisionPacket colPacket = {0};
 
 Raycast ray = {0};
@@ -45,6 +49,8 @@ int main(int argc, char* argv[])
     printf("Initializing window and player camera...\n");
     CreateWindow(800, 450);
     
+    
+
     //intialize UI
     UIElements* ui[UI_ELEMENT_TOTAL];
     ConstructUIElements(ui);
@@ -59,7 +65,6 @@ int main(int argc, char* argv[])
     printf("Preparing model loading...\n");
 
     //initializing all of our models
-    //modelInfo* models[NUMBER_OF_MODELS];
 
     modelInfo* modelsA[NUMBER_OF_MODELS_A];
     modelInfo* modelsB[NUMBER_OF_MODELS_B];
@@ -80,7 +85,6 @@ int main(int argc, char* argv[])
     /*
         Creation of puzzles
     */
-    //ButtonMaster* allPuzzles[NUMBER_OF_PUZZLES];
 
     ButtonMaster* allPuzzlesA[NUMBER_OF_PUZZLES_A];
     ButtonMaster* allPuzzlesB[NUMBER_OF_PUZZLES_B];
@@ -104,12 +108,10 @@ int main(int argc, char* argv[])
     /*
         Creation of interactables
     */
-    //Interactable* interactables[NUMBER_OF_INTERACTABLES];
 
     Interactable* interactablesA[NUMBER_OF_INTERACTABLES_A];
     Interactable* interactablesB[NUMBER_OF_INTERACTABLES_B];
 
-    //QueryBox* areaQueryBoxes[NUMBER_OF_AREA_QUERY_BOXES];
     QueryBox* areaQueryBoxesA[NUMBER_OF_AREA_QUERY_BOXES_A];
     QueryBox* areaQueryBoxesB[NUMBER_OF_AREA_QUERY_BOXES_B];
     int numOfInteractables = 0;
@@ -128,15 +130,6 @@ int main(int argc, char* argv[])
         numOfInteractables = NUMBER_OF_INTERACTABLES_B;
         numOfQueryBoxes = NUMBER_OF_AREA_QUERY_BOXES_B;
     }
-
-
-    
-    //CreateInteractables(interactables, areaQueryBoxes, allPuzzles);
-    
-    
-    
-
-    //OverlapBox* allBoxes[NUMBER_OF_OVERLAP_BOXES_A];
 
     OverlapBox* allBoxesA[NUMBER_OF_OVERLAP_BOXES_A];
     OverlapBox* allBoxesB[NUMBER_OF_AREA_QUERY_BOXES_B];
@@ -285,6 +278,7 @@ void Draw(modelInfo** models, Raycast* ray, QueryBox** queryBoxes, UIElements** 
 
         //DrawPlayerCollisionCapsule(player.location);
         
+
         Complete3DMode();
         
         Draw2D(ui);
@@ -313,7 +307,6 @@ void Draw2D(UIElements** ui)
                 FadeUIElement(ui[i]);
             }
         }
-        
     }
 }
 

@@ -109,7 +109,7 @@ void CreatePlayerAreaQueries(QueryBox** areaQueryBoxes)
 {
     QueryBox* box_01 = malloc(sizeof(QueryBox));
     box_01->areaBox = malloc(sizeof(ColBox));
-    box_01->location = (Vector3){2.0, 2.0, -2.0};
+    box_01->location = (Vector3){1.0, 2.0, -15.0};
     box_01->length = 10.f;
     box_01->width = 10.f;
     box_01->height = 10.f;

@@ -12,11 +12,11 @@ void ConstructOverlapBoxes(OverlapBox** allBoxes)
     OverlapBox* interactHintOverlap = malloc(sizeof(OverlapBox));
     ColBox* overlapBox = malloc(sizeof(ColBox));
     interactHintOverlap->collisionBox = overlapBox;
-    interactHintOverlap->location = (Vector3){3.0f, 2.0f, -4.0f};
+    interactHintOverlap->location = (Vector3){2.3f, 1.0f, -15.0f};
     overlapBox->location = interactHintOverlap->location;
-    interactHintOverlap->height = 7.0f;
-    interactHintOverlap->width = 7.0f;
-    interactHintOverlap->length = 7.0f;
+    interactHintOverlap->height = 5.0f;
+    interactHintOverlap->width = 10.0f;
+    interactHintOverlap->length = 10.0f;
     interactHintOverlap->next = NULL;
     interactHintOverlap->id = 1;
     interactHintOverlap->shouldDetect = true;
@@ -38,7 +38,7 @@ void DestroyOverlapBoxes(OverlapBox** allBoxes)
 
 void PlayerInInteractHintBox(FPSPlayer* player, OverlapBox* box)
 {
-    Vector3 puzzleLocation = (Vector3){3.0f, 1.0f, -4.0f};
+    Vector3 puzzleLocation = (Vector3){2.3f, 1.0f, -15.0f};
     
     float lookRange = 5.f;
     if (IsPointInDistanceTo(player->location, puzzleLocation, 2.0f))

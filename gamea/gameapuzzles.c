@@ -20,7 +20,7 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, modelInfo** dynamicModel
     ButtonMaster* puzzle_02 = malloc(sizeof(ButtonMaster));
     puzzle_02->columns = 1;
     puzzle_02->rows = 1;
-    puzzle_02->location = (Vector3){3.0f, 1.0f, -4.0f};
+    puzzle_02->location = (Vector3){2.3f, 1.0f, -15.0f};
     puzzle_02->buttonSpread = 0.5f;
     puzzle_02->hasBoxAssigned = false;
     puzzle_02->id = 234;
@@ -35,6 +35,7 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, modelInfo** dynamicModel
         CreateAllButtons(gameAPuzzles[i], dynamicModels, lastModelIndex);
     }
     RotateButtonMaster(puzzle_01, 45.f, (Vector3){0.0f, 1.0f, 0.0f});
+    RotateButtonMaster(puzzle_02, 80.0f, (Vector3){0.0f, 1.0f, 0.0f});
     printf("%f, %f, %f\n", gameAPuzzles[1]->location.x, gameAPuzzles[1]->location.y, gameAPuzzles[1]->location.z);
 
 }

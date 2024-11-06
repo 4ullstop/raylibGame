@@ -105,6 +105,8 @@ typedef struct
     UIElements** playerHUD;
 
     enum Gamemode* gamemode;
+
+    bool showPlayerLocation;
 } FPSPlayer;
 #endif
 

@@ -3,7 +3,7 @@
 
 void PlayerSetup(FPSPlayer* player, PlayerCam* cam, UIElements** hud, enum Gamemode* mode)
 {
-    player->location = (Vector3){0.0, 5.0, 4.0};
+    player->location = (Vector3){0.0, 5.0, -21.0};
     player->currPos = player->location;
     player->lastPos = player->location;
     player->velocity = (Vector3){0.0f, 0.0f, 0.0f};
@@ -11,19 +11,23 @@ void PlayerSetup(FPSPlayer* player, PlayerCam* cam, UIElements** hud, enum Gamem
     player->firstInput = true;
     player->playerHUD = hud;
     player->gamemode = mode;
+    player->showPlayerLocation = true;
 }
 
 void PollPlayer(float deltaTime, PlayerCam* pcam, FPSPlayer* player, CollisionPacket* colPacket, modelInfo** models, int numOfModels)
 {
-    //DetectPlayerMoveInput(pcam, deltaTime, player, mesh, colPacket);
-    
     PollPlayerInput(pcam, deltaTime, player, colPacket, models, numOfModels);
     DetectPlayerLookInput(pcam);
+
+    
+    //printf("%f, %f, %f\n", pcam->position.x, pcam->position.y, pcam->position.z);
+    
 }
 
 void PollPlayerSecondary(FPSPlayer* player, Raycast* interactRay, QueryBox** areaBoxes, enum Gamemode* mode, Interactable* interactedItem, int numOfAreaQueryBoxes)
 {
     PollPlayerSecondaryInputs(player, interactRay, areaBoxes, mode, interactedItem, numOfAreaQueryBoxes);
+    
 }
 
 void DrawPlayerCollisionCapsule(Vector3 location)
