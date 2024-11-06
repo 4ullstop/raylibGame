@@ -3,6 +3,7 @@
 #include "player/player.h"
 #include "initialization/window.h"
 #include "collision/interactionbox.h" 
+#include "gameplay/gameseparateinteractables.h"
 #include "filereading/filereader.h"
 #include <stdlib.h>
 #include <stdio.h>
@@ -78,7 +79,8 @@ int main(int argc, char* argv[])
     Interactable* interactables[NUMBER_OF_INTERACTABLES];
     QueryBox* areaQueryBoxes[NUMBER_OF_AREA_QUERY_BOXES];
     CreatePlayerAreaQueries(areaQueryBoxes);
-    CreateInteractables(interactables, areaQueryBoxes, allPuzzles);
+    //CreateInteractables(interactables, areaQueryBoxes, allPuzzles);
+    CreateInteractablesForGameType(interactables, areaQueryBoxes, allPuzzles, gametype);
     
     
 

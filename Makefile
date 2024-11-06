@@ -21,7 +21,10 @@ SRC = main.c \
 	  gameb\gamebpuzzles.c \
 	  gameb\gamebmodels.c \
 	  ui\src\ui.c \
-	  collision\overlapboxes.c
+	  collision\overlapboxes.c \
+	  gamea\gameainteractables.c \
+	  gameplay\gameseparateinteractables.c \
+	  gameb\gamebinteractables.c
 OBJ = intermediate\main.o \
       intermediate\window.o \
       intermediate\camera.o \
@@ -44,7 +47,10 @@ OBJ = intermediate\main.o \
 	  intermediate\gamebpuzzles.o \
 	  intermediate\gamebmodels.o \
 	  intermediate\ui.o \
-	  intermediate\overlapboxes.o
+	  intermediate\overlapboxes.o \
+	  intermediate\gameainteractables.o \
+	  intermediate\gameseparateinteractables.o \
+	  intermediate\gamebinteractables.o
 !IFNDEF OUTPUT
 OUTPUT = test.exe
 !ENDIF
@@ -132,6 +138,14 @@ intermediate\ui.o: ui\src\ui.c intermediate
 intermediate\overlapboxes.o: collision\overlapboxes.c intermediate
 	$(CC) -c collision\overlapboxes.c -o intermediate\overlapboxes.o $(INCLUDE)
 
+intermediate\gameainteractables.o: gamea\gameainteractables.c intermediate
+	$(CC) -c gamea\gameainteractables.c -o intermediate\gameainteractables.o $(INCLUDE)
+
+intermediate\gameseparateinteractables.o: gameplay\gameseparateinteractables.c intermediate
+	$(CC) -c gameplay\gameseparateinteractables.c -o intermediate\gameseparateinteractables.o $(INCLUDE)
+
+intermediate\gamebinteractables.o: gameb\gamebinteractables.c intermediate
+	$(CC) -c gameb\gamebinteractables.c -o intermediate\gamebinteractables.o $(INCLUDE)
 
 # Clean rule to delete
 clean:

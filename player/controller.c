@@ -153,7 +153,7 @@ void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode)
 
     if (directionalKeyPressed == true)
     {
-        if (interactedItem->showsArrowKeyHint && interactedItem->id == 23)
+        if (interactedItem->showsArrowKeyHint == true && interactedItem->id == 23)
         {
             interactedItem->associatedPuzzle->player->playerHUD[3]->hidden = true;
             interactedItem->showsArrowKeyHint = false;
