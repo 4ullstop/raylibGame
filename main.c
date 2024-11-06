@@ -59,33 +59,97 @@ int main(int argc, char* argv[])
     printf("Preparing model loading...\n");
 
     //initializing all of our models
-    modelInfo* models[NUMBER_OF_MODELS];
+    //modelInfo* models[NUMBER_OF_MODELS];
+
+    modelInfo* modelsA[NUMBER_OF_MODELS_A];
+    modelInfo* modelsB[NUMBER_OF_MODELS_B];
+
     //put the creation of gameplay elements here
     int lastModelIndex = 0;
-
+    int numOfModels = 0;
+    if (gametype == EGT_A)
+    {
+        numOfModels = NUMBER_OF_MODELS_A;
+    }
+    else
+    {
+        numOfModels = NUMBER_OF_MODELS_B;
+    }
 
     //
     /*
         Creation of puzzles
     */
-    ButtonMaster* allPuzzles[NUMBER_OF_PUZZLES];
-    ConstructPuzzles(allPuzzles, models, &lastModelIndex, gametype, &player);
+    //ButtonMaster* allPuzzles[NUMBER_OF_PUZZLES];
+
+    ButtonMaster* allPuzzlesA[NUMBER_OF_PUZZLES_A];
+    ButtonMaster* allPuzzlesB[NUMBER_OF_PUZZLES_B];
+    
     printf("puzzles constructed\n");
-    CreateModels(models, &lastModelIndex, gametype);
+    int numOfPuzzles = 0;
+    if (gametype == EGT_A)
+    {
+        ConstructPuzzles(allPuzzlesA, modelsA, &lastModelIndex, gametype, &player);
+        CreateModels(modelsA, &lastModelIndex, gametype);\
+        numOfPuzzles = NUMBER_OF_PUZZLES_A;
+    }
+    else
+    {
+        ConstructPuzzles(allPuzzlesB, modelsB, &lastModelIndex, gametype, &player);
+        CreateModels(modelsB, &lastModelIndex, gametype);
+        numOfPuzzles = NUMBER_OF_PUZZLES_B;
+    }
+    printf("puzzles created\n");
 
     /*
         Creation of interactables
     */
-    Interactable* interactables[NUMBER_OF_INTERACTABLES];
-    QueryBox* areaQueryBoxes[NUMBER_OF_AREA_QUERY_BOXES];
-    CreatePlayerAreaQueries(areaQueryBoxes);
+    //Interactable* interactables[NUMBER_OF_INTERACTABLES];
+
+    Interactable* interactablesA[NUMBER_OF_INTERACTABLES_A];
+    Interactable* interactablesB[NUMBER_OF_INTERACTABLES_B];
+
+    //QueryBox* areaQueryBoxes[NUMBER_OF_AREA_QUERY_BOXES];
+    QueryBox* areaQueryBoxesA[NUMBER_OF_AREA_QUERY_BOXES_A];
+    QueryBox* areaQueryBoxesB[NUMBER_OF_AREA_QUERY_BOXES_B];
+    int numOfInteractables = 0;
+    int numOfQueryBoxes = 0;
+    if (gametype == EGT_A)
+    {
+        CreatePlayerAreaQueries(areaQueryBoxesA);
+        CreateInteractablesForGameType(interactablesA, areaQueryBoxesA, allPuzzlesA, gametype);
+        numOfInteractables = NUMBER_OF_INTERACTABLES_A;
+        numOfQueryBoxes = NUMBER_OF_AREA_QUERY_BOXES_A;
+    }
+    else
+    {
+        CreatePlayerAreaQueries(areaQueryBoxesB);
+        CreateInteractablesForGameType(interactablesB, areaQueryBoxesB, allPuzzlesB, gametype);
+        numOfInteractables = NUMBER_OF_INTERACTABLES_B;
+        numOfQueryBoxes = NUMBER_OF_AREA_QUERY_BOXES_B;
+    }
+
+
+    
     //CreateInteractables(interactables, areaQueryBoxes, allPuzzles);
-    CreateInteractablesForGameType(interactables, areaQueryBoxes, allPuzzles, gametype);
+    
     
     
 
-    OverlapBox* allBoxes[NUMBER_OF_OVERLAP_BOXES_A];
-    ConstructOverlapBoxes(allBoxes);
+    //OverlapBox* allBoxes[NUMBER_OF_OVERLAP_BOXES_A];
+
+    OverlapBox* allBoxesA[NUMBER_OF_OVERLAP_BOXES_A];
+    OverlapBox* allBoxesB[NUMBER_OF_AREA_QUERY_BOXES_B];
+
+    if (gametype == EGT_A)
+    {
+        ConstructOverlapBoxes(allBoxesA);
+    }
+    else
+    {
+        ConstructOverlapBoxes(allBoxesB);
+    }
+    
     
     
     //Set the size for our ellipsoid for collision
@@ -104,30 +168,49 @@ int main(int argc, char* argv[])
         deltaTime = now - lastTime;
         lastTime = now;
 
-        
-        CallAllPolls(deltaTime, models, areaQueryBoxes, &interactedItem, allBoxes);
-        
-        Draw(models, &ray, areaQueryBoxes, ui, allBoxes);
-        
+        if (gametype == EGT_A)
+        {
+            CallAllPolls(deltaTime, modelsA, areaQueryBoxesA, &interactedItem, allBoxesA, numOfModels, numOfQueryBoxes);
+            Draw(modelsA, &ray, areaQueryBoxesA, ui, allBoxesA, numOfModels, numOfQueryBoxes, numOfInteractables);
+        }
+        else
+        {
+            CallAllPolls(deltaTime, modelsB, areaQueryBoxesB, &interactedItem, allBoxesB, numOfModels, numOfQueryBoxes);
+            Draw(modelsB, &ray, areaQueryBoxesB, ui, allBoxesB, numOfModels, numOfQueryBoxes, numOfInteractables);
+        }
     }
-    DestroyAreasAndInteractables(areaQueryBoxes);
-    DestructAllPuzzles(allPuzzles);
-    DestroyAllModels(models);
+    
+    
+    if (gametype == EGT_A)
+    {
+        DestroyAllModels(modelsA, numOfModels);
+        DestructAllPuzzles(allPuzzlesA, numOfPuzzles);
+        DestroyAreasAndInteractables(areaQueryBoxesA, numOfQueryBoxes, numOfInteractables);
+        DestroyOverlapBoxes(allBoxesA);
+    }
+    else
+    {
+        DestroyAllModels(modelsB, numOfModels);
+        DestructAllPuzzles(allPuzzlesB, numOfPuzzles);
+        DestroyAreasAndInteractables(areaQueryBoxesB, numOfQueryBoxes, numOfInteractables);
+        DestroyOverlapBoxes(allBoxesB);
+    }
+    
     DestroyLines(ray.linesToDraw);
     DestructAllUIElements(ui);
-    DestroyOverlapBoxes(allBoxes);
+    
     printf("destroyed\n");
     CloseWindow();
 
     return 0;
 }
 
-void CallAllPolls(float dTime, modelInfo** models, QueryBox** areaBoxes, Interactable* interactedItem, OverlapBox** overlapBoxes)
+void CallAllPolls(float dTime, modelInfo** models, QueryBox** areaBoxes, Interactable* interactedItem, OverlapBox** overlapBoxes, int numberOfModels, int numOfAreaQueryBoxes)
 {
     if (gamemode == EGM_Normal)
     {
-        PollPlayer(dTime, &pcam, &player, &colPacket, models);
-        PollPlayerSecondary(&player, &ray, areaBoxes, &gamemode, interactedItem);
+        PollPlayer(dTime, &pcam, &player, &colPacket, models, numberOfModels);
+        PollPlayerSecondary(&player, &ray, areaBoxes, &gamemode, interactedItem, numOfAreaQueryBoxes);
         PollOverlaps(overlapBoxes, &player);
     }
     else if (gamemode == EGM_Puzzle)
@@ -141,7 +224,7 @@ void CallAllPolls(float dTime, modelInfo** models, QueryBox** areaBoxes, Interac
     
 }
 
-void Draw(modelInfo** models, Raycast* ray, QueryBox** queryBoxes, UIElements** ui, OverlapBox** overlapQueryList)
+void Draw(modelInfo** models, Raycast* ray, QueryBox** queryBoxes, UIElements** ui, OverlapBox** overlapQueryList, int numberOfModels, int numberOfQueryBoxes, int numberOfInteractables)
 {
     
     BeginDrawing();
@@ -151,10 +234,9 @@ void Draw(modelInfo** models, Raycast* ray, QueryBox** queryBoxes, UIElements** 
         StartMode3D(pcam);
 
         //draw here
+        DrawAllModels(models, numberOfModels);
         
-        DrawAllModels(models);
-        
-        for (int i = 0; i < NUMBER_OF_AREA_QUERY_BOXES; i++)
+        for (int i = 0; i < numberOfQueryBoxes; i++)
         {
             DrawCubeWires(queryBoxes[i]->location, queryBoxes[i]->width, queryBoxes[i]->height, queryBoxes[i]->length, BLUE);
             

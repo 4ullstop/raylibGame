@@ -20,17 +20,17 @@ void CreateModels(modelInfo** models, int* lastModelIndex, enum Gametype gametyp
     }
 }
 
-void DrawAllModels(modelInfo** models)
+void DrawAllModels(modelInfo** models, int numOfModels)
 {
-    for (int i = 0; i < NUMBER_OF_MODELS; i++)
+    for (int i = 0; i < numOfModels; i++)
     {
         DrawModel(models[i]->model, models[i]->modelLocation, 1.0f, WHITE);
     }
 }
 
-void DestroyAllModels(modelInfo** models)
+void DestroyAllModels(modelInfo** models, int numOfModels)
 {
-    for (int i = 0; i < NUMBER_OF_MODELS; i++)
+    for (int i = 0; i < numOfModels; i++)
     {
         UnloadTexture(models[i]->texture);
         UnloadModel(models[i]->model);

@@ -16,9 +16,9 @@ void ConstructPuzzles(ButtonMaster** allPuzzles, modelInfo** dynamicModels, int*
     
 }
 
-void DestructAllPuzzles(ButtonMaster** allPuzzles)
+void DestructAllPuzzles(ButtonMaster** allPuzzles, int numberOfPuzzles)
 {
-    for (int i = 0; i < NUMBER_OF_PUZZLES; i++)
+    for (int i = 0; i < numberOfPuzzles; i++)
     {
         DestructAllButtons(allPuzzles[i]);
         DestructAllSolutionLocations(allPuzzles[i]);

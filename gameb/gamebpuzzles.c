@@ -12,7 +12,7 @@ void ConstructGameBPuzzles(ButtonMaster** gameBPuzzles, modelInfo** dynamicModel
     ReadPuzzleCSV(puzzle_01, "D:/CFiles/FirstGame/filereading/csv/puzzle_01.csv");
     gameBPuzzles[0] = puzzle_01;
 
-    for (int i = 0; i < NUMBER_OF_PUZZLES; i++)
+    for (int i = 0; i < NUMBER_OF_PUZZLES_B; i++)
     {
         CreateAllButtons(gameBPuzzles[i], dynamicModels, lastModelIndex);
     }

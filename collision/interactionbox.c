@@ -127,11 +127,11 @@ void NullifyColBoxValues(ColBox* box)
     box->indices = NULL;
 }
 
-void DestroyAreasAndInteractables(QueryBox** areaQueryBoxes)
+void DestroyAreasAndInteractables(QueryBox** areaQueryBoxes, int numOfQueryBoxes, int numOfInteractables)
 {
-    for (int i = 0; i < NUMBER_OF_AREA_QUERY_BOXES; i++)
+    for (int i = 0; i < numOfQueryBoxes; i++)
     {
-        for (int j = 0; j < NUMBER_OF_INTERACTABLES; j++)
+        for (int j = 0; j < numOfInteractables; j++)
         {
             DestructInteractable(areaQueryBoxes[i]->associatedInteractables[j]);
             free(areaQueryBoxes[i]->associatedInteractables[j]);
@@ -142,21 +142,6 @@ void DestroyAreasAndInteractables(QueryBox** areaQueryBoxes)
     }
 }
 
-void AssignInteractionBoxToPuzzle(ButtonMaster** master, Interactable* interactable)
-{
-    //do our other setup stuff as well
-    printf("about to assign boxes\n");
-    for (int i = 0; i < NUMBER_OF_PUZZLES; i++)
-    {
-        if (!master[i]->hasBoxAssigned)
-        {
-            interactable->associatedPuzzle = master[i];
-            interactable->Location = master[i]->location;
-            printf("assigning puzzle to interactable\n");
-            return;
-        }
-    }
-}
 
 void PuzzleInteract(FPSPlayer* player, ColBox* box)
 {

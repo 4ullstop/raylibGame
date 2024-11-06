@@ -2,7 +2,7 @@
 #include <stdio.h>
 
 
-void PollPlayerInput(PlayerCam* pcam, double deltaTime, FPSPlayer* player, CollisionPacket* colPacket, modelInfo** models)
+void PollPlayerInput(PlayerCam* pcam, double deltaTime, FPSPlayer* player, CollisionPacket* colPacket, modelInfo** models, int numOfModels)
 {
     /*
         This is the implementation of an accumulated velocity movement system
@@ -63,13 +63,12 @@ void PollPlayerInput(PlayerCam* pcam, double deltaTime, FPSPlayer* player, Colli
     //Apply the accumulated velocity to the player's current velocity
     player->velocity = inputVelocity;
     
-
-    CollideAndSlide(colPacket, player, deltaTime, models);
+    CollideAndSlide(colPacket, player, deltaTime, models, numOfModels);
 
     CalculatePlayerVelocity(player, deltaTime);
 }
 
-void PollPlayerSecondaryInputs(FPSPlayer* player, Raycast* interactRay, QueryBox** areaBoxes, enum Gamemode* mode, Interactable* interactedItem)
+void PollPlayerSecondaryInputs(FPSPlayer* player, Raycast* interactRay, QueryBox** areaBoxes, enum Gamemode* mode, Interactable* interactedItem, int numOfAreaQueryBoxes)
 {
     if (IsKeyPressed(KEY_E))
     {
@@ -79,7 +78,7 @@ void PollPlayerSecondaryInputs(FPSPlayer* player, Raycast* interactRay, QueryBox
         printf("interact button pressed\n");
 
         Vector3 forward = GetCameraForwardVector(player->attachedCam);
-        for (int i = 0; i < NUMBER_OF_AREA_QUERY_BOXES; i++)
+        for (int i = 0; i < numOfAreaQueryBoxes; i++)
         {
             if (IsPointInColBox(areaBoxes[i]->areaBox, player->location))
             {
@@ -247,7 +246,7 @@ void InputCamPitch(PlayerCam* pcam, float angle, bool lockView, bool rotateUp)
     }
 }
 
-void CollideAndSlide(CollisionPacket* colPacket, FPSPlayer* player, double deltaTime, modelInfo** models)
+void CollideAndSlide(CollisionPacket* colPacket, FPSPlayer* player, double deltaTime, modelInfo** models, int numberOfModels)
 {
     colPacket->R3Position = player->location;
     colPacket->R3Velocity = player->velocity;
@@ -257,7 +256,7 @@ void CollideAndSlide(CollisionPacket* colPacket, FPSPlayer* player, double delta
 
     colPacket->collisionRecursionDepth = 0;
 
-    Vector3 finalPosition = CollideWithWorld(colPacket, eSpacePosition, eSpaceVelocity, models);
+    Vector3 finalPosition = CollideWithWorld(colPacket, eSpacePosition, eSpaceVelocity, models, numberOfModels);
     player->location = finalPosition;
 
     Vector3 gravity = (Vector3){0.0, -9.81 * deltaTime, 0.0};
@@ -270,7 +269,7 @@ void CollideAndSlide(CollisionPacket* colPacket, FPSPlayer* player, double delta
 
     colPacket->collisionRecursionDepth = 0;
 
-    finalPosition = CollideWithWorld(colPacket, Vector3Divide(player->location, colPacket->eRadius), eSpaceVelocity, models);
+    finalPosition = CollideWithWorld(colPacket, Vector3Divide(player->location, colPacket->eRadius), eSpaceVelocity, models, numberOfModels);
 
     //converting back to r3
     finalPosition = Vector3Multiply(finalPosition, colPacket->eRadius);
@@ -281,7 +280,7 @@ void CollideAndSlide(CollisionPacket* colPacket, FPSPlayer* player, double delta
     player->attachedCam->target = Vector3Add(player->attachedCam->target, player->velocity);
 }
 
-Vector3 CollideWithWorld(CollisionPacket* colPacket, Vector3 pos, Vector3 vel, modelInfo** models)
+Vector3 CollideWithWorld(CollisionPacket* colPacket, Vector3 pos, Vector3 vel, modelInfo** models, int numberOfModels)
 {
     float unitScale = 100.f / 100.f;
     float veryCloseDistance = 0.005f * unitScale;
@@ -300,7 +299,7 @@ Vector3 CollideWithWorld(CollisionPacket* colPacket, Vector3 pos, Vector3 vel, m
     colPacket->basePoint = pos;
     colPacket->foundCollision = false;
     //check for collision
-    for (int i = 0; i < NUMBER_OF_MODELS; i++)
+    for (int i = 0; i < numberOfModels; i++)
     {
         if (models[i]->collisionDisabled == true) continue;
         PollCollision(colPacket, models[i]->model.meshes, models[i]->modelLocation);
@@ -361,5 +360,5 @@ Vector3 CollideWithWorld(CollisionPacket* colPacket, Vector3 pos, Vector3 vel, m
     }
 
     colPacket->collisionRecursionDepth++;
-    return CollideWithWorld(colPacket, newBasePoint, newVelocityVector, models);
+    return CollideWithWorld(colPacket, newBasePoint, newVelocityVector, models, numberOfModels);
 }

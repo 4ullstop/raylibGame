@@ -22,8 +22,7 @@ void CreatePlayerAreaQueries(QueryBox** areaQueryBoxes);
 
 void CreateInteractables(Interactable** interactables, QueryBox** areaQueryBoxes, ButtonMaster** allPuzzles);
 
-void DestroyAreasAndInteractables(QueryBox** areaQueryBoxes);
+void DestroyAreasAndInteractables(QueryBox** areaQueryBoxes, int numOfQueryBoxes, int numOfInteractables);
 
 void NullifyColBoxValues(ColBox* box);
 
-void AssignInteractionBoxToPuzzle(ButtonMaster** master, Interactable* interactable);

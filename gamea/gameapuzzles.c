@@ -30,7 +30,7 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, modelInfo** dynamicModel
     gameAPuzzles[1] = puzzle_02;
 
     
-    for (int i = 0; i < NUMBER_OF_PUZZLES; i++)
+    for (int i = 0; i < NUMBER_OF_PUZZLES_A; i++)
     {
         CreateAllButtons(gameAPuzzles[i], dynamicModels, lastModelIndex);
     }

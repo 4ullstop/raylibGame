@@ -12,6 +12,6 @@
 
 void CreateModels(modelInfo** models, int* lastModelIndex, enum Gametype gametype);
 
-void DrawAllModels(modelInfo** models);
+void DrawAllModels(modelInfo** models, int numOfModels);
 
-void DestroyAllModels(modelInfo** models);
+void DestroyAllModels(modelInfo** models, int numOfModels);

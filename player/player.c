@@ -13,17 +13,17 @@ void PlayerSetup(FPSPlayer* player, PlayerCam* cam, UIElements** hud, enum Gamem
     player->gamemode = mode;
 }
 
-void PollPlayer(float deltaTime, PlayerCam* pcam, FPSPlayer* player, CollisionPacket* colPacket, modelInfo** models)
+void PollPlayer(float deltaTime, PlayerCam* pcam, FPSPlayer* player, CollisionPacket* colPacket, modelInfo** models, int numOfModels)
 {
     //DetectPlayerMoveInput(pcam, deltaTime, player, mesh, colPacket);
     
-    PollPlayerInput(pcam, deltaTime, player, colPacket, models);
+    PollPlayerInput(pcam, deltaTime, player, colPacket, models, numOfModels);
     DetectPlayerLookInput(pcam);
 }
 
-void PollPlayerSecondary(FPSPlayer* player, Raycast* interactRay, QueryBox** areaBoxes, enum Gamemode* mode, Interactable* interactedItem)
+void PollPlayerSecondary(FPSPlayer* player, Raycast* interactRay, QueryBox** areaBoxes, enum Gamemode* mode, Interactable* interactedItem, int numOfAreaQueryBoxes)
 {
-    PollPlayerSecondaryInputs(player, interactRay, areaBoxes, mode, interactedItem);
+    PollPlayerSecondaryInputs(player, interactRay, areaBoxes, mode, interactedItem, numOfAreaQueryBoxes);
 }
 
 void DrawPlayerCollisionCapsule(Vector3 location)
