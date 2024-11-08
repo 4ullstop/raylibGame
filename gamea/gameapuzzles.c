@@ -29,7 +29,20 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, modelInfo** dynamicModel
     ReadPuzzleCSV(puzzle_02, "D:/CFiles/FirstGame/filereading/csv/puzzle_02.csv");
     gameAPuzzles[1] = puzzle_02;
 
-    
+    ButtonMaster* puzzle_03 = malloc(sizeof(ButtonMaster));
+    puzzle_03->columns = 2;
+    puzzle_03->rows = 2;
+    puzzle_03->location = (Vector3){0.0f, 0.0f, 0.0f};
+    puzzle_03->buttonSpread = 0.5f;
+    puzzle_03->hasBoxAssigned = false;
+    puzzle_03->id = 345;
+    puzzle_03->numberOfSolutions = 0;
+    puzzle_03->player = player;
+    ReadPuzzleCSV(puzzle_03, "D:/CFiles/FirstGame/filereading/csv/puzzle_03.csv");
+    gameAPuzzles[2] = puzzle_03;
+
+
+    printf("here\n");
     for (int i = 0; i < NUMBER_OF_PUZZLES_A; i++)
     {
         CreateAllButtons(gameAPuzzles[i], dynamicModels, lastModelIndex);

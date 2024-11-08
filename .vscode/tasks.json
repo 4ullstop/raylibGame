@@ -1,0 +1,57 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "type": "shell",
+            "command": "D:/Mingw2.0/mingw64/bin/gcc.exe",
+            "args": [
+                "-g",
+                "${workspaceFolder}/main.c",
+                "${workspaceFolder}/collision/collisionplane.c",
+                "${workspaceFolder}/collision/detectcollision.c",
+                "${workspaceFolder}/collision/externcollision.c",
+                "${workspaceFolder}/collision/interactionbox.c",
+                "${workspaceFolder}/collision/overlapboxes.c",
+                "${workspaceFolder}/collision/raycasting.c",
+                "${workspaceFolder}/externmath/externmath.c",
+                "${workspaceFolder}/filereading/filereader.c",
+                "${workspaceFolder}/gamea/gameainteractables.c",
+                "${workspaceFolder}/gamea/gameamodels.c",
+                "${workspaceFolder}/gamea/gameapuzzles.c",
+                "${workspaceFolder}/gameb/gamebinteractables.c",
+                "${workspaceFolder}/gameb/gamebmodels.c",
+                "${workspaceFolder}/gameb/gamebpuzzles.c",
+                "${workspaceFolder}/gameplay/buttons.c",
+                "${workspaceFolder}/gameplay/gameseparateinteractables.c",
+                "${workspaceFolder}/gameplay/inactivestate.c",
+                "${workspaceFolder}/gameplay/masterbuttons.c",
+                "${workspaceFolder}/gameplay/sharedbuttons.c",
+                "${workspaceFolder}/initialization/window.c",
+                "${workspaceFolder}/models/src/model.c",
+                "${workspaceFolder}/models/src/modelimport.c",
+                "${workspaceFolder}/player/camera.c",
+                "${workspaceFolder}/player/controller.c",
+                "${workspaceFolder}/player/player.c",
+                "${workspaceFolder}/ui/src/ui.c",
+                // Add all other files here
+
+                "-o",
+                "${workspaceFolder}/test.exe",
+                "-IC:/raylib/raylib/src", // Adjust path as needed
+                "-LC:/raylib/raylib/src", // Adjust path as needed
+                "-lraylib",
+                "-lopengl32",
+                "-lgdi32",
+                "-lwinmm"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Generated task to build C program with MinGW"
+        }
+    ]
+}
+

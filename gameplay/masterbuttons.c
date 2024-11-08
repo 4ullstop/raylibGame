@@ -12,6 +12,7 @@ void ConstructPuzzles(ButtonMaster** allPuzzles, modelInfo** dynamicModels, int*
     else
     {
         ConstructGameBPuzzles(allPuzzles, dynamicModels, lastModelIndex);
+        printf("gametype b\n");
     }
     
 }

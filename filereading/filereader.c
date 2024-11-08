@@ -97,6 +97,8 @@ void ReadPuzzleCSV(ButtonMaster* master, char* fileLocation)
     token = NULL;
     pz = NULL;
 
+    printf("problem here\n");
+
     for (int i = 0; i < master->rows; i++)
     {
         free(csvFileInts[i]);
@@ -109,4 +111,5 @@ void ReadPuzzleCSV(ButtonMaster* master, char* fileLocation)
     // {
     //     printf("Location: %i: %i, %i\n", i, master->solutionLocations[i].x, master->solutionLocations[i].y);
     // }
+    
 }

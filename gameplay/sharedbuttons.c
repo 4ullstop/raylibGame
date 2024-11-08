@@ -4,6 +4,8 @@
 
 void CreateAllButtons(ButtonMaster* master, modelInfo** dynamicModels, int* lastModelIndex)
 {
+    
+    printf("master id:%i\n", master->id);
     master->totalButtons = master->rows * master->columns;
     master->childButtons = (Button**)malloc(master->rows * sizeof(Button*));
     master->OnPuzzleSolved = OnPuzzleCompleted;
@@ -15,6 +17,8 @@ void CreateAllButtons(ButtonMaster* master, modelInfo** dynamicModels, int* last
         master->childButtons[i] = (Button*)malloc(c * sizeof(Button));
     }
 
+    printf("about to construct button\n");
+    printf("r: %i, c: %i\n", r, c);
     int centerR = round((float)r / 2.0);
     int centerC = round((float)c / 2.0); 
     for (int i = 0; i < r; i++)
@@ -74,6 +78,7 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
     dynamicModels[*lastModelIndex] = master->childButtons[i][j].model;
     *lastModelIndex = *lastModelIndex + 1;
     //highlighting our middle button
+    printf("creating button model\n");
     if (i == centerC && j == centerR)
     {
         master->childButtons[i][j].highlighted = true;

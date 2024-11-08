@@ -3,5 +3,31 @@
     // Hover to view descriptions of existing attributes.
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
-    "configurations": []
+    "configurations": [
+        {
+            "name": "Debug (GCC)",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/test.exe",  // Path to your executable
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": true,  // Set to false if you want to use the integrated terminal
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "miDebuggerPath": "D:/Mingw2.0/mingw64/bin/gdb.exe", // Adjust the GDB path as needed
+            "preLaunchTask": "build",  // Reference the build task you defined earlier
+            "visualizerFile": "${workspaceFolder}/.vscode/visualizers/gdb-visualizers.py",
+            "logging": {
+                "engineLogging": true
+            }
+        }
+    ]
 }

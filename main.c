@@ -93,8 +93,9 @@ int main(int argc, char* argv[])
     int numOfPuzzles = 0;
     if (gametype == EGT_A)
     {
+        printf("constructing game a puzzles\n");
         ConstructPuzzles(allPuzzlesA, modelsA, &lastModelIndex, gametype, &player);
-        CreateModels(modelsA, &lastModelIndex, gametype);\
+        CreateModels(modelsA, &lastModelIndex, gametype);
         numOfPuzzles = NUMBER_OF_PUZZLES_A;
     }
     else
@@ -150,7 +151,10 @@ int main(int argc, char* argv[])
 
     /*
         Where are we?:
-            - 
+            - We are getting random crashes poggers, don't submit until this is fixed, it has to do with the changes made
+            in the creation of another puzzle in gameapuzzles
+            - The issue has to do with having non-matching rows and columns, at some point you need to try and figure out a solution but in the mean time
+            breeze past it and get the MVP done
 
     */
 
@@ -177,8 +181,12 @@ int main(int argc, char* argv[])
     if (gametype == EGT_A)
     {
         DestroyAllModels(modelsA, numOfModels);
+        printf("models destroyed\n");
         DestructAllPuzzles(allPuzzlesA, numOfPuzzles);
+        printf("puzzles destroyed\n");
+        
         DestroyAreasAndInteractables(areaQueryBoxesA, numOfQueryBoxes, numOfInteractables);
+        printf("interactables destroyed\n");
         DestroyOverlapBoxes(allBoxesA);
     }
     else

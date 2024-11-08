@@ -10,7 +10,7 @@
     if there are more than the amount of interactables in the world than there are in the intialized list
     The current size of this array is : 48
 */
-#define NUMBER_OF_MODELS_A 12
+#define NUMBER_OF_MODELS_A 16
 #define NUMBER_OF_MODELS_B 1
 
 #define NUMBER_OF_INTERACTABLES_A 3
@@ -19,7 +19,7 @@
 #define NUMBER_OF_AREA_QUERY_BOXES_A 1
 #define NUMBER_OF_AREA_QUERY_BOXES_B 1
 
-#define NUMBER_OF_PUZZLES_A 2
+#define NUMBER_OF_PUZZLES_A 3
 #define NUMBER_OF_PUZZLES_B 1
 
 #define NUMBER_OF_OVERLAP_BOXES_A 1
