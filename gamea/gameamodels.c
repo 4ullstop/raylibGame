@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-void CreateModelsForGameA(modelInfo** models, int* lastModelIndex)
+void CreateModelsForGameA(modelInfo** models, int* lastModelIndex, Door** allDoors)
 {
     //room 1
     modelInfo* floor = malloc(sizeof(modelInfo));
@@ -22,5 +22,7 @@ void CreateModelsForGameA(modelInfo** models, int* lastModelIndex)
     wall_01->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = wall_01->texture;
     models[*lastModelIndex] = wall_01;
     *lastModelIndex = *lastModelIndex + 1;
+
+    ConstructDoors(models, lastModelIndex, allDoors);
     //
 }

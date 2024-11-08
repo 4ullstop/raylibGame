@@ -25,6 +25,9 @@
 #define NUMBER_OF_OVERLAP_BOXES_A 1
 #define NUMBER_OF_OVERLAP_BOXES_B 1
 
+#define NUMBER_OF_DOORS_A 1
+#define NUMBER_OF_DOORS_B 1
+
 #ifndef E_GAMEMODE
 #define E_GAMEMODE
 enum Gamemode
@@ -300,5 +303,13 @@ typedef struct OverlapBox
 } OverlapBox;
 #endif
 
-
+#ifndef DOOR_ENTITY
+#define DOOR_ENTITY
+typedef struct Door
+{
+    modelInfo doorModel;
+    Vector3 location;
+    int id;
+} Door;
+#endif
 

@@ -10,7 +10,7 @@
 
 
 
-void CreateModels(modelInfo** models, int* lastModelIndex, enum Gametype gametype);
+void CreateModels(modelInfo** models, int* lastModelIndex, enum Gametype gametype, Door** allDoors);
 
 void DrawAllModels(modelInfo** models, int numOfModels);
 

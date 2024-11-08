@@ -86,6 +86,9 @@ int main(int argc, char* argv[])
         Creation of puzzles
     */
 
+    Door* allDoorsA[NUMBER_OF_DOORS_A];
+    Door* allDoorsB[NUMBER_OF_DOORS_B];
+
     ButtonMaster* allPuzzlesA[NUMBER_OF_PUZZLES_A];
     ButtonMaster* allPuzzlesB[NUMBER_OF_PUZZLES_B];
     
@@ -95,13 +98,13 @@ int main(int argc, char* argv[])
     {
         printf("constructing game a puzzles\n");
         ConstructPuzzles(allPuzzlesA, modelsA, &lastModelIndex, gametype, &player);
-        CreateModels(modelsA, &lastModelIndex, gametype);
+        CreateModels(modelsA, &lastModelIndex, gametype, allDoorsA);
         numOfPuzzles = NUMBER_OF_PUZZLES_A;
     }
     else
     {
         ConstructPuzzles(allPuzzlesB, modelsB, &lastModelIndex, gametype, &player);
-        CreateModels(modelsB, &lastModelIndex, gametype);
+        CreateModels(modelsB, &lastModelIndex, gametype, allDoorsB);
         numOfPuzzles = NUMBER_OF_PUZZLES_B;
     }
     printf("puzzles created\n");

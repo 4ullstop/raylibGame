@@ -24,7 +24,8 @@ SRC = main.c \
 	  collision\overlapboxes.c \
 	  gamea\gameainteractables.c \
 	  gameplay\gameseparateinteractables.c \
-	  gameb\gamebinteractables.c
+	  gameb\gamebinteractables.c \
+	  gameplay\door.c
 OBJ = intermediate\main.o \
       intermediate\window.o \
       intermediate\camera.o \
@@ -50,7 +51,8 @@ OBJ = intermediate\main.o \
 	  intermediate\overlapboxes.o \
 	  intermediate\gameainteractables.o \
 	  intermediate\gameseparateinteractables.o \
-	  intermediate\gamebinteractables.o
+	  intermediate\gamebinteractables.o \
+	  intermediate\door.o
 !IFNDEF OUTPUT
 OUTPUT = test.exe
 !ENDIF
@@ -146,6 +148,9 @@ intermediate\gameseparateinteractables.o: gameplay\gameseparateinteractables.c i
 
 intermediate\gamebinteractables.o: gameb\gamebinteractables.c intermediate
 	$(CC) -c gameb\gamebinteractables.c -o intermediate\gamebinteractables.o $(INCLUDE)
+
+intermediate\door.o: gameplay\door.c intermediate
+	$(CC) -c gameplay\door.c -o intermediate\door.o $(INCLUDE)
 
 # Clean rule to delete
 clean:
