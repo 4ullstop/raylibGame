@@ -129,13 +129,26 @@ void OnPuzzleCompleted(ButtonMaster* master)
 
 void AssignGameplayElementsToPuzzles(ButtonMaster* puzzle, Door* door)
 {
-    puzzle->associatedGameplayElements->associatedDoor = door;
+    if (door != NULL)
+    {
+        puzzle->associatedGameplayElements->associatedDoor = door;
+        printf("doors[0]: %p\n", (void*)&door);
+        printf("ptr val in puzzle: %p\n", &puzzle->associatedGameplayElements->associatedDoor);
+    }
+    else
+    {
+        puzzle->associatedGameplayElements = NULL;
+    }
+    
 }
 
 void InactGameplayElement(GameplayElements* gameplayElement)
 {
+    
     if (gameplayElement->associatedDoor != NULL)
     {
+        
         gameplayElement->associatedDoor->isLowering = true;
     }
+
 }

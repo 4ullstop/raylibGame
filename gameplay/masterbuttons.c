@@ -22,6 +22,11 @@ void DestructAllPuzzles(ButtonMaster** allPuzzles, int numberOfPuzzles)
     for (int i = 0; i < numberOfPuzzles; i++)
     {
         DestructAllButtons(allPuzzles[i]);
+        if (allPuzzles[i]->associatedGameplayElements != NULL)
+        {
+            free(allPuzzles[i]->associatedGameplayElements);
+            allPuzzles[i]->associatedGameplayElements = NULL;
+        }
         DestructAllSolutionLocations(allPuzzles[i]);
         free(allPuzzles[i]);
         allPuzzles[i] = NULL;

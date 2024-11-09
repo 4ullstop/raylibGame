@@ -5,6 +5,7 @@
 void ConstructDoors(modelInfo** dynamicModels, int* lastModelIndex, Door** allDoors)
 {
     Door* door_01 = malloc(sizeof(Door));
+    printf("didn't crash\n");
     door_01->doorModel.collisionDisabled = false;
     door_01->id = 1;
     door_01->location = (Vector3){0.0f, 0.0f, -13.8f};
@@ -21,6 +22,8 @@ void ConstructDoors(modelInfo** dynamicModels, int* lastModelIndex, Door** allDo
     allDoors[0] = door_01;
 
     printf("doors constructed\n");
+    printf("door on construct %p \n", (void*)&door_01);
+    printf("alldoors on construct %p \n", (void*)&allDoors[0]);
 }
 
 void PollDoors(Door** allDoors, double deltaTime, int numOfDoors)
@@ -36,8 +39,10 @@ void PollDoors(Door** allDoors, double deltaTime, int numOfDoors)
 
 void LowerDoor(Door* door, double deltaTime)
 {
+    
     if (door->isLowering == true)
     {
+        
         if (Vector3Distance(door->location, door->openPosition) > 0.01f)
         {
             Vector3 direction = Vector3Normalize(Vector3Subtract(door->openPosition, door->location));
@@ -52,12 +57,21 @@ void LowerDoor(Door* door, double deltaTime)
     }
 }
 
-void DestructAllDoors(Door** allDoors, int numOfDoors)
+void DestructAllDoors(Door* allDoors[], int numOfDoors)
 {
-    for (int i = 0; i < numOfDoors; i++)
+    // for (int i = 0; i < numOfDoors; i++)
+    // {
+    //     printf("alldoors %p\n", (void*)&allDoors[i]);
+        
+    //     free(allDoors[i]);
+    //     allDoors[i] = NULL;
+    // }
+    printf("alldoors %p\n", (void*)&allDoors[0]);
+
+    if (allDoors[0] != NULL)
     {
-        printf("about to free at spot: %i\n", i);
-        free(allDoors[i]);
-        allDoors[i] = NULL;
+        free(allDoors[0]);
+        allDoors[0] = NULL;
     }
+    printf("Destruct complete\n");
 }

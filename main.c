@@ -174,7 +174,6 @@ int main(int argc, char* argv[])
         float now = GetTime();
         deltaTime = now - lastTime;
         lastTime = now;
-
         if (gametype == EGT_A)
         {
             CallAllPolls(deltaTime, modelsA, areaQueryBoxesA, &interactedItem, allBoxesA, numOfModels, numOfQueryBoxes);
@@ -184,7 +183,7 @@ int main(int argc, char* argv[])
         else
         {
             CallAllPolls(deltaTime, modelsB, areaQueryBoxesB, &interactedItem, allBoxesB, numOfModels, numOfQueryBoxes);
-            PollAllGameplayElements(allDoorsA, deltaTime, numOfDoors);
+            PollAllGameplayElements(allDoorsB, deltaTime, numOfDoors);
             Draw(modelsB, &ray, areaQueryBoxesB, ui, allBoxesB, numOfModels, numOfQueryBoxes, numOfInteractables);
         }
     }
@@ -196,17 +195,17 @@ int main(int argc, char* argv[])
         printf("models destroyed\n");
         DestructAllPuzzles(allPuzzlesA, numOfPuzzles);
         printf("puzzles destroyed\n");
-        DestructAllGameplayElements(&gameplayElements);
+        DestructAllGameplayElements(&gameplayElements, allDoorsA);
         DestroyAreasAndInteractables(areaQueryBoxesA, numOfQueryBoxes, numOfInteractables);
         printf("interactables destroyed\n");
         DestroyOverlapBoxes(allBoxesA);
+        printf("game a destroyed\n");
     }
     else
     {
         DestroyAllModels(modelsB, numOfModels);
         DestructAllPuzzles(allPuzzlesB, numOfPuzzles);
         DestroyAreasAndInteractables(areaQueryBoxesB, numOfQueryBoxes, numOfInteractables);
-        DestructAllGameplayElements(&gameplayElements);
         DestroyOverlapBoxes(allBoxesB);
     }
     

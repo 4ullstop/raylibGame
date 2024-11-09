@@ -27,6 +27,8 @@
                 "${workspaceFolder}/gameplay/inactivestate.c",
                 "${workspaceFolder}/gameplay/masterbuttons.c",
                 "${workspaceFolder}/gameplay/sharedbuttons.c",
+                "${workspaceFolder}/gameplay/gameplayelements.c",
+                "${workspaceFolder}/gameplay/door.c",
                 "${workspaceFolder}/initialization/window.c",
                 "${workspaceFolder}/models/src/model.c",
                 "${workspaceFolder}/models/src/modelimport.c",

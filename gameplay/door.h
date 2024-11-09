@@ -10,4 +10,4 @@ void LowerDoor(Door* door, double deltaTime);
 
 void PollDoors(Door** allDoors, double deltaTime, int numOfDoors);
 
-void DestructAllDoors(Door** allDoors, int numOfDoors);
+void DestructAllDoors(Door* allDoors[], int numOfDoors);

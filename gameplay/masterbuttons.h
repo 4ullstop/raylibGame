@@ -7,12 +7,9 @@
 #include "../externmath/externmath.h"
 #include "../gamea/gameapuzzles.h"
 #include "../gameb/gamebpuzzles.h"
+#include "gameplayelements.h"
 #include "sharedbuttons.h"
 #endif
-
-//void CreateAllButtons(ButtonMaster* master, modelInfo** dynamicModels, int* lastModelIndex);
-
-//void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelIndex, modelInfo** dynamicModels);
 
 void DestructAllButtons(ButtonMaster* master);
 
@@ -25,8 +22,6 @@ void DestructAllSolutionLocations(ButtonMaster* master);
 void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gamemode* mode);
 
 void RemoveHighlight(Button* button);
-
-//void AddHighlight(Button* button);
 
 void ChangeSelection(Button* button);
 
