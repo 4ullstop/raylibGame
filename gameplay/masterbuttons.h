@@ -16,7 +16,7 @@
 
 void DestructAllButtons(ButtonMaster* master);
 
-void ConstructPuzzles(ButtonMaster** allPuzzles, modelInfo** dynamicModels, int* lastModelIndex, enum Gametype gametype, FPSPlayer* player);
+void ConstructPuzzles(ButtonMaster** allPuzzles, modelInfo** dynamicModels, int* lastModelIndex, enum Gametype gametype, FPSPlayer* player, GameplayElements* gameplayElements);
 
 void DestructAllPuzzles(ButtonMaster** allPuzzles, int numberOfPuzzles);
 
@@ -33,3 +33,4 @@ void ChangeSelection(Button* button);
 void CheckForSolution(Button* button, ButtonMaster* master, enum Gamemode* mode);
 
 void RotateButtonMaster(ButtonMaster* master, float angle, Vector3 axis);
+

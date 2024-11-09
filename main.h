@@ -3,6 +3,7 @@
 #include "libs/drawingstructs.h"
 #include "gameplay/gameplaystructs.h"
 #include "gameplay/inactivestate.h"
+#include "gameplay/gameplayelements.h"
 #include "ui/src/uistructs.h"
 #include "ui/src/ui.h"
 

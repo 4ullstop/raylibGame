@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-void CreateModelsForGameA(modelInfo** models, int* lastModelIndex, Door** allDoors)
+void CreateModelsForGameA(modelInfo** models, int* lastModelIndex)
 {
     //room 1
     modelInfo* floor = malloc(sizeof(modelInfo));
@@ -23,6 +23,6 @@ void CreateModelsForGameA(modelInfo** models, int* lastModelIndex, Door** allDoo
     models[*lastModelIndex] = wall_01;
     *lastModelIndex = *lastModelIndex + 1;
 
-    ConstructDoors(models, lastModelIndex, allDoors);
+    //ConstructDoors(models, lastModelIndex, allDoors);
     //
 }

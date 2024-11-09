@@ -9,8 +9,9 @@
     assocaitedInteractables in areaQueryBoxes is a set number that could need changes
     if there are more than the amount of interactables in the world than there are in the intialized list
     The current size of this array is : 48
+    The current size of AssociatedDoors in GameplayElements is: 48
 */
-#define NUMBER_OF_MODELS_A 16
+#define NUMBER_OF_MODELS_A 17
 #define NUMBER_OF_MODELS_B 1
 
 #define NUMBER_OF_INTERACTABLES_A 3
@@ -130,6 +131,33 @@ typedef struct modelInfo
 } modelInfo;
 #endif
 
+#ifndef DOOR_ENTITY
+#define DOOR_ENTITY
+typedef struct Door
+{
+    modelInfo doorModel;
+    Vector3 location;
+    int id;
+
+    Vector3 openPosition;
+    Vector3 closedPosition;
+    float speed;
+    bool isLowering;
+} Door;
+#endif
+
+#ifndef GAMPLAY_ELEMENTS
+#define GAMPLAY_ELEMENTS
+typedef struct GameplayElements
+{
+    Door* doors[48];
+    int numOfDoors;
+
+    Door* associatedDoor;
+
+} GameplayElements;
+#endif
+
 #ifndef BUTTON
 #define BUTTON
 typedef struct Button
@@ -176,6 +204,8 @@ typedef struct ButtonMaster
     int id;
     FPSPlayer* player;
     void (*OnPuzzleSolved)(struct ButtonMaster* master);
+
+    GameplayElements* associatedGameplayElements;
 } ButtonMaster;
 #endif
 
@@ -214,6 +244,7 @@ enum InteractableType
     ITT_Puzzle
 };
 #endif
+
 
 
 #ifndef INTERACTABLE
@@ -303,13 +334,5 @@ typedef struct OverlapBox
 } OverlapBox;
 #endif
 
-#ifndef DOOR_ENTITY
-#define DOOR_ENTITY
-typedef struct Door
-{
-    modelInfo doorModel;
-    Vector3 location;
-    int id;
-} Door;
-#endif
+
 

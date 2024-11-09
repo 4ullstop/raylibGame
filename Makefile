@@ -25,7 +25,8 @@ SRC = main.c \
 	  gamea\gameainteractables.c \
 	  gameplay\gameseparateinteractables.c \
 	  gameb\gamebinteractables.c \
-	  gameplay\door.c
+	  gameplay\door.c \
+	  gameplay\gameplayelements.c
 OBJ = intermediate\main.o \
       intermediate\window.o \
       intermediate\camera.o \
@@ -52,12 +53,14 @@ OBJ = intermediate\main.o \
 	  intermediate\gameainteractables.o \
 	  intermediate\gameseparateinteractables.o \
 	  intermediate\gamebinteractables.o \
-	  intermediate\door.o
+	  intermediate\door.o \
+	  intermediate\gameplayelements.o
 !IFNDEF OUTPUT
 OUTPUT = test.exe
 !ENDIF
 INCLUDE = -IC:\raylib\raylib\src
 LIBS = -LC:\raylib\raylib\src -lraylib -lopengl32 -lgdi32 -lwinmm
+CFLAGS = -Wall -Wextra
 
 # Default target to build the executable
 all: intermediate $(OUTPUT)
@@ -72,85 +75,88 @@ $(OUTPUT): $(OBJ)
 
 # Explicit rules for object file generation
 intermediate\main.o: main.c intermediate
-	$(CC) -c main.c -o intermediate\main.o $(INCLUDE)
+	$(CC) $(CFLAGS) -c main.c -o intermediate\main.o $(INCLUDE)
 
 intermediate\window.o: initialization\window.c intermediate
-	$(CC) -c initialization\window.c -o intermediate\window.o $(INCLUDE)
+	$(CC) $(CFLAGS) -c initialization\window.c -o intermediate\window.o $(INCLUDE)
 
 intermediate\camera.o: player\camera.c intermediate
-	$(CC) -c player\camera.c -o intermediate\camera.o $(INCLUDE)
+	$(CC) $(CFLAGS) -c player\camera.c -o intermediate\camera.o $(INCLUDE)
 
 intermediate\player.o: player\player.c intermediate
-	$(CC) -c player\player.c -o intermediate\player.o $(INCLUDE)
+	$(CC) $(CFLAGS) -c player\player.c -o intermediate\player.o $(INCLUDE)
 
 intermediate\controller.o: player\controller.c intermediate
-	$(CC) -c player\controller.c -o intermediate\controller.o $(INCLUDE)
+	$(CC) $(CFLAGS) -c player\controller.c -o intermediate\controller.o $(INCLUDE)
 
 intermediate\detectcollision.o: collision\detectcollision.c intermediate
-	$(CC) -c collision\detectcollision.c -o intermediate\detectcollision.o $(INCLUDE)
+	$(CC) $(CFLAGS) -c collision\detectcollision.c -o intermediate\detectcollision.o $(INCLUDE)
 
 intermediate\collisionplane.o: collision\collisionplane.c intermediate
-	$(CC) -c collision\collisionplane.c -o intermediate\collisionplane.o $(INCLUDE)
+	$(CC) $(CFLAGS) -c collision\collisionplane.c -o intermediate\collisionplane.o $(INCLUDE)
 
 intermediate\modelimport.o: models\src\modelimport.c intermediate
-	$(CC) -c models\src\modelimport.c -o intermediate\modelimport.o $(INCLUDE)
+	$(CC) $(CFLAGS) -c models\src\modelimport.c -o intermediate\modelimport.o $(INCLUDE)
 
 intermediate\model.o: models\src\model.c intermediate
-	$(CC) -c models\src\model.c -o intermediate\model.o $(INCLUDE)
+	$(CC) $(CFLAGS) -c models\src\model.c -o intermediate\model.o $(INCLUDE)
 
 intermediate\interactionbox.o: collision\interactionbox.c intermediate
-	$(CC) -c collision\interactionbox.c -o intermediate\interactionbox.o $(INCLUDE)
+	$(CC) $(CFLAGS) -c collision\interactionbox.c -o intermediate\interactionbox.o $(INCLUDE)
 
 intermediate\externmath.o: externmath\externmath.c intermediate
-	$(CC) -c externmath\externmath.c -o intermediate\externmath.o $(INCLUDE)
+	$(CC) $(CFLAGS) -c externmath\externmath.c -o intermediate\externmath.o $(INCLUDE)
 
 intermediate\externcollision.o: collision\externcollision.c intermediate
-	$(CC) -c collision\externcollision.c -o intermediate\externcollision.o $(INCLUDE)
+	$(CC) $(CFLAGS) -c collision\externcollision.c -o intermediate\externcollision.o $(INCLUDE)
 
 intermediate\raycasting.o: collision\raycasting.c intermediate
-	$(CC) -c collision\raycasting.c -o intermediate\raycasting.o $(INCLUDE)
+	$(CC) $(CFLAGS) -c collision\raycasting.c -o intermediate\raycasting.o $(INCLUDE)
 
 intermediate\masterbuttons.o: gameplay\masterbuttons.c intermediate
-	$(CC) -c gameplay\masterbuttons.c -o intermediate\masterbuttons.o $(INCLUDE)
+	$(CC) $(CFLAGS) -c gameplay\masterbuttons.c -o intermediate\masterbuttons.o $(INCLUDE)
 
 intermediate\inactivestate.o: gameplay\inactivestate.c intermediate
-	$(CC) -c gameplay\inactivestate.c -o intermediate\inactivestate.o $(INCLUDE)
+	$(CC) $(CFLAGS) -c gameplay\inactivestate.c -o intermediate\inactivestate.o $(INCLUDE)
 
 intermediate\filereader.o: filereading\filereader.c intermediate
-	$(CC) -c filereading\filereader.c -o intermediate\filereader.o $(INCLUDE)
+	$(CC) $(CFLAGS) -c filereading\filereader.c -o intermediate\filereader.o $(INCLUDE)
 
 intermediate\gameamodels.o: gamea\gameamodels.c intermediate
-	$(CC) -c gamea\gameamodels.c -o intermediate\gameamodels.o $(INCLUDE)
+	$(CC) $(CFLAGS) -c gamea\gameamodels.c -o intermediate\gameamodels.o $(INCLUDE)
 
 intermediate\sharedbuttons.o: gameplay\sharedbuttons.c intermediate
-	$(CC) -c gameplay\sharedbuttons.c -o intermediate\sharedbuttons.o $(INCLUDE)
+	$(CC) $(CFLAGS) -c gameplay\sharedbuttons.c -o intermediate\sharedbuttons.o $(INCLUDE)
 
 intermediate\gameapuzzles.o: gamea\gameapuzzles.c intermediate
-	$(CC) -c gamea\gameapuzzles.c -o intermediate\gameapuzzles.o $(INCLUDE)
+	$(CC) $(CFLAGS) -c gamea\gameapuzzles.c -o intermediate\gameapuzzles.o $(INCLUDE)
 
 intermediate\gamebpuzzles.o: gameb\gamebpuzzles.c intermediate
-	$(CC) -c gameb\gamebpuzzles.c -o intermediate\gamebpuzzles.o $(INCLUDE)
+	$(CC) $(CFLAGS) -c gameb\gamebpuzzles.c -o intermediate\gamebpuzzles.o $(INCLUDE)
 
 intermediate\gamebmodels.o: gameb\gamebmodels.c intermediate
-	$(CC) -c gameb\gamebmodels.c -o intermediate\gamebmodels.o $(INCLUDE)
+	$(CC) $(CFLAGS) -c gameb\gamebmodels.c -o intermediate\gamebmodels.o $(INCLUDE)
 
 intermediate\ui.o: ui\src\ui.c intermediate
-	$(CC) -c ui\src\ui.c -o intermediate\ui.o $(INCLUDE)
+	$(CC) $(CFLAGS) -c ui\src\ui.c -o intermediate\ui.o $(INCLUDE)
 
 intermediate\overlapboxes.o: collision\overlapboxes.c intermediate
-	$(CC) -c collision\overlapboxes.c -o intermediate\overlapboxes.o $(INCLUDE)
+	$(CC) $(CFLAGS) -c collision\overlapboxes.c -o intermediate\overlapboxes.o $(INCLUDE)
 
 intermediate\gameainteractables.o: gamea\gameainteractables.c intermediate
-	$(CC) -c gamea\gameainteractables.c -o intermediate\gameainteractables.o $(INCLUDE)
+	$(CC) $(CFLAGS) -c gamea\gameainteractables.c -o intermediate\gameainteractables.o $(INCLUDE)
 
 intermediate\gameseparateinteractables.o: gameplay\gameseparateinteractables.c intermediate
-	$(CC) -c gameplay\gameseparateinteractables.c -o intermediate\gameseparateinteractables.o $(INCLUDE)
+	$(CC) $(CFLAGS) -c gameplay\gameseparateinteractables.c -o intermediate\gameseparateinteractables.o $(INCLUDE)
 
 intermediate\gamebinteractables.o: gameb\gamebinteractables.c intermediate
-	$(CC) -c gameb\gamebinteractables.c -o intermediate\gamebinteractables.o $(INCLUDE)
+	$(CC) $(CFLAGS) -c gameb\gamebinteractables.c -o intermediate\gamebinteractables.o $(INCLUDE)
 
 intermediate\door.o: gameplay\door.c intermediate
-	$(CC) -c gameplay\door.c -o intermediate\door.o $(INCLUDE)
+	$(CC) $(CFLAGS) -c gameplay\door.c -o intermediate\door.o $(INCLUDE)
+
+intermediate\gameplayelements.o: gameplay\gameplayelements.c intermediate
+	$(CC) $(CFLAGS) -c gameplay\gameplayelements.c -o intermediate\gameplayelements.o $(INCLUDE)
 
 # Clean rule to delete
 clean:

@@ -14,3 +14,7 @@ void AddHighlight(Button* button);
 void RotateButtonMaster(ButtonMaster* master, float angle, Vector3 axis);
 
 void OnPuzzleCompleted(ButtonMaster* master);
+
+void AssignGameplayElementsToPuzzles(ButtonMaster* puzzle, Door* door);
+
+void InactGameplayElement(GameplayElements* gameplayElement);

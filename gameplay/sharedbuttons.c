@@ -118,8 +118,24 @@ void RotateButtonMaster(ButtonMaster* master, float angle, Vector3 axis)
 
 void OnPuzzleCompleted(ButtonMaster* master)
 {
+    printf("puzzle complete\n");
     if (master->id == 234)
     {
         master->player->playerHUD[2]->hidden = true;
+    }
+    InactGameplayElement(master->associatedGameplayElements);
+
+}
+
+void AssignGameplayElementsToPuzzles(ButtonMaster* puzzle, Door* door)
+{
+    puzzle->associatedGameplayElements->associatedDoor = door;
+}
+
+void InactGameplayElement(GameplayElements* gameplayElement)
+{
+    if (gameplayElement->associatedDoor != NULL)
+    {
+        gameplayElement->associatedDoor->isLowering = true;
     }
 }

@@ -41,5 +41,6 @@ It would also probably be nice if you made the player a little taller
 
 Create some sort of gate (a door, or maybe a platform that appears) to prevent the player from moving forward without having to solve any puzzles
 
+At some point, it might be best if you turn some of the arrays of elements into linked lists, this way we are able to destroy things if need be like doors when they extend all the way
 
 

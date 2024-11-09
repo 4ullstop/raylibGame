@@ -10,7 +10,7 @@
 
 #define GLSL_VERSION 330
 
-//telling opengl to use the graphics card and not the cpu
+//telling opengl to use the graphics card and not the cpu graphics
 typedef unsigned long DWORD;
 
 __declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001;
@@ -40,6 +40,8 @@ Raycast ray = {0};
 enum Gamemode gamemode = EGM_Normal;
 
 enum Gametype gametype = EGT_A;
+
+GameplayElements gameplayElements = {0};
 
 
 int main(int argc, char* argv[])
@@ -92,22 +94,26 @@ int main(int argc, char* argv[])
     ButtonMaster* allPuzzlesA[NUMBER_OF_PUZZLES_A];
     ButtonMaster* allPuzzlesB[NUMBER_OF_PUZZLES_B];
     
-    printf("puzzles constructed\n");
+    printf("Puzzles constructing...\n");
     int numOfPuzzles = 0;
+    int numOfDoors = 0;
     if (gametype == EGT_A)
     {
-        printf("constructing game a puzzles\n");
-        ConstructPuzzles(allPuzzlesA, modelsA, &lastModelIndex, gametype, &player);
-        CreateModels(modelsA, &lastModelIndex, gametype, allDoorsA);
+        ConstructGameplayElements(modelsA, &lastModelIndex, NUMBER_OF_DOORS_A, &gameplayElements, allDoorsA);
+        ConstructPuzzles(allPuzzlesA, modelsA, &lastModelIndex, gametype, &player, &gameplayElements);
+        CreateModels(modelsA, &lastModelIndex, gametype);
         numOfPuzzles = NUMBER_OF_PUZZLES_A;
+        numOfDoors = NUMBER_OF_DOORS_A;
+        
     }
     else
     {
-        ConstructPuzzles(allPuzzlesB, modelsB, &lastModelIndex, gametype, &player);
-        CreateModels(modelsB, &lastModelIndex, gametype, allDoorsB);
+        ConstructGameplayElements(modelsB, &lastModelIndex, NUMBER_OF_DOORS_B, &gameplayElements, allDoorsB);
+        ConstructPuzzles(allPuzzlesB, modelsB, &lastModelIndex, gametype, &player, &gameplayElements);
+        CreateModels(modelsB, &lastModelIndex, gametype);
         numOfPuzzles = NUMBER_OF_PUZZLES_B;
+        numOfDoors = NUMBER_OF_DOORS_B;
     }
-    printf("puzzles created\n");
 
     /*
         Creation of interactables
@@ -158,6 +164,7 @@ int main(int argc, char* argv[])
             in the creation of another puzzle in gameapuzzles
             - The issue has to do with having non-matching rows and columns, at some point you need to try and figure out a solution but in the mean time
             breeze past it and get the MVP done
+            - We have a door, but we are also crashing on close
 
     */
 
@@ -171,11 +178,13 @@ int main(int argc, char* argv[])
         if (gametype == EGT_A)
         {
             CallAllPolls(deltaTime, modelsA, areaQueryBoxesA, &interactedItem, allBoxesA, numOfModels, numOfQueryBoxes);
+            PollAllGameplayElements(allDoorsA, deltaTime, numOfDoors);
             Draw(modelsA, &ray, areaQueryBoxesA, ui, allBoxesA, numOfModels, numOfQueryBoxes, numOfInteractables);
         }
         else
         {
             CallAllPolls(deltaTime, modelsB, areaQueryBoxesB, &interactedItem, allBoxesB, numOfModels, numOfQueryBoxes);
+            PollAllGameplayElements(allDoorsA, deltaTime, numOfDoors);
             Draw(modelsB, &ray, areaQueryBoxesB, ui, allBoxesB, numOfModels, numOfQueryBoxes, numOfInteractables);
         }
     }
@@ -187,7 +196,7 @@ int main(int argc, char* argv[])
         printf("models destroyed\n");
         DestructAllPuzzles(allPuzzlesA, numOfPuzzles);
         printf("puzzles destroyed\n");
-        
+        DestructAllGameplayElements(&gameplayElements);
         DestroyAreasAndInteractables(areaQueryBoxesA, numOfQueryBoxes, numOfInteractables);
         printf("interactables destroyed\n");
         DestroyOverlapBoxes(allBoxesA);
@@ -197,6 +206,7 @@ int main(int argc, char* argv[])
         DestroyAllModels(modelsB, numOfModels);
         DestructAllPuzzles(allPuzzlesB, numOfPuzzles);
         DestroyAreasAndInteractables(areaQueryBoxesB, numOfQueryBoxes, numOfInteractables);
+        DestructAllGameplayElements(&gameplayElements);
         DestroyOverlapBoxes(allBoxesB);
     }
     
@@ -259,7 +269,6 @@ void Draw(modelInfo** models, Raycast* ray, QueryBox** queryBoxes, UIElements** 
             DrawSphere(line->hitpoint, 0.08f, PURPLE);
             line = line->next;
         }
-        
         
         
         for (int i = 0; i < NUMBER_OF_OVERLAP_BOXES_A; i++)

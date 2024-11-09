@@ -7,12 +7,11 @@
     entities... probably
 */
 
-void CreateModels(modelInfo** models, int* lastModelIndex, enum Gametype gametype, Door** allDoors)
+void CreateModels(modelInfo** models, int* lastModelIndex, enum Gametype gametype)
 {
     if (gametype == EGT_A)
     {
-        printf("last model index in model.c: %i\n", lastModelIndex);
-        CreateModelsForGameA(models, lastModelIndex, allDoors);
+        CreateModelsForGameA(models, lastModelIndex);
     }
     else
     {
