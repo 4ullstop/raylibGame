@@ -80,16 +80,18 @@ void PollPlayerSecondaryInputs(FPSPlayer* player, Raycast* interactRay, QueryBox
         Vector3 forward = GetCameraForwardVector(player->attachedCam);
         for (int i = 0; i < numOfAreaQueryBoxes; i++)
         {
+            
             if (IsPointInColBox(areaBoxes[i]->areaBox, player->location))
             {
                 for (int j = 0; j < areaBoxes[i]->numberOfInteractables; j++)
                 {
+                    printf("Interactable index: %i\n", j);
+                    printf("Interactable index of j: %i\n", areaBoxes[i]->associatedInteractables[j]->id);
                     bool hit = CastRayLine(player, forward, interactRay, areaBoxes[i]->associatedInteractables[j]->colBox, mode);
                     printf("rolling\n");
                     if (hit)
                     {
                         *interactedItem = *areaBoxes[i]->associatedInteractables[j]; 
-                        printf("Controller id: %i\n", interactedItem->id);
                         if (interactedItem->associatedPuzzle == NULL)
                         {
                             printf("null in interaction\n");
@@ -102,9 +104,13 @@ void PollPlayerSecondaryInputs(FPSPlayer* player, Raycast* interactRay, QueryBox
                         {
                             *mode = EGM_Puzzle;
                         }
+                        else
+                        {
+                            printf("item not of ITT_PUZZLE\n");
+                        }
                         
                         return;
-                    } 
+                    }
                 }
             }
         }

@@ -7,3 +7,9 @@
 #endif
 
 void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, modelInfo** dynamicModels, int* lastModelIndex, FPSPlayer* player, GameplayElements* gameplayElements);
+
+void Puzzle_01(ButtonMaster* puzzle);
+
+void Puzzle_02(ButtonMaster* puzzle);
+
+void Puzzle_03(ButtonMaster* puzzle);

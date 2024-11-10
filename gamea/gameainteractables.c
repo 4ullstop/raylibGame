@@ -20,7 +20,7 @@ void CreateGameAInteractables(Interactable** interactables, QueryBox** areaQuery
     interactable_02->hasBeenUsed = false;
     interactable_02->id = 23;
     interactable_02->showsArrowKeyHint = true;
-    ConstructInteractable(interactable_02, (Vector3){0.0f, 0.0f, 0.0f}, puzzleBox_01, 2.0f, 2.0f, 2.0f);
+    ConstructInteractable(interactable_02, allPuzzles[0]->location, puzzleBox_01, 2.0f, 2.0f, 2.0f);
     //AssignInteractionBoxToPuzzle(allPuzzles, interactable_02);
     puzzleBox_01->interact = PuzzleInteract;
     interactable_02->associatedPuzzle = allPuzzles[0];
@@ -34,7 +34,7 @@ void CreateGameAInteractables(Interactable** interactables, QueryBox** areaQuery
     interactable_03->hasBeenUsed = false;
     interactable_03->id = 3;
     interactable_03->showsArrowKeyHint = false;
-    ConstructInteractable(interactable_03, (Vector3){2.3f, 1.0f, -15.0f}, puzzleBox_02, 2.0f, 2.0f, 2.0f);
+    ConstructInteractable(interactable_03, allPuzzles[1]->location, puzzleBox_02, 2.0f, 2.0f, 2.0f);
     //AssignInteractionBoxToPuzzle(allPuzzles, interactable_03);
     puzzleBox_02->interact = PuzzleInteract;
     interactable_03->associatedPuzzle = allPuzzles[1];
@@ -49,7 +49,7 @@ void CreateGameAInteractables(Interactable** interactables, QueryBox** areaQuery
     interactable_04->id = 4;
     interactable_04->hasBeenUsed = false;
     interactable_04->showsArrowKeyHint = false;
-    ConstructInteractable(interactable_04, (Vector3){0.0f, 0.0f, 0.0f}, puzzleBox_03, 2.0f, 2.0f, 2.0f);
+    ConstructInteractable(interactable_04, allPuzzles[2]->location, puzzleBox_03, 2.0f, 2.0f, 2.0f);
     puzzleBox_03->interact = PuzzleInteract;
     interactable_04->associatedPuzzle = allPuzzles[2];
     interactable_04->Location = allPuzzles[2]->location;

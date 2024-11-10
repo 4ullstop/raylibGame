@@ -44,3 +44,8 @@ Create some sort of gate (a door, or maybe a platform that appears) to prevent t
 At some point, it might be best if you turn some of the arrays of elements into linked lists, this way we are able to destroy things if need be like doors when they extend all the way
 
 
+HELLO YES READ THIS ANY TIME YOU CREATE A NEW PUZZLE BECAUSE YOU WASTED WAY TO MUCH TIME, YOUR SYSTEM IS POORLY MADE, MAKE IT BETTER AT SOME POINT ADD IT TO THE LIST 
+CONSTRUCTINTERACTABLE LOCATION IS SET PER INSTANCE UPON CALLING THE FUNCTION, MEANING THAT IF YOU DONT SET THIS LOCATION IN THE FUNCTION BUT SET IT DIFFERENT UPON CONSTRUCTION OF 
+YOUR PUZZLE THERE WILL BE ISSUES
+
+
