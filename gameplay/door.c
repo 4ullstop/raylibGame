@@ -5,7 +5,6 @@
 void ConstructDoors(modelInfo** dynamicModels, int* lastModelIndex, Door** allDoors)
 {
     Door* door_01 = malloc(sizeof(Door));
-    printf("didn't crash\n");
     door_01->doorModel.collisionDisabled = false;
     door_01->id = 1;
     door_01->location = (Vector3){0.0f, 0.0f, -13.8f};

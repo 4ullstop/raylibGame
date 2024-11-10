@@ -165,7 +165,6 @@ void CheckForSolution(Button* button, ButtonMaster* master, enum Gamemode* mode)
             }
         }
     }
-    printf("number of solutions: %i\n", master->numberOfSolutions);
     if (master->numberOfSolutions == numberOfSolved)
     {
         printf("congrats you solved the puzzle\n");

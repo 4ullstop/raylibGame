@@ -195,7 +195,6 @@ int main(int argc, char* argv[])
         printf("models destroyed\n");
         DestructAllPuzzles(allPuzzlesA, numOfPuzzles);
         printf("puzzles destroyed\n");
-        DestructAllGameplayElements(&gameplayElements, allDoorsA);
         DestroyAreasAndInteractables(areaQueryBoxesA, numOfQueryBoxes, numOfInteractables);
         printf("interactables destroyed\n");
         DestroyOverlapBoxes(allBoxesA);
