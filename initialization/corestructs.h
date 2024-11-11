@@ -69,6 +69,19 @@ enum PuzzleType
 };
 #endif
 
+#ifndef PUZZLE_ONOFF_DIRECTION
+#define PUZZLE_ONOFF_DIRECTION
+enum PuzzleOnOffDirection
+{
+    POOD_BottomUp,
+    POOD_TopDown,
+    POOD_DUL, //diagonal up left
+    POOD_DUR, //diagonal up right
+    POOD_DDL, //diagonal down left
+    POOD_DRL //diagonal down right
+};
+#endif
+
 #ifndef VECTOR_2_INT
 #define VECTOR_2_INT
 typedef struct 
@@ -177,6 +190,16 @@ typedef struct
 } PuzzleTexture;
 #endif
 
+#ifndef BUTTON_STATE
+#define BUTTON_STATE
+enum ButtonState
+{
+    EBS_idle,
+    EBS_highlighted,
+    EBS_selected
+};
+#endif
+
 #ifndef BUTTON
 #define BUTTON
 typedef struct Button
@@ -190,14 +213,19 @@ typedef struct Button
 
     modelInfo* model;
 
+    enum ButtonState buttonState;
+
     //n(direction) (aka neighbor(direction))
     struct Button* nLeft;
     struct Button* nRight;
     struct Button* nAbove;
     struct Button* nBelow;
 
-    PuzzleTexture* specialTexture;
+    PuzzleTexture* buttonTextures;
     enum PuzzleType puzzleType;
+    //it will probably be best if you separate this functionality into 
+    //more structs, but that will come later as I develop bc rn I'm too lazy
+    enum PuzzleOnOffDirection puzzleOODirection;
 } Button;
 #endif
 

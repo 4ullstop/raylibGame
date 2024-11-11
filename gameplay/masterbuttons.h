@@ -29,3 +29,6 @@ void CheckForSolution(Button* button, ButtonMaster* master, enum Gamemode* mode)
 
 void RotateButtonMaster(ButtonMaster* master, float angle, Vector3 axis);
 
+void UnloadButtonTextures(Button* button);
+
+void TexturesToUnload(Texture2D textureA, Texture2D textureB);

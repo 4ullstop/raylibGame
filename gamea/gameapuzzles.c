@@ -55,16 +55,16 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, modelInfo** dynamicModel
     AssignGameplayElementsToPuzzles(puzzle_03, NULL);
     gameAPuzzles[2] = puzzle_03;
 
-    ButtonMaster* puzzle_04 = malloc(sizeof(ButtonMaster));
-    puzzle_04->columns = 1;
-    puzzle_04->rows = 3;
-    puzzle_04->location = (Vector3){0.0f, 0.0f, 0.0f};
-    puzzle_04->buttonSpread = 0.5f;
-    puzzle_04->hasBoxAssigned = false;
-    puzzle_04->id = 192;
-    puzzle_04->numberOfSolutions = 0;
-    puzzle_04->player = player;
-    Puzzle_04(puzzle_04);
+    // ButtonMaster* puzzle_04 = malloc(sizeof(ButtonMaster));
+    // puzzle_04->columns = 1;
+    // puzzle_04->rows = 3;
+    // puzzle_04->location = (Vector3){0.0f, 0.0f, 0.0f};
+    // puzzle_04->buttonSpread = 0.5f;
+    // puzzle_04->hasBoxAssigned = false;
+    // puzzle_04->id = 192;
+    // puzzle_04->numberOfSolutions = 0;
+    // puzzle_04->player = player;
+    // Puzzle_04(puzzle_04);
 
     printf("here\n");
     for (int i = 0; i < NUMBER_OF_PUZZLES_A; i++)
@@ -86,11 +86,12 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, modelInfo** dynamicModel
 
 void AssignSpecialTexturesGameA(ButtonMaster** allPuzzles)
 {
+    //gonna need to unload the textures and free the memory at destruction don't forget
     PuzzleTexture* onOffBar = malloc(sizeof(PuzzleTexture));
     onOffBar->highlighted = LoadTexture("D:/CFiles/FirstGame/models/obj/button_highlighted_lines_up.png");
     onOffBar->idle = LoadTexture("D:/CFiles/FirstGame/models/obj/button_idle_lines.png");
     onOffBar->selected = LoadTexture("D:/CFiles/FirstGame/models/obj/button_selected_lines_up.png");
-    allPuzzles[3]->childButtons[2][0].specialTexture = onOffBar;
+    allPuzzles[3]->childButtons[2][0].buttonTextures = onOffBar;
 }
 
 

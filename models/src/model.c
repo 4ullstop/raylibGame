@@ -31,6 +31,7 @@ void DestroyAllModels(modelInfo** models, int numOfModels)
 {
     for (int i = 0; i < numOfModels; i++)
     {
+        
         UnloadTexture(models[i]->texture);
         UnloadModel(models[i]->model);
         free(models[i]);

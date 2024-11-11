@@ -69,14 +69,20 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
         }
     }
 
+    PuzzleTexture* buttonTextures = malloc(sizeof(PuzzleTexture));
+    buttonTextures->highlighted = LoadTexture("D:/CFiles/FirstGame/models/obj/buttonHighlighted.png");
+    buttonTextures->idle = LoadTexture("D:/CFiles/FirstGame/models/obj/buttonIdle.png");
+    buttonTextures->selected = LoadTexture("D:/CFiles/FirstGame/models/obj/buttonSelected.png");
+
     //initializng the associated models for the mechanic
     master->childButtons[i][j].model = malloc(sizeof(modelInfo));
     master->childButtons[i][j].model->collisionDisabled = true;
-    master->childButtons[i][j].specialTexture = NULL;
+    master->childButtons[i][j].buttonTextures = buttonTextures;
     master->childButtons[i][j].puzzleType = EPT_Free;
     master->childButtons[i][j].model->modelLocation = master->childButtons[i][j].location;
     master->childButtons[i][j].model->model = LoadModel("D:/CFiles/FirstGame/models/obj/button2.obj");
-    master->childButtons[i][j].model->texture = LoadTexture("D:/CFiles/FirstGame/models/obj/buttonIdle.png");
+    master->childButtons[i][j].buttonState = EBS_idle;
+    master->childButtons[i][j].model->texture = buttonTextures->idle;
     master->childButtons[i][j].model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = master->childButtons[i][j].model->texture;
     master->childButtons[i][j].highlighted = false;
     master->childButtons[i][j].submitted = false;
@@ -95,8 +101,8 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
 void AddHighlight(Button* button)
 {
     button->highlighted = true;
-    UnloadTexture(button->model->texture);
-    button->model->texture = LoadTexture("D:/CFiles/FirstGame/models/obj/buttonHighlighted.png");
+    button->buttonState = EBS_highlighted;
+    button->model->texture = button->buttonTextures->highlighted;
     button->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = button->model->texture; 
 }
 

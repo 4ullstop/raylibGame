@@ -37,9 +37,32 @@ void DestructAllButtons(ButtonMaster* master)
 {
     for (int i = 0; i < master->rows; i++)
     {
+        UnloadButtonTextures(master->childButtons[i]);
+        free(master->childButtons[i]->buttonTextures);
         free(master->childButtons[i]);
         master->childButtons[i] = NULL;
     }
+}
+
+void UnloadButtonTextures(Button* button)
+{
+    switch (button->buttonState)
+    {
+    case EBS_highlighted:
+        TexturesToUnload(button->buttonTextures->idle, button->buttonTextures->selected);
+    case EBS_idle:
+        TexturesToUnload(button->buttonTextures->highlighted, button->buttonTextures->selected);
+    case EBS_selected:
+        TexturesToUnload(button->buttonTextures->idle, button->buttonTextures->highlighted);
+    default:
+        printf("ERROR!: BUTTON STATE UNSET IN BUTTON, NO TEXTURES WERE UNLOADED");
+    }
+}
+
+void TexturesToUnload(Texture2D textureA, Texture2D textureB)
+{
+    UnloadTexture(textureA);
+    UnloadTexture(textureB);
 }
 
 void DestructAllSolutionLocations(ButtonMaster* master)
@@ -119,34 +142,16 @@ void RemoveHighlight(Button* button)
     
     if (button->submitted)
     {
-        if (button->specialTexture != NULL)
-        {
-            button->model->texture = button->specialTexture->selected;
-            button->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = button->model->texture;
-            
-        }
-        else
-        {
-            UnloadTexture(button->model->texture);
-            button->model->texture = LoadTexture("D:/CFiles/FirstGame/models/obj/buttonSelected.png");
-            button->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = button->model->texture;
-        }
+        button->model->texture = button->buttonTextures->highlighted;
+        button->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = button->model->texture;
+        button->buttonState = EBS_highlighted;
         
     }
     else
     {
-        if (button->specialTexture != NULL)
-        {
-            button->model->texture = button->specialTexture->idle;
-            button->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = button->model->texture;
-        }
-        else
-        {
-            UnloadTexture(button->model->texture);
-            button->model->texture = LoadTexture("D:/CFiles/FirstGame/models/obj/buttonIdle.png");
-            button->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = button->model->texture;
-        }
-        
+        button->model->texture = button->buttonTextures->idle;
+        button->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = button->model->texture;
+        button->buttonState = EBS_idle;
     }
 }
 
@@ -154,17 +159,8 @@ void ChangeSelection(Button* button)
 {
     if (!button->submitted)
     {
-        if (button->specialTexture != NULL)
-        {
-            button->model->texture = button->specialTexture->selected;
-            button->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = button->model->texture;
-        }
-        else
-        {
-            UnloadTexture(button->model->texture);
-            button->model->texture = LoadTexture("D:/CFiles/FirstGame/models/obj/buttonSelected.png");
-            button->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = button->model->texture;
-        }
+        button->model->texture = button->buttonTextures->selected;
+        button->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = button->model->texture;
         button->submitted = true;
     }
     else
