@@ -116,17 +116,37 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
 void RemoveHighlight(Button* button)
 {
     button->highlighted = false;
+    
     if (button->submitted)
     {
-        UnloadTexture(button->model->texture);
-        button->model->texture = LoadTexture("D:/CFiles/FirstGame/models/obj/buttonSelected.png");
-        button->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = button->model->texture;
+        if (button->specialTexture != NULL)
+        {
+            button->model->texture = button->specialTexture->selected;
+            button->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = button->model->texture;
+            
+        }
+        else
+        {
+            UnloadTexture(button->model->texture);
+            button->model->texture = LoadTexture("D:/CFiles/FirstGame/models/obj/buttonSelected.png");
+            button->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = button->model->texture;
+        }
+        
     }
     else
     {
-        UnloadTexture(button->model->texture);
-        button->model->texture = LoadTexture("D:/CFiles/FirstGame/models/obj/buttonIdle.png");
-        button->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = button->model->texture;
+        if (button->specialTexture != NULL)
+        {
+            button->model->texture = button->specialTexture->idle;
+            button->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = button->model->texture;
+        }
+        else
+        {
+            UnloadTexture(button->model->texture);
+            button->model->texture = LoadTexture("D:/CFiles/FirstGame/models/obj/buttonIdle.png");
+            button->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = button->model->texture;
+        }
+        
     }
 }
 
@@ -134,10 +154,18 @@ void ChangeSelection(Button* button)
 {
     if (!button->submitted)
     {
+        if (button->specialTexture != NULL)
+        {
+            button->model->texture = button->specialTexture->selected;
+            button->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = button->model->texture;
+        }
+        else
+        {
+            UnloadTexture(button->model->texture);
+            button->model->texture = LoadTexture("D:/CFiles/FirstGame/models/obj/buttonSelected.png");
+            button->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = button->model->texture;
+        }
         button->submitted = true;
-        UnloadTexture(button->model->texture);
-        button->model->texture = LoadTexture("D:/CFiles/FirstGame/models/obj/buttonSelected.png");
-        button->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = button->model->texture;
     }
     else
     {
@@ -149,6 +177,7 @@ void ChangeSelection(Button* button)
 void CheckForSolution(Button* button, ButtonMaster* master, enum Gamemode* mode)
 {
     int numberOfSolved = 0;
+    int numberOfSelected = 0;
     for (int i = 0; i < master->rows; i++)
     {
         for (int j = 0; j < master->columns; j++)
@@ -156,11 +185,13 @@ void CheckForSolution(Button* button, ButtonMaster* master, enum Gamemode* mode)
             if (master->childButtons[i][j].submitted && master->childButtons[i][j].solutionButton)
             {
                 numberOfSolved++;
+                numberOfSelected++;
                 printf("this was one of the buttons, %i\n", numberOfSolved);
             }
             else if (master->childButtons[i][j].submitted && !master->childButtons[i][j].solutionButton)
             {
                 numberOfSolved = 0;
+                numberOfSelected++;
                 printf("this was NOT one of the buttons\n");
             }
         }
@@ -170,6 +201,13 @@ void CheckForSolution(Button* button, ButtonMaster* master, enum Gamemode* mode)
         printf("congrats you solved the puzzle\n");
         *mode = EGM_Normal;
         master->OnPuzzleSolved(master);
+    }
+    else
+    {
+        if (numberOfSelected >= (master->columns * master->rows))
+        {
+            printf("You have selected all of the present buttons, try again\n");
+        }
     }
 }
 

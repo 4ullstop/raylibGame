@@ -17,14 +17,17 @@ void CreateAllButtons(ButtonMaster* master, modelInfo** dynamicModels, int* last
         master->childButtons[i] = (Button*)malloc(c * sizeof(Button));
     }
 
-    printf("about to construct button\n");
-    printf("r: %i, c: %i\n", r, c);
+    
+
+
     int centerR = round((float)r / 2.0);
     int centerC = round((float)c / 2.0); 
     for (int i = 0; i < r; i++)
     {
         for (int j = 0; j < c; j++)
         {
+            printf("i: %i, j: %i\n", i, j);
+            printf("\n");
             ConstructSingleButton(master, i, j, lastModelIndex, dynamicModels);
         }
     }
@@ -58,7 +61,7 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
     master->childButtons[i][j].nLeft = &master->childButtons[left][j];
     master->childButtons[i][j].nRight = &master->childButtons[right][j];
 
-    for (int k = 0; k < master->rows; k++)
+    for (int k = 0, n = master->numberOfSolutions; k < n; k++)
     {
         if (master->solutionLocations[k].x == j && master->solutionLocations[k].y == i)
         {
@@ -69,6 +72,8 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
     //initializng the associated models for the mechanic
     master->childButtons[i][j].model = malloc(sizeof(modelInfo));
     master->childButtons[i][j].model->collisionDisabled = true;
+    master->childButtons[i][j].specialTexture = NULL;
+    master->childButtons[i][j].puzzleType = EPT_Free;
     master->childButtons[i][j].model->modelLocation = master->childButtons[i][j].location;
     master->childButtons[i][j].model->model = LoadModel("D:/CFiles/FirstGame/models/obj/button2.obj");
     master->childButtons[i][j].model->texture = LoadTexture("D:/CFiles/FirstGame/models/obj/buttonIdle.png");
@@ -155,3 +160,6 @@ void InactGameplayElement(GameplayElements* gameplayElement)
     }
 
 }
+
+
+

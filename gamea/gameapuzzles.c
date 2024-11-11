@@ -4,6 +4,11 @@
 
 void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, modelInfo** dynamicModels, int* lastModelIndex, FPSPlayer* player, GameplayElements* gameplayElements)
 {
+    // PuzzleTexture linesPuzzle = {0};
+    // linesPuzzle.highlighted = LoadTexture("D:/CFiles/FirstGame/models/obj/button_highlighted_lines_up.png");
+    // linesPuzzle.idle = LoadTexture("D:/CFiles/FirstGame/models/obj/button_idle_lines_up.png");
+    // linesPuzzle.selected = LoadTexture("D:/CFiles/FirstGame/models/obj/button_selected_lines_up.png");
+    
     ButtonMaster* puzzle_01 = malloc(sizeof(ButtonMaster));
     puzzle_01->columns = 3;
     puzzle_01->rows = 3;
@@ -38,7 +43,7 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, modelInfo** dynamicModel
     ButtonMaster* puzzle_03 = malloc(sizeof(ButtonMaster));
     puzzle_03->columns = 2;
     puzzle_03->rows = 2;
-    puzzle_03->location = (Vector3){1.0f, 1.0f, -6.0f};
+    puzzle_03->location = (Vector3){2.3f, 1.0f, -6.0f};
     puzzle_03->buttonSpread = 0.5f;
     puzzle_03->hasBoxAssigned = false;
     puzzle_03->id = 345;
@@ -50,6 +55,16 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, modelInfo** dynamicModel
     AssignGameplayElementsToPuzzles(puzzle_03, NULL);
     gameAPuzzles[2] = puzzle_03;
 
+    ButtonMaster* puzzle_04 = malloc(sizeof(ButtonMaster));
+    puzzle_04->columns = 1;
+    puzzle_04->rows = 3;
+    puzzle_04->location = (Vector3){0.0f, 0.0f, 0.0f};
+    puzzle_04->buttonSpread = 0.5f;
+    puzzle_04->hasBoxAssigned = false;
+    puzzle_04->id = 192;
+    puzzle_04->numberOfSolutions = 0;
+    puzzle_04->player = player;
+    Puzzle_04(puzzle_04);
 
     printf("here\n");
     for (int i = 0; i < NUMBER_OF_PUZZLES_A; i++)
@@ -58,9 +73,32 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, modelInfo** dynamicModel
     }
     RotateButtonMaster(puzzle_01, 45.f, (Vector3){0.0f, 1.0f, 0.0f});
     RotateButtonMaster(puzzle_02, 80.0f, (Vector3){0.0f, 1.0f, 0.0f});
+    RotateButtonMaster(puzzle_03, 80.0f, (Vector3){0.0f, 1.0f, 0.0f});
     printf("%f, %f, %f\n", gameAPuzzles[1]->location.x, gameAPuzzles[1]->location.y, gameAPuzzles[1]->location.z);
 
+    /*
+        After the initialziation of our buttons, we want to perscribe special textures to them if they so require
+    */
+    
+    
+
 }
+
+void AssignSpecialTexturesGameA(ButtonMaster** allPuzzles)
+{
+    PuzzleTexture* onOffBar = malloc(sizeof(PuzzleTexture));
+    onOffBar->highlighted = LoadTexture("D:/CFiles/FirstGame/models/obj/button_highlighted_lines_up.png");
+    onOffBar->idle = LoadTexture("D:/CFiles/FirstGame/models/obj/button_idle_lines.png");
+    onOffBar->selected = LoadTexture("D:/CFiles/FirstGame/models/obj/button_selected_lines_up.png");
+    allPuzzles[3]->childButtons[2][0].specialTexture = onOffBar;
+}
+
+
+/*
+    {2,0} {2,1} {2,2}
+    {1,0} {1,1} {1,2}
+    {0,0} {0,1} {0,2}
+*/
 
 void Puzzle_01(ButtonMaster* puzzle)
 {
@@ -69,7 +107,7 @@ void Puzzle_01(ButtonMaster* puzzle)
     puzzle->solutionLocations = malloc(sizeof(Vector2Int) * numOfSolutions);
     puzzle->solutionLocations[0] = (Vector2Int){2, 0};
     puzzle->solutionLocations[1] = (Vector2Int){1, 1};
-    puzzle->solutionLocations[2] = (Vector2Int){0, 0};
+    puzzle->solutionLocations[2] = (Vector2Int){0, 2};
 }
 
 void Puzzle_02(ButtonMaster* puzzle)
@@ -87,7 +125,16 @@ void Puzzle_03(ButtonMaster* puzzle)
     puzzle->numberOfSolutions = numOfSolutions;
     puzzle->solutionLocations = malloc(sizeof(Vector2Int) * numOfSolutions);
     puzzle->solutionLocations[0] = (Vector2Int){0, 0};
+    puzzle->solutionLocations[1] = (Vector2Int){0, 1};
+    puzzle->solutionLocations[2] = (Vector2Int){1, 0};
+    puzzle->solutionLocations[3] = (Vector2Int){1, 1};
+}
+
+void Puzzle_04(ButtonMaster* puzzle)
+{
+    puzzle->numberOfSolutions = 3;
+    puzzle->solutionLocations = malloc(sizeof(Vector2Int) * puzzle->numberOfSolutions);
+    puzzle->solutionLocations[0] = (Vector2Int){0, 0};
     puzzle->solutionLocations[1] = (Vector2Int){1, 0};
     puzzle->solutionLocations[2] = (Vector2Int){2, 0};
-    puzzle->solutionLocations[3] = (Vector2Int){0, 2};
 }

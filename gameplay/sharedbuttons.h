@@ -18,3 +18,4 @@ void OnPuzzleCompleted(ButtonMaster* master);
 void AssignGameplayElementsToPuzzles(ButtonMaster* puzzle, Door* door);
 
 void InactGameplayElement(GameplayElements* gameplayElement);
+

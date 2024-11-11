@@ -60,6 +60,15 @@ enum Direction
 };
 #endif
 
+#ifndef PUZZLE_TYPE
+#define PUZZLE_TYPE
+enum PuzzleType
+{
+    EPT_Free,
+    EPT_OnOff
+};
+#endif
+
 #ifndef VECTOR_2_INT
 #define VECTOR_2_INT
 typedef struct 
@@ -158,6 +167,16 @@ typedef struct GameplayElements
 } GameplayElements;
 #endif
 
+#ifndef PUZZLE_TEXTURE_COMB
+#define PUZZLE_TEXTURE_COMB
+typedef struct
+{
+    Texture2D highlighted;
+    Texture2D idle;
+    Texture2D selected;
+} PuzzleTexture;
+#endif
+
 #ifndef BUTTON
 #define BUTTON
 typedef struct Button
@@ -176,6 +195,9 @@ typedef struct Button
     struct Button* nRight;
     struct Button* nAbove;
     struct Button* nBelow;
+
+    PuzzleTexture* specialTexture;
+    enum PuzzleType puzzleType;
 } Button;
 #endif
 
