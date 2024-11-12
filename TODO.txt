@@ -44,25 +44,14 @@ Might consider separating some of the stuff in the controller, it's getting quit
 At some point, it might be best if you turn some of the arrays of elements into linked lists, this way we are able to destroy things if need be like doors when they extend all the way
 
 Create a system for turning on and off buttons upon the selection of a specific button in the list
-    - Button functionality (meaning function pointers when the buttons are selected)
-    - Structs defining the specfic functionality for buttons
-    - Specifically in this case, the ability to run through the buttons adjacent according to the direction of the line on the button and toggle them to their opposite powered state
 
 
-What do you still need to do for button toggling?:
-    - allocate button rules 
-    - test
-    
+Create ability for puzzles to power on other puzzles
 
-At some point, move the arrow key hint from the test puzzle to puzzle 2 and also probably make puzzle two only one column
 
-og addy
-0xff5a9c0
+Do what you did with the construction of puzzles with the construction of interactable boxes
 
-og id
-2
+Make it more obvious when you complete a puzzle/enter into a puzzle
 
-og nBelow
-0xff5a950
-
+Arrow key interaction hint does not dissappear when puzzle finished
 

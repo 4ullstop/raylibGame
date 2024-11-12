@@ -26,3 +26,5 @@ void DestroyAreasAndInteractables(QueryBox** areaQueryBoxes, int numOfQueryBoxes
 
 void NullifyColBoxValues(ColBox* box);
 
+void ConstructSingleInteractable(int* lastInteractableIndex, enum InteractableType puzzleType, bool showArrowKeyHint, float len, float width, float height, ButtonMaster* assignedPuzzle, void(*colBoxInteract)(FPSPlayer*, ColBox*), Interactable** interactables, QueryBox** areaQueryBox, int areaQueryBoxId);
+

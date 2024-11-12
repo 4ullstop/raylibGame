@@ -116,7 +116,7 @@ void CreatePlayerAreaQueries(QueryBox** areaQueryBoxes)
     ConstructColBox(box_01->areaBox, box_01->location, box_01->width, box_01->height, box_01->length);
 
     areaQueryBoxes[0] = box_01;
-    areaQueryBoxes[0]->numberOfInteractables = 4;
+    areaQueryBoxes[0]->numberOfInteractables = 5;
 }
 
 
@@ -159,4 +159,24 @@ void PuzzleInteract(FPSPlayer* player, ColBox* box)
     {
         player->playerHUD[3]->hidden = false;
     }
+}
+
+void ConstructSingleInteractable(int* lastInteractableIndex, enum InteractableType puzzleType, bool showArrowKeyHint, float len, float width, float height, ButtonMaster* assignedPuzzle, void(*colBoxInteract)(FPSPlayer*, ColBox*), Interactable** interactables, QueryBox** areaQueryBox, int areaQueryBoxId)
+{
+    ColBox* box = malloc(sizeof(ColBox));
+    NullifyColBoxValues(box);
+    box->id = *lastInteractableIndex;
+    Interactable* interactable = malloc(sizeof(Interactable));
+    interactable->type = puzzleType;
+    interactable->hasBeenUsed = false;
+    interactable->id = *lastInteractableIndex;
+    interactable->showsArrowKeyHint = showArrowKeyHint;
+    ConstructInteractable(interactable, assignedPuzzle->location, box, width, height, len);
+    box->interact = colBoxInteract;
+    interactable->associatedPuzzle = assignedPuzzle;
+    interactable->Location = assignedPuzzle->location;
+
+    interactables[*lastInteractableIndex] = interactable;
+    areaQueryBox[areaQueryBoxId]->associatedInteractables[*lastInteractableIndex] = interactable;
+    *lastInteractableIndex = *lastInteractableIndex + 1;
 }

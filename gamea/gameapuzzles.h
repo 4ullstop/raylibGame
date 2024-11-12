@@ -17,6 +17,8 @@ void Puzzle_03(ButtonMaster* puzzle);
 
 void Puzzle_04(ButtonMaster* puzzle);
 
+void Puzzle_05(ButtonMaster* puzzle);
+
 void AssignSpecialTexturesGameA(ButtonMaster** allPuzzles);
 
 void LoadAndAssignSingleTexture(Button* button, PuzzleTexture* newTextures, enum ButtonState state);
