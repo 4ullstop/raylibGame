@@ -78,7 +78,9 @@ enum PuzzleOnOffDirection
     POOD_DUL, //diagonal up left
     POOD_DUR, //diagonal up right
     POOD_DDL, //diagonal down left
-    POOD_DRL //diagonal down right
+    POOD_DRL, //diagonal down right
+    POOD_RightLeft,
+    POOD_LeftRight
 };
 #endif
 
@@ -200,6 +202,27 @@ enum ButtonState
 };
 #endif
 
+#ifndef TOGGLE_RULE
+#define TOGGLE_RULE
+typedef struct ToggleRule
+{
+    enum PuzzleOnOffDirection puzzleOODirection;
+    
+    //assign these on construction
+    int columns;
+    int rows;
+} ToggleRule;
+#endif
+
+#ifndef BUTTON_RULES
+#define BUTTON_RULES
+typedef struct ButtonRules
+{
+    ToggleRule* toggleRule;
+
+} ButtonRules;
+#endif
+
 #ifndef BUTTON
 #define BUTTON
 typedef struct Button
@@ -223,9 +246,13 @@ typedef struct Button
 
     PuzzleTexture* buttonTextures;
     enum PuzzleType puzzleType;
-    //it will probably be best if you separate this functionality into 
-    //more structs, but that will come later as I develop bc rn I'm too lazy
-    enum PuzzleOnOffDirection puzzleOODirection;
+    //to use a simulated ButtonMaster, use the neighbor buttons if needed
+
+    ButtonRules* buttonRules;
+    void (*ButtonSelected)(struct Button* button);
+
+    
+    
 
     int id;
 } Button;

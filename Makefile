@@ -26,7 +26,8 @@ SRC = main.c \
 	  gameplay\gameseparateinteractables.c \
 	  gameb\gamebinteractables.c \
 	  gameplay\door.c \
-	  gameplay\gameplayelements.c
+	  gameplay\gameplayelements.c \
+	  gameplay\puzzles\togglepuzzle.c
 OBJ = intermediate\main.o \
       intermediate\window.o \
       intermediate\camera.o \
@@ -54,7 +55,8 @@ OBJ = intermediate\main.o \
 	  intermediate\gameseparateinteractables.o \
 	  intermediate\gamebinteractables.o \
 	  intermediate\door.o \
-	  intermediate\gameplayelements.o
+	  intermediate\gameplayelements.o \
+	  intermediate\togglepuzzle.o
 !IFNDEF OUTPUT
 OUTPUT = test.exe
 !ENDIF
@@ -157,6 +159,9 @@ intermediate\door.o: gameplay\door.c intermediate
 
 intermediate\gameplayelements.o: gameplay\gameplayelements.c intermediate
 	$(CC) $(CFLAGS) -c gameplay\gameplayelements.c -o intermediate\gameplayelements.o $(INCLUDE)
+
+intermediate\togglepuzzle.o: gameplay\puzzles\togglepuzzle.c intermediate
+	$(CC) $(CFLAGS) -c gameplay\puzzles\togglepuzzle.c -o intermediate\togglepuzzle.o $(INCLUDE)
 
 # Clean rule to delete
 clean:

@@ -45,9 +45,13 @@ At some point, it might be best if you turn some of the arrays of elements into 
 
 Create a system for turning on and off buttons upon the selection of a specific button in the list
     - Button functionality (meaning function pointers when the buttons are selected)
-    - Ability to edit where the selection starts out
     - Structs defining the specfic functionality for buttons
     - Specifically in this case, the ability to run through the buttons adjacent according to the direction of the line on the button and toggle them to their opposite powered state
+
+
+What do you still need to do for button toggling?:
+    - allocate button rules 
+    - test
     
 
 At some point, move the arrow key hint from the test puzzle to puzzle 2 and also probably make puzzle two only one column

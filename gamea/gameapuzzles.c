@@ -106,7 +106,7 @@ void LoadAndAssignSingleTexture(Button* button, PuzzleTexture* newTextures, enum
         break;
     default:
         button->model->texture = newTextures->idle;
-        printf("ERROR!: DEFAULT RUN IN LOADANDASSIGNSINGLETEXTURE");
+        printf("ERROR!: DEFAULT RUN IN LOADANDASSIGNSINGLETEXTURE\n");
     }
     button->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = button->model->texture;
 

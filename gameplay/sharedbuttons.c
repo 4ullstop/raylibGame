@@ -209,5 +209,21 @@ void ConstructSinglePuzzle(int* lastPuzzleIndex, int columns, int rows, Vector3 
     *lastPuzzleIndex = *lastPuzzleIndex + 1;
 }
 
-
+//this is our function that will need to be assigned to our function pointer for special
+//button actions
+void EnactButton(Button* button)
+{
+    switch (button->puzzleType)
+    {
+    case EPT_Free:
+        printf("button is free of action\n");
+        break;
+    case EPT_OnOff:
+        EnactToggle(button);
+        break;
+    default:
+        printf("button unassigned action\n");
+        break;
+    }
+}
 

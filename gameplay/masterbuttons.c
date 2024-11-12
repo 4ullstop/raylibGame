@@ -141,18 +141,12 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
 
 void RemoveHighlight(Button* button)
 {
-    
-
     button->highlighted = false;
-    
-    
-
     if (button->submitted)
     {
         button->model->texture = button->buttonTextures->selected;
         button->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = button->model->texture;
         button->buttonState = EBS_selected;
-        
     }
     else
     {

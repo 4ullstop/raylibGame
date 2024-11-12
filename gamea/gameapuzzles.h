@@ -4,6 +4,7 @@
 #include "../initialization/corestructs.h"
 #include "../filereading/filereader.h"
 #include "../gameplay/sharedbuttons.h"
+#include "../gameplay/puzzles/togglepuzzle.h"
 #endif
 
 void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, modelInfo** dynamicModels, int* lastModelIndex, FPSPlayer* player, GameplayElements* gameplayElements);

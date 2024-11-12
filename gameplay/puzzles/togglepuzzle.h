@@ -4,3 +4,8 @@
 #include "../../initialization/corestructs.h"
 #endif
 
+void EnactToggle(Button* button);
+
+void ToggleNeighbors(Button* button, Vector2Int direction);
+
+void ToggleCurrButton(Button* currButton);
