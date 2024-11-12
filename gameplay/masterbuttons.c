@@ -50,12 +50,15 @@ void UnloadButtonTextures(Button* button)
     {
     case EBS_highlighted:
         TexturesToUnload(button->buttonTextures->idle, button->buttonTextures->selected);
+        break;
     case EBS_idle:
         TexturesToUnload(button->buttonTextures->highlighted, button->buttonTextures->selected);
+        break;
     case EBS_selected:
         TexturesToUnload(button->buttonTextures->idle, button->buttonTextures->highlighted);
+        break;
     default:
-        printf("ERROR!: BUTTON STATE UNSET IN BUTTON, NO TEXTURES WERE UNLOADED");
+        printf("ERROR!: BUTTON STATE UNSET IN BUTTON, NO TEXTURES WERE UNLOADED\n");
     }
 }
 
@@ -83,9 +86,9 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
         return;
     }
     bool found = false;
-    for (int i = 0; i < master->columns; i++)
+    for (int i = 0; i < master->rows; i++)
     {
-        for (int j = 0; j < master->rows; j++)
+        for (int j = 0; j < master->columns; j++)
         {
             if (master->childButtons[i][j].highlighted == true)
             {
@@ -138,13 +141,17 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
 
 void RemoveHighlight(Button* button)
 {
+    
+
     button->highlighted = false;
     
+    
+
     if (button->submitted)
     {
-        button->model->texture = button->buttonTextures->highlighted;
+        button->model->texture = button->buttonTextures->selected;
         button->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = button->model->texture;
-        button->buttonState = EBS_highlighted;
+        button->buttonState = EBS_selected;
         
     }
     else

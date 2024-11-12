@@ -54,6 +54,19 @@ void CreateGameAInteractables(Interactable** interactables, QueryBox** areaQuery
     interactable_04->associatedPuzzle = allPuzzles[2];
     interactable_04->Location = allPuzzles[2]->location;
 
+    ColBox* puzzleBox_04 = malloc(sizeof(ColBox));
+    NullifyColBoxValues(puzzleBox_04);
+    puzzleBox_04->id = 4;
+    Interactable* interactable_05 = malloc(sizeof(Interactable));
+    interactable_05->type = ITT_Puzzle;
+    interactable_05->id = 5;
+    interactable_05->hasBeenUsed = false;
+    interactable_05->showsArrowKeyHint = false;
+    ConstructInteractable(interactable_05, allPuzzles[3]->location, puzzleBox_04, 2.0f, 2.0f, 2.0f);
+    puzzleBox_04->interact = PuzzleInteract;
+    interactable_05->associatedPuzzle = allPuzzles[3];
+    interactable_05->Location = allPuzzles[3]->location;
+
 
     // interactables[0] = interactable_01;
     // areaQueryBoxes[0]->associatedInteractables[0] = interactable_01;
@@ -66,4 +79,7 @@ void CreateGameAInteractables(Interactable** interactables, QueryBox** areaQuery
 
     interactables[2] = interactable_04;
     areaQueryBoxes[0]->associatedInteractables[2] = interactable_04;
+
+    interactables[3] = interactable_05;
+    areaQueryBoxes[0]->associatedInteractables[3] = interactable_05;
 }

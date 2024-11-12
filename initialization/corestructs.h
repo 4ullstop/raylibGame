@@ -11,16 +11,16 @@
     The current size of this array is : 48
     The current size of AssociatedDoors in GameplayElements is: 48
 */
-#define NUMBER_OF_MODELS_A 17
+#define NUMBER_OF_MODELS_A 20 //17
 #define NUMBER_OF_MODELS_B 1
 
-#define NUMBER_OF_INTERACTABLES_A 3
+#define NUMBER_OF_INTERACTABLES_A 4 //3
 #define NUMBER_OF_INTERACTABLES_B 1
 
 #define NUMBER_OF_AREA_QUERY_BOXES_A 1
 #define NUMBER_OF_AREA_QUERY_BOXES_B 1
 
-#define NUMBER_OF_PUZZLES_A 3
+#define NUMBER_OF_PUZZLES_A 4 //3
 #define NUMBER_OF_PUZZLES_B 1
 
 #define NUMBER_OF_OVERLAP_BOXES_A 1
@@ -226,6 +226,8 @@ typedef struct Button
     //it will probably be best if you separate this functionality into 
     //more structs, but that will come later as I develop bc rn I'm too lazy
     enum PuzzleOnOffDirection puzzleOODirection;
+
+    int id;
 } Button;
 #endif
 
@@ -256,6 +258,9 @@ typedef struct ButtonMaster
     void (*OnPuzzleSolved)(struct ButtonMaster* master);
 
     GameplayElements* associatedGameplayElements;
+
+    Vector2Int highlightStartLoc;
+    bool hasHighlightStartLoc;
 } ButtonMaster;
 #endif
 

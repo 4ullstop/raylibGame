@@ -39,12 +39,15 @@ Figure out how to $(SolutionDir) things to make it possible for other machines t
 
 It would also probably be nice if you made the player a little taller
 
-Create some sort of gate (a door, or maybe a platform that appears) to prevent the player from moving forward without having to solve any puzzles
+Might consider separating some of the stuff in the controller, it's getting quite long
 
 At some point, it might be best if you turn some of the arrays of elements into linked lists, this way we are able to destroy things if need be like doors when they extend all the way
 
 Create a system for turning on and off buttons upon the selection of a specific button in the list
+    - Button functionality (meaning function pointers when the buttons are selected)
+    - Ability to edit where the selection starts out
+    - Structs defining the specfic functionality for buttons
+    - Specifically in this case, the ability to run through the buttons adjacent according to the direction of the line on the button and toggle them to their opposite powered state
+    
 
-You are probably gonna want to create some values in the Button struct that allow you to load the textures once upon creation and then switch through them rather than continuing to load and unload textures
-every time a button is pressed (look at the way you are loading in specialtextures for an example)
-
+At some point, move the arrow key hint from the test puzzle to puzzle 2 and also probably make puzzle two only one column

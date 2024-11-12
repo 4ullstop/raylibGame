@@ -61,6 +61,8 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
     master->childButtons[i][j].nLeft = &master->childButtons[left][j];
     master->childButtons[i][j].nRight = &master->childButtons[right][j];
 
+    
+
     for (int k = 0, n = master->numberOfSolutions; k < n; k++)
     {
         if (master->solutionLocations[k].x == j && master->solutionLocations[k].y == i)
@@ -86,15 +88,29 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
     master->childButtons[i][j].model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = master->childButtons[i][j].model->texture;
     master->childButtons[i][j].highlighted = false;
     master->childButtons[i][j].submitted = false;
+    master->childButtons[i][j].id = i + j;
     dynamicModels[*lastModelIndex] = master->childButtons[i][j].model;
     *lastModelIndex = *lastModelIndex + 1;
     //highlighting our middle button
     printf("creating button model\n");
-    if (i == centerC && j == centerR)
+    
+    if (master->hasHighlightStartLoc == true)
     {
-        master->childButtons[i][j].highlighted = true;
-        AddHighlight(&master->childButtons[i][j]);
+        if (i == master->highlightStartLoc.x && j == master->highlightStartLoc.y)
+        {
+            master->childButtons[i][j].highlighted = true;
+            AddHighlight(&master->childButtons[i][j]);
+        }
     }
+    else
+    {
+        if (i == centerC && j == centerR)
+        {
+            master->childButtons[i][j].highlighted = true;
+            AddHighlight(&master->childButtons[i][j]);
+        }
+    }
+    
     
 }
 
@@ -130,7 +146,7 @@ void RotateButtonMaster(ButtonMaster* master, float angle, Vector3 axis)
 void OnPuzzleCompleted(ButtonMaster* master)
 {
     printf("puzzle complete\n");
-    if (master->id == 234)
+    if (master->id == 1)
     {
         master->player->playerHUD[2]->hidden = true;
     }
@@ -165,6 +181,32 @@ void InactGameplayElement(GameplayElements* gameplayElement)
         gameplayElement->associatedDoor->isLowering = true;
     }
 
+}
+
+void ConstructSinglePuzzle(int* lastPuzzleIndex, int columns, int rows, Vector3 location, FPSPlayer* player, void(*puzzleLocConstruct)(ButtonMaster*), bool hasGameplayElements, GameplayElements* gameplayElements, ButtonMaster** gameAPuzzles, Vector2Int highlightStart, bool hasHighlightStartLoc)
+{
+    ButtonMaster* puzzle = malloc(sizeof(ButtonMaster));
+    puzzle->columns = columns;
+    puzzle->rows = rows;
+    puzzle->location = location;
+    puzzle->buttonSpread = 0.5f;
+    puzzle->hasBoxAssigned = false;
+    puzzle->id = *lastPuzzleIndex;
+    puzzle->player = player;
+    puzzleLocConstruct(puzzle);
+    puzzle->highlightStartLoc = highlightStart;
+    puzzle->hasHighlightStartLoc = hasHighlightStartLoc;
+    puzzle->associatedGameplayElements = malloc(sizeof(GameplayElements));
+    if (hasGameplayElements == true)
+    {
+        AssignGameplayElementsToPuzzles(puzzle, gameplayElements->doors[0]);
+    }
+    else
+    {
+        AssignGameplayElementsToPuzzles(puzzle, NULL);
+    }
+    gameAPuzzles[*lastPuzzleIndex] = puzzle;
+    *lastPuzzleIndex = *lastPuzzleIndex + 1;
 }
 
 
