@@ -36,6 +36,7 @@
                 "${workspaceFolder}/player/controller.c",
                 "${workspaceFolder}/player/player.c",
                 "${workspaceFolder}/ui/src/ui.c",
+                "${workspaceFolder}/gameplay/puzzles/togglepuzzle.c",
                 // Add all other files here
 
                 "-o",

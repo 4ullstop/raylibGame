@@ -70,7 +70,7 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, modelInfo** dynamicModel
     /*
         After the initialziation of our buttons, we want to perscribe special textures to them if they so require
     */
-    
+    AssignSpecialTexturesGameA(gameAPuzzles);
     
 
 }
@@ -80,10 +80,10 @@ void AssignSpecialTexturesGameA(ButtonMaster** allPuzzles)
     //gonna need to unload the textures and free the memory at destruction don't forget
     PuzzleTexture* onOffBar = malloc(sizeof(PuzzleTexture));
     onOffBar->highlighted = LoadTexture("D:/CFiles/FirstGame/models/obj/button_highlighted_lines_up.png");
-    onOffBar->idle = LoadTexture("D:/CFiles/FirstGame/models/obj/button_idle_lines.png");
+    onOffBar->idle = LoadTexture("D:/CFiles/FirstGame/models/obj/button_idle_lines_up.png");
     onOffBar->selected = LoadTexture("D:/CFiles/FirstGame/models/obj/button_selected_lines_up.png");
-    LoadAndAssignSingleTexture(&allPuzzles[3]->childButtons[2][0], onOffBar, EBS_idle);
-    
+    LoadAndAssignSingleTexture(&allPuzzles[3]->childButtons[0][2], onOffBar, EBS_idle);
+    AssignButtonToToggleAction(&allPuzzles[3]->childButtons[0][2]);
 }
 
 void LoadAndAssignSingleTexture(Button* button, PuzzleTexture* newTextures, enum ButtonState state)
@@ -109,7 +109,6 @@ void LoadAndAssignSingleTexture(Button* button, PuzzleTexture* newTextures, enum
         printf("ERROR!: DEFAULT RUN IN LOADANDASSIGNSINGLETEXTURE\n");
     }
     button->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = button->model->texture;
-
 }
 
 

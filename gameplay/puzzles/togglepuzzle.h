@@ -8,4 +8,8 @@ void EnactToggle(Button* button);
 
 void ToggleNeighbors(Button* button, Vector2Int direction);
 
-void ToggleCurrButton(Button* currButton);
+void ToggleCurrButton(Button* currButton, int ogId);
+
+void AssignButtonToToggleAction(Button* button);
+
+Button* GetNextButton(Button* next, Vector2Int direction);

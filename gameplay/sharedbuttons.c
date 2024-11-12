@@ -85,6 +85,8 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
     master->childButtons[i][j].model->model = LoadModel("D:/CFiles/FirstGame/models/obj/button2.obj");
     master->childButtons[i][j].buttonState = EBS_idle;
     master->childButtons[i][j].model->texture = buttonTextures->idle;
+    master->childButtons[i][j].buttonRules = NULL;
+    master->childButtons[i][j].ButtonSelected = NULL;
     master->childButtons[i][j].model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = master->childButtons[i][j].model->texture;
     master->childButtons[i][j].highlighted = false;
     master->childButtons[i][j].submitted = false;

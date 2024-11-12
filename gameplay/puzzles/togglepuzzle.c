@@ -1,4 +1,14 @@
 #include "togglepuzzle.h"
+#include <stdio.h>
+#include <stdlib.h>
+
+void AssignButtonToToggleAction(Button* button)
+{
+    button->buttonRules = malloc(sizeof(ButtonRules));
+    button->buttonRules->toggleRule = malloc(sizeof(ToggleRule));
+    button->buttonRules->toggleRule->puzzleOODirection = POOD_TopDown;
+    button->ButtonSelected = EnactToggle;
+}
 
 void EnactToggle(Button* button)
 {
@@ -8,7 +18,7 @@ void EnactToggle(Button* button)
     switch (button->buttonRules->toggleRule->puzzleOODirection)
     {
     case POOD_TopDown:
-        direction = (Vector2Int){-1, 0};
+        direction = (Vector2Int){0, -1};
         //do top down action
         break;
     case POOD_BottomUp:
@@ -51,65 +61,86 @@ void ToggleNeighbors(Button* button, Vector2Int direction)
     ToggleRule* rule = button->buttonRules->toggleRule;
     //check each time that we haven't extended the range of the columns and rows based 
     //on our calculation with the direction
-    int x = 0;
-    int y = 0;
+    int ogId = button->id;
+    Button* ogButton = button;
     Button* currButton = button;
-    while (currButton->id != button->id)
+    
+    currButton = GetNextButton(currButton, direction); 
+    ToggleCurrButton(currButton, ogId);
+    do
     {
-        Button* tempButton = NULL;
-        if (direction.x > 0)
-        {
-            tempButton = currButton->nAbove;
-        }
-        else if (direction.x < 0)
-        {
-            tempButton = currButton->nBelow;
-        }
+        currButton = GetNextButton(currButton, direction);
+        //run associated action (select the curr button/change the texture)
+        ToggleCurrButton(currButton, ogId);
+    } while (currButton->id != button->id);
+    ToggleCurrButton(ogButton, ogId);
+}
 
-        if (tempButton != NULL)
+Button* GetNextButton(Button* next, Vector2Int direction)
+{
+    //gonna wann check here when you add in the other types of highlights
+    Button* tempButton = NULL;
+    if (direction.x > 0)
+    {
+        tempButton = next->nRight;
+    }
+    else if (direction.x < 0)
+    {
+        tempButton = next->nLeft;
+    }
+
+    if (tempButton == NULL)
+    {
+        if (direction.y > 0)
         {
-            if (direction.y > 0)
-            {
-                tempButton = tempButton->nRight;
-            }
-            else if (direction.y < 0)
-            {
-                tempButton = tempButton->nLeft;
-            }
+            tempButton = next->nAbove;
+        }
+        else if (direction.y < 0)
+        {
+            tempButton = next->nBelow;
+        }
+    }
+    else
+    {
+        if (direction.y > 0)
+        {
+            *tempButton = *next->nAbove;
+        }
+        else if (direction.y < 0)
+        {
+            *tempButton = *next->nRight;
+            
+        }
+    }
+    next = tempButton;
+    return tempButton;
+}
+
+void ToggleCurrButton(Button* currButton, int ogId)
+{
+    if (currButton->id != ogId)
+    {
+        if (currButton->submitted == true)
+        {
+            currButton->model->texture = currButton->buttonTextures->idle;
+            currButton->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = currButton->buttonTextures->idle;
+            currButton->submitted = false;
+            currButton->buttonState = EBS_idle;
         }
         else
         {
-            if (direction.y > 0)
-            {
-                tempButton = currButton->nRight;
-            }
-            else if (direction.y < 0)
-            {
-                tempButton = currButton->nLeft;
-            }
+            currButton->model->texture = currButton->buttonTextures->selected;
+            currButton->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = currButton->model->texture;
+            currButton->buttonState = EBS_selected;
+            currButton->submitted = true;
         }
-        
-        currButton = tempButton;
-        //run associated action (select the curr button/change the texture)
-        ToggleCurrButton(currButton);
-    }
-}
-
-void ToggleCurrButton(Button* currButton)
-{
-    if (currButton->submitted == true)
-    {
-        currButton->model->texture = currButton->buttonTextures->highlighted;
-        currButton->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = currButton->model->texture;
-        currButton->submitted = false;
-        currButton->buttonState = EBS_highlighted;
     }
     else
     {
         currButton->model->texture = currButton->buttonTextures->selected;
         currButton->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = currButton->model->texture;
-        currButton->buttonState = EBS_selected;
         currButton->submitted = true;
+        currButton->buttonState = EBS_selected;
+        currButton->highlighted = true;
     }
-     
 }

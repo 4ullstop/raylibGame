@@ -55,3 +55,14 @@ What do you still need to do for button toggling?:
     
 
 At some point, move the arrow key hint from the test puzzle to puzzle 2 and also probably make puzzle two only one column
+
+og addy
+0xff5a9c0
+
+og id
+2
+
+og nBelow
+0xff5a950
+
+

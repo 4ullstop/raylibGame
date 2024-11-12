@@ -38,6 +38,11 @@ void DestructAllButtons(ButtonMaster* master)
     for (int i = 0; i < master->rows; i++)
     {
         UnloadButtonTextures(master->childButtons[i]);
+        if (master->childButtons[i]->buttonRules != NULL)
+        {
+            free(master->childButtons[i]->buttonRules->toggleRule);
+            free(master->childButtons[i]->buttonRules);   
+        }
         free(master->childButtons[i]->buttonTextures);
         free(master->childButtons[i]);
         master->childButtons[i] = NULL;
@@ -73,8 +78,6 @@ void DestructAllSolutionLocations(ButtonMaster* master)
     free(master->solutionLocations);
     master->solutionLocations = NULL;
 }
-
-
 
 void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gamemode* mode)
 {
@@ -163,6 +166,10 @@ void ChangeSelection(Button* button)
         button->model->texture = button->buttonTextures->selected;
         button->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = button->model->texture;
         button->submitted = true;
+        if (button->ButtonSelected != NULL)
+        {
+            button->ButtonSelected(button);
+        }
     }
     else
     {
