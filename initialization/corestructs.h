@@ -393,6 +393,10 @@ typedef struct
     bool showDebugLines;
 
     Drawline* linesToDraw;
+
+    ColBox* closestBox;
+
+    int associatedIndex;
 } Raycast;
 #endif
 

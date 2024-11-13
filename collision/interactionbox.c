@@ -86,23 +86,15 @@ void ConstructColBox(ColBox* box, Vector3 location, float width, float height, f
 
 void DestructColBox(ColBox* box)
 {
+    if (box->verts == NULL || box->indices == NULL|| box == NULL) return;
     free(box->verts);
     box->verts = NULL;
     free(box->indices);
     box->indices = NULL;
-    // if (box->randDirectionDebug != NULL)
-    // {
-    //     free(box->randDirectionDebug);
-    //     box->randDirectionDebug = NULL;
-    // }
-    // if (box->cubeVertsDebug != NULL)
-    // {
-    //     free(box->cubeVertsDebug);
-    //     box->cubeVertsDebug = NULL;
-    // }
     
     free(box);
     box = NULL;
+    printf("ColBox destroyed\n");
 }
 
 void CreatePlayerAreaQueries(QueryBox** areaQueryBoxes)
@@ -130,16 +122,22 @@ void NullifyColBoxValues(ColBox* box)
 void DestroyAreasAndInteractables(QueryBox** areaQueryBoxes, int numOfQueryBoxes, int numOfInteractables)
 {
     printf("num of queryboxes: %i\n", numOfQueryBoxes);
-        printf("num of interactables: %i\n", numOfInteractables);
+    printf("num of interactables: %i\n", numOfInteractables);
     for (int i = 0; i < numOfQueryBoxes; i++)
     {
         for (int j = 0; j < numOfInteractables; j++)
         {
             DestructInteractable(areaQueryBoxes[i]->associatedInteractables[j]);
             printf("destroying interactable\n");
-            free(areaQueryBoxes[i]->associatedInteractables[j]);
+            if (areaQueryBoxes[i]->associatedInteractables[j] != NULL)
+            {
+                free(areaQueryBoxes[i]->associatedInteractables[j]);
+                areaQueryBoxes[i]->associatedInteractables[j] = NULL;
+            }
+            
         }
         DestructColBox(areaQueryBoxes[i]->areaBox);
+        areaQueryBoxes[i]->areaBox = NULL;
         //Wouldn't doubt if there were still things that needed to be freed
         //but uhh... you got this Windows
     }

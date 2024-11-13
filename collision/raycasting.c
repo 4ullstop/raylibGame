@@ -11,7 +11,7 @@
     of the game.
 */
 
-bool CastRayLine(FPSPlayer* player, Vector3 camForward, Raycast* ray, ColBox* allLocalBoxes, enum Gamemode* mode)
+bool CastRayLine(FPSPlayer* player, Vector3 camForward, Raycast* ray, ColBox* allLocalBoxes, enum Gamemode* mode, int associatedInteractableIndex)
 {
     Vector3 start = player->location;
     //ray->showDebugLines = true;
@@ -22,12 +22,13 @@ bool CastRayLine(FPSPlayer* player, Vector3 camForward, Raycast* ray, ColBox* al
         printf("about to draw line\n");
         DrawNewLine(ray, start, end);
     }
-    bool hit = HitDetected(player, start, end, ray, allLocalBoxes, mode);
+    bool hit = HitDetected(player, start, end, ray, allLocalBoxes, mode, associatedInteractableIndex);
     return hit;
 }
 
-bool HitDetected(FPSPlayer* player, Vector3 start, Vector3 end, Raycast* ray, ColBox* allLocalBoxes, enum Gamemode* mode)
+bool HitDetected(FPSPlayer* player, Vector3 start, Vector3 end, Raycast* ray, ColBox* allLocalBoxes, enum Gamemode* mode, int associatedInteractableIndex)
 {
+    
     for (int i = 0; i < 12; i++)
     {
         Vector3 v1, v2, v3;
@@ -51,6 +52,7 @@ bool HitDetected(FPSPlayer* player, Vector3 start, Vector3 end, Raycast* ray, Co
         
         bool foundCollision = false;
         float t = 1.0;
+        Vector3 collisionPoint = {0};
 
         //it turns out the intersection point was the problem, the direction wasn't normalized 
         //before scaling it by t0
@@ -58,10 +60,13 @@ bool HitDetected(FPSPlayer* player, Vector3 start, Vector3 end, Raycast* ray, Co
         
         if (CheckPointInTriangle(intersectionPoint, v1, v2, v3))
         {
-            ray->hitLocation = intersectionPoint;
-            allLocalBoxes->interact(player, allLocalBoxes);
-            printf("Hit found\n");
-            return true;
+            // ray->hitLocation = intersectionPoint;
+            // allLocalBoxes->interact(player, allLocalBoxes);
+            // printf("Hit found\n");
+            // return true;
+            collisionPoint = intersectionPoint;
+            t = t0;
+            foundCollision = true;
         }
         else
         {
@@ -74,27 +79,39 @@ bool HitDetected(FPSPlayer* player, Vector3 start, Vector3 end, Raycast* ray, Co
             CheckEdge(v3, v1, start, end, &t, &foundCollision, &intersectionPoint);
         }
 
-        if (foundCollision == true)
-        {
-            ray->hitLocation = intersectionPoint;
-            allLocalBoxes->interact(player, allLocalBoxes);
-            *mode = EGM_Puzzle;
-            return true;
-        }
-
         // if (foundCollision == true)
         // {
-        //     float distToCollision = t * Vector3Length(end);
-
-        //     if (ray->foundCollision == false || distToCollision < ray->nearestCollision)
-        //     {
-        //         ray->nearestCollision = distToCollision;
-        //         ray->hitLocation = intersectionPoint;
-        //         ray->foundCollision = true;
-        //     }
+        //     ray->hitLocation = intersectionPoint;
+        //     allLocalBoxes->interact(player, allLocalBoxes);
+        //     *mode = EGM_Puzzle;
+        //     return true;
         // }
+        
+
+        if (foundCollision == true)
+        {
+            float distToCollision = t * Vector3Length(end);
+
+            if (ray->foundCollision == false || distToCollision < ray->nearestCollision)
+            {
+                ray->nearestCollision = distToCollision;
+                ray->hitLocation = intersectionPoint;
+                ray->foundCollision = true;
+                if (ray->closestBox == NULL)
+                {
+                    ray->closestBox = allLocalBoxes;
+                }
+                else
+                {
+                    *ray->closestBox = *allLocalBoxes;
+                }
+                ray->associatedIndex = associatedInteractableIndex;
+                printf("closer interaction found, updating\n");
+            }
+        }
     }
-    return false;
+
+    return ray->foundCollision;
 }
 
 void DrawNewLine(Raycast* ray, Vector3 start, Vector3 end)

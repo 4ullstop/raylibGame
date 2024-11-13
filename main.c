@@ -160,11 +160,8 @@ int main(int argc, char* argv[])
 
     /*
         Where are we?:
-            - We are getting random crashes poggers, don't submit until this is fixed, it has to do with the changes made
-            in the creation of another puzzle in gameapuzzles
-            - The issue has to do with having non-matching rows and columns, at some point you need to try and figure out a solution but in the mean time
-            breeze past it and get the MVP done
-            - We have a door, but we are also crashing on close
+            - We are sometimes crashing on close:
+                - when you interact with the last puzzle in the array, and then close, we crash. Not sure why
 
     */
 

@@ -8,9 +8,9 @@
 #include "../libs/drawingstructs.h"
 #endif
 
-bool CastRayLine(FPSPlayer* player, Vector3 camForward, Raycast* ray, ColBox* allLocalBoxes, enum Gamemode* mode);
+bool CastRayLine(FPSPlayer* player, Vector3 camForward, Raycast* ray, ColBox* allLocalBoxes, enum Gamemode* mode, int associatedInteractableIndex);
 
-bool HitDetected(FPSPlayer* player, Vector3 start, Vector3 end, Raycast* ray, ColBox* allLocalBoxes, enum Gamemode* mode);
+bool HitDetected(FPSPlayer* player, Vector3 start, Vector3 end, Raycast* ray, ColBox* allLocalBoxes, enum Gamemode* mode, int associatedInteractableIndex);
 
 void DrawNewLine(Raycast* ray, Vector3 start, Vector3 end);
 
