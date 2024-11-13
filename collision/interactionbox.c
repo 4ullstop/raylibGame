@@ -47,6 +47,11 @@ void ConstructColBox(ColBox* box, Vector3 location, float width, float height, f
     box->vertsNum = 8;
     box->verts = malloc(sizeof(float) * 24);
 
+    if (box->verts == NULL)
+    {
+        printf("BAD ALLOCATION YOU ARE OUT OF MEMORY?\n");
+    }
+
     box->interact = InteractionBoxInteract;
 
     float unassignedVerts[] = {
@@ -86,15 +91,18 @@ void ConstructColBox(ColBox* box, Vector3 location, float width, float height, f
 
 void DestructColBox(ColBox* box)
 {
+    printf("ColBox id on destruct: %i\n", box->id);
     if (box->verts == NULL || box->indices == NULL|| box == NULL) return;
+    printf("verts: %f\n", *box->verts);
     free(box->verts);
     box->verts = NULL;
+    printf("ColBox destroyed\n");
     free(box->indices);
     box->indices = NULL;
     
     free(box);
     box = NULL;
-    printf("ColBox destroyed\n");
+    
 }
 
 void CreatePlayerAreaQueries(QueryBox** areaQueryBoxes)
@@ -105,6 +113,7 @@ void CreatePlayerAreaQueries(QueryBox** areaQueryBoxes)
     box_01->length = 100.f;
     box_01->width = 100.f;
     box_01->height = 20.f;
+    box_01->areaBox->id = 10;
     ConstructColBox(box_01->areaBox, box_01->location, box_01->width, box_01->height, box_01->length);
 
     areaQueryBoxes[0] = box_01;
@@ -127,8 +136,11 @@ void DestroyAreasAndInteractables(QueryBox** areaQueryBoxes, int numOfQueryBoxes
     {
         for (int j = 0; j < numOfInteractables; j++)
         {
+            printf("j: %i\n", j);
+            printf("interactable id on destruct: %i\n", areaQueryBoxes[i]->associatedInteractables[j]->id);
+            printf("colBox id on destruct: %i\n", areaQueryBoxes[i]->associatedInteractables[j]->colBox->id);
             DestructInteractable(areaQueryBoxes[i]->associatedInteractables[j]);
-            printf("destroying interactable\n");
+            
             if (areaQueryBoxes[i]->associatedInteractables[j] != NULL)
             {
                 free(areaQueryBoxes[i]->associatedInteractables[j]);

@@ -20,6 +20,7 @@ void ConstructOverlapBoxes(OverlapBox** allBoxes)
     interactHintOverlap->next = NULL;
     interactHintOverlap->id = 1;
     interactHintOverlap->shouldDetect = true;
+    overlapBox->id = 11;
     ConstructColBox(overlapBox, interactHintOverlap->location, interactHintOverlap->width, interactHintOverlap->height, interactHintOverlap->length);
     interactHintOverlap->OnOverlap = PlayerInInteractHintBox;
 

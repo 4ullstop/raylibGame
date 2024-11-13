@@ -55,3 +55,5 @@ Make it more obvious when you complete a puzzle/enter into a puzzle
 
 Arrow key interaction hint does not dissappear when puzzle finished
 
+Closest box
+0xfeafcf0

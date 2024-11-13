@@ -103,10 +103,11 @@ bool HitDetected(FPSPlayer* player, Vector3 start, Vector3 end, Raycast* ray, Co
                 }
                 else
                 {
-                    *ray->closestBox = *allLocalBoxes;
+                    ray->closestBox = allLocalBoxes;
                 }
                 ray->associatedIndex = associatedInteractableIndex;
                 printf("closer interaction found, updating\n");
+                printf("associated index: %i\n", associatedInteractableIndex);
             }
         }
     }

@@ -41,10 +41,13 @@ void DestructAllButtons(ButtonMaster* master)
         if (master->childButtons[i]->buttonRules != NULL)
         {
             free(master->childButtons[i]->buttonRules->toggleRule);
-            free(master->childButtons[i]->buttonRules);   
+            free(master->childButtons[i]->buttonRules);  
+            master->childButtons[i]->buttonRules->toggleRule = NULL; 
+            master->childButtons[i]->buttonRules = NULL;
         }
         free(master->childButtons[i]->buttonTextures);
         free(master->childButtons[i]);
+        master->childButtons[i]->buttonTextures = NULL;
         master->childButtons[i] = NULL;
     }
 }

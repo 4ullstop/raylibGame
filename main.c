@@ -162,6 +162,16 @@ int main(int argc, char* argv[])
         Where are we?:
             - We are sometimes crashing on close:
                 - when you interact with the last puzzle in the array, and then close, we crash. Not sure why
+        What do we know?:
+            - We know that trying to destruct them before anything else is destroyed does not solve the problem
+            - Cleaning our intermediates doesn't seem to be doing much
+            - It has to do with our freeing of the verts, they are somehow getting garbage values
+            - Something with the interaction is causing us to crash, because if you don't interact, or interact with
+            a different objects, we don't crash
+            - When you do the interaction thing, the verts are garbage values
+            - Something with our interact in interfering with the values of the box - specifically verts and indicies because our ids stay the same
+            - When we destruct without interacting, the box ids on destruct are fine. But if we interact, then the box id repeats (specifically box 4) is destructed
+            multiple times (which I already knew ig)
 
     */
 
@@ -261,7 +271,7 @@ void Draw(modelInfo** models, Raycast* ray, QueryBox** queryBoxes, UIElements** 
         while (line != NULL)
         {
             DrawLine3D(ray->linesToDraw->start, ray->linesToDraw->end, ray->linesToDraw->color);
-            DrawSphere(line->hitpoint, 0.08f, PURPLE);
+            //DrawSphere(line->hitpoint, 0.08f, PURPLE);
             line = line->next;
         }
         
