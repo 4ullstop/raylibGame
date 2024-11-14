@@ -27,10 +27,6 @@ What is our best course of action here:
 
 
 
- Make it so when you interact, it interacts with the first thing hit rather than the last bc if you try to interact with the puzzle atm from an angle that allows the ray
- to go through another box, it will interact with that box instead of the one with the puzzle in it
-
-Do the assignation of the button symbols after the all of the assigning of the buttons materials and such
 
 Design a rule for gameb puzzle 
 
@@ -43,17 +39,9 @@ Might consider separating some of the stuff in the controller, it's getting quit
 
 At some point, it might be best if you turn some of the arrays of elements into linked lists, this way we are able to destroy things if need be like doors when they extend all the way
 
-Create a system for turning on and off buttons upon the selection of a specific button in the list
-
 
 Create ability for puzzles to power on other puzzles
 
-
-Do what you did with the construction of puzzles with the construction of interactable boxes
-
 Make it more obvious when you complete a puzzle/enter into a puzzle 
 
-Arrow key interaction hint does not dissappear when puzzle finished
 
-Closest box
-0xfeafcf0

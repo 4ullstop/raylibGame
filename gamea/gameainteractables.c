@@ -8,7 +8,7 @@ void CreateGameAInteractables(Interactable** interactables, QueryBox** areaQuery
 
     ConstructSingleInteractable(&lastInteractableIndex,
         ITT_Puzzle,
-        true,
+        false,
         2.0f,
         2.0f,
         2.0f,
@@ -32,7 +32,7 @@ void CreateGameAInteractables(Interactable** interactables, QueryBox** areaQuery
 
     ConstructSingleInteractable(&lastInteractableIndex,
         ITT_Puzzle,
-        false,
+        true,
         2.0f,
         2.0f,
         2.0f,

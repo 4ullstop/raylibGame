@@ -34,7 +34,6 @@ void ConstructInteractable(Interactable* interactable, Vector3 location, ColBox*
 void DestructInteractable(Interactable* interactable)
 {
     DestructColBox(interactable->colBox);
-    //free(interactable);
 }
 
 bool IsPointInInteractable(Interactable* interactable, Vector3 point)
@@ -136,9 +135,6 @@ void DestroyAreasAndInteractables(QueryBox** areaQueryBoxes, int numOfQueryBoxes
     {
         for (int j = 0; j < numOfInteractables; j++)
         {
-            printf("j: %i\n", j);
-            printf("interactable id on destruct: %i\n", areaQueryBoxes[i]->associatedInteractables[j]->id);
-            printf("colBox id on destruct: %i\n", areaQueryBoxes[i]->associatedInteractables[j]->colBox->id);
             DestructInteractable(areaQueryBoxes[i]->associatedInteractables[j]);
             
             if (areaQueryBoxes[i]->associatedInteractables[j] != NULL)

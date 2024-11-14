@@ -23,6 +23,5 @@ void CreateModelsForGameA(modelInfo** models, int* lastModelIndex)
     models[*lastModelIndex] = wall_01;
     *lastModelIndex = *lastModelIndex + 1;
 
-    //ConstructDoors(models, lastModelIndex, allDoors);
     //
 }

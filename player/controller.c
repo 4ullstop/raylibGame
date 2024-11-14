@@ -90,28 +90,6 @@ void PollPlayerSecondaryInputs(FPSPlayer* player, Raycast* interactRay, QueryBox
                     printf("Interactable index of j: %i\n", areaBoxes[i]->associatedInteractables[j]->id);
                     bool hit = CastRayLine(player, forward, interactRay, areaBoxes[i]->associatedInteractables[j]->colBox, mode, j);
                     printf("rolling\n");
-                    // if (hit)
-                    // {
-                    //     *interactedItem = *areaBoxes[i]->associatedInteractables[j]; 
-                    //     if (interactedItem->associatedPuzzle == NULL)
-                    //     {
-                    //         printf("null in interaction\n");
-                    //     }
-                    //     if (interactedItem == NULL)
-                    //     {
-                    //         printf("interacted item is null\n");
-                    //     }
-                    //     if (interactedItem->type == ITT_Puzzle)
-                    //     {
-                    //         *mode = EGM_Puzzle;
-                    //     }
-                    //     else
-                    //     {
-                    //         printf("item not of ITT_PUZZLE\n");
-                    //     }
-                        
-                    //     return;
-                    // }
                 }
                 if (interactRay->foundCollision)
                 {
@@ -124,7 +102,6 @@ void PollPlayerSecondaryInputs(FPSPlayer* player, Raycast* interactRay, QueryBox
                     interactRay->closestBox->interact(player, interactRay->closestBox);
                     *interactedItem = *areaBoxes[i]->associatedInteractables[interactRay->associatedIndex];
                     *mode = EGM_Puzzle;
-                    printf("closer intersection found, calling interact\n");
                 }
             }
         }
@@ -172,7 +149,7 @@ void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode)
 
     if (directionalKeyPressed == true)
     {
-        if (interactedItem->showsArrowKeyHint == true && interactedItem->id == 23)
+        if (interactedItem->showsArrowKeyHint == true && interactedItem->id == 2)
         {
             interactedItem->associatedPuzzle->player->playerHUD[3]->hidden = true;
             interactedItem->showsArrowKeyHint = false;

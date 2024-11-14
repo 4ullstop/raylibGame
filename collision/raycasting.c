@@ -60,10 +60,6 @@ bool HitDetected(FPSPlayer* player, Vector3 start, Vector3 end, Raycast* ray, Co
         
         if (CheckPointInTriangle(intersectionPoint, v1, v2, v3))
         {
-            // ray->hitLocation = intersectionPoint;
-            // allLocalBoxes->interact(player, allLocalBoxes);
-            // printf("Hit found\n");
-            // return true;
             collisionPoint = intersectionPoint;
             t = t0;
             foundCollision = true;
@@ -78,14 +74,6 @@ bool HitDetected(FPSPlayer* player, Vector3 start, Vector3 end, Raycast* ray, Co
             CheckEdge(v2, v3, start, end, &t, &foundCollision, &intersectionPoint);
             CheckEdge(v3, v1, start, end, &t, &foundCollision, &intersectionPoint);
         }
-
-        // if (foundCollision == true)
-        // {
-        //     ray->hitLocation = intersectionPoint;
-        //     allLocalBoxes->interact(player, allLocalBoxes);
-        //     *mode = EGM_Puzzle;
-        //     return true;
-        // }
         
 
         if (foundCollision == true)
@@ -106,8 +94,6 @@ bool HitDetected(FPSPlayer* player, Vector3 start, Vector3 end, Raycast* ray, Co
                     ray->closestBox = allLocalBoxes;
                 }
                 ray->associatedIndex = associatedInteractableIndex;
-                printf("closer interaction found, updating\n");
-                printf("associated index: %i\n", associatedInteractableIndex);
             }
         }
     }
