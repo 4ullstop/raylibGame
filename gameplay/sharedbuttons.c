@@ -75,8 +75,10 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
     buttonTextures->highlighted = LoadTexture("D:/CFiles/FirstGame/models/obj/buttonHighlighted.png");
     buttonTextures->idle = LoadTexture("D:/CFiles/FirstGame/models/obj/buttonIdle.png");
     buttonTextures->selected = LoadTexture("D:/CFiles/FirstGame/models/obj/buttonSelected.png");
+    buttonTextures->off = LoadTexture("D:/CFiles/FirstGame/models/obj/button_off.png");
 
     //initializng the associated models for the mechanic
+    
     master->childButtons[i][j].model = malloc(sizeof(modelInfo));
     master->childButtons[i][j].model->collisionDisabled = true;
     master->childButtons[i][j].buttonTextures = buttonTextures;
@@ -84,36 +86,71 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
     master->childButtons[i][j].model->modelLocation = master->childButtons[i][j].location;
     master->childButtons[i][j].model->model = LoadModel("D:/CFiles/FirstGame/models/obj/button2.obj");
     master->childButtons[i][j].buttonState = EBS_idle;
+    master->childButtons[i][j].highlighted = false;
     master->childButtons[i][j].model->texture = buttonTextures->idle;
     master->childButtons[i][j].buttonRules = NULL;
     master->childButtons[i][j].ButtonSelected = NULL;
-    master->childButtons[i][j].model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = master->childButtons[i][j].model->texture;
-    master->childButtons[i][j].highlighted = false;
     master->childButtons[i][j].submitted = false;
     master->childButtons[i][j].id = i + j;
     dynamicModels[*lastModelIndex] = master->childButtons[i][j].model;
     *lastModelIndex = *lastModelIndex + 1;
     //highlighting our middle button
     printf("creating button model\n");
-    
+
     if (master->hasHighlightStartLoc == true)
     {
         if (i == master->highlightStartLoc.x && j == master->highlightStartLoc.y)
         {
-            master->childButtons[i][j].highlighted = true;
-            AddHighlight(&master->childButtons[i][j]);
+            SwitchTextureOnPuzzleState(master, &master->childButtons[i][j], true);
+        }
+        else
+        {
+            SwitchTextureOnPuzzleState(master, &master->childButtons[i][j], false);
         }
     }
     else
     {
         if (i == centerC && j == centerR)
         {
-            master->childButtons[i][j].highlighted = true;
-            AddHighlight(&master->childButtons[i][j]);
+            SwitchTextureOnPuzzleState(master, &master->childButtons[i][j], true);
+        }
+        else
+        {
+            SwitchTextureOnPuzzleState(master, &master->childButtons[i][j], false);
         }
     }
     
-    
+}
+
+void SwitchTextureOnPuzzleState(ButtonMaster* puzzle, Button* button, bool isHighlightedButton)
+{
+    switch (puzzle->puzzleState)
+    {
+    case EPS_active:
+        if (isHighlightedButton != true)
+        {
+            button->model->texture = button->buttonTextures->idle;
+        }
+        else
+        {
+            button->highlighted = true;
+            printf("ADDING HIGHLIGHT\n");
+            AddHighlight(button);
+        }
+        
+        break;
+    case EPS_inactive:
+        button->model->texture = button->buttonTextures->off;
+        if (isHighlightedButton == true)
+        {
+            button->highlighted = true;   
+        }
+        break;
+    default:
+        printf("Puzzle state unset texture assignation error\n");
+        break;
+    }
+    button->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = button->model->texture;
 }
 
 void AddHighlight(Button* button)
@@ -185,7 +222,7 @@ void InactGameplayElement(GameplayElements* gameplayElement)
 
 }
 
-void ConstructSinglePuzzle(int* lastPuzzleIndex, int columns, int rows, Vector3 location, FPSPlayer* player, void(*puzzleLocConstruct)(ButtonMaster*), bool hasGameplayElements, GameplayElements* gameplayElements, ButtonMaster** gameAPuzzles, Vector2Int highlightStart, bool hasHighlightStartLoc)
+void ConstructSinglePuzzle(int* lastPuzzleIndex, int columns, int rows, Vector3 location, FPSPlayer* player, void(*puzzleLocConstruct)(ButtonMaster*), bool hasGameplayElements, GameplayElements* gameplayElements, ButtonMaster** gameAPuzzles, Vector2Int highlightStart, bool hasHighlightStartLoc, enum PuzzleState puzzleState)
 {
     ButtonMaster* puzzle = malloc(sizeof(ButtonMaster));
     puzzle->columns = columns;
@@ -195,6 +232,7 @@ void ConstructSinglePuzzle(int* lastPuzzleIndex, int columns, int rows, Vector3 
     puzzle->hasBoxAssigned = false;
     puzzle->id = *lastPuzzleIndex;
     puzzle->player = player;
+    puzzle->puzzleState = puzzleState;
     puzzleLocConstruct(puzzle);
     puzzle->highlightStartLoc = highlightStart;
     puzzle->hasHighlightStartLoc = hasHighlightStartLoc;

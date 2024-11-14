@@ -189,6 +189,7 @@ typedef struct
     Texture2D highlighted;
     Texture2D idle;
     Texture2D selected;
+    Texture2D off;
 } PuzzleTexture;
 #endif
 
@@ -198,7 +199,17 @@ enum ButtonState
 {
     EBS_idle,
     EBS_highlighted,
-    EBS_selected
+    EBS_selected,
+    EBS_off
+};
+#endif
+
+#ifndef PUZZLE_STATE
+#define PUZZLE_STATE
+enum PuzzleState
+{
+    EPS_active,
+    EPS_inactive
 };
 #endif
 
@@ -288,6 +299,8 @@ typedef struct ButtonMaster
 
     Vector2Int highlightStartLoc;
     bool hasHighlightStartLoc;
+
+    enum PuzzleState puzzleState;
 } ButtonMaster;
 #endif
 

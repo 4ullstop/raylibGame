@@ -98,6 +98,11 @@ void PollPlayerSecondaryInputs(FPSPlayer* player, Raycast* interactRay, QueryBox
                         printf("ERROR CLOSEST BOX IS NULL\n");
                         return;
                     }
+                    if (areaBoxes[i]->associatedInteractables[interactRay->associatedIndex]->associatedPuzzle->puzzleState == EPS_inactive)
+                    {
+                        printf("PUZZLE IS INACTIVE, INTERACTION CANCELLED\n");
+                        return;
+                    }
                     printf("closestbox id: %i\n", interactRay->closestBox->id);
                     interactRay->closestBox->interact(player, interactRay->closestBox);
                     *interactedItem = *areaBoxes[i]->associatedInteractables[interactRay->associatedIndex];

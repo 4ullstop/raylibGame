@@ -18,7 +18,8 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, modelInfo** dynamicModel
         gameplayElements,
         gameAPuzzles,
         nullStartLoc,
-        false);
+        false,
+        EPS_active);
     
     ConstructSinglePuzzle(&lastPuzzleIndex,
         1,
@@ -30,7 +31,8 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, modelInfo** dynamicModel
         gameplayElements,
         gameAPuzzles,
         nullStartLoc,
-        false);
+        false,
+        EPS_active);
 
     ConstructSinglePuzzle(&lastPuzzleIndex,
         2,
@@ -42,7 +44,8 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, modelInfo** dynamicModel
         gameplayElements,
         gameAPuzzles,
         nullStartLoc,
-        false);
+        false,
+        EPS_active);
 
     ConstructSinglePuzzle(&lastPuzzleIndex,
         3,
@@ -54,7 +57,8 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, modelInfo** dynamicModel
         gameplayElements,
         gameAPuzzles,
         (Vector2Int){0, 0},
-        true);
+        true,
+        EPS_active);
 
     ConstructSinglePuzzle(&lastPuzzleIndex,
         3,
@@ -66,7 +70,8 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, modelInfo** dynamicModel
         gameplayElements,
         gameAPuzzles,
         (Vector2Int){0, 0},
-        true);
+        true,
+        EPS_inactive);
 
     printf("here\n");
     for (int i = 0; i < NUMBER_OF_PUZZLES_A; i++)
@@ -95,6 +100,7 @@ void AssignSpecialTexturesGameA(ButtonMaster** allPuzzles)
     onOffBar_01->highlighted = LoadTexture("D:/CFiles/FirstGame/models/obj/button_highlighted_lines_up.png");
     onOffBar_01->idle = LoadTexture("D:/CFiles/FirstGame/models/obj/button_idle_lines_up.png");
     onOffBar_01->selected = LoadTexture("D:/CFiles/FirstGame/models/obj/button_selected_lines_up.png");
+    onOffBar_01->off = LoadTexture("D:/CFiles/FirstGame/models/obj/button_off.png");
     LoadAndAssignSingleTexture(&allPuzzles[3]->childButtons[0][2], onOffBar_01, EBS_idle);
     AssignButtonToToggleAction(&allPuzzles[3]->childButtons[0][2]);
 
@@ -102,7 +108,8 @@ void AssignSpecialTexturesGameA(ButtonMaster** allPuzzles)
     onOffBar_02->highlighted = LoadTexture("D:/CFiles/FirstGame/models/obj/button_highlighted_lines_up.png");
     onOffBar_02->idle = LoadTexture("D:/CFiles/FirstGame/models/obj/button_idle_lines_up.png");
     onOffBar_02->selected = LoadTexture("D:/CFiles/FirstGame/models/obj/button_selected_lines_up.png");
-    LoadAndAssignSingleTexture(&allPuzzles[4]->childButtons[1][2], onOffBar_01, EBS_idle);
+    onOffBar_02->off = LoadTexture("D:/CFiles/FirstGame/models/obj/button_off.png");
+    LoadAndAssignSingleTexture(&allPuzzles[4]->childButtons[1][2], onOffBar_01, EBS_off);
     AssignButtonToToggleAction(&allPuzzles[4]->childButtons[1][2]);
     
 }
@@ -112,6 +119,7 @@ void LoadAndAssignSingleTexture(Button* button, PuzzleTexture* newTextures, enum
     UnloadTexture(button->buttonTextures->highlighted);
     UnloadTexture(button->buttonTextures->idle);
     UnloadTexture(button->buttonTextures->selected);
+    UnloadTexture(button->buttonTextures->off);
     free(button->buttonTextures);
     button->buttonTextures = newTextures;
     switch (state)
@@ -124,6 +132,9 @@ void LoadAndAssignSingleTexture(Button* button, PuzzleTexture* newTextures, enum
         break;
     case EBS_selected:
         button->model->texture = newTextures->selected;
+        break;
+    case EBS_off:
+        button->model->texture = newTextures->off;
         break;
     default:
         button->model->texture = newTextures->idle;

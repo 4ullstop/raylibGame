@@ -57,23 +57,27 @@ void UnloadButtonTextures(Button* button)
     switch (button->buttonState)
     {
     case EBS_highlighted:
-        TexturesToUnload(button->buttonTextures->idle, button->buttonTextures->selected);
+        TexturesToUnload(button->buttonTextures->idle, button->buttonTextures->selected, button->buttonTextures->off);
         break;
     case EBS_idle:
-        TexturesToUnload(button->buttonTextures->highlighted, button->buttonTextures->selected);
+        TexturesToUnload(button->buttonTextures->highlighted, button->buttonTextures->selected, button->buttonTextures->off);
         break;
     case EBS_selected:
-        TexturesToUnload(button->buttonTextures->idle, button->buttonTextures->highlighted);
+        TexturesToUnload(button->buttonTextures->idle, button->buttonTextures->highlighted, button->buttonTextures->off);
+        break;
+    case EBS_off:
+        TexturesToUnload(button->buttonTextures->idle, button->buttonTextures->highlighted, button->buttonTextures->selected);
         break;
     default:
         printf("ERROR!: BUTTON STATE UNSET IN BUTTON, NO TEXTURES WERE UNLOADED\n");
     }
 }
 
-void TexturesToUnload(Texture2D textureA, Texture2D textureB)
+void TexturesToUnload(Texture2D textureA, Texture2D textureB, Texture2D textureC)
 {
     UnloadTexture(textureA);
     UnloadTexture(textureB);
+    UnloadTexture(textureC);
 }
 
 void DestructAllSolutionLocations(ButtonMaster* master)

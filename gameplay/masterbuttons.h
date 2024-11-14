@@ -31,4 +31,4 @@ void RotateButtonMaster(ButtonMaster* master, float angle, Vector3 axis);
 
 void UnloadButtonTextures(Button* button);
 
-void TexturesToUnload(Texture2D textureA, Texture2D textureB);
+void TexturesToUnload(Texture2D textureA, Texture2D textureB, Texture2D textureC);
