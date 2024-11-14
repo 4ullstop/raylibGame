@@ -163,6 +163,11 @@ int main(int argc, char* argv[])
             -
     */
 
+    /*
+        MAIN GAME LOOP
+        MAIN GAME LOOP
+        MAIN GAME LOOP
+    */
     printf("Game loop starting...\n");
     while (!WindowShouldClose())
     {

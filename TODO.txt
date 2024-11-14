@@ -50,3 +50,5 @@ To create power puzzle on ability:
     - We can reuse the SwitchTextureOnPuzzleState function
 
 
+You might be able to assign buttons the same textures without loading new ones everytime you create a new button 
+    - This is gonna require some thinking on how to restructure the way you are currently destructing textures and models

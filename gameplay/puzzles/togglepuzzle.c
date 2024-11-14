@@ -2,11 +2,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void AssignButtonToToggleAction(Button* button)
+void AssignButtonToToggleAction(Button* button, enum PuzzleOnOffDirection direction)
 {
     button->buttonRules = malloc(sizeof(ButtonRules));
     button->buttonRules->toggleRule = malloc(sizeof(ToggleRule));
-    button->buttonRules->toggleRule->puzzleOODirection = POOD_TopDown;
+    button->buttonRules->toggleRule->puzzleOODirection = direction;
     button->ButtonSelected = EnactToggle;
 }
 
@@ -18,7 +18,7 @@ void EnactToggle(Button* button)
     switch (button->buttonRules->toggleRule->puzzleOODirection)
     {
     case POOD_TopDown:
-        direction = (Vector2Int){0, -1};
+        direction = (Vector2Int){-1, 0};
         //do top down action
         break;
     case POOD_BottomUp:
@@ -26,7 +26,7 @@ void EnactToggle(Button* button)
         //do bottom up action
         break;
     case POOD_DDL:
-        direction = (Vector2Int){-1, -1};
+        direction = (Vector2Int){-1, 1};
         //ddl
         break;
     case POOD_DRL:
@@ -82,34 +82,37 @@ Button* GetNextButton(Button* next, Vector2Int direction)
     Button* tempButton = NULL;
     if (direction.x > 0)
     {
-        tempButton = next->nRight;
+        tempButton = next->nAbove;
+        printf("getting above\n");
     }
     else if (direction.x < 0)
     {
-        tempButton = next->nLeft;
+        tempButton = next->nBelow;
+        printf("getting below\n");
     }
 
     if (tempButton == NULL)
     {
         if (direction.y > 0)
         {
-            tempButton = next->nAbove;
+            tempButton = next->nRight;
         }
         else if (direction.y < 0)
         {
-            tempButton = next->nBelow;
+            tempButton = next->nLeft;
         }
     }
     else
     {
         if (direction.y > 0)
         {
-            *tempButton = *next->nAbove;
+            tempButton = tempButton->nRight;
+            printf("yo b\n");
         }
         else if (direction.y < 0)
         {
-            *tempButton = *next->nRight;
-            
+            tempButton = tempButton->nLeft;
+            printf("yo\n");
         }
     }
     next = tempButton;

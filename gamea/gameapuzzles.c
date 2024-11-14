@@ -73,6 +73,19 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, modelInfo** dynamicModel
         true,
         EPS_inactive);
 
+    ConstructSinglePuzzle(&lastPuzzleIndex,
+        3,
+        3,
+        (Vector3){0.0f, 1.0f, 3.0f},
+        player,
+        Puzzle_06,
+        false,
+        gameplayElements,
+        gameAPuzzles,
+        (Vector2Int){0, 0},
+        true,
+        EPS_active);
+
     printf("here\n");
     for (int i = 0; i < NUMBER_OF_PUZZLES_A; i++)
     {
@@ -95,23 +108,62 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, modelInfo** dynamicModel
 
 void AssignSpecialTexturesGameA(ButtonMaster** allPuzzles)
 {
-    //gonna need to unload the textures and free the memory at destruction don't forget
+    //this is gross, please restructure this at some point 
     PuzzleTexture* onOffBar_01 = malloc(sizeof(PuzzleTexture));
     onOffBar_01->highlighted = LoadTexture("D:/CFiles/FirstGame/models/obj/button_highlighted_lines_up.png");
     onOffBar_01->idle = LoadTexture("D:/CFiles/FirstGame/models/obj/button_idle_lines_up.png");
     onOffBar_01->selected = LoadTexture("D:/CFiles/FirstGame/models/obj/button_selected_lines_up.png");
     onOffBar_01->off = LoadTexture("D:/CFiles/FirstGame/models/obj/button_off.png");
     LoadAndAssignSingleTexture(&allPuzzles[3]->childButtons[0][2], onOffBar_01, EBS_idle);
-    AssignButtonToToggleAction(&allPuzzles[3]->childButtons[0][2]);
+    AssignButtonToToggleAction(&allPuzzles[3]->childButtons[0][2], POOD_TopDown);
 
     PuzzleTexture* onOffBar_02 = malloc(sizeof(PuzzleTexture));
     onOffBar_02->highlighted = LoadTexture("D:/CFiles/FirstGame/models/obj/button_highlighted_lines_up.png");
     onOffBar_02->idle = LoadTexture("D:/CFiles/FirstGame/models/obj/button_idle_lines_up.png");
     onOffBar_02->selected = LoadTexture("D:/CFiles/FirstGame/models/obj/button_selected_lines_up.png");
     onOffBar_02->off = LoadTexture("D:/CFiles/FirstGame/models/obj/button_off.png");
-    LoadAndAssignSingleTexture(&allPuzzles[4]->childButtons[1][2], onOffBar_01, EBS_off);
-    AssignButtonToToggleAction(&allPuzzles[4]->childButtons[1][2]);
+    LoadAndAssignSingleTexture(&allPuzzles[4]->childButtons[1][2], onOffBar_02, EBS_off);
+    AssignButtonToToggleAction(&allPuzzles[4]->childButtons[1][2], POOD_TopDown);
     
+    PuzzleTexture* onOffBar_03 = malloc(sizeof(PuzzleTexture));
+    onOffBar_03->highlighted = LoadTexture("D:/CFiles/FirstGame/models/obj/button_highlighted_lines_up.png");
+    onOffBar_03->idle = LoadTexture("D:/CFiles/FirstGame/models/obj/button_idle_lines_up.png");
+    onOffBar_03->selected = LoadTexture("D:/CFiles/FirstGame/models/obj/button_selected_lines_up.png");
+    onOffBar_03->off = LoadTexture("D:/CFiles/FirstGame/models/obj/button_off.png");
+    LoadAndAssignSingleTexture(&allPuzzles[0]->childButtons[0][0], onOffBar_03, EBS_idle);
+    AssignButtonToToggleAction(&allPuzzles[0]->childButtons[0][0], POOD_RightLeft);
+
+    PuzzleTexture* onOffBar_04 = malloc(sizeof(PuzzleTexture));
+    onOffBar_04->highlighted = LoadTexture("D:/CFiles/FirstGame/models/obj/button_highlighted_lines_lr.png");
+    onOffBar_04->idle = LoadTexture("D:/CFiles/FirstGame/models/obj/button_idle_lines_lr.png");
+    onOffBar_04->selected = LoadTexture("D:/CFiles/FirstGame/models/obj/button_selected_lines_lr.png");
+    onOffBar_04->off = LoadTexture("D:/CFiles/FirstGame/models/obj/button_off.png");
+    LoadAndAssignSingleTexture(&allPuzzles[0]->childButtons[2][2], onOffBar_04, EBS_idle);
+    AssignButtonToToggleAction(&allPuzzles[0]->childButtons[2][2], POOD_BottomUp);      
+
+    PuzzleTexture* onOffBar_05 = malloc(sizeof(PuzzleTexture));  
+    onOffBar_05->highlighted = LoadTexture("D:/CFiles/FirstGame/models/obj/button_highlighted_lines_ddl.png");
+    onOffBar_05->idle = LoadTexture("D:/CFiles/FirstGame/models/obj/button_idle_lines_ddl.png");
+    onOffBar_05->selected = LoadTexture("D:/CFiles/FirstGame/models/obj/button_selected_lines_ddl.png");
+    onOffBar_05->off = LoadTexture("D:/CFiles/FirstGame/models/obj/button_off.png");
+    LoadAndAssignSingleTexture(&allPuzzles[5]->childButtons[0][2], onOffBar_05, EBS_idle);
+    AssignButtonToToggleAction(&allPuzzles[5]->childButtons[0][2], POOD_DDL); 
+
+    PuzzleTexture* onOffBar_06 = malloc(sizeof(PuzzleTexture));
+    onOffBar_06->highlighted = LoadTexture("D:/CFiles/FirstGame/models/obj/button_highlighted_lines_up.png");
+    onOffBar_06->idle = LoadTexture("D:/CFiles/FirstGame/models/obj/button_idle_lines_up.png");
+    onOffBar_06->selected = LoadTexture("D:/CFiles/FirstGame/models/obj/button_selected_lines_up.png");
+    onOffBar_06->off = LoadTexture("D:/CFiles/FirstGame/models/obj/button_off.png");
+    LoadAndAssignSingleTexture(&allPuzzles[5]->childButtons[0][0], onOffBar_06, EBS_highlighted);
+    AssignButtonToToggleAction(&allPuzzles[5]->childButtons[0][0], POOD_BottomUp);
+
+    PuzzleTexture* onOffBar_07 = malloc(sizeof(PuzzleTexture));
+    onOffBar_07->highlighted = LoadTexture("D:/CFiles/FirstGame/models/obj/button_highlighted_lines_lr.png");
+    onOffBar_07->idle = LoadTexture("D:/CFiles/FirstGame/models/obj/button_idle_lines_lr.png");
+    onOffBar_07->selected = LoadTexture("D:/CFiles/FirstGame/models/obj/button_selected_lines_lr.png");
+    onOffBar_07->off = LoadTexture("D:/CFiles/FirstGame/models/obj/button_off.png");
+    LoadAndAssignSingleTexture(&allPuzzles[5]->childButtons[2][2], onOffBar_07, EBS_idle);
+    AssignButtonToToggleAction(&allPuzzles[5]->childButtons[2][2], POOD_RightLeft);  
 }
 
 void LoadAndAssignSingleTexture(Button* button, PuzzleTexture* newTextures, enum ButtonState state)
@@ -152,12 +204,14 @@ void LoadAndAssignSingleTexture(Button* button, PuzzleTexture* newTextures, enum
 
 void Puzzle_01(ButtonMaster* puzzle)
 {
-    int numOfSolutions = 3;
+    int numOfSolutions = 5;
     puzzle->numberOfSolutions = numOfSolutions;
     puzzle->solutionLocations = malloc(sizeof(Vector2Int) * numOfSolutions);
     puzzle->solutionLocations[0] = (Vector2Int){2, 0};
-    puzzle->solutionLocations[1] = (Vector2Int){1, 1};
-    puzzle->solutionLocations[2] = (Vector2Int){0, 2};
+    puzzle->solutionLocations[1] = (Vector2Int){1, 0};
+    puzzle->solutionLocations[2] = (Vector2Int){0, 0};
+    puzzle->solutionLocations[3] = (Vector2Int){2, 1};
+    puzzle->solutionLocations[4] = (Vector2Int){2, 2};
 }
 
 void Puzzle_02(ButtonMaster* puzzle)
@@ -196,4 +250,18 @@ void Puzzle_05(ButtonMaster* puzzle)
     puzzle->solutionLocations[0] = (Vector2Int){0, 1};
     puzzle->solutionLocations[1] = (Vector2Int){1, 1};
     puzzle->solutionLocations[2] = (Vector2Int){2, 1};
+}
+
+void Puzzle_06(ButtonMaster* puzzle)
+{
+    int numOfSolutions = 7;
+    puzzle->numberOfSolutions = numOfSolutions;
+    puzzle->solutionLocations = malloc(sizeof(Vector2Int) * numOfSolutions);
+    puzzle->solutionLocations[0] = (Vector2Int){2, 0};
+    puzzle->solutionLocations[1] = (Vector2Int){1, 0};
+    puzzle->solutionLocations[2] = (Vector2Int){0, 0};
+    puzzle->solutionLocations[3] = (Vector2Int){2, 1};
+    puzzle->solutionLocations[4] = (Vector2Int){2, 2};
+    puzzle->solutionLocations[5] = (Vector2Int){1, 1};
+    puzzle->solutionLocations[6] = (Vector2Int){0, 2};
 }
