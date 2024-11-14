@@ -134,10 +134,8 @@ void SwitchTextureOnPuzzleState(ButtonMaster* puzzle, Button* button, bool isHig
         else
         {
             button->highlighted = true;
-            printf("ADDING HIGHLIGHT\n");
             AddHighlight(button);
         }
-        
         break;
     case EPS_inactive:
         button->model->texture = button->buttonTextures->off;
@@ -147,7 +145,7 @@ void SwitchTextureOnPuzzleState(ButtonMaster* puzzle, Button* button, bool isHig
         }
         break;
     default:
-        printf("Puzzle state unset texture assignation error\n");
+        printf("PUZZLE STATE IS NOT SET\n");
         break;
     }
     button->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = button->model->texture;
@@ -191,6 +189,24 @@ void OnPuzzleCompleted(ButtonMaster* master)
     }
     InactGameplayElement(master->associatedGameplayElements);
 
+    if (master->puzzleToPowerOn != NULL)
+    {
+        PowerOnPuzzle(master->puzzleToPowerOn);
+    }
+
+}
+
+void PowerOnPuzzle(ButtonMaster* puzzle)
+{
+    printf("Powering on powered off puzzle: %i\n", puzzle->id);
+    puzzle->puzzleState = EPS_active;
+    for (int i = 0, n = puzzle->rows; i < n; i++)
+    {
+        for (int j = 0, m = puzzle->columns; j < m; j++)
+        {
+            SwitchTextureOnPuzzleState(puzzle, &puzzle->childButtons[i][j], puzzle->childButtons[i][j].highlighted);
+        }
+    }
 }
 
 void AssignGameplayElementsToPuzzles(ButtonMaster* puzzle, Door* door)
@@ -216,7 +232,6 @@ void InactGameplayElement(GameplayElements* gameplayElement)
     
     if (gameplayElement != NULL && gameplayElement->associatedDoor != NULL)
     {
-        
         gameplayElement->associatedDoor->isLowering = true;
     }
 

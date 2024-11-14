@@ -297,6 +297,8 @@ typedef struct ButtonMaster
 
     GameplayElements* associatedGameplayElements;
 
+    struct ButtonMaster* puzzleToPowerOn;
+
     Vector2Int highlightStartLoc;
     bool hasHighlightStartLoc;
 

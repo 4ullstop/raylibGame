@@ -25,3 +25,5 @@ void ConstructSinglePuzzle(int* lastPuzzleIndex, int columns, int rows, Vector3 
 void EnactButton(Button* button);
 
 void SwitchTextureOnPuzzleState(ButtonMaster* puzzle, Button* button, bool isHighlightedButton);
+
+void PowerOnPuzzle(ButtonMaster* puzzle);

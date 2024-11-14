@@ -90,7 +90,7 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, modelInfo** dynamicModel
     */
     AssignSpecialTexturesGameA(gameAPuzzles);
     
-
+    gameAPuzzles[3]->puzzleToPowerOn = gameAPuzzles[4];
 }
 
 void AssignSpecialTexturesGameA(ButtonMaster** allPuzzles)
