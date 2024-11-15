@@ -6,9 +6,9 @@
 #include "puzzles/togglepuzzle.h"
 #endif
 
-void CreateAllButtons(ButtonMaster* master, modelInfo** dynamicModels, int* lastModelIndex);
+void CreateAllButtons(ButtonMaster* master, modelInfo** dynamicModels, int* lastModelIndex, Texture2D** allTextures);
 
-void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelIndex, modelInfo** dynamicModels);
+void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelIndex, modelInfo** dynamicModels, Texture2D** allTextures);
 
 void AddHighlight(Button* button);
 

@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-void CreateAllButtons(ButtonMaster* master, modelInfo** dynamicModels, int* lastModelIndex)
+void CreateAllButtons(ButtonMaster* master, modelInfo** dynamicModels, int* lastModelIndex, Texture2D** allTextures)
 {
     
     printf("master id:%i\n", master->id);
@@ -28,12 +28,12 @@ void CreateAllButtons(ButtonMaster* master, modelInfo** dynamicModels, int* last
         {
             printf("i: %i, j: %i\n", i, j);
             printf("\n");
-            ConstructSingleButton(master, i, j, lastModelIndex, dynamicModels);
+            ConstructSingleButton(master, i, j, lastModelIndex, dynamicModels, allTextures);
         }
     }
 }
 
-void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelIndex, modelInfo** dynamicModels)
+void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelIndex, modelInfo** dynamicModels, Texture2D** allTextures)
 {
     
     int centerR = floor((float)master->rows / 2.0);
@@ -72,10 +72,10 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
     }
 
     PuzzleTexture* buttonTextures = malloc(sizeof(PuzzleTexture));
-    buttonTextures->highlighted = LoadTexture("D:/CFiles/FirstGame/models/obj/buttonHighlighted.png");
-    buttonTextures->idle = LoadTexture("D:/CFiles/FirstGame/models/obj/buttonIdle.png");
-    buttonTextures->selected = LoadTexture("D:/CFiles/FirstGame/models/obj/buttonSelected.png");
-    buttonTextures->off = LoadTexture("D:/CFiles/FirstGame/models/obj/button_off.png");
+    buttonTextures->highlighted = *allTextures[2];
+    buttonTextures->idle = *allTextures[3];
+    buttonTextures->selected = *allTextures[4];
+    buttonTextures->off = *allTextures[5];
 
     //initializng the associated models for the mechanic
     

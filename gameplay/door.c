@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-void ConstructDoors(modelInfo** dynamicModels, int* lastModelIndex, Door** allDoors)
+void ConstructDoors(modelInfo** dynamicModels, Texture2D** gameTextures, int* lastModelIndex, Door** allDoors)
 {
     Door* door_01 = malloc(sizeof(Door));
     door_01->doorModel.collisionDisabled = false;
@@ -14,7 +14,7 @@ void ConstructDoors(modelInfo** dynamicModels, int* lastModelIndex, Door** allDo
     door_01->speed = 1.0f;
     door_01->isLowering = false;
     door_01->doorModel.model = LoadModel("D:/CFiles/FirstGame/models/obj/door.obj");
-    door_01->doorModel.texture = LoadTexture("D:/CFiles/FirstGame/models/obj/door.png");
+    door_01->doorModel.texture = *gameTextures[16];
     door_01->doorModel.model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = door_01->doorModel.texture;
     dynamicModels[*lastModelIndex] = &door_01->doorModel;
     *lastModelIndex = *lastModelIndex + 1;

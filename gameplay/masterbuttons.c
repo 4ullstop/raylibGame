@@ -2,16 +2,16 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-void ConstructPuzzles(ButtonMaster** allPuzzles, modelInfo** dynamicModels, int* lastModelIndex, enum Gametype gametype, FPSPlayer* player, GameplayElements* gameplayElements)
+void ConstructPuzzles(ButtonMaster** allPuzzles, modelInfo** dynamicModels, int* lastModelIndex, enum Gametype gametype, FPSPlayer* player, GameplayElements* gameplayElements, Texture2D** allTextures)
 {
     if (gametype == EGT_A)
     {
         printf("last model index in construct puzzles: %i\n", *lastModelIndex);
-        ConstructGameAPuzzles(allPuzzles, dynamicModels, lastModelIndex, player, gameplayElements);
+        ConstructGameAPuzzles(allPuzzles, allTextures, dynamicModels, lastModelIndex, player, gameplayElements);
     }
     else
     {
-        ConstructGameBPuzzles(allPuzzles, dynamicModels, lastModelIndex);
+        ConstructGameBPuzzles(allPuzzles, allTextures, dynamicModels, lastModelIndex);
         printf("gametype b\n");
     }
     

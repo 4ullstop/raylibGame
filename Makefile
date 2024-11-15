@@ -27,7 +27,9 @@ SRC = main.c \
 	  gameb\gamebinteractables.c \
 	  gameplay\door.c \
 	  gameplay\gameplayelements.c \
-	  gameplay\puzzles\togglepuzzle.c
+	  gameplay\puzzles\togglepuzzle.c \
+	  models\src\textures.c \
+	  gamea\gameatextures.c
 OBJ = intermediate\main.o \
       intermediate\window.o \
       intermediate\camera.o \
@@ -56,7 +58,9 @@ OBJ = intermediate\main.o \
 	  intermediate\gamebinteractables.o \
 	  intermediate\door.o \
 	  intermediate\gameplayelements.o \
-	  intermediate\togglepuzzle.o
+	  intermediate\togglepuzzle.o \
+	  intermediate\texture.o \
+	  intermediate\gameatextures.o
 !IFNDEF OUTPUT
 OUTPUT = test.exe
 !ENDIF
@@ -162,6 +166,12 @@ intermediate\gameplayelements.o: gameplay\gameplayelements.c intermediate
 
 intermediate\togglepuzzle.o: gameplay\puzzles\togglepuzzle.c intermediate
 	$(CC) $(CFLAGS) -c gameplay\puzzles\togglepuzzle.c -o intermediate\togglepuzzle.o $(INCLUDE)
+
+intermediate\texture.o: models\src\texture.c intermediate
+	$(CC) $(CFLAGS) -c models\src\texture.c -o intermediate\texture.o $(INCLUDE)
+
+intermediate\gameatextures.o: gamea\gameatextures.c intermediate
+	$(CC) $(CFLAGS) -c gamea\gameatextures.c -o intermediate\gameatextures.o $(INCLUDE)
 
 # Clean rule to delete
 clean:

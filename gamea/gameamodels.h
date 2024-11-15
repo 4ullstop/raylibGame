@@ -5,4 +5,4 @@
 #include "../gameplay/door.h"
 #endif
 
-void CreateModelsForGameA(modelInfo** models, int* lastModelIndex);
+void CreateModelsForGameA(modelInfo** models, int* lastModelIndex, Texture2D** allTextures);

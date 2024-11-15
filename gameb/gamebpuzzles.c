@@ -1,7 +1,7 @@
 #include "gamebpuzzles.h"
 #include <stdlib.h>
 
-void ConstructGameBPuzzles(ButtonMaster** gameBPuzzles, modelInfo** dynamicModels, int* lastModelIndex)
+void ConstructGameBPuzzles(ButtonMaster** gameBPuzzles, Texture2D** allTextures, modelInfo** dynamicModels, int* lastModelIndex)
 {
     ButtonMaster* puzzle_01 = malloc(sizeof(ButtonMaster));
     puzzle_01->columns = 3;
@@ -14,7 +14,7 @@ void ConstructGameBPuzzles(ButtonMaster** gameBPuzzles, modelInfo** dynamicModel
 
     for (int i = 0; i < NUMBER_OF_PUZZLES_B; i++)
     {
-        CreateAllButtons(gameBPuzzles[i], dynamicModels, lastModelIndex);
+        CreateAllButtons(gameBPuzzles[i], dynamicModels, lastModelIndex, allTextures);
     }
     
 }

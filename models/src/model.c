@@ -7,11 +7,11 @@
     entities... probably
 */
 
-void CreateModels(modelInfo** models, int* lastModelIndex, enum Gametype gametype)
+void CreateModels(modelInfo** models, int* lastModelIndex, enum Gametype gametype, Texture2D** allTextures)
 {
     if (gametype == EGT_A)
     {
-        CreateModelsForGameA(models, lastModelIndex);
+        CreateModelsForGameA(models, lastModelIndex, allTextures);
     }
     else
     {
@@ -27,12 +27,14 @@ void DrawAllModels(modelInfo** models, int numOfModels)
     }
 }
 
-void DestroyAllModels(modelInfo** models, int numOfModels)
+void DestroyAllModels(modelInfo** models, int numOfModels, Texture2D** allTextures, int numOfTextures)
 {
+    for (int i = 0; i < numOfTextures; i++)
+    {
+        UnloadTexture(*allTextures[i]);
+    }
     for (int i = 0; i < numOfModels; i++)
     {
-        
-        UnloadTexture(models[i]->texture);
         UnloadModel(models[i]->model);
         free(models[i]);
         models[i] = NULL;

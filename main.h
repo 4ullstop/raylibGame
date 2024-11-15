@@ -6,6 +6,7 @@
 #include "gameplay/gameplayelements.h"
 #include "ui/src/uistructs.h"
 #include "ui/src/ui.h"
+#include "models/src/texture.h"
 
 void CallAllPolls(float dTime, modelInfo** models, QueryBox** areaBoxes, Interactable* interactedItem, OverlapBox** overlapBoxes, int numberOfModelss, int numOfAreaQueryBoxes);
 

@@ -71,16 +71,22 @@ int main(int argc, char* argv[])
     modelInfo* modelsA[NUMBER_OF_MODELS_A];
     modelInfo* modelsB[NUMBER_OF_MODELS_B];
 
+    Texture2D* texturesA[NUMBER_OF_TEXTURES_A];
+    Texture2D* texturesB[NUMBER_OF_TEXTURES_B];
+
     //put the creation of gameplay elements here
     int lastModelIndex = 0;
     int numOfModels = 0;
+    int numOfTextures = 0;
     if (gametype == EGT_A)
     {
         numOfModels = NUMBER_OF_MODELS_A;
+        numOfTextures = NUMBER_OF_TEXTURES_A;
     }
     else
     {
         numOfModels = NUMBER_OF_MODELS_B;
+        numOfTextures = NUMBER_OF_TEXTURES_B;
     }
 
     //
@@ -99,18 +105,19 @@ int main(int argc, char* argv[])
     int numOfDoors = 0;
     if (gametype == EGT_A)
     {
-        ConstructGameplayElements(modelsA, &lastModelIndex, NUMBER_OF_DOORS_A, &gameplayElements, allDoorsA);
-        ConstructPuzzles(allPuzzlesA, modelsA, &lastModelIndex, gametype, &player, &gameplayElements);
-        CreateModels(modelsA, &lastModelIndex, gametype);
+        LoadAllTextures(texturesA, gametype);
+        ConstructGameplayElements(modelsA, &lastModelIndex, texturesA, NUMBER_OF_DOORS_A, &gameplayElements, allDoorsA);
+        ConstructPuzzles(allPuzzlesA, modelsA, &lastModelIndex, gametype, &player, &gameplayElements, texturesA);
+        CreateModels(modelsA, &lastModelIndex, gametype, texturesA);
         numOfPuzzles = NUMBER_OF_PUZZLES_A;
         numOfDoors = NUMBER_OF_DOORS_A;
         
     }
     else
     {
-        ConstructGameplayElements(modelsB, &lastModelIndex, NUMBER_OF_DOORS_B, &gameplayElements, allDoorsB);
-        ConstructPuzzles(allPuzzlesB, modelsB, &lastModelIndex, gametype, &player, &gameplayElements);
-        CreateModels(modelsB, &lastModelIndex, gametype);
+        ConstructGameplayElements(modelsB, &lastModelIndex, texturesB, NUMBER_OF_DOORS_B, &gameplayElements, allDoorsB);
+        ConstructPuzzles(allPuzzlesB, modelsB, &lastModelIndex, gametype, &player, &gameplayElements, texturesB);
+        CreateModels(modelsB, &lastModelIndex, gametype, texturesB);
         numOfPuzzles = NUMBER_OF_PUZZLES_B;
         numOfDoors = NUMBER_OF_DOORS_B;
     }
@@ -187,11 +194,15 @@ int main(int argc, char* argv[])
             Draw(modelsB, &ray, areaQueryBoxesB, ui, allBoxesB, numOfModels, numOfQueryBoxes, numOfInteractables);
         }
     }
-    
-    
+    /*
+        MAIN GAME LOOP
+        MAIN GAME LOOP
+        MAIN GAME LOOP
+    */
+
     if (gametype == EGT_A)
     {
-        DestroyAllModels(modelsA, numOfModels);
+        DestroyAllModels(modelsA, numOfModels, texturesA, numOfTextures);
         printf("models destroyed\n");
         DestructAllPuzzles(allPuzzlesA, numOfPuzzles);
         printf("puzzles destroyed\n");
@@ -202,7 +213,7 @@ int main(int argc, char* argv[])
     }
     else
     {
-        DestroyAllModels(modelsB, numOfModels);
+        DestroyAllModels(modelsB, numOfModels, texturesB, numOfTextures);
         DestructAllPuzzles(allPuzzlesB, numOfPuzzles);
         DestroyAreasAndInteractables(areaQueryBoxesB, numOfQueryBoxes, numOfInteractables);
         DestroyOverlapBoxes(allBoxesB);

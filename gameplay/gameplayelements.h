@@ -6,6 +6,6 @@
 
 void PollAllGameplayElements(Door** allDoors, double deltaTime, int numOfDoors);
 
-void ConstructGameplayElements(modelInfo** models, int* lastModelIndex, int numOfDoors, GameplayElements* gameplayElements, Door** allDoors);
+void ConstructGameplayElements(modelInfo** models, int* lastModelIndex, Texture2D** allTextures, int numOfDoors, GameplayElements* gameplayElements, Door** allDoors);
 
 void DestructAllGameplayElements(GameplayElements* gameplayElements, Door* allDoors[]);

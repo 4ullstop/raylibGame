@@ -10,9 +10,9 @@
 
 
 
-void CreateModels(modelInfo** models, int* lastModelIndex, enum Gametype gametype);
+void CreateModels(modelInfo** models, int* lastModelIndex, enum Gametype gametype, Texture2D** allTextures);
 
 void DrawAllModels(modelInfo** models, int numOfModels);
 
-void DestroyAllModels(modelInfo** models, int numOfModels);
+void DestroyAllModels(modelInfo** models, int numOfModels, Texture2D** allTextures, int numOfTextures);
 

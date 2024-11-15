@@ -13,7 +13,7 @@
 
 void DestructAllButtons(ButtonMaster* master);
 
-void ConstructPuzzles(ButtonMaster** allPuzzles, modelInfo** dynamicModels, int* lastModelIndex, enum Gametype gametype, FPSPlayer* player, GameplayElements* gameplayElements);
+void ConstructPuzzles(ButtonMaster** allPuzzles, modelInfo** dynamicModels, int* lastModelIndex, enum Gametype gametype, FPSPlayer* player, GameplayElements* gameplayElements, Texture2D** allTextures);
 
 void DestructAllPuzzles(ButtonMaster** allPuzzles, int numberOfPuzzles);
 
