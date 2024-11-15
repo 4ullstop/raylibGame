@@ -7,6 +7,7 @@ void AssignButtonToToggleAction(Button* button, enum PuzzleOnOffDirection direct
     button->buttonRules = malloc(sizeof(ButtonRules));
     button->buttonRules->toggleRule = malloc(sizeof(ToggleRule));
     button->buttonRules->toggleRule->puzzleOODirection = direction;
+    button->buttonRules->toggleRule->hasBeenToggled = false;
     button->ButtonSelected = EnactToggle;
 }
 
@@ -15,6 +16,7 @@ void EnactToggle(Button* button)
     //regardless you are gonna look at this later and realize that
     //the directions are completely wrong, but it's a start
     Vector2Int direction = {0};
+    button->buttonRules->toggleRule->hasBeenToggled = true;
     switch (button->buttonRules->toggleRule->puzzleOODirection)
     {
     case POOD_TopDown:
@@ -58,6 +60,7 @@ void EnactToggle(Button* button)
 void ToggleNeighbors(Button* button, Vector2Int direction)
 {
     //this is basically all just pseudocode
+    CollateralPower* collateralButtons = NULL;
     ToggleRule* rule = button->buttonRules->toggleRule;
     //check each time that we haven't extended the range of the columns and rows based 
     //on our calculation with the direction
@@ -69,11 +72,18 @@ void ToggleNeighbors(Button* button, Vector2Int direction)
     ToggleCurrButton(currButton, ogId);
     do
     {
+        if (currButton->buttonRules != NULL && currButton->buttonRules->toggleRule != NULL)
+        {
+            AddButtonToList(&collateralButtons, currButton);
+            printf("button added to list\n");
+        }
         currButton = GetNextButton(currButton, direction);
         //run associated action (select the curr button/change the texture)
         ToggleCurrButton(currButton, ogId);
     } while (currButton->id != button->id);
     ToggleCurrButton(ogButton, ogId);
+    AssessList(collateralButtons);
+    DestroyList(&collateralButtons);
 }
 
 Button* GetNextButton(Button* next, Vector2Int direction)
@@ -146,4 +156,56 @@ void ToggleCurrButton(Button* currButton, int ogId)
         currButton->buttonState = EBS_selected;
         currButton->highlighted = true;
     }
+}
+
+void AddButtonToList(CollateralPower** head, Button* button)
+{
+    if (button->buttonRules->toggleRule->hasBeenToggled == true) return;
+    CollateralPower* node = malloc(sizeof(CollateralPower));
+    node->poweredButton = button;
+    node->next = NULL;
+
+    if (*head == NULL)
+    {
+        *head = node;
+        return;
+    }
+
+    CollateralPower* temp = *head;
+    while (temp->next != NULL)
+    {
+        temp = temp->next;
+    }
+    temp->next = node;
+}
+
+void DestroyList(CollateralPower** head)
+{
+    CollateralPower* curr = *head;
+    CollateralPower* next = NULL;
+
+    while (curr != NULL)
+    {
+        next = curr->next; 
+        free(curr);
+        curr = next;
+    }
+    *head = NULL;
+
+}
+
+void AssessList(CollateralPower* head)
+{
+    CollateralPower* temp = head;
+
+    printf("about to assess list\n");
+    while (temp != NULL)
+    {
+        printf("looping through assessment\n");
+        temp->poweredButton->buttonRules->toggleRule->hasBeenToggled = true;
+        EnactToggle(temp->poweredButton);
+
+        temp = temp->next;
+    }
+    
 }

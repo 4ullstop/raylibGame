@@ -13,3 +13,9 @@ void ToggleCurrButton(Button* currButton, int ogId);
 void AssignButtonToToggleAction(Button* button, enum PuzzleOnOffDirection direction);
 
 Button* GetNextButton(Button* next, Vector2Int direction);
+
+void AddButtonToList(CollateralPower** head, Button* button);
+
+void AssessList(CollateralPower* head);
+
+void DestroyList(CollateralPower** head);

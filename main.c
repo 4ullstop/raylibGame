@@ -288,25 +288,6 @@ void Draw(modelInfo** models, Raycast* ray, QueryBox** queryBoxes, UIElements** 
                 
             }
         }
-        
-        // if (box->showDebug)
-        // {
-        //     DrawLine3D(box->debugPoint, box->randDirectionDebug[0], RED);
-        //     for (int i = 0; i < 12; i++)
-        //     {
-        //         DrawSphere(box->cubeVertsDebug[i], 0.1f, GREEN);
-        //         //printf("%i\n", i);
-        //         //printf("Point %i: %f, %f, %f\n", i, box->cubeVertsDebug[i].x, box->cubeVertsDebug[i].y, box->cubeVertsDebug[i].z);
-        //     }
-        //     DrawSphere(box->debugPoint, 0.1f, RED);
-        //     DrawPoint3D(box->debugPoint, GREEN);
-        // }
-        // printf("\n");
-        // printf("\n");
-        // printf("\n");
-
-        //DrawPlayerCollisionCapsule(player.location);
-        
 
         Complete3DMode();
         

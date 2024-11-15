@@ -225,6 +225,8 @@ typedef struct ToggleRule
     //assign these on construction
     int columns;
     int rows;
+
+    bool hasBeenToggled;
 } ToggleRule;
 #endif
 
@@ -439,4 +441,12 @@ typedef struct OverlapBox
 #endif
 
 
-
+#ifndef COLLATERAL_POWER
+#define COLLATERAL_POWER
+typedef struct CollateralPower
+{
+    Button* poweredButton;
+    bool hasBeenToggled;
+    struct CollateralPower* next;
+} CollateralPower;
+#endif

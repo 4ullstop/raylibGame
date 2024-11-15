@@ -37,23 +37,13 @@ It would also probably be nice if you made the player a little taller
 
 Might consider separating some of the stuff in the controller, it's getting quite long
 
-At some point, it might be best if you turn some of the arrays of elements into linked lists, this way we are able to destroy things if need be like doors when they extend all the way
 
-
-Create ability for puzzles to power on other puzzles
 
 Make it more obvious when you complete a puzzle/enter into a puzzle 
 
 Going back to the poweronoff button functionality, you're gonna wanna make it so if two buttons exist in the same column or row, that they power on their entire functionality when one of them is pressed
 
-
-To create power puzzle on ability:
-    - We need to pass in the assoicated powered off puzzle to the puzzle that is going to power it on through the gameplay elements struct (if we can)
-    - Probably create some sort of function pointer that will call the power on ability 
-    - We can reuse the SwitchTextureOnPuzzleState function
+Create a reset button to reset the puzzle entirely
 
 
-You might be able to assign buttons the same textures without loading new ones everytime you create a new button 
-    - This is gonna require some thinking on how to restructure the way you are currently destructing textures and models
-
-Still need to create destructors for the textures as they are not currently being unloaded or destructed
+The Cursor is beginning to become a little hard to discerne from the rest of the puzzle might want to end up changing the color of it
