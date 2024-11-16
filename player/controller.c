@@ -152,6 +152,11 @@ void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode)
         *mode = EGM_Normal;
     }
 
+    if (IsKeyPressed(KEY_R))
+    {
+        MoveCursor(ED_Reset, interactedItem, mode);
+    }
+
     if (directionalKeyPressed == true)
     {
         if (interactedItem->showsArrowKeyHint == true && interactedItem->id == 2)

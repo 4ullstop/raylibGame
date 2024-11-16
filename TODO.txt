@@ -41,8 +41,6 @@ Might consider separating some of the stuff in the controller, it's getting quit
 
 Make it more obvious when you complete a puzzle/enter into a puzzle 
 
-Going back to the poweronoff button functionality, you're gonna wanna make it so if two buttons exist in the same column or row, that they power on their entire functionality when one of them is pressed
-
 Create a reset button to reset the puzzle entirely
 
 

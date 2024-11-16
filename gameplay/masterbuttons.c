@@ -143,6 +143,10 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
             ChangeSelection(currSelectedButton);
             CheckForSolution(currSelectedButton, master, mode);
             break;
+        case ED_Reset:
+            //do reset thingys
+            ResetPuzzle(master);
+            break;
         default:
             printf("error default case run on switching highlight");
             break;
@@ -227,3 +231,26 @@ void CheckForSolution(Button* button, ButtonMaster* master, enum Gamemode* mode)
     }
 }
 
+void ResetPuzzle(ButtonMaster* puzzle)
+{
+    for (int i = 0; i < puzzle->rows; i++)
+    {
+        for (int j = 0; j < puzzle->columns; j++)
+        {
+            puzzle->childButtons[i][j].buttonState = EBS_idle;
+            puzzle->childButtons[i][j].model->texture = puzzle->childButtons[i][j].buttonTextures->idle;
+            puzzle->childButtons[i][j].model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = puzzle->childButtons[i][j].model->texture; 
+            puzzle->childButtons[i][j].submitted = false;
+            if (puzzle->childButtons[i][j].highlighted == true)
+            {
+                puzzle->childButtons[i][j].highlighted = false;
+            }
+        }
+    }
+    
+    puzzle->childButtons[puzzle->highlightStartLoc.x][puzzle->highlightStartLoc.y].buttonState = EBS_highlighted;
+    puzzle->childButtons[puzzle->highlightStartLoc.x][puzzle->highlightStartLoc.y].model->texture = puzzle->childButtons[puzzle->highlightStartLoc.x][puzzle->highlightStartLoc.y].buttonTextures->highlighted; 
+    puzzle->childButtons[puzzle->highlightStartLoc.x][puzzle->highlightStartLoc.y].model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = puzzle->childButtons[puzzle->highlightStartLoc.x][puzzle->highlightStartLoc.y].model->texture; 
+    puzzle->highlightLocation = puzzle->highlightStartLoc;
+    puzzle->childButtons[puzzle->highlightStartLoc.x][puzzle->highlightStartLoc.y].highlighted = true;
+}

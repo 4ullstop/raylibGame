@@ -59,7 +59,8 @@ enum Direction
     ED_Down,
     ED_Left,
     ED_Right,
-    ED_Enter
+    ED_Enter,
+    ED_Reset
 };
 #endif
 

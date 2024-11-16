@@ -42,6 +42,8 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
     master->childButtons[i][j].buttonVectorLocation.x = i;
     master->childButtons[i][j].buttonVectorLocation.y = j;
 
+    master->highlightStartLoc.x = centerR;
+    master->highlightStartLoc.y = centerC;
 
     int multipleR = i - centerR;
     float locX = master->location.x + (multipleR * master->buttonSpread);
@@ -98,6 +100,8 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
     //highlighting our middle button
     printf("creating button model\n");
 
+
+    //get rid of this code because you are just setting the highlightstartloc above regardless
     if (master->hasHighlightStartLoc == true)
     {
         if (i == master->highlightStartLoc.x && j == master->highlightStartLoc.y)
