@@ -42,8 +42,12 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
     master->childButtons[i][j].buttonVectorLocation.x = i;
     master->childButtons[i][j].buttonVectorLocation.y = j;
 
-    master->highlightStartLoc.x = centerR;
-    master->highlightStartLoc.y = centerC;
+    if (master->hasHighlightStartLoc == false)
+    {    
+        master->highlightStartLoc.x = centerR;
+        master->highlightStartLoc.y = centerC;
+    }
+
 
     int multipleR = i - centerR;
     float locX = master->location.x + (multipleR * master->buttonSpread);
