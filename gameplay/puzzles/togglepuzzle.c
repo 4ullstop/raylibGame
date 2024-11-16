@@ -67,7 +67,9 @@ void ToggleNeighbors(Button* button, Vector2Int direction)
     int ogId = 0;
     if (button->isBeingAssessed == true)
     {
+        
         ogId = 100;
+        ToggleCurrButton(button, ogId);
     }
     else
     {
@@ -89,7 +91,7 @@ void ToggleNeighbors(Button* button, Vector2Int direction)
         //run associated action (select the curr button/change the texture)
         ToggleCurrButton(currButton, ogId);
     } while (currButton->id != button->id);
-    //ToggleCurrButton(ogButton, ogId);
+    //
     AssessList(collateralButtons);
     DestroyList(&collateralButtons);
 }
@@ -139,6 +141,7 @@ Button* GetNextButton(Button* next, Vector2Int direction)
 
 void ToggleCurrButton(Button* currButton, int ogId)
 {
+    printf("address of curr button: %p\n", (void*)currButton);
     if (currButton->id != ogId)
     {
         if (currButton->submitted == true)
@@ -209,10 +212,10 @@ void AssessList(CollateralPower* head)
     while (temp != NULL)
     {
         printf("looping through assessment\n");
-        temp->poweredButton->buttonRules->toggleRule->hasBeenToggled = true;
+        
         temp->poweredButton->isBeingAssessed = true;
         EnactToggle(temp->poweredButton);
-
+        
         temp = temp->next;
     }
 }

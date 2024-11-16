@@ -94,7 +94,7 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
     master->childButtons[i][j].buttonRules = NULL;
     master->childButtons[i][j].ButtonSelected = NULL;
     master->childButtons[i][j].submitted = false;
-    master->childButtons[i][j].id = i + j;
+    master->childButtons[i][j].id = rand();
     dynamicModels[*lastModelIndex] = master->childButtons[i][j].model;
     *lastModelIndex = *lastModelIndex + 1;
     //highlighting our middle button

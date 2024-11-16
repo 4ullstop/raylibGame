@@ -41,7 +41,8 @@ Might consider separating some of the stuff in the controller, it's getting quit
 
 Make it more obvious when you complete a puzzle/enter into a puzzle 
 
-Create a reset button to reset the puzzle entirely
-
 
 The Cursor is beginning to become a little hard to discerne from the rest of the puzzle might want to end up changing the color of it
+
+
+printf("The address of x is: %p\n", (void *)ptr);
