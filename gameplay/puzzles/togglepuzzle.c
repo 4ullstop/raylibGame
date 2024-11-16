@@ -64,7 +64,15 @@ void ToggleNeighbors(Button* button, Vector2Int direction)
     ToggleRule* rule = button->buttonRules->toggleRule;
     //check each time that we haven't extended the range of the columns and rows based 
     //on our calculation with the direction
-    int ogId = button->id;
+    int ogId = 0;
+    if (button->isBeingAssessed == true)
+    {
+        ogId = 100;
+    }
+    else
+    {
+        ogId = button->id;
+    }
     Button* ogButton = button;
     Button* currButton = button;
     
@@ -81,7 +89,7 @@ void ToggleNeighbors(Button* button, Vector2Int direction)
         //run associated action (select the curr button/change the texture)
         ToggleCurrButton(currButton, ogId);
     } while (currButton->id != button->id);
-    ToggleCurrButton(ogButton, ogId);
+    //ToggleCurrButton(ogButton, ogId);
     AssessList(collateralButtons);
     DestroyList(&collateralButtons);
 }
@@ -150,11 +158,10 @@ void ToggleCurrButton(Button* currButton, int ogId)
     }
     else
     {
-        currButton->model->texture = currButton->buttonTextures->selected;
+        currButton->model->texture = currButton->buttonTextures->highlighted;
         currButton->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = currButton->model->texture;
-        currButton->submitted = true;
-        currButton->buttonState = EBS_selected;
-        currButton->highlighted = true;
+        //currButton->submitted = true;
+        currButton->buttonState = EBS_highlighted;
     }
 }
 
@@ -203,9 +210,9 @@ void AssessList(CollateralPower* head)
     {
         printf("looping through assessment\n");
         temp->poweredButton->buttonRules->toggleRule->hasBeenToggled = true;
+        temp->poweredButton->isBeingAssessed = true;
         EnactToggle(temp->poweredButton);
 
         temp = temp->next;
     }
-    
 }

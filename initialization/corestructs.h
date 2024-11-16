@@ -268,7 +268,7 @@ typedef struct Button
     void (*ButtonSelected)(struct Button* button);
 
     
-    
+    bool isBeingAssessed;
 
     int id;
 } Button;

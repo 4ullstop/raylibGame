@@ -181,6 +181,10 @@ void ChangeSelection(Button* button)
     else
     {
         button->submitted = false;
+        if (button->ButtonSelected != NULL)
+        {
+            button->ButtonSelected(button);
+        }
         AddHighlight(button);
     }
 }
@@ -212,6 +216,7 @@ void CheckForSolution(Button* button, ButtonMaster* master, enum Gamemode* mode)
         printf("congrats you solved the puzzle\n");
         *mode = EGM_Normal;
         master->OnPuzzleSolved(master);
+        printf("puzzle solved end\n");
     }
     else
     {

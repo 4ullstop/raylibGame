@@ -81,6 +81,7 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
     
     master->childButtons[i][j].model = malloc(sizeof(modelInfo));
     master->childButtons[i][j].model->collisionDisabled = true;
+    master->childButtons[i][j].isBeingAssessed = false;
     master->childButtons[i][j].buttonTextures = buttonTextures;
     master->childButtons[i][j].puzzleType = EPT_Free;
     master->childButtons[i][j].model->modelLocation = master->childButtons[i][j].location;
@@ -229,12 +230,13 @@ void AssignGameplayElementsToPuzzles(ButtonMaster* puzzle, Door* door)
 
 void InactGameplayElement(GameplayElements* gameplayElement)
 {
-    
+    printf("enacting gameplay element\n");
     if (gameplayElement != NULL && gameplayElement->associatedDoor != NULL)
     {
+        printf("something is not null when it should be\n");
         gameplayElement->associatedDoor->isLowering = true;
     }
-
+    printf("gameplay element enacted\n");
 }
 
 void ConstructSinglePuzzle(int* lastPuzzleIndex, int columns, int rows, Vector3 location, FPSPlayer* player, void(*puzzleLocConstruct)(ButtonMaster*), bool hasGameplayElements, GameplayElements* gameplayElements, ButtonMaster** gameAPuzzles, Vector2Int highlightStart, bool hasHighlightStartLoc, enum PuzzleState puzzleState)
@@ -243,6 +245,7 @@ void ConstructSinglePuzzle(int* lastPuzzleIndex, int columns, int rows, Vector3 
     puzzle->columns = columns;
     puzzle->rows = rows;
     puzzle->location = location;
+    puzzle->puzzleToPowerOn = NULL;
     puzzle->buttonSpread = 0.5f;
     puzzle->hasBoxAssigned = false;
     puzzle->id = *lastPuzzleIndex;

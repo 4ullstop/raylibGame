@@ -106,6 +106,12 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
     gameAPuzzles[3]->puzzleToPowerOn = gameAPuzzles[4];
 }
 
+/*
+    {2,0} {2,1} {2,2}
+    {1,0} {1,1} {1,2}
+    {0,0} {0,1} {0,2}
+*/
+
 void AssignSpecialTexturesGameA(ButtonMaster** allPuzzles, Texture2D** allTextures)
 {   
     PuzzleTexture* puzzleTextures[3];
@@ -115,7 +121,7 @@ void AssignSpecialTexturesGameA(ButtonMaster** allPuzzles, Texture2D** allTextur
     AssignTextureAndActionAtSpot(allTextures, puzzleTextures, &allPuzzles[4]->childButtons[1][2], POOD_TopDown, EBS_off);
 
     AssignTextureAndActionAtSpot(allTextures, puzzleTextures, &allPuzzles[0]->childButtons[0][0], POOD_RightLeft, EBS_idle);
-    AssignTextureAndActionAtSpot(allTextures, puzzleTextures, &allPuzzles[0]->childButtons[2][2], POOD_BottomUp, EBS_idle);
+    AssignTextureAndActionAtSpot(allTextures, puzzleTextures, &allPuzzles[0]->childButtons[0][2], POOD_BottomUp, EBS_idle);
 
     AssignTextureAndActionAtSpot(allTextures, puzzleTextures, &allPuzzles[5]->childButtons[0][2], POOD_DDL, EBS_idle);
     AssignTextureAndActionAtSpot(allTextures, puzzleTextures, &allPuzzles[5]->childButtons[0][0], POOD_BottomUp, EBS_highlighted);
@@ -214,8 +220,8 @@ void Puzzle_01(ButtonMaster* puzzle)
     puzzle->solutionLocations[0] = (Vector2Int){2, 0};
     puzzle->solutionLocations[1] = (Vector2Int){1, 0};
     puzzle->solutionLocations[2] = (Vector2Int){0, 0};
-    puzzle->solutionLocations[3] = (Vector2Int){2, 1};
-    puzzle->solutionLocations[4] = (Vector2Int){2, 2};
+    puzzle->solutionLocations[3] = (Vector2Int){0, 1};
+    puzzle->solutionLocations[4] = (Vector2Int){0, 2};
 }
 
 void Puzzle_02(ButtonMaster* puzzle)
