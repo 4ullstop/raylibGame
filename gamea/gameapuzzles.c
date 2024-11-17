@@ -222,6 +222,10 @@ void Puzzle_01(ButtonMaster* puzzle)
     puzzle->solutionLocations[2] = (Vector2Int){0, 0};
     puzzle->solutionLocations[3] = (Vector2Int){0, 1};
     puzzle->solutionLocations[4] = (Vector2Int){0, 2};
+
+    printf("-----------------------------------------\n");
+    printf("PUZZLE_01 CREATED\n");
+    printf("-----------------------------------------\n");
 }
 
 void Puzzle_02(ButtonMaster* puzzle)

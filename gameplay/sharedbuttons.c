@@ -68,12 +68,13 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
     master->childButtons[i][j].nRight = &master->childButtons[right][j];
 
     
-
+    master->childButtons[i][j].solutionButton = false;
     for (int k = 0, n = master->numberOfSolutions; k < n; k++)
     {
         if (master->solutionLocations[k].x == j && master->solutionLocations[k].y == i)
         {
             master->childButtons[i][j].solutionButton = true;
+            printf("Puzzle solution location for puzzle: %i, (%i, %i)\n", master->id, i, j);
         }
     }
 
@@ -105,28 +106,14 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
     printf("creating button model\n");
 
 
-    //get rid of this code because you are just setting the highlightstartloc above regardless
-    if (master->hasHighlightStartLoc == true)
+
+    if (i == master->highlightStartLoc.x && j == master->highlightStartLoc.y)
     {
-        if (i == master->highlightStartLoc.x && j == master->highlightStartLoc.y)
-        {
-            SwitchTextureOnPuzzleState(master, &master->childButtons[i][j], true);
-        }
-        else
-        {
-            SwitchTextureOnPuzzleState(master, &master->childButtons[i][j], false);
-        }
+        SwitchTextureOnPuzzleState(master, &master->childButtons[i][j], true);
     }
     else
     {
-        if (i == centerC && j == centerR)
-        {
-            SwitchTextureOnPuzzleState(master, &master->childButtons[i][j], true);
-        }
-        else
-        {
-            SwitchTextureOnPuzzleState(master, &master->childButtons[i][j], false);
-        }
+        SwitchTextureOnPuzzleState(master, &master->childButtons[i][j], false);
     }
     
 }
