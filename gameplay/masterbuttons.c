@@ -182,15 +182,15 @@ void ChangeSelection(Button* button)
             button->ButtonSelected(button);
         }
     }
-    else
-    {
-        button->submitted = false;
-        if (button->ButtonSelected != NULL)
-        {
-            button->ButtonSelected(button);
-        }
-        AddHighlight(button);
-    }
+    // else
+    // {
+    //     button->submitted = false;
+    //     if (button->ButtonSelected != NULL)
+    //     {
+    //         button->ButtonSelected(button);
+    //     }
+    //     AddHighlight(button);
+    // }
 }
 
 void CheckForSolution(Button* button, ButtonMaster* master, enum Gamemode* mode)
