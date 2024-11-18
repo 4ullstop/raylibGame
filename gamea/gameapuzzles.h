@@ -28,3 +28,11 @@ void LoadAndAssignSingleTexture(Button* button, PuzzleTexture* newTextures, enum
 void AssignTextureAndActionAtSpot(Texture2D** allTextures, PuzzleTexture** puzzleTextures, Button* button, enum PuzzleOnOffDirection direction, enum ButtonState state);
 
 void LoadAllSpecialTextures(PuzzleTexture** textures, Texture2D** allTextures);
+
+void AssignSolutionLocationTextures(Texture2D** allTextures, Button* button);
+
+void LoadAllSolutionTextures(PuzzleTexture** solutionTextures, Texture2D** allTextures);
+
+void AssignSolutionButtonsToPuzzle(ButtonMaster* puzzle);
+
+void SwitchOnSolutionSizes(enum ButtonTextureSizes textureSizes, Button* button, PuzzleTexture** solutionTextures);

@@ -46,3 +46,7 @@ The Cursor is beginning to become a little hard to discerne from the rest of the
 
 
 printf("The address of x is: %p\n", (void *)ptr);
+
+Create ordered solutions
+    - Buttons need to be able to be assigned textures upon establishment of solution buttons
+    - They need to keep track of the order in which they are solved

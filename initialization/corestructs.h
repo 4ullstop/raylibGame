@@ -32,6 +32,21 @@
 #define NUMBER_OF_DOORS_A 1
 #define NUMBER_OF_DOORS_B 1
 
+#ifndef E_BUTTON_SIZES
+#define E_BUTTON_SIZES
+enum ButtonTextureSizes
+{
+    EBTS_Empty,
+    EBTS_08,
+    EBTS_07,
+    EBTS_06,
+    EBTS_05,
+    EBTS_04,
+    EBTS_03,
+    EBTS_02,
+};
+#endif
+
 #ifndef E_GAMEMODE
 #define E_GAMEMODE
 enum Gamemode
@@ -272,6 +287,8 @@ typedef struct Button
     bool isBeingAssessed;
 
     int id;
+
+    enum ButtonTextureSizes textureSizes;
 } Button;
 #endif
 
@@ -309,6 +326,8 @@ typedef struct ButtonMaster
     bool hasHighlightStartLoc;
 
     enum PuzzleState puzzleState;
+
+    Button** solutionButtons;
 } ButtonMaster;
 #endif
 

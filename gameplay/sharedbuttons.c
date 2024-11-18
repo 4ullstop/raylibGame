@@ -91,6 +91,7 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
     master->childButtons[i][j].isBeingAssessed = false;
     master->childButtons[i][j].buttonTextures = buttonTextures;
     master->childButtons[i][j].puzzleType = EPT_Free;
+    master->childButtons[i][j].textureSizes = EBTS_Empty;
     master->childButtons[i][j].model->modelLocation = master->childButtons[i][j].location;
     master->childButtons[i][j].model->model = LoadModel("D:/CFiles/FirstGame/models/obj/button2.obj");
     master->childButtons[i][j].buttonState = EBS_idle;
