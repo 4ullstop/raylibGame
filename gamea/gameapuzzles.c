@@ -101,7 +101,9 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
     /*
         After the initialziation of our buttons, we want to perscribe special textures to them if they so require
     */
+    printf("hello\n");
     AssignAllPuzzlesSolutionButtons(gameAPuzzles);
+    printf("here as well\n");
     AssignSpecialTexturesGameA(gameAPuzzles, allTextures);
     
     gameAPuzzles[3]->puzzleToPowerOn = gameAPuzzles[4];
@@ -128,7 +130,7 @@ void AssignSpecialTexturesGameA(ButtonMaster** allPuzzles, Texture2D** allTextur
     AssignTextureAndActionAtSpot(allTextures, puzzleTextures, &allPuzzles[5]->childButtons[0][0], POOD_BottomUp, EBS_highlighted);
     AssignTextureAndActionAtSpot(allTextures, puzzleTextures, &allPuzzles[5]->childButtons[2][2], POOD_RightLeft, EBS_idle);
 
-    
+    printf("yo\n");
     PuzzleTexture* solutionTextures[7];
     LoadAllSolutionTextures(solutionTextures, allTextures);
     printf("solution textures loaded\n");
@@ -137,9 +139,22 @@ void AssignSpecialTexturesGameA(ButtonMaster** allPuzzles, Texture2D** allTextur
 
 void AssignAllPuzzlesSolutionButtons(ButtonMaster** allPuzzles)
 {
+    printf("hello v2\n");
     for (int i = 0; i < NUMBER_OF_PUZZLES_A; i++)
     {
         AssignSolutionButtonsToPuzzle(allPuzzles[i]);
+    }
+    printf("hello v3\n");
+}
+
+void AssignSolutionButtonsToPuzzle(ButtonMaster* puzzle)
+{
+    printf("num of solutions: %i\n", puzzle->numberOfSolutions);
+    for (int i = 0; i < puzzle->numberOfSolutions; i++)
+    {
+        puzzle->solutionButtons[i] = &puzzle->childButtons[puzzle->solutionLocations[i].y][puzzle->solutionLocations[i].x]; //be sure to remove the dangling pointers when these are destroyed   
+        puzzle->solutionButtons[i]->textureSizes = puzzle->textureSizes[i];
+        printf("i is: %i\n", i);
     }
 }
 
@@ -173,7 +188,7 @@ void AssignTextureAndActionAtSpot(Texture2D** allTextures, PuzzleTexture** puzzl
 
 void AssignSolutionLocationTextures(PuzzleTexture** solutionTextures, ButtonMaster* puzzle)
 {
-    
+    printf("about to assign solution location textures\n");
     for (int i = 0; i < puzzle->numberOfSolutions; i++)
     {
         SwitchOnSolutionSizes(puzzle->solutionButtons[i], solutionTextures, puzzle->solutionButtons[i]->buttonState);
@@ -211,6 +226,7 @@ void SwitchOnSolutionSizes(Button* button, PuzzleTexture** solutionTextures, enu
         printf("ERROR SOLUTION BUTTONTEXTURESIZES UNASSIGNED\n");
         return;
     }
+    printf("About to load and assign single texture\n");
     LoadAndAssignSingleTexture(button, assignedTexture, state);
 }
 
@@ -327,13 +343,7 @@ void LoadAllSolutionTextures(PuzzleTexture** solutionTextures, Texture2D** allTe
     {0,0} {0,1} {0,2}
 */
 
-void AssignSolutionButtonsToPuzzle(ButtonMaster* puzzle)
-{
-    for (int i = 0; i < puzzle->numberOfSolutions; i++)
-    {
-        puzzle->solutionButtons[i] = &puzzle->childButtons[puzzle->solutionLocations[i].x][puzzle->solutionLocations[i].y]; //be sure to remove the dangling pointers when these are destroyed   
-    }
-}
+
 
 void Puzzle_01(ButtonMaster* puzzle)
 {
