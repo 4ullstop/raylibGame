@@ -197,6 +197,14 @@ void CheckForSolution(Button* button, ButtonMaster* master, enum Gamemode* mode)
 {
     int numberOfSolved = 0;
     int numberOfSelected = 0;
+    if (master->isUnderExamination == false)
+    {
+        master->solvedOrder = malloc(sizeof(int) * master->numberOfSolutions);
+        master->isUnderExamination = true;
+        master->solvedOrderIndex = 0;
+    }
+    master->solvedOrder[master->solvedOrderIndex] = button->textureSizes;
+    master->solvedOrderIndex++; 
     for (int i = 0; i < master->rows; i++)
     {
         for (int j = 0; j < master->columns; j++)
@@ -217,10 +225,34 @@ void CheckForSolution(Button* button, ButtonMaster* master, enum Gamemode* mode)
     }
     if (master->numberOfSolutions == numberOfSolved)
     {
-        printf("congrats you solved the puzzle\n");
-        *mode = EGM_Normal;
-        master->OnPuzzleSolved(master);
-        printf("puzzle solved end\n");
+        bool wasCorrectOrder = true;
+        int prevIndex = 0;
+        for (int i = 0; i < master->numberOfSolutions; i++)
+        {
+            printf("master solved order: %i, i: %i\n", master->solvedOrder[i], i);
+            if (i - 1 < 0) continue;
+            if (master->solvedOrder[i] < master->solvedOrder[i - 1])
+            {
+                wasCorrectOrder = false;
+                break;
+            }
+        }
+        if (wasCorrectOrder == true)
+        {
+            printf("congrats you solved the puzzle\n");
+            *mode = EGM_Normal;
+            master->OnPuzzleSolved(master);
+            printf("puzzle solved end\n");
+            free(master->solvedOrder);
+            master->solvedOrder = NULL;
+            master->isUnderExamination = false;
+        }
+        else
+        {
+            printf("these are the right buttons but were input in the incorrect order\n");
+            ResetPuzzle(master);
+        }
+        
     }
     else
     {
@@ -248,6 +280,13 @@ void ResetPuzzle(ButtonMaster* puzzle)
         }
     }
     
+    if (puzzle->isUnderExamination == true)
+    {
+        free(puzzle->solvedOrder);
+        puzzle->solvedOrder = NULL;
+        puzzle->isUnderExamination = false;
+    }
+
     puzzle->childButtons[puzzle->highlightStartLoc.x][puzzle->highlightStartLoc.y].buttonState = EBS_highlighted;
     puzzle->childButtons[puzzle->highlightStartLoc.x][puzzle->highlightStartLoc.y].model->texture = puzzle->childButtons[puzzle->highlightStartLoc.x][puzzle->highlightStartLoc.y].buttonTextures->highlighted; 
     puzzle->childButtons[puzzle->highlightStartLoc.x][puzzle->highlightStartLoc.y].model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = puzzle->childButtons[puzzle->highlightStartLoc.x][puzzle->highlightStartLoc.y].model->texture; 

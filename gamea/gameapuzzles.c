@@ -134,7 +134,7 @@ void AssignSpecialTexturesGameA(ButtonMaster** allPuzzles, Texture2D** allTextur
     PuzzleTexture* solutionTextures[7];
     LoadAllSolutionTextures(solutionTextures, allTextures);
     printf("solution textures loaded\n");
-    AssignSolutionLocationTextures(solutionTextures, allPuzzles[0]);
+    AssignSolutionLocationTextures(solutionTextures, allPuzzles[2]);
 }
 
 void AssignAllPuzzlesSolutionButtons(ButtonMaster** allPuzzles)
@@ -154,7 +154,8 @@ void AssignSolutionButtonsToPuzzle(ButtonMaster* puzzle)
     {
         puzzle->solutionButtons[i] = &puzzle->childButtons[puzzle->solutionLocations[i].y][puzzle->solutionLocations[i].x]; //be sure to remove the dangling pointers when these are destroyed   
         puzzle->solutionButtons[i]->textureSizes = puzzle->textureSizes[i];
-        printf("i is: %i\n", i);
+        puzzle->solutionButtons[i]->buttonSolutionIndex = i;
+        printf("buttonSolutionIndex is: %i\n", puzzle->solutionButtons[i]->buttonSolutionIndex);
     }
 }
 

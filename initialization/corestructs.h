@@ -37,13 +37,13 @@
 enum ButtonTextureSizes
 {
     EBTS_Empty,
-    EBTS_08,
-    EBTS_07,
-    EBTS_06,
-    EBTS_05,
-    EBTS_04,
-    EBTS_03,
     EBTS_02,
+    EBTS_03,
+    EBTS_04,
+    EBTS_05,
+    EBTS_06,
+    EBTS_07,
+    EBTS_08
 };
 #endif
 
@@ -288,6 +288,9 @@ typedef struct Button
 
     int id;
 
+    int buttonSolutionIndex;
+    
+
     enum ButtonTextureSizes textureSizes;
 } Button;
 #endif
@@ -328,6 +331,13 @@ typedef struct ButtonMaster
     enum PuzzleState puzzleState;
 
     Button** solutionButtons;
+
+    
+
+    bool isUnderExamination;
+    int* solvedOrder;
+
+    int solvedOrderIndex;
 
     enum ButtonTextureSizes* textureSizes;
 } ButtonMaster;
