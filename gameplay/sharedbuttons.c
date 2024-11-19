@@ -94,7 +94,7 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
     master->childButtons[i][j].isBeingAssessed = false;
     master->childButtons[i][j].buttonTextures = buttonTextures;
     master->childButtons[i][j].puzzleType = EPT_Free;
-    
+    master->childButtons[i][j].isBeingAssessed = false;
     master->childButtons[i][j].model->modelLocation = master->childButtons[i][j].location;
     master->childButtons[i][j].model->model = LoadModel("D:/CFiles/FirstGame/models/obj/button2.obj");
     master->childButtons[i][j].buttonState = EBS_idle;
@@ -282,5 +282,199 @@ void EnactButton(Button* button)
         printf("button unassigned action\n");
         break;
     }
+}
+
+void AssignAllPuzzlesSolutionButtons(ButtonMaster** allPuzzles)
+{
+    printf("hello v2\n");
+    for (int i = 0; i < NUMBER_OF_PUZZLES_A; i++)
+    {
+        AssignSolutionButtonsToPuzzle(allPuzzles[i]);
+    }
+    printf("hello v3\n");
+}
+
+void AssignSolutionButtonsToPuzzle(ButtonMaster* puzzle)
+{
+    printf("num of solutions: %i\n", puzzle->numberOfSolutions);
+    for (int i = 0; i < puzzle->numberOfSolutions; i++)
+    {
+        puzzle->solutionButtons[i] = &puzzle->childButtons[puzzle->solutionLocations[i].y][puzzle->solutionLocations[i].x]; //be sure to remove the dangling pointers when these are destroyed   
+        puzzle->solutionButtons[i]->textureSizes = puzzle->textureSizes[i];
+        puzzle->solutionButtons[i]->buttonSolutionIndex = i;
+        printf("buttonSolutionIndex is: %i\n", puzzle->solutionButtons[i]->buttonSolutionIndex);
+    }
+}
+
+void AssignTextureAndActionAtSpot(Texture2D** allTextures, PuzzleTexture** puzzleTextures, Button* button, enum PuzzleOnOffDirection direction, enum ButtonState state)
+{
+    PuzzleTexture* textureToUse = NULL;
+    switch (direction)
+    {
+    case POOD_BottomUp:
+        textureToUse = puzzleTextures[1];
+        break;
+    case POOD_TopDown:
+        textureToUse = puzzleTextures[1];
+        break;
+    case POOD_LeftRight:
+        textureToUse = puzzleTextures[0];
+        break;
+    case POOD_RightLeft:
+        textureToUse = puzzleTextures[0];
+        break;
+    case POOD_DDL:
+        textureToUse = puzzleTextures[2];
+        break;
+    default:
+        printf("ERROR BUTTON DIRECTION NOT SET IN ASSIGNTEXTUREANDACTIONATSPOT\n");
+        break;
+    }
+    LoadAndAssignSingleTexture(button, textureToUse, state);
+    AssignButtonToToggleAction(button, direction);
+}
+
+void AssignSolutionLocationTextures(PuzzleTexture** solutionTextures, ButtonMaster* puzzle)
+{
+    printf("about to assign solution location textures\n");
+    for (int i = 0; i < puzzle->numberOfSolutions; i++)
+    {
+        SwitchOnSolutionSizes(puzzle->solutionButtons[i], solutionTextures, puzzle->solutionButtons[i]->buttonState);
+    }
+}
+
+void SwitchOnSolutionSizes(Button* button, PuzzleTexture** solutionTextures, enum ButtonState state)
+{
+    PuzzleTexture* assignedTexture = NULL;
+    printf("button texturesSizes: %i\n", button->textureSizes);
+    switch (button->textureSizes)
+    {
+    case EBTS_02:
+        assignedTexture = solutionTextures[0];
+        break;
+    case EBTS_03:
+        assignedTexture = solutionTextures[1];
+        break;
+    case EBTS_04:
+        assignedTexture = solutionTextures[2];
+        break;
+    case EBTS_05:
+        assignedTexture = solutionTextures[3];
+        break;
+    case EBTS_06:
+        assignedTexture = solutionTextures[4];
+        break;
+    case EBTS_07:
+        assignedTexture = solutionTextures[5];
+        break;
+    case EBTS_08:
+        assignedTexture = solutionTextures[6];
+        break;
+    default:
+        printf("ERROR SOLUTION BUTTONTEXTURESIZES UNASSIGNED\n");
+        return;
+    }
+    printf("About to load and assign single texture\n");
+    LoadAndAssignSingleTexture(button, assignedTexture, state);
+}
+
+void LoadAllSpecialTextures(PuzzleTexture** textures, Texture2D** allTextures)
+{
+    PuzzleTexture* buttonLRToggle = malloc(sizeof(PuzzleTexture));
+    buttonLRToggle->highlighted = *allTextures[10];
+    buttonLRToggle->idle = *allTextures[11];
+    buttonLRToggle->off = *allTextures[5];
+    buttonLRToggle->selected = *allTextures[12];
+    textures[0] = buttonLRToggle;
+    
+    PuzzleTexture* buttonUpToggle = malloc(sizeof(PuzzleTexture));
+    buttonUpToggle->highlighted = *allTextures[6];
+    buttonUpToggle->idle = *allTextures[7];
+    buttonUpToggle->off = *allTextures[5];
+    buttonUpToggle->selected = *allTextures[8];
+    textures[1] = buttonUpToggle;
+
+    PuzzleTexture* buttonDDLToggle = malloc(sizeof(PuzzleTexture));
+    buttonDDLToggle->highlighted = *allTextures[13];
+    buttonDDLToggle->idle = *allTextures[14];
+    buttonDDLToggle->off = *allTextures[5];
+    buttonDDLToggle->selected = *allTextures[15];
+    textures[2] = buttonDDLToggle;
+}
+
+void LoadAndAssignSingleTexture(Button* button, PuzzleTexture* newTextures, enum ButtonState state)
+{
+    button->buttonTextures = newTextures;
+    switch (state)
+    {
+    case EBS_highlighted:
+        button->model->texture = newTextures->highlighted;
+        break;
+    case EBS_idle:
+        button->model->texture = newTextures->idle;
+        break;
+    case EBS_selected:
+        button->model->texture = newTextures->selected;
+        break;
+    case EBS_off:
+        button->model->texture = newTextures->off;
+        break;
+    default:
+        button->model->texture = newTextures->idle;
+        printf("ERROR!: DEFAULT RUN IN LOADANDASSIGNSINGLETEXTURE\n");
+    }
+    button->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = button->model->texture;
+}
+
+void LoadAllSolutionTextures(PuzzleTexture** solutionTextures, Texture2D** allTextures)
+{
+    PuzzleTexture* solution_02 = malloc(sizeof(PuzzleTexture));
+    solution_02->highlighted = *allTextures[17];
+    solution_02->idle = *allTextures[24];
+    solution_02->selected = *allTextures[31];
+    solution_02->off = *allTextures[5];
+    solutionTextures[0] = solution_02;
+
+    PuzzleTexture* solution_03 = malloc(sizeof(PuzzleTexture));
+    solution_03->highlighted = *allTextures[18];
+    solution_03->idle = *allTextures[25];
+    solution_03->selected = *allTextures[32];
+    solution_03->off = *allTextures[5];
+    solutionTextures[1] = solution_03;
+
+    PuzzleTexture* solution_04 = malloc(sizeof(PuzzleTexture));
+    solution_04->highlighted = *allTextures[19];
+    solution_04->idle = *allTextures[26];
+    solution_04->selected = *allTextures[33];
+    solution_04->off = *allTextures[5];
+    solutionTextures[2] = solution_04;
+
+    PuzzleTexture* solution_05 = malloc(sizeof(PuzzleTexture));
+    solution_05->highlighted = *allTextures[20];
+    solution_05->idle = *allTextures[27];
+    solution_05->selected = *allTextures[34];
+    solution_05->off = *allTextures[5];
+    solutionTextures[3] = solution_05;
+
+    PuzzleTexture* solution_06 = malloc(sizeof(PuzzleTexture));
+    solution_06->highlighted = *allTextures[21];
+    solution_06->idle = *allTextures[28];
+    solution_06->selected = *allTextures[35];
+    solution_06->off = *allTextures[5];
+    solutionTextures[4] = solution_06;
+    
+    PuzzleTexture* solution_07 = malloc(sizeof(PuzzleTexture));
+    solution_07->highlighted = *allTextures[22];
+    solution_07->idle = *allTextures[29];
+    solution_07->selected = *allTextures[36];
+    solution_07->off = *allTextures[5];
+    solutionTextures[5] = solution_07;
+    
+    PuzzleTexture* solution_08 = malloc(sizeof(PuzzleTexture));
+    solution_08->highlighted = *allTextures[23];
+    solution_08->idle = *allTextures[30];
+    solution_08->selected = *allTextures[37];
+    solution_08->off = *allTextures[5];
+    solutionTextures[6] = solution_08;
 }
 

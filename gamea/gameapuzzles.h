@@ -7,7 +7,7 @@
 #include "../gameplay/puzzles/togglepuzzle.h"
 #endif
 
-void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures, modelInfo** dynamicModels, int* lastModelIndex, FPSPlayer* player, GameplayElements* gameplayElements);
+void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures, modelInfo** dynamicModels, int* lastModelIndex, FPSPlayer* player, GameplayElements* gameplayElements, PuzzleTextureLocations* puzzleTextureLocations);
 
 void Puzzle_01(ButtonMaster* puzzle);
 
@@ -21,20 +21,4 @@ void Puzzle_05(ButtonMaster* puzzle);
 
 void Puzzle_06(ButtonMaster* puzzle);
 
-void AssignSpecialTexturesGameA(ButtonMaster** allPuzzles, Texture2D** allTextures);
-
-void LoadAndAssignSingleTexture(Button* button, PuzzleTexture* newTextures, enum ButtonState state);
-
-void AssignTextureAndActionAtSpot(Texture2D** allTextures, PuzzleTexture** puzzleTextures, Button* button, enum PuzzleOnOffDirection direction, enum ButtonState state);
-
-void LoadAllSpecialTextures(PuzzleTexture** textures, Texture2D** allTextures);
-
-void AssignSolutionLocationTextures(PuzzleTexture** solutionTextures, ButtonMaster* puzzle);
-
-void LoadAllSolutionTextures(PuzzleTexture** solutionTextures, Texture2D** allTextures);
-
-void AssignSolutionButtonsToPuzzle(ButtonMaster* puzzle);
-
-void SwitchOnSolutionSizes(Button* button, PuzzleTexture** solutionTextures, enum ButtonState state);
-
-void AssignAllPuzzlesSolutionButtons(ButtonMaster** allPuzzles);
+void AssignSpecialTexturesGameA(ButtonMaster** allPuzzles, Texture2D** allTextures, PuzzleTextureLocations* puzzleTextureLocations);

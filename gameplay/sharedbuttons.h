@@ -27,3 +27,21 @@ void EnactButton(Button* button);
 void SwitchTextureOnPuzzleState(ButtonMaster* puzzle, Button* button, bool isHighlightedButton);
 
 void PowerOnPuzzle(ButtonMaster* puzzle);
+
+
+void AssignAllPuzzlesSolutionButtons(ButtonMaster** allPuzzles);
+
+void AssignSolutionButtonsToPuzzle(ButtonMaster* puzzle);
+
+void AssignTextureAndActionAtSpot(Texture2D** allTextures, PuzzleTexture** puzzleTextures, Button* button, enum PuzzleOnOffDirection direction, enum ButtonState state);
+
+void AssignSolutionLocationTextures(PuzzleTexture** solutionTextures, ButtonMaster* puzzle);
+
+void SwitchOnSolutionSizes(Button* button, PuzzleTexture** solutionTextures, enum ButtonState state);
+
+void LoadAllSpecialTextures(PuzzleTexture** textures, Texture2D** allTextures);
+
+void LoadAndAssignSingleTexture(Button* button, PuzzleTexture* newTextures, enum ButtonState state);
+
+void LoadAllSolutionTextures(PuzzleTexture** solutionTextures, Texture2D** allTextures);
+

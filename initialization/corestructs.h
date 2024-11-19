@@ -212,6 +212,15 @@ typedef struct
 } PuzzleTexture;
 #endif
 
+#ifndef PUZZLE_TEXTURE_LOCATIONS
+#define PUZZLE_TEXTURE_LOCATIONS
+typedef struct 
+{
+    PuzzleTexture** specialtyTextures;
+    PuzzleTexture** solutionTextures;
+} PuzzleTextureLocations;
+#endif
+
 #ifndef BUTTON_STATE
 #define BUTTON_STATE
 enum ButtonState

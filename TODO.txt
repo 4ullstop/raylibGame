@@ -51,4 +51,6 @@ Create ordered solutions
     - They need to keep track of the order in which they are solved
 
 
-We could store the values in an array
+Contain all specialized texture locations in a struct with arrays
+
+Figure out how to load in textures for buttons like they do in minecraft
