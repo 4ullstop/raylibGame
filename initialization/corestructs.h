@@ -14,7 +14,7 @@
 #define NUMBER_OF_MODELS_A 35 //26
 #define NUMBER_OF_MODELS_B 1
 
-#define NUMBER_OF_TEXTURES_A 17
+#define NUMBER_OF_TEXTURES_A 38 //this will always be one more than what is in the file
 #define NUMBER_OF_TEXTURES_B 1
 
 #define NUMBER_OF_INTERACTABLES_A 6 //5
@@ -328,6 +328,8 @@ typedef struct ButtonMaster
     enum PuzzleState puzzleState;
 
     Button** solutionButtons;
+
+    enum ButtonTextureSizes* textureSizes;
 } ButtonMaster;
 #endif
 

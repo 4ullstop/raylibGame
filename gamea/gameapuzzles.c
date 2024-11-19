@@ -101,6 +101,7 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
     /*
         After the initialziation of our buttons, we want to perscribe special textures to them if they so require
     */
+    AssignAllPuzzlesSolutionButtons(gameAPuzzles);
     AssignSpecialTexturesGameA(gameAPuzzles, allTextures);
     
     gameAPuzzles[3]->puzzleToPowerOn = gameAPuzzles[4];
@@ -127,10 +128,19 @@ void AssignSpecialTexturesGameA(ButtonMaster** allPuzzles, Texture2D** allTextur
     AssignTextureAndActionAtSpot(allTextures, puzzleTextures, &allPuzzles[5]->childButtons[0][0], POOD_BottomUp, EBS_highlighted);
     AssignTextureAndActionAtSpot(allTextures, puzzleTextures, &allPuzzles[5]->childButtons[2][2], POOD_RightLeft, EBS_idle);
 
-
+    
     PuzzleTexture* solutionTextures[7];
     LoadAllSolutionTextures(solutionTextures, allTextures);
+    printf("solution textures loaded\n");
+    AssignSolutionLocationTextures(solutionTextures, allPuzzles[0]);
+}
 
+void AssignAllPuzzlesSolutionButtons(ButtonMaster** allPuzzles)
+{
+    for (int i = 0; i < NUMBER_OF_PUZZLES_A; i++)
+    {
+        AssignSolutionButtonsToPuzzle(allPuzzles[i]);
+    }
 }
 
 void AssignTextureAndActionAtSpot(Texture2D** allTextures, PuzzleTexture** puzzleTextures, Button* button, enum PuzzleOnOffDirection direction, enum ButtonState state)
@@ -161,10 +171,20 @@ void AssignTextureAndActionAtSpot(Texture2D** allTextures, PuzzleTexture** puzzl
     AssignButtonToToggleAction(button, direction);
 }
 
-void SwitchOnSolutionSizes(enum ButtonTextureSizes textureSizes, Button* button, PuzzleTexture** solutionTextures, enum ButtonState state)
+void AssignSolutionLocationTextures(PuzzleTexture** solutionTextures, ButtonMaster* puzzle)
+{
+    
+    for (int i = 0; i < puzzle->numberOfSolutions; i++)
+    {
+        SwitchOnSolutionSizes(puzzle->solutionButtons[i], solutionTextures, puzzle->solutionButtons[i]->buttonState);
+    }
+}
+
+void SwitchOnSolutionSizes(Button* button, PuzzleTexture** solutionTextures, enum ButtonState state)
 {
     PuzzleTexture* assignedTexture = NULL;
-    switch (textureSizes)
+    printf("button texturesSizes: %i\n", button->textureSizes);
+    switch (button->textureSizes)
     {
     case EBTS_02:
         assignedTexture = solutionTextures[0];
@@ -189,7 +209,7 @@ void SwitchOnSolutionSizes(enum ButtonTextureSizes textureSizes, Button* button,
         break;
     default:
         printf("ERROR SOLUTION BUTTONTEXTURESIZES UNASSIGNED\n");
-        break;
+        return;
     }
     LoadAndAssignSingleTexture(button, assignedTexture, state);
 }
@@ -242,10 +262,7 @@ void LoadAndAssignSingleTexture(Button* button, PuzzleTexture* newTextures, enum
     button->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = button->model->texture;
 }
 
-void AssignSolutionLocationTextures(Texture2D** allTextures, Button* button)
-{
-    
-}
+
 
 void LoadAllSolutionTextures(PuzzleTexture** solutionTextures, Texture2D** allTextures)
 {
@@ -255,6 +272,8 @@ void LoadAllSolutionTextures(PuzzleTexture** solutionTextures, Texture2D** allTe
     solution_02->selected = *allTextures[31];
     solution_02->off = *allTextures[5];
     solutionTextures[0] = solution_02;
+
+    
 
     PuzzleTexture* solution_03 = malloc(sizeof(PuzzleTexture));
     solution_03->highlighted = *allTextures[18];
@@ -290,13 +309,15 @@ void LoadAllSolutionTextures(PuzzleTexture** solutionTextures, Texture2D** allTe
     solution_07->selected = *allTextures[36];
     solution_07->off = *allTextures[5];
     solutionTextures[5] = solution_07;
-
+    
     PuzzleTexture* solution_08 = malloc(sizeof(PuzzleTexture));
     solution_08->highlighted = *allTextures[23];
     solution_08->idle = *allTextures[30];
     solution_08->selected = *allTextures[37];
     solution_08->off = *allTextures[5];
     solutionTextures[6] = solution_08;
+
+    
 }
 
 
@@ -310,7 +331,7 @@ void AssignSolutionButtonsToPuzzle(ButtonMaster* puzzle)
 {
     for (int i = 0; i < puzzle->numberOfSolutions; i++)
     {
-        puzzle->solutionButtons[i] = &puzzle->childButtons[puzzle->solutionLocations[i].x][puzzle->solutionLocations[i].y]; //be sure to remove the dangling pointers when these are destroyed
+        puzzle->solutionButtons[i] = &puzzle->childButtons[puzzle->solutionLocations[i].x][puzzle->solutionLocations[i].y]; //be sure to remove the dangling pointers when these are destroyed   
     }
 }
 
@@ -326,7 +347,12 @@ void Puzzle_01(ButtonMaster* puzzle)
     puzzle->solutionLocations[3] = (Vector2Int){0, 1};
     puzzle->solutionLocations[4] = (Vector2Int){0, 2};
 
-    AssignSolutionButtonsToPuzzle(puzzle);
+    puzzle->textureSizes = malloc(sizeof(enum ButtonTextureSizes) * puzzle->numberOfSolutions);
+    puzzle->textureSizes[0] = EBTS_04;
+    puzzle->textureSizes[1] = EBTS_06;
+    puzzle->textureSizes[2] = EBTS_08;
+    puzzle->textureSizes[3] = EBTS_03;
+    puzzle->textureSizes[4] = EBTS_02;
 }
 
 void Puzzle_02(ButtonMaster* puzzle)
@@ -337,7 +363,9 @@ void Puzzle_02(ButtonMaster* puzzle)
     puzzle->solutionButtons = malloc(sizeof(Button) * puzzle->numberOfSolutions);
     puzzle->solutionLocations[0] = (Vector2Int){0, 0};
 
-    AssignSolutionButtonsToPuzzle(puzzle);
+    puzzle->textureSizes = malloc(sizeof(enum ButtonTextureSizes)* puzzle->numberOfSolutions);
+    puzzle->textureSizes[0] = EBTS_06;
+
 }
 
 void Puzzle_03(ButtonMaster* puzzle)
@@ -352,7 +380,11 @@ void Puzzle_03(ButtonMaster* puzzle)
     puzzle->solutionLocations[2] = (Vector2Int){1, 0};
     puzzle->solutionLocations[3] = (Vector2Int){1, 1};
 
-    AssignSolutionButtonsToPuzzle(puzzle);
+    puzzle->textureSizes = malloc(sizeof(enum ButtonTextureSizes) * puzzle->numberOfSolutions);
+    puzzle->textureSizes[0] = EBTS_05;
+    puzzle->textureSizes[1] = EBTS_02;
+    puzzle->textureSizes[2] = EBTS_03;
+    puzzle->textureSizes[3] = EBTS_08;
 }
 
 void Puzzle_04(ButtonMaster* puzzle)
@@ -364,7 +396,10 @@ void Puzzle_04(ButtonMaster* puzzle)
     puzzle->solutionLocations[1] = (Vector2Int){1, 0};
     puzzle->solutionLocations[2] = (Vector2Int){2, 0};
 
-    AssignSolutionButtonsToPuzzle(puzzle);
+    puzzle->textureSizes = malloc(sizeof(enum ButtonTextureSizes) * puzzle->numberOfSolutions);
+    puzzle->textureSizes[0] = EBTS_05;
+    puzzle->textureSizes[1] = EBTS_07;
+    puzzle->textureSizes[2] = EBTS_03;
 }
 
 void Puzzle_05(ButtonMaster* puzzle)
@@ -376,7 +411,10 @@ void Puzzle_05(ButtonMaster* puzzle)
     puzzle->solutionLocations[1] = (Vector2Int){1, 1};
     puzzle->solutionLocations[2] = (Vector2Int){2, 1};
 
-    AssignSolutionButtonsToPuzzle(puzzle);
+    puzzle->textureSizes = malloc(sizeof(enum ButtonTextureSizes) * puzzle->numberOfSolutions);
+    puzzle->textureSizes[0] = EBTS_03;
+    puzzle->textureSizes[1] = EBTS_07;
+    puzzle->textureSizes[2] = EBTS_02;
 }
 
 void Puzzle_06(ButtonMaster* puzzle)
@@ -393,5 +431,12 @@ void Puzzle_06(ButtonMaster* puzzle)
     puzzle->solutionLocations[5] = (Vector2Int){1, 1};
     puzzle->solutionLocations[6] = (Vector2Int){0, 2};
 
-    AssignSolutionButtonsToPuzzle(puzzle);
+    puzzle->textureSizes = malloc(sizeof(enum ButtonTextureSizes) * puzzle->numberOfSolutions);
+    puzzle->textureSizes[0] = EBTS_02;
+    puzzle->textureSizes[1] = EBTS_03;
+    puzzle->textureSizes[2] = EBTS_04;
+    puzzle->textureSizes[3] = EBTS_05;
+    puzzle->textureSizes[4] = EBTS_06;
+    puzzle->textureSizes[5] = EBTS_07;
+    puzzle->textureSizes[6] = EBTS_08;
 }
