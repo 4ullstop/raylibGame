@@ -36,15 +36,15 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
 
     ConstructSinglePuzzle(&lastPuzzleIndex,
         2,
-        2,
+        1,
         (Vector3){2.3f, 1.0f, -6.0f},
         player,
         Puzzle_03,
         false,
         gameplayElements,
         gameAPuzzles,
-        nullStartLoc,
-        false,
+        (Vector2Int){0, 1},
+        true,
         EPS_active);
 
     ConstructSinglePuzzle(&lastPuzzleIndex,
@@ -177,21 +177,16 @@ void Puzzle_02(ButtonMaster* puzzle)
 
 void Puzzle_03(ButtonMaster* puzzle)
 {
-    //your locations are wrong here, figure it out
-    int numOfSolutions = 4;
+    int numOfSolutions = 2;
     puzzle->numberOfSolutions = numOfSolutions;
     puzzle->solutionLocations = malloc(sizeof(Vector2Int) * numOfSolutions);
     puzzle->solutionButtons = malloc(sizeof(Button) * puzzle->numberOfSolutions);
     puzzle->solutionLocations[0] = (Vector2Int){0, 0};
-    puzzle->solutionLocations[1] = (Vector2Int){0, 1};
-    puzzle->solutionLocations[2] = (Vector2Int){1, 0};
-    puzzle->solutionLocations[3] = (Vector2Int){1, 1};
+    puzzle->solutionLocations[1] = (Vector2Int){1, 0};
 
     puzzle->textureSizes = malloc(sizeof(enum ButtonTextureSizes) * puzzle->numberOfSolutions);
     puzzle->textureSizes[0] = EBTS_05;
     puzzle->textureSizes[1] = EBTS_02;
-    puzzle->textureSizes[2] = EBTS_03;
-    puzzle->textureSizes[3] = EBTS_08;
 }
 
 void Puzzle_04(ButtonMaster* puzzle)
