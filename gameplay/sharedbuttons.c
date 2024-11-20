@@ -286,12 +286,10 @@ void EnactButton(Button* button)
 
 void AssignAllPuzzlesSolutionButtons(ButtonMaster** allPuzzles)
 {
-    printf("hello v2\n");
     for (int i = 0; i < NUMBER_OF_PUZZLES_A; i++)
     {
         AssignSolutionButtonsToPuzzle(allPuzzles[i]);
     }
-    printf("hello v3\n");
 }
 
 void AssignSolutionButtonsToPuzzle(ButtonMaster* puzzle)
@@ -336,7 +334,6 @@ void AssignTextureAndActionAtSpot(Texture2D** allTextures, PuzzleTexture** puzzl
 
 void AssignSolutionLocationTextures(PuzzleTexture** solutionTextures, ButtonMaster* puzzle)
 {
-    printf("about to assign solution location textures\n");
     for (int i = 0; i < puzzle->numberOfSolutions; i++)
     {
         SwitchOnSolutionSizes(puzzle->solutionButtons[i], solutionTextures, puzzle->solutionButtons[i]->buttonState);
@@ -380,26 +377,23 @@ void SwitchOnSolutionSizes(Button* button, PuzzleTexture** solutionTextures, enu
 
 void LoadAllSpecialTextures(PuzzleTexture** textures, Texture2D** allTextures)
 {
-    PuzzleTexture* buttonLRToggle = malloc(sizeof(PuzzleTexture));
-    buttonLRToggle->highlighted = *allTextures[10];
-    buttonLRToggle->idle = *allTextures[11];
-    buttonLRToggle->off = *allTextures[5];
-    buttonLRToggle->selected = *allTextures[12];
-    textures[0] = buttonLRToggle;
+    textures[0] = malloc(sizeof(PuzzleTexture));
+    textures[0]->highlighted = *allTextures[10];
+    textures[0]->idle = *allTextures[11];
+    textures[0]->off = *allTextures[5];
+    textures[0]->selected = *allTextures[12];
     
-    PuzzleTexture* buttonUpToggle = malloc(sizeof(PuzzleTexture));
-    buttonUpToggle->highlighted = *allTextures[6];
-    buttonUpToggle->idle = *allTextures[7];
-    buttonUpToggle->off = *allTextures[5];
-    buttonUpToggle->selected = *allTextures[8];
-    textures[1] = buttonUpToggle;
+    textures[1] = malloc(sizeof(PuzzleTexture));
+    textures[1]->highlighted = *allTextures[6];
+    textures[1]->idle = *allTextures[7];
+    textures[1]->off = *allTextures[5];
+    textures[1]->selected = *allTextures[8];
 
-    PuzzleTexture* buttonDDLToggle = malloc(sizeof(PuzzleTexture));
-    buttonDDLToggle->highlighted = *allTextures[13];
-    buttonDDLToggle->idle = *allTextures[14];
-    buttonDDLToggle->off = *allTextures[5];
-    buttonDDLToggle->selected = *allTextures[15];
-    textures[2] = buttonDDLToggle;
+    textures[2] = malloc(sizeof(PuzzleTexture));
+    textures[2]->highlighted = *allTextures[13];
+    textures[2]->idle = *allTextures[14];
+    textures[2]->off = *allTextures[5];
+    textures[2]->selected = *allTextures[15];
 }
 
 void LoadAndAssignSingleTexture(Button* button, PuzzleTexture* newTextures, enum ButtonState state)
@@ -428,53 +422,50 @@ void LoadAndAssignSingleTexture(Button* button, PuzzleTexture* newTextures, enum
 
 void LoadAllSolutionTextures(PuzzleTexture** solutionTextures, Texture2D** allTextures)
 {
-    PuzzleTexture* solution_02 = malloc(sizeof(PuzzleTexture));
-    solution_02->highlighted = *allTextures[17];
-    solution_02->idle = *allTextures[24];
-    solution_02->selected = *allTextures[31];
-    solution_02->off = *allTextures[5];
-    solutionTextures[0] = solution_02;
-
-    PuzzleTexture* solution_03 = malloc(sizeof(PuzzleTexture));
-    solution_03->highlighted = *allTextures[18];
-    solution_03->idle = *allTextures[25];
-    solution_03->selected = *allTextures[32];
-    solution_03->off = *allTextures[5];
-    solutionTextures[1] = solution_03;
-
-    PuzzleTexture* solution_04 = malloc(sizeof(PuzzleTexture));
-    solution_04->highlighted = *allTextures[19];
-    solution_04->idle = *allTextures[26];
-    solution_04->selected = *allTextures[33];
-    solution_04->off = *allTextures[5];
-    solutionTextures[2] = solution_04;
-
-    PuzzleTexture* solution_05 = malloc(sizeof(PuzzleTexture));
-    solution_05->highlighted = *allTextures[20];
-    solution_05->idle = *allTextures[27];
-    solution_05->selected = *allTextures[34];
-    solution_05->off = *allTextures[5];
-    solutionTextures[3] = solution_05;
-
-    PuzzleTexture* solution_06 = malloc(sizeof(PuzzleTexture));
-    solution_06->highlighted = *allTextures[21];
-    solution_06->idle = *allTextures[28];
-    solution_06->selected = *allTextures[35];
-    solution_06->off = *allTextures[5];
-    solutionTextures[4] = solution_06;
+    printf("about to allocate textures\n");
     
-    PuzzleTexture* solution_07 = malloc(sizeof(PuzzleTexture));
-    solution_07->highlighted = *allTextures[22];
-    solution_07->idle = *allTextures[29];
-    solution_07->selected = *allTextures[36];
-    solution_07->off = *allTextures[5];
-    solutionTextures[5] = solution_07;
+    solutionTextures[0] = malloc(sizeof(PuzzleTexture));
+    solutionTextures[0]->highlighted = *allTextures[17];
+    solutionTextures[0]->idle = *allTextures[24];
+    solutionTextures[0]->selected = *allTextures[31];
+    solutionTextures[0]->off = *allTextures[5];
+
+    solutionTextures[1] = malloc(sizeof(PuzzleTexture));
+    solutionTextures[1]->highlighted = *allTextures[18];
+    solutionTextures[1]->idle = *allTextures[25];
+    solutionTextures[1]->selected = *allTextures[32];
+    solutionTextures[1]->off = *allTextures[5];
+
+    solutionTextures[2] = malloc(sizeof(PuzzleTexture));
+    solutionTextures[2]->highlighted = *allTextures[19];
+    solutionTextures[2]->idle = *allTextures[26];
+    solutionTextures[2]->selected = *allTextures[33];
+    solutionTextures[2]->off = *allTextures[5];
+
+    solutionTextures[3] = malloc(sizeof(PuzzleTexture));
+    solutionTextures[3]->highlighted = *allTextures[20];
+    solutionTextures[3]->idle = *allTextures[27];
+    solutionTextures[3]->selected = *allTextures[34];
+    solutionTextures[3]->off = *allTextures[5];
+
+    solutionTextures[4] = malloc(sizeof(PuzzleTexture));
+    solutionTextures[4]->highlighted = *allTextures[21];
+    solutionTextures[4]->idle = *allTextures[28];
+    solutionTextures[4]->selected = *allTextures[35];
+    solutionTextures[4]->off = *allTextures[5];
     
-    PuzzleTexture* solution_08 = malloc(sizeof(PuzzleTexture));
-    solution_08->highlighted = *allTextures[23];
-    solution_08->idle = *allTextures[30];
-    solution_08->selected = *allTextures[37];
-    solution_08->off = *allTextures[5];
-    solutionTextures[6] = solution_08;
+    solutionTextures[5] = malloc(sizeof(PuzzleTexture));
+    solutionTextures[5]->highlighted = *allTextures[22];
+    solutionTextures[5]->idle = *allTextures[29];
+    solutionTextures[5]->selected = *allTextures[36];
+    solutionTextures[5]->off = *allTextures[5];
+    
+    solutionTextures[6] = malloc(sizeof(PuzzleTexture));
+    solutionTextures[6]->highlighted = *allTextures[23];
+    solutionTextures[6]->idle = *allTextures[30];
+    solutionTextures[6]->selected = *allTextures[37];
+    solutionTextures[6]->off = *allTextures[5];
+
+    printf("made it to the end\n");
 }
 

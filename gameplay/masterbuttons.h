@@ -15,7 +15,7 @@ void DestructAllButtons(ButtonMaster* master);
 
 void ConstructPuzzles(ButtonMaster** allPuzzles, modelInfo** dynamicModels, int* lastModelIndex, enum Gametype gametype, FPSPlayer* player, GameplayElements* gameplayElements, Texture2D** allTextures, PuzzleTextureLocations* puzzleTextureLocations);
 
-void DestructAllPuzzles(ButtonMaster** allPuzzles, int numberOfPuzzles);
+void DestructAllPuzzles(ButtonMaster** allPuzzles, int numberOfPuzzles, PuzzleTextureLocations* specialtyTextures);
 
 void DestructAllSolutionLocations(ButtonMaster* master);
 
@@ -34,3 +34,5 @@ void UnloadButtonTextures(Button* button);
 void TexturesToUnload(Texture2D textureA, Texture2D textureB, Texture2D textureC);
 
 void ResetPuzzle(ButtonMaster* puzzle);
+
+void DestructAllSpecialtyTextureLocations(PuzzleTextureLocations* puzzleTextureLocations);

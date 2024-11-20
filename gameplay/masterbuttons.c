@@ -16,10 +16,12 @@ void ConstructPuzzles(ButtonMaster** allPuzzles, modelInfo** dynamicModels, int*
     }
 }
 
-void DestructAllPuzzles(ButtonMaster** allPuzzles, int numberOfPuzzles)
+void DestructAllPuzzles(ButtonMaster** allPuzzles, int numberOfPuzzles, PuzzleTextureLocations* specialtyTextures)
 {
+    DestructAllSpecialtyTextureLocations(specialtyTextures);
     for (int i = 0; i < numberOfPuzzles; i++)
     {
+        
         DestructAllButtons(allPuzzles[i]);
         if (allPuzzles[i]->associatedGameplayElements != NULL)
         {
@@ -27,9 +29,36 @@ void DestructAllPuzzles(ButtonMaster** allPuzzles, int numberOfPuzzles)
             allPuzzles[i]->associatedGameplayElements = NULL;
         }
         DestructAllSolutionLocations(allPuzzles[i]);
+        
+        printf("solution locations destroyed\n");
         free(allPuzzles[i]);
         allPuzzles[i] = NULL;
+        
     }
+    printf("puzzles freed\n");
+}
+
+void DestructAllSpecialtyTextureLocations(PuzzleTextureLocations* puzzleTextureLocations)
+{
+    for (int i = 0; i < 3; i++)
+    {
+        puzzleTextureLocations->specialtyTextures[i]->highlighted = (Texture2D){0};
+        puzzleTextureLocations->specialtyTextures[i]->idle = (Texture2D){0};
+        puzzleTextureLocations->specialtyTextures[i]->off = (Texture2D){0};
+        puzzleTextureLocations->specialtyTextures[i]->selected = (Texture2D){0};
+        puzzleTextureLocations->specialtyTextures[i] = NULL;
+        free(puzzleTextureLocations->specialtyTextures[i]);
+    }
+    for (int i = 0; i < 7; i++)
+    {
+        puzzleTextureLocations->solutionTextures[i]->highlighted = (Texture2D){0};
+        puzzleTextureLocations->solutionTextures[i]->idle = (Texture2D){0};
+        puzzleTextureLocations->solutionTextures[i]->off = (Texture2D){0};
+        puzzleTextureLocations->solutionTextures[i]->selected = (Texture2D){0};
+        puzzleTextureLocations->solutionTextures[i] = NULL;
+        free(puzzleTextureLocations->solutionTextures[i]);
+    }
+    printf("specialty textures destroyed\n");
 }
 
 void DestructAllButtons(ButtonMaster* master)
@@ -48,6 +77,10 @@ void DestructAllButtons(ButtonMaster* master)
         free(master->childButtons[i]);
         master->childButtons[i]->buttonTextures = NULL;
         master->childButtons[i] = NULL;
+    }
+    for (int i = 0; i < master->numberOfSolutions; i++)
+    {
+        master->solutionButtons[i] = NULL;
     }
 }
 

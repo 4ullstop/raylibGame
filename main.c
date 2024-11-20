@@ -206,7 +206,7 @@ int main(int argc, char* argv[])
     {
         DestroyAllModels(modelsA, numOfModels, texturesA, numOfTextures);
         printf("models destroyed\n");
-        DestructAllPuzzles(allPuzzlesA, numOfPuzzles);
+        DestructAllPuzzles(allPuzzlesA, numOfPuzzles, &puzzleTextureLocations);
         printf("puzzles destroyed\n");
         DestroyAreasAndInteractables(areaQueryBoxesA, numOfQueryBoxes, numOfInteractables);
         printf("interactables destroyed\n");
@@ -216,7 +216,7 @@ int main(int argc, char* argv[])
     else
     {
         DestroyAllModels(modelsB, numOfModels, texturesB, numOfTextures);
-        DestructAllPuzzles(allPuzzlesB, numOfPuzzles);
+        DestructAllPuzzles(allPuzzlesB, numOfPuzzles, &puzzleTextureLocations);
         DestroyAreasAndInteractables(areaQueryBoxesB, numOfQueryBoxes, numOfInteractables);
         DestroyOverlapBoxes(allBoxesB);
     }

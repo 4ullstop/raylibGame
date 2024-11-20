@@ -113,23 +113,25 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
 
 void AssignSpecialTexturesGameA(ButtonMaster** allPuzzles, Texture2D** allTextures, PuzzleTextureLocations* puzzleTextureLocations)
 {   
-    PuzzleTexture* puzzleTextures[3];
     puzzleTextureLocations->specialtyTextures = (PuzzleTexture**)malloc(sizeof(PuzzleTexture) * 3);
 
     LoadAllSpecialTextures(puzzleTextureLocations->specialtyTextures, allTextures);
-    AssignTextureAndActionAtSpot(allTextures, puzzleTextures, &allPuzzles[3]->childButtons[0][2], POOD_TopDown, EBS_idle);
+    AssignTextureAndActionAtSpot(allTextures, puzzleTextureLocations->specialtyTextures, &allPuzzles[3]->childButtons[0][2], POOD_TopDown, EBS_idle);
 
-    AssignTextureAndActionAtSpot(allTextures, puzzleTextures, &allPuzzles[4]->childButtons[1][2], POOD_TopDown, EBS_off);
+    AssignTextureAndActionAtSpot(allTextures, puzzleTextureLocations->specialtyTextures, &allPuzzles[4]->childButtons[1][2], POOD_TopDown, EBS_off);
 
-    AssignTextureAndActionAtSpot(allTextures, puzzleTextures, &allPuzzles[0]->childButtons[0][0], POOD_RightLeft, EBS_idle);
-    AssignTextureAndActionAtSpot(allTextures, puzzleTextures, &allPuzzles[0]->childButtons[0][2], POOD_BottomUp, EBS_idle);
+    AssignTextureAndActionAtSpot(allTextures, puzzleTextureLocations->specialtyTextures, &allPuzzles[0]->childButtons[0][0], POOD_RightLeft, EBS_idle);
+    AssignTextureAndActionAtSpot(allTextures, puzzleTextureLocations->specialtyTextures, &allPuzzles[0]->childButtons[0][2], POOD_BottomUp, EBS_idle);
 
-    AssignTextureAndActionAtSpot(allTextures, puzzleTextures, &allPuzzles[5]->childButtons[0][2], POOD_DDL, EBS_idle);
-    AssignTextureAndActionAtSpot(allTextures, puzzleTextures, &allPuzzles[5]->childButtons[0][0], POOD_BottomUp, EBS_highlighted);
-    AssignTextureAndActionAtSpot(allTextures, puzzleTextures, &allPuzzles[5]->childButtons[2][2], POOD_RightLeft, EBS_idle);
+    AssignTextureAndActionAtSpot(allTextures, puzzleTextureLocations->specialtyTextures, &allPuzzles[5]->childButtons[0][2], POOD_DDL, EBS_idle);
+    AssignTextureAndActionAtSpot(allTextures, puzzleTextureLocations->specialtyTextures, &allPuzzles[5]->childButtons[0][0], POOD_BottomUp, EBS_highlighted);
+    AssignTextureAndActionAtSpot(allTextures, puzzleTextureLocations->specialtyTextures, &allPuzzles[5]->childButtons[2][2], POOD_RightLeft, EBS_idle);
 
-    PuzzleTexture* solutionTextures[7];
     puzzleTextureLocations->solutionTextures = (PuzzleTexture**)malloc(sizeof(PuzzleTexture) * 7);
+    if (puzzleTextureLocations->solutionTextures == NULL)
+    {
+        printf("FAILED TO ALLOCATE MEMORY\n");
+    }
     LoadAllSolutionTextures(puzzleTextureLocations->solutionTextures, allTextures);
     AssignSolutionLocationTextures(puzzleTextureLocations->solutionTextures, allPuzzles[2]);
 }
