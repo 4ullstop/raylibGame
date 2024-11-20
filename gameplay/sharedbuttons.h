@@ -4,6 +4,7 @@
 #include "../initialization/corestructs.h"
 #include "../externmath/externmath.h"
 #include "puzzles/togglepuzzle.h"
+#include "../models/src/buttonatlas.h"
 #endif
 
 void CreateAllButtons(ButtonMaster* master, modelInfo** dynamicModels, int* lastModelIndex, Texture2D** allTextures);

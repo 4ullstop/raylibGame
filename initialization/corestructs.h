@@ -3,6 +3,7 @@
 #include "../libs/drawingstructs.h"
 #include "../gameplay/gameplaystructs.h"
 #include "../ui/src/uistructs.h"
+#include "../models/src/textcoordhelpers.h"
 #endif 
 
 /*
@@ -14,7 +15,7 @@
 #define NUMBER_OF_MODELS_A 33 //35
 #define NUMBER_OF_MODELS_B 1
 
-#define NUMBER_OF_TEXTURES_A 38 //this will always be one more than what is in the file
+#define NUMBER_OF_TEXTURES_A 41 //this will always be one more than what is in the file
 #define NUMBER_OF_TEXTURES_B 1
 
 #define NUMBER_OF_INTERACTABLES_A 6 //5

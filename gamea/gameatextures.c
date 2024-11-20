@@ -40,7 +40,10 @@ void RetrieveGameATextureFiles(char** textureFiles)
     "D:/CFiles/FirstGame/models/obj/Button_Mats/button_selected_05.png", //34
     "D:/CFiles/FirstGame/models/obj/Button_Mats/button_selected_06.png", //35
     "D:/CFiles/FirstGame/models/obj/Button_Mats/button_selected_07.png", //36
-    "D:/CFiles/FirstGame/models/obj/Button_Mats/button_selected_08.png" //37
+    "D:/CFiles/FirstGame/models/obj/Button_Mats/button_selected_08.png", //37
+    "D:/CFiles/FirstGame/models/obj/Button_Mats/buttonTextureAtlas_idle_01.png", //38
+    "D:/CFiles/FirstGame/models/obj/Button_Mats/buttonTextureAtlas_highlighted_01.png", //39
+    "D:/CFiles/FirstGame/models/obj/Button_Mats/buttonTextureAtlas_submitted_01.png" //40
     };
 
     LoopThroughFiles(textureFiles, gameATextures);

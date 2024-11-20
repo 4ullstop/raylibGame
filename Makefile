@@ -29,7 +29,8 @@ SRC = main.c \
 	  gameplay\gameplayelements.c \
 	  gameplay\puzzles\togglepuzzle.c \
 	  models\src\textures.c \
-	  gamea\gameatextures.c
+	  gamea\gameatextures.c \
+	  models\src\buttonatlas.c
 OBJ = intermediate\main.o \
       intermediate\window.o \
       intermediate\camera.o \
@@ -60,7 +61,8 @@ OBJ = intermediate\main.o \
 	  intermediate\gameplayelements.o \
 	  intermediate\togglepuzzle.o \
 	  intermediate\texture.o \
-	  intermediate\gameatextures.o
+	  intermediate\gameatextures.o \
+	  intermediate\buttonatlas.o
 !IFNDEF OUTPUT
 OUTPUT = test.exe
 !ENDIF
@@ -172,6 +174,9 @@ intermediate\texture.o: models\src\texture.c intermediate
 
 intermediate\gameatextures.o: gamea\gameatextures.c intermediate
 	$(CC) $(CFLAGS) -c gamea\gameatextures.c -o intermediate\gameatextures.o $(INCLUDE)
+
+intermediate\buttonatlas.o: models\src\buttonatlas.c intermediate
+	$(CC) $(CFLAGS) -c models\src\buttonatlas.c -o intermediate\buttonatlas.o $(INCLUDE)
 
 # Clean rule to delete
 clean:

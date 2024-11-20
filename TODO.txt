@@ -54,3 +54,8 @@ Create ordered solutions
 Contain all specialized texture locations in a struct with arrays
 
 Figure out how to load in textures for buttons like they do in minecraft
+
+
+Texture atlassing steps:
+    - Assign the base texture coords upon button construction
+    - Assign the special texture coords based on an enum?

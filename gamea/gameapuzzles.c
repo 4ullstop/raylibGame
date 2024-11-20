@@ -202,6 +202,7 @@ void Puzzle_04(ButtonMaster* puzzle)
     puzzle->textureSizes[0] = EBTS_05;
     puzzle->textureSizes[1] = EBTS_07;
     puzzle->textureSizes[2] = EBTS_03;
+
 }
 
 void Puzzle_05(ButtonMaster* puzzle)

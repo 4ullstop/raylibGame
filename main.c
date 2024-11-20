@@ -250,8 +250,7 @@ void CallAllPolls(float dTime, modelInfo** models, QueryBox** areaBoxes, Interac
 }
 
 void Draw(modelInfo** models, Raycast* ray, QueryBox** queryBoxes, UIElements** ui, OverlapBox** overlapQueryList, int numberOfModels, int numberOfQueryBoxes, int numberOfInteractables)
-{
-    
+{   
     BeginDrawing();
 
         ClearBackground(RAYWHITE);

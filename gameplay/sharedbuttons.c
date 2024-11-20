@@ -79,9 +79,9 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
     }
 
     PuzzleTexture* buttonTextures = malloc(sizeof(PuzzleTexture));
-    buttonTextures->highlighted = *allTextures[2];
-    buttonTextures->idle = *allTextures[3];
-    buttonTextures->selected = *allTextures[4];
+    buttonTextures->highlighted = *allTextures[39];
+    buttonTextures->idle = *allTextures[38];
+    buttonTextures->selected = *allTextures[40];
     buttonTextures->off = *allTextures[5];
 
     //initializng the associated models for the mechanic
@@ -96,7 +96,8 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
     master->childButtons[i][j].puzzleType = EPT_Free;
     master->childButtons[i][j].isBeingAssessed = false;
     master->childButtons[i][j].model->modelLocation = master->childButtons[i][j].location;
-    master->childButtons[i][j].model->model = LoadModel("D:/CFiles/FirstGame/models/obj/button2.obj");
+    master->childButtons[i][j].model->model = LoadModel("D:/CFiles/FirstGame/models/obj/button_03.obj");
+    AssignButtonTextCoord(&master->childButtons[i][j].model->model, TCL_Plain);
     master->childButtons[i][j].buttonState = EBS_idle;
     master->childButtons[i][j].highlighted = false;
     master->childButtons[i][j].model->texture = buttonTextures->idle;
