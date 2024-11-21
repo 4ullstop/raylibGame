@@ -30,6 +30,9 @@ void SwitchTextureOnPuzzleState(ButtonMaster* puzzle, Button* button, bool isHig
 void PowerOnPuzzle(ButtonMaster* puzzle);
 
 
+void AssignAtlasTextureToButtonAndAction(Texture2D** allTextures, Button* button, enum TextureCoordinateLocations buttonType);
+
+
 void AssignAllPuzzlesSolutionButtons(ButtonMaster** allPuzzles);
 
 void AssignSolutionButtonsToPuzzle(ButtonMaster* puzzle);

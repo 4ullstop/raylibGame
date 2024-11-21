@@ -96,8 +96,10 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
     master->childButtons[i][j].puzzleType = EPT_Free;
     master->childButtons[i][j].isBeingAssessed = false;
     master->childButtons[i][j].model->modelLocation = master->childButtons[i][j].location;
-    master->childButtons[i][j].model->model = LoadModel("D:/CFiles/FirstGame/models/obj/button_03.obj");
-    AssignButtonTextCoord(&master->childButtons[i][j].model->model, TCL_Plain);
+    Model tempModel = LoadModel("D:/CFiles/FirstGame/models/obj/button_03.obj");
+    AssignButtonTextCoord(&tempModel, TCL_UD);
+    master->childButtons[i][j].model->model = tempModel;
+    
     master->childButtons[i][j].buttonState = EBS_idle;
     master->childButtons[i][j].highlighted = false;
     master->childButtons[i][j].model->texture = buttonTextures->idle;
@@ -303,6 +305,18 @@ void AssignSolutionButtonsToPuzzle(ButtonMaster* puzzle)
         puzzle->solutionButtons[i]->buttonSolutionIndex = i;
         printf("buttonSolutionIndex is: %i\n", puzzle->solutionButtons[i]->buttonSolutionIndex);
     }
+}
+
+void AssignAtlasTextureToButtonAndAction(Texture2D** allTextures, Button* button, enum TextureCoordinateLocations buttonType)
+{
+    printf("\n");
+    printf("\n");
+    printf("\n");
+    AssignButtonTextCoord(&button->model->model, buttonType);
+    button->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = *allTextures[38];
+    printf("\n");
+    printf("\n");
+    printf("\n");
 }
 
 void AssignTextureAndActionAtSpot(Texture2D** allTextures, PuzzleTexture** puzzleTextures, Button* button, enum PuzzleOnOffDirection direction, enum ButtonState state)
