@@ -302,6 +302,8 @@ typedef struct Button
     
 
     enum ButtonTextureSizes textureSizes;
+
+    Shader* loadedShader;
 } Button;
 #endif
 
@@ -492,3 +494,5 @@ typedef struct CollateralPower
     struct CollateralPower* next;
 } CollateralPower;
 #endif
+
+

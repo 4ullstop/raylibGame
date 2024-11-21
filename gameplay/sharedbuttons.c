@@ -96,9 +96,9 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
     master->childButtons[i][j].puzzleType = EPT_Free;
     master->childButtons[i][j].isBeingAssessed = false;
     master->childButtons[i][j].model->modelLocation = master->childButtons[i][j].location;
-    Model tempModel = LoadModel("D:/CFiles/FirstGame/models/obj/button_03.obj");
-    AssignButtonTextCoord(&tempModel, TCL_UD);
-    master->childButtons[i][j].model->model = tempModel;
+    master->childButtons[i][j].loadedShader = NULL;
+    master->childButtons[i][j].model->model = LoadModel("D:/CFiles/FirstGame/models/obj/button_03.obj");
+    master->childButtons[i][j].buttonTextures = buttonTextures;
     
     master->childButtons[i][j].buttonState = EBS_idle;
     master->childButtons[i][j].highlighted = false;

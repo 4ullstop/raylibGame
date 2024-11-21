@@ -128,7 +128,9 @@ void AssignSpecialTexturesGameA(ButtonMaster** allPuzzles, Texture2D** allTextur
     //AssignAtlasTextureToButtonAndAction(allTextures, &allPuzzles[0]->childButtons[0][0], TCL_08);
     //AssignAtlasTextureToButtonAndAction(allTextures, &allPuzzles[0]->childButtons[0][2], TCL_LR);
     AssignTextureAndActionAtSpot(allTextures, puzzleTextureLocations->specialtyTextures, &allPuzzles[0]->childButtons[0][0], POOD_RightLeft, EBS_idle);
-    AssignTextureAndActionAtSpot(allTextures, puzzleTextureLocations->specialtyTextures, &allPuzzles[0]->childButtons[0][2], POOD_BottomUp, EBS_idle);
+    //AssignTextureAndActionAtSpot(allTextures, puzzleTextureLocations->specialtyTextures, &allPuzzles[0]->childButtons[0][2], POOD_BottomUp, EBS_idle);
+
+    UpdateShaderForButtonAtlas(&allPuzzles[0]->childButtons[0][2], TCL_UD);
 
     AssignTextureAndActionAtSpot(allTextures, puzzleTextureLocations->specialtyTextures, &allPuzzles[5]->childButtons[0][2], POOD_DDL, EBS_idle);
     AssignTextureAndActionAtSpot(allTextures, puzzleTextureLocations->specialtyTextures, &allPuzzles[5]->childButtons[0][0], POOD_BottomUp, EBS_highlighted);

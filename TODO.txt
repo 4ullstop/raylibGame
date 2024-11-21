@@ -63,5 +63,5 @@ Texture atlassing steps:
 Why might this not be working?:
     - UVing in blender improperly - I don't believe this is it
     - The math is working
-    - You're missing a step
+    - You're missing a step 
     - This isn't possible in raylib
