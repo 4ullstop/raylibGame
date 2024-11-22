@@ -55,5 +55,6 @@ enum TextureCoordinateLocations
     TCL_03UDR,
     TCL_02UDR,
     TCL_01UDR,
+    TCL_OFF
 };
 #endif

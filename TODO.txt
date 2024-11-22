@@ -54,3 +54,7 @@ Create ordered solutions
 Finish off state texture atlas stuff
 
 Create error (input wrong answer)
+
+Create inability to move around submitted buttons and powered off buttons 
+
+Kind of horrifically, things are not checked very well which leads to crashing when you are creating puzzles, this is probably a thing that should be fixed

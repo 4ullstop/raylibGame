@@ -103,21 +103,25 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
     switch (direction)
     {
         case ED_Up:
+            if (currSelectedButton->nAbove->buttonState == EBS_off) return;
             RemoveHighlight(currSelectedButton);
             currSelectedButton = currSelectedButton->nAbove;
             AddHighlight(currSelectedButton);
             break;
         case ED_Down:
+            if (currSelectedButton->nBelow->buttonState == EBS_off) return;
             RemoveHighlight(currSelectedButton);
             currSelectedButton = currSelectedButton->nBelow;
             AddHighlight(currSelectedButton);
             break;
         case ED_Left:
+            if (currSelectedButton->nLeft->buttonState == EBS_off) return;
             RemoveHighlight(currSelectedButton);
             currSelectedButton = currSelectedButton->nLeft;
             AddHighlight(currSelectedButton);
             break;
         case ED_Right:
+            if (currSelectedButton->nRight->buttonState == EBS_off) return;
             RemoveHighlight(currSelectedButton);
             currSelectedButton = currSelectedButton->nRight;
             AddHighlight(currSelectedButton);
@@ -252,6 +256,10 @@ void ResetPuzzle(ButtonMaster* puzzle)
     {
         for (int j = 0; j < puzzle->columns; j++)
         {
+            if (puzzle->childButtons[i][j].buttonState == EBS_off)
+            {
+                continue;
+            }
             puzzle->childButtons[i][j].buttonState = EBS_idle;
             puzzle->childButtons[i][j].model->texture = puzzle->childButtons[i][j].buttonTextures->idle;
             puzzle->childButtons[i][j].model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = puzzle->childButtons[i][j].model->texture; 

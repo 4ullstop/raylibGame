@@ -236,14 +236,14 @@ void InactGameplayElement(GameplayElements* gameplayElement)
     printf("gameplay element enacted\n");
 }
 
-void ConstructSinglePuzzle(int* lastPuzzleIndex, int columns, int rows, Vector3 location, FPSPlayer* player, void(*puzzleLocConstruct)(ButtonMaster*), bool hasGameplayElements, GameplayElements* gameplayElements, ButtonMaster** gameAPuzzles, Vector2Int highlightStart, bool hasHighlightStartLoc, enum PuzzleState puzzleState)
+void ConstructSinglePuzzle(int* lastPuzzleIndex, int columns, int rows, Vector3 location, FPSPlayer* player, void(*puzzleLocConstruct)(ButtonMaster*), bool hasGameplayElements, GameplayElements* gameplayElements, ButtonMaster** gameAPuzzles, Vector2Int highlightStart, bool hasHighlightStartLoc, enum PuzzleState puzzleState, float buttonSpread)
 {
     ButtonMaster* puzzle = malloc(sizeof(ButtonMaster));
     puzzle->columns = columns;
     puzzle->rows = rows;
     puzzle->location = location;
     puzzle->puzzleToPowerOn = NULL;
-    puzzle->buttonSpread = 0.5f;
+    puzzle->buttonSpread = buttonSpread == 0.0f ? 0.5 : buttonSpread;
     puzzle->hasBoxAssigned = false;
     puzzle->id = *lastPuzzleIndex;
     puzzle->player = player;
@@ -305,7 +305,17 @@ void AssignSolutionButtonsToPuzzle(ButtonMaster* puzzle)
 
 void AssignButtonSpecialTextureAndAction(Button* button, enum TextureCoordinateLocations textureLocations)
 {
-    UpdateShaderForButtonAtlas(button, textureLocations);
+    if (textureLocations != TCL_OFF)
+    {
+        UpdateShaderForButtonAtlas(button, textureLocations);
+    }
+    else
+    {
+        button->buttonState = EBS_off;
+        button->model->texture = button->buttonTextures->off;
+        button->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = button->model->texture;
+    }
+    
     AssignToggleAction(button, textureLocations);
 }
 
