@@ -15,7 +15,7 @@
 #define NUMBER_OF_MODELS_A 33 //35
 #define NUMBER_OF_MODELS_B 1
 
-#define NUMBER_OF_TEXTURES_A 41 //this will always be one more than what is in the file
+#define NUMBER_OF_TEXTURES_A 6 //this will always be one more than what is in the file
 #define NUMBER_OF_TEXTURES_B 1
 
 #define NUMBER_OF_INTERACTABLES_A 6 //5
@@ -211,15 +211,6 @@ typedef struct
     Texture2D selected;
     Texture2D off;
 } PuzzleTexture;
-#endif
-
-#ifndef PUZZLE_TEXTURE_LOCATIONS
-#define PUZZLE_TEXTURE_LOCATIONS
-typedef struct 
-{
-    PuzzleTexture** specialtyTextures;
-    PuzzleTexture** solutionTextures;
-} PuzzleTextureLocations;
 #endif
 
 #ifndef BUTTON_STATE

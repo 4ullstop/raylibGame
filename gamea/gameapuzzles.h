@@ -7,7 +7,7 @@
 #include "../gameplay/puzzles/togglepuzzle.h"
 #endif
 
-void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures, modelInfo** dynamicModels, int* lastModelIndex, FPSPlayer* player, GameplayElements* gameplayElements, PuzzleTextureLocations* puzzleTextureLocations);
+void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures, modelInfo** dynamicModels, int* lastModelIndex, FPSPlayer* player, GameplayElements* gameplayElements);
 
 void Puzzle_01(ButtonMaster* puzzle);
 
@@ -21,4 +21,4 @@ void Puzzle_05(ButtonMaster* puzzle);
 
 void Puzzle_06(ButtonMaster* puzzle);
 
-void AssignSpecialTexturesGameA(ButtonMaster** allPuzzles, Texture2D** allTextures, PuzzleTextureLocations* puzzleTextureLocations);
+void AssignSpecialTexturesGameA(ButtonMaster** allPuzzles, Texture2D** allTextures);

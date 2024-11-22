@@ -74,7 +74,6 @@ int main(int argc, char* argv[])
     Texture2D* texturesA[NUMBER_OF_TEXTURES_A];
     Texture2D* texturesB[NUMBER_OF_TEXTURES_B];
 
-    PuzzleTextureLocations puzzleTextureLocations = {0};
 
     //put the creation of gameplay elements here
     int lastModelIndex = 0;
@@ -109,7 +108,7 @@ int main(int argc, char* argv[])
     {
         LoadAllTextures(texturesA, gametype);
         ConstructGameplayElements(modelsA, &lastModelIndex, texturesA, NUMBER_OF_DOORS_A, &gameplayElements, allDoorsA);
-        ConstructPuzzles(allPuzzlesA, modelsA, &lastModelIndex, gametype, &player, &gameplayElements, texturesA, &puzzleTextureLocations);
+        ConstructPuzzles(allPuzzlesA, modelsA, &lastModelIndex, gametype, &player, &gameplayElements, texturesA);
         CreateModels(modelsA, &lastModelIndex, gametype, texturesA);
         numOfPuzzles = NUMBER_OF_PUZZLES_A;
         numOfDoors = NUMBER_OF_DOORS_A;
@@ -118,7 +117,7 @@ int main(int argc, char* argv[])
     else
     {
         ConstructGameplayElements(modelsB, &lastModelIndex, texturesB, NUMBER_OF_DOORS_B, &gameplayElements, allDoorsB);
-        ConstructPuzzles(allPuzzlesB, modelsB, &lastModelIndex, gametype, &player, &gameplayElements, texturesB, &puzzleTextureLocations);
+        ConstructPuzzles(allPuzzlesB, modelsB, &lastModelIndex, gametype, &player, &gameplayElements, texturesB);
         CreateModels(modelsB, &lastModelIndex, gametype, texturesB);
         numOfPuzzles = NUMBER_OF_PUZZLES_B;
         numOfDoors = NUMBER_OF_DOORS_B;
@@ -206,7 +205,7 @@ int main(int argc, char* argv[])
     {
         DestroyAllModels(modelsA, numOfModels, texturesA, numOfTextures);
         printf("models destroyed\n");
-        DestructAllPuzzles(allPuzzlesA, numOfPuzzles, &puzzleTextureLocations);
+        DestructAllPuzzles(allPuzzlesA, numOfPuzzles);
         printf("puzzles destroyed\n");
         DestroyAreasAndInteractables(areaQueryBoxesA, numOfQueryBoxes, numOfInteractables);
         printf("interactables destroyed\n");
@@ -216,7 +215,7 @@ int main(int argc, char* argv[])
     else
     {
         DestroyAllModels(modelsB, numOfModels, texturesB, numOfTextures);
-        DestructAllPuzzles(allPuzzlesB, numOfPuzzles, &puzzleTextureLocations);
+        DestructAllPuzzles(allPuzzlesB, numOfPuzzles);
         DestroyAreasAndInteractables(areaQueryBoxesB, numOfQueryBoxes, numOfInteractables);
         DestroyOverlapBoxes(allBoxesB);
     }

@@ -13,9 +13,9 @@
 
 void DestructAllButtons(ButtonMaster* master);
 
-void ConstructPuzzles(ButtonMaster** allPuzzles, modelInfo** dynamicModels, int* lastModelIndex, enum Gametype gametype, FPSPlayer* player, GameplayElements* gameplayElements, Texture2D** allTextures, PuzzleTextureLocations* puzzleTextureLocations);
+void ConstructPuzzles(ButtonMaster** allPuzzles, modelInfo** dynamicModels, int* lastModelIndex, enum Gametype gametype, FPSPlayer* player, GameplayElements* gameplayElements, Texture2D** allTextures);
 
-void DestructAllPuzzles(ButtonMaster** allPuzzles, int numberOfPuzzles, PuzzleTextureLocations* specialtyTextures);
+void DestructAllPuzzles(ButtonMaster** allPuzzles, int numberOfPuzzles);
 
 void DestructAllSolutionLocations(ButtonMaster* master);
 
@@ -29,10 +29,4 @@ void CheckForSolution(Button* button, ButtonMaster* master, enum Gamemode* mode)
 
 void RotateButtonMaster(ButtonMaster* master, float angle, Vector3 axis);
 
-void UnloadButtonTextures(Button* button);
-
-void TexturesToUnload(Texture2D textureA, Texture2D textureB, Texture2D textureC);
-
 void ResetPuzzle(ButtonMaster* puzzle);
-
-void DestructAllSpecialtyTextureLocations(PuzzleTextureLocations* puzzleTextureLocations);

@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures, modelInfo** dynamicModels, int* lastModelIndex, FPSPlayer* player, GameplayElements* gameplayElements, PuzzleTextureLocations* puzzleTextureLocations)
+void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures, modelInfo** dynamicModels, int* lastModelIndex, FPSPlayer* player, GameplayElements* gameplayElements)
 {
     int lastPuzzleIndex = 0;
 
@@ -100,7 +100,7 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
         After the initialziation of our buttons, we want to perscribe special textures to them if they so require
     */
     AssignAllPuzzlesSolutionButtons(gameAPuzzles);
-    AssignSpecialTexturesGameA(gameAPuzzles, allTextures, puzzleTextureLocations);
+    AssignSpecialTexturesGameA(gameAPuzzles, allTextures);
     
     gameAPuzzles[3]->puzzleToPowerOn = gameAPuzzles[4];
 }
@@ -111,11 +111,8 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
     {0,0} {0,1} {0,2}
 */
 
-void AssignSpecialTexturesGameA(ButtonMaster** allPuzzles, Texture2D** allTextures, PuzzleTextureLocations* puzzleTextureLocations)
-{   
-    puzzleTextureLocations->specialtyTextures = (PuzzleTexture**)malloc(sizeof(PuzzleTexture) * 3);
-
-
+void AssignSpecialTexturesGameA(ButtonMaster** allPuzzles, Texture2D** allTextures)
+{
     AssignButtonSpecialTextureAndAction(&allPuzzles[3]->childButtons[0][2], TCL_UD);
     AssignButtonSpecialTextureAndAction(&allPuzzles[4]->childButtons[1][2], TCL_UD);
 
@@ -126,8 +123,6 @@ void AssignSpecialTexturesGameA(ButtonMaster** allPuzzles, Texture2D** allTextur
     AssignButtonSpecialTextureAndAction(&allPuzzles[5]->childButtons[0][2], TCL_UD); //this one is wrong, you need to add this direction
     AssignButtonSpecialTextureAndAction(&allPuzzles[5]->childButtons[2][2], TCL_LR);
 
-
-    puzzleTextureLocations->solutionTextures = (PuzzleTexture**)malloc(sizeof(PuzzleTexture) * 7);
 
     AssignSolutionsTextures(allPuzzles[2]);
 }

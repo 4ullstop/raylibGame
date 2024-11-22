@@ -79,16 +79,12 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
     }
 
     PuzzleTexture* buttonTextures = malloc(sizeof(PuzzleTexture));
-    buttonTextures->highlighted = *allTextures[39];
-    buttonTextures->idle = *allTextures[38];
-    buttonTextures->selected = *allTextures[40];
-    buttonTextures->off = *allTextures[5];
+    buttonTextures->highlighted = *allTextures[4];
+    buttonTextures->idle = *allTextures[3];
+    buttonTextures->selected = *allTextures[5];
+    buttonTextures->off = *allTextures[0];
 
     //initializng the associated models for the mechanic
-    
-    
-    
-
     master->childButtons[i][j].model = malloc(sizeof(modelInfo));
     master->childButtons[i][j].model->collisionDisabled = true;
     master->childButtons[i][j].isBeingAssessed = false;
@@ -99,7 +95,6 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
     master->childButtons[i][j].loadedShader = NULL;
     master->childButtons[i][j].model->model = LoadModel("D:/CFiles/FirstGame/models/obj/button_03.obj");
     master->childButtons[i][j].buttonTextures = buttonTextures;
-    
     master->childButtons[i][j].buttonState = EBS_idle;
     master->childButtons[i][j].highlighted = false;
     master->childButtons[i][j].model->texture = buttonTextures->idle;

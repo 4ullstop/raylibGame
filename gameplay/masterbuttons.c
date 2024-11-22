@@ -2,12 +2,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-void ConstructPuzzles(ButtonMaster** allPuzzles, modelInfo** dynamicModels, int* lastModelIndex, enum Gametype gametype, FPSPlayer* player, GameplayElements* gameplayElements, Texture2D** allTextures, PuzzleTextureLocations* puzzleTextureLocations)
+void ConstructPuzzles(ButtonMaster** allPuzzles, modelInfo** dynamicModels, int* lastModelIndex, enum Gametype gametype, FPSPlayer* player, GameplayElements* gameplayElements, Texture2D** allTextures)
 {
     if (gametype == EGT_A)
     {
         printf("last model index in construct puzzles: %i\n", *lastModelIndex);
-        ConstructGameAPuzzles(allPuzzles, allTextures, dynamicModels, lastModelIndex, player, gameplayElements, puzzleTextureLocations);
+        ConstructGameAPuzzles(allPuzzles, allTextures, dynamicModels, lastModelIndex, player, gameplayElements);
     }
     else
     {
@@ -16,9 +16,8 @@ void ConstructPuzzles(ButtonMaster** allPuzzles, modelInfo** dynamicModels, int*
     }
 }
 
-void DestructAllPuzzles(ButtonMaster** allPuzzles, int numberOfPuzzles, PuzzleTextureLocations* specialtyTextures)
+void DestructAllPuzzles(ButtonMaster** allPuzzles, int numberOfPuzzles)
 {
-    DestructAllSpecialtyTextureLocations(specialtyTextures);
     for (int i = 0; i < numberOfPuzzles; i++)
     {
         
@@ -38,40 +37,20 @@ void DestructAllPuzzles(ButtonMaster** allPuzzles, int numberOfPuzzles, PuzzleTe
     printf("puzzles freed\n");
 }
 
-void DestructAllSpecialtyTextureLocations(PuzzleTextureLocations* puzzleTextureLocations)
-{
-    for (int i = 0; i < 3; i++)
-    {
-        puzzleTextureLocations->specialtyTextures[i]->highlighted = (Texture2D){0};
-        puzzleTextureLocations->specialtyTextures[i]->idle = (Texture2D){0};
-        puzzleTextureLocations->specialtyTextures[i]->off = (Texture2D){0};
-        puzzleTextureLocations->specialtyTextures[i]->selected = (Texture2D){0};
-        puzzleTextureLocations->specialtyTextures[i] = NULL;
-        free(puzzleTextureLocations->specialtyTextures[i]);
-    }
-    for (int i = 0; i < 7; i++)
-    {
-        puzzleTextureLocations->solutionTextures[i]->highlighted = (Texture2D){0};
-        puzzleTextureLocations->solutionTextures[i]->idle = (Texture2D){0};
-        puzzleTextureLocations->solutionTextures[i]->off = (Texture2D){0};
-        puzzleTextureLocations->solutionTextures[i]->selected = (Texture2D){0};
-        puzzleTextureLocations->solutionTextures[i] = NULL;
-        free(puzzleTextureLocations->solutionTextures[i]);
-    }
-    printf("specialty textures destroyed\n");
-}
-
 void DestructAllButtons(ButtonMaster* master)
 {
     for (int i = 0; i < master->rows; i++)
     {
-        UnloadButtonTextures(master->childButtons[i]);
         if (master->childButtons[i]->buttonRules != NULL)
         {
             free(master->childButtons[i]->buttonRules->toggleRule);
             free(master->childButtons[i]->buttonRules);  
             master->childButtons[i]->buttonRules->toggleRule = NULL; 
             master->childButtons[i]->buttonRules = NULL;
+        }
+        if (master->childButtons[i]->loadedShader != NULL)
+        {
+            free(master->childButtons[i]->loadedShader);
         }
         free(master->childButtons[i]->buttonTextures);
         free(master->childButtons[i]);
@@ -82,34 +61,6 @@ void DestructAllButtons(ButtonMaster* master)
     {
         master->solutionButtons[i] = NULL;
     }
-}
-
-void UnloadButtonTextures(Button* button)
-{
-    switch (button->buttonState)
-    {
-    case EBS_highlighted:
-        TexturesToUnload(button->buttonTextures->idle, button->buttonTextures->selected, button->buttonTextures->off);
-        break;
-    case EBS_idle:
-        TexturesToUnload(button->buttonTextures->highlighted, button->buttonTextures->selected, button->buttonTextures->off);
-        break;
-    case EBS_selected:
-        TexturesToUnload(button->buttonTextures->idle, button->buttonTextures->highlighted, button->buttonTextures->off);
-        break;
-    case EBS_off:
-        TexturesToUnload(button->buttonTextures->idle, button->buttonTextures->highlighted, button->buttonTextures->selected);
-        break;
-    default:
-        printf("ERROR!: BUTTON STATE UNSET IN BUTTON, NO TEXTURES WERE UNLOADED\n");
-    }
-}
-
-void TexturesToUnload(Texture2D textureA, Texture2D textureB, Texture2D textureC)
-{
-    UnloadTexture(textureA);
-    UnloadTexture(textureB);
-    UnloadTexture(textureC);
 }
 
 void DestructAllSolutionLocations(ButtonMaster* master)
