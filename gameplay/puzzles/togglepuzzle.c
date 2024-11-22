@@ -2,14 +2,42 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void AssignButtonToToggleAction(Button* button, enum PuzzleOnOffDirection direction)
+
+
+void AssignToggleAction(Button* button, enum TextureCoordinateLocations textureLocations)
 {
     button->buttonRules = malloc(sizeof(ButtonRules));
     button->buttonRules->toggleRule = malloc(sizeof(ToggleRule));
-    button->buttonRules->toggleRule->puzzleOODirection = direction;
+    button->buttonRules->toggleRule->puzzleOODirection = FindDirectionFromCoordLoc(textureLocations);
     button->buttonRules->toggleRule->hasBeenToggled = false;
     button->ButtonSelected = EnactToggle;
 }
+
+enum PuzzleOnOffDirection FindDirectionFromCoordLoc(enum TextureCoordinateLocations textureLocations)
+{
+    if ((textureLocations > 13 && textureLocations < 22) || (textureLocations == 10))
+    {
+        return POOD_BottomUp;
+    }
+    else if ((textureLocations > 21 && textureLocations < 30) || (textureLocations == 11))
+    {
+        return POOD_LeftRight;
+    }
+    else if ((textureLocations > 29 && textureLocations < 38) || (textureLocations == 12))
+    {
+        return POOD_DRL;
+    }
+    else if ((textureLocations > 37 && textureLocations < 46) || (textureLocations == 13))
+    {
+        return POOD_DUR;
+    }
+    else 
+    {
+        printf("ERROR, TEXTURE LOCATION INCORRECT TOGGLEPUZZLE FINDDIRECTIONFROMCOORDLOC\n");
+        return POOD_BottomUp;
+    }
+}
+
 
 void EnactToggle(Button* button)
 {

@@ -37,7 +37,7 @@
 #define E_BUTTON_SIZES
 enum ButtonTextureSizes
 {
-    EBTS_Empty,
+    EBTS_01,
     EBTS_02,
     EBTS_03,
     EBTS_04,

@@ -10,8 +10,6 @@ void ToggleNeighbors(Button* button, Vector2Int direction);
 
 void ToggleCurrButton(Button* currButton, int ogId);
 
-void AssignButtonToToggleAction(Button* button, enum PuzzleOnOffDirection direction);
-
 Button* GetNextButton(Button* next, Vector2Int direction);
 
 void AddButtonToList(CollateralPower** head, Button* button);
@@ -19,3 +17,7 @@ void AddButtonToList(CollateralPower** head, Button* button);
 void AssessList(CollateralPower* head);
 
 void DestroyList(CollateralPower** head);
+
+void AssignToggleAction(Button* button, enum TextureCoordinateLocations textureLocations);
+
+enum PuzzleOnOffDirection FindDirectionFromCoordLoc(enum TextureCoordinateLocations textureLocations);

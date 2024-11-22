@@ -4,8 +4,4 @@
 #include "../../initialization/corestructs.h"
 #endif
 
-void AssignButtonTextCoord(Model* model, enum TextureCoordinateLocations textureLocation);
-
-void AssignAndUpdateTextRecForAtlas(Button* button, enum TextureCoordinateLocations textureLocation);
-
 void UpdateShaderForButtonAtlas(Button* button, enum TextureCoordinateLocations textureLocation);

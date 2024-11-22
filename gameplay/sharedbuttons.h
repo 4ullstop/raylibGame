@@ -30,22 +30,15 @@ void SwitchTextureOnPuzzleState(ButtonMaster* puzzle, Button* button, bool isHig
 void PowerOnPuzzle(ButtonMaster* puzzle);
 
 
-void AssignAtlasTextureToButtonAndAction(Texture2D** allTextures, Button* button, enum TextureCoordinateLocations buttonType);
 
+void AssignButtonSpecialTextureAndAction(Button* button, enum TextureCoordinateLocations textureLocations);
+
+void AssignSolutionsTextures(ButtonMaster* puzzle);
+
+void DetermineAndUpdateTexture(Button* button, enum ButtonState state);
+
+void DetermineStartVal(int* min, enum PuzzleOnOffDirection direction);
 
 void AssignAllPuzzlesSolutionButtons(ButtonMaster** allPuzzles);
 
 void AssignSolutionButtonsToPuzzle(ButtonMaster* puzzle);
-
-void AssignTextureAndActionAtSpot(Texture2D** allTextures, PuzzleTexture** puzzleTextures, Button* button, enum PuzzleOnOffDirection direction, enum ButtonState state);
-
-void AssignSolutionLocationTextures(PuzzleTexture** solutionTextures, ButtonMaster* puzzle);
-
-void SwitchOnSolutionSizes(Button* button, PuzzleTexture** solutionTextures, enum ButtonState state);
-
-void LoadAllSpecialTextures(PuzzleTexture** textures, Texture2D** allTextures);
-
-void LoadAndAssignSingleTexture(Button* button, PuzzleTexture* newTextures, enum ButtonState state);
-
-void LoadAllSolutionTextures(PuzzleTexture** solutionTextures, Texture2D** allTextures);
-
