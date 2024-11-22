@@ -139,6 +139,7 @@ void Puzzle_01(ButtonMaster* puzzle)
     puzzle->numberOfSolutions = numOfSolutions;
     puzzle->solutionLocations = malloc(sizeof(Vector2Int) * numOfSolutions);
     puzzle->solutionButtons = malloc(sizeof(Button) * puzzle->numberOfSolutions); //another thing you need to destroy at some point
+    //the order in which these are determines which buttons need to be pressed first
     puzzle->solutionLocations[0] = (Vector2Int){2, 0};
     puzzle->solutionLocations[1] = (Vector2Int){1, 0};
     puzzle->solutionLocations[2] = (Vector2Int){0, 0};

@@ -51,17 +51,6 @@ Create ordered solutions
     - Create glaringly obvious error when player inputs buttons incorrectly
 
 
-Contain all specialized texture locations in a struct with arrays
+Finish off state texture atlas stuff
 
-Figure out how to load in textures for buttons like they do in minecraft
-
-
-Texture atlassing steps:
-    - Assign the base texture coords upon button construction
-    - Assign the special texture coords based on an enum?
-
-Why might this not be working?:
-    - UVing in blender improperly - I don't believe this is it
-    - The math is working
-    - You're missing a step 
-    - This isn't possible in raylib
+Create error (input wrong answer)
