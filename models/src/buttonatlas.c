@@ -4,6 +4,9 @@
 
 void UpdateShaderForButtonAtlas(Button* button, enum TextureCoordinateLocations textureLocation)
 {
+    button->buttonTextureLocation = textureLocation;
+
+    if (button->buttonState == EBS_off) return;
     const float uvWidth = 1.0f / 8.0f;
     const float uvHeight = 1.0f / 8.0f;
 

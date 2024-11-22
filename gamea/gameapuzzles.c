@@ -103,7 +103,7 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
         gameAPuzzles,
         (Vector2Int){0, 0},
         false, 
-        EPS_active,
+        EPS_inactive,
         0.3f);
 
     for (int i = 0; i < NUMBER_OF_PUZZLES_A; i++)
@@ -124,6 +124,7 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
     AssignSpecialTexturesGameA(gameAPuzzles, allTextures);
     
     gameAPuzzles[3]->puzzleToPowerOn = gameAPuzzles[4];
+    gameAPuzzles[2]->puzzleToPowerOn = gameAPuzzles[6];
 }
 
 /*

@@ -295,6 +295,10 @@ typedef struct Button
     enum ButtonTextureSizes textureSizes;
 
     Shader* loadedShader;
+
+    bool shouldStayPoweredOff;
+
+    enum TextureCoordinateLocations buttonTextureLocation;
 } Button;
 #endif
 

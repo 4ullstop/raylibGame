@@ -92,9 +92,11 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
     master->childButtons[i][j].puzzleType = EPT_Free;
     master->childButtons[i][j].isBeingAssessed = false;
     master->childButtons[i][j].model->modelLocation = master->childButtons[i][j].location;
+    master->childButtons[i][j].shouldStayPoweredOff = false;
     master->childButtons[i][j].loadedShader = NULL;
     master->childButtons[i][j].model->model = LoadModel("D:/CFiles/FirstGame/models/obj/button.obj");
     master->childButtons[i][j].buttonTextures = buttonTextures;
+    master->childButtons[i][j].buttonTextureLocation = TCL_NULL;
     master->childButtons[i][j].buttonState = EBS_idle;
     master->childButtons[i][j].highlighted = false;
     master->childButtons[i][j].model->texture = buttonTextures->idle;
@@ -128,15 +130,18 @@ void SwitchTextureOnPuzzleState(ButtonMaster* puzzle, Button* button, bool isHig
         if (isHighlightedButton != true)
         {
             button->model->texture = button->buttonTextures->idle;
+            button->buttonState = EBS_idle;
         }
         else
         {
             button->highlighted = true;
+            button->buttonState = EBS_highlighted;
             AddHighlight(button);
         }
         break;
     case EPS_inactive:
         button->model->texture = button->buttonTextures->off;
+        button->buttonState = EBS_off;
         if (isHighlightedButton == true)
         {
             button->highlighted = true;   
@@ -147,6 +152,11 @@ void SwitchTextureOnPuzzleState(ButtonMaster* puzzle, Button* button, bool isHig
         break;
     }
     button->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = button->model->texture;
+    if (button->buttonTextureLocation != TCL_NULL)
+    {
+        printf("buttonTextureLocation: %i\n", button->buttonTextureLocation);
+        UpdateShaderForButtonAtlas(button, button->buttonTextureLocation);
+    }
 }
 
 void AddHighlight(Button* button)
@@ -202,6 +212,7 @@ void PowerOnPuzzle(ButtonMaster* puzzle)
     {
         for (int j = 0, m = puzzle->columns; j < m; j++)
         {
+            if (puzzle->childButtons[i][j].shouldStayPoweredOff == true) continue;
             SwitchTextureOnPuzzleState(puzzle, &puzzle->childButtons[i][j], puzzle->childButtons[i][j].highlighted);
         }
     }
@@ -314,16 +325,11 @@ void AssignButtonSpecialTextureAndAction(Button* button, enum TextureCoordinateL
         button->buttonState = EBS_off;
         button->model->texture = button->buttonTextures->off;
         button->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = button->model->texture;
+        button->shouldStayPoweredOff = true;
     }
     
     AssignToggleAction(button, textureLocations);
 }
-
-
-
-
-
-
 
 void AssignSolutionsTextures(ButtonMaster* puzzle)
 {
