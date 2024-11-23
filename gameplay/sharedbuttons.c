@@ -154,7 +154,6 @@ void SwitchTextureOnPuzzleState(ButtonMaster* puzzle, Button* button, bool isHig
     button->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = button->model->texture;
     if (button->buttonTextureLocation != TCL_NULL)
     {
-        printf("buttonTextureLocation: %i\n", button->buttonTextureLocation);
         UpdateShaderForButtonAtlas(button, button->buttonTextureLocation);
     }
 }

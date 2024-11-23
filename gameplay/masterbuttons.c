@@ -103,25 +103,25 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
     switch (direction)
     {
         case ED_Up:
-            if (currSelectedButton->nAbove->buttonState == EBS_off) return;
+            if (currSelectedButton->nAbove->buttonState == EBS_off || currSelectedButton->nAbove->submitted == true) return;
             RemoveHighlight(currSelectedButton);
             currSelectedButton = currSelectedButton->nAbove;
             AddHighlight(currSelectedButton);
             break;
         case ED_Down:
-            if (currSelectedButton->nBelow->buttonState == EBS_off) return;
+            if (currSelectedButton->nBelow->buttonState == EBS_off || currSelectedButton->nBelow->submitted == true) return;
             RemoveHighlight(currSelectedButton);
             currSelectedButton = currSelectedButton->nBelow;
             AddHighlight(currSelectedButton);
             break;
         case ED_Left:
-            if (currSelectedButton->nLeft->buttonState == EBS_off) return;
+            if (currSelectedButton->nLeft->buttonState == EBS_off || currSelectedButton->nLeft->submitted == true) return;
             RemoveHighlight(currSelectedButton);
             currSelectedButton = currSelectedButton->nLeft;
             AddHighlight(currSelectedButton);
             break;
         case ED_Right:
-            if (currSelectedButton->nRight->buttonState == EBS_off) return;
+            if (currSelectedButton->nRight->buttonState == EBS_off || currSelectedButton->nRight->submitted == true) return;
             RemoveHighlight(currSelectedButton);
             currSelectedButton = currSelectedButton->nRight;
             AddHighlight(currSelectedButton);
