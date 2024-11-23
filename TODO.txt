@@ -51,10 +51,10 @@ Create ordered solutions
     - Create glaringly obvious error when player inputs buttons incorrectly
 
 
-Finish off state texture atlas stuff
 
 Create error (input wrong answer)
 
-Create inability to move around submitted buttons and powered off buttons 
+Kind of horrifically, things are not checked very well which leads to crashing when you are creating puzzles, this is probably a thing that should be fixed\
 
-Kind of horrifically, things are not checked very well which leads to crashing when you are creating puzzles, this is probably a thing that should be fixed
+Make blinking Cursor
+Make cursor pushing action for buttons when submitted

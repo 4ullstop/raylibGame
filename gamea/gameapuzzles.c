@@ -120,6 +120,20 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
         EPS_active,
         0.3f);
 
+    ConstructSinglePuzzle(&lastPuzzleIndex,
+        3,
+        3,
+        (Vector3){2.0f, 1.0f, -3.0f},
+        player,
+        Puzzle_09,
+        false,
+        gameplayElements,
+        gameAPuzzles,
+        (Vector2Int){0, 0},
+        false, 
+        EPS_active,
+        0.3f);
+
     for (int i = 0; i < NUMBER_OF_PUZZLES_A; i++)
     {
         CreateAllButtons(gameAPuzzles[i], dynamicModels, lastModelIndex, allTextures);
@@ -312,4 +326,20 @@ void Puzzle_08(ButtonMaster* puzzle)
     puzzle->textureSizes[0] = EBTS_02;
     puzzle->textureSizes[1] = EBTS_04;
     puzzle->textureSizes[2] = EBTS_06;
+}
+
+void Puzzle_09(ButtonMaster* puzzle)
+{
+    int numOfSolutions = 3;
+    puzzle->numberOfSolutions = numOfSolutions;
+    puzzle->solutionLocations = malloc(sizeof(Vector2Int) * numOfSolutions);
+    puzzle->solutionButtons = malloc(sizeof(Button) * puzzle->numberOfSolutions);
+    puzzle->solutionLocations[0] = (Vector2Int){0, 0};
+    puzzle->solutionLocations[1] = (Vector2Int){1, 0};
+    puzzle->solutionLocations[2] = (Vector2Int){2, 0};
+
+    puzzle->textureSizes = malloc(sizeof(enum ButtonTextureSizes) * puzzle->numberOfSolutions);
+    puzzle->textureSizes[0] = EBTS_05;
+    puzzle->textureSizes[1] = EBTS_02;
+    puzzle->textureSizes[2] = EBTS_04;
 }
