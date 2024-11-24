@@ -13,6 +13,7 @@ void PlayerSetup(FPSPlayer* player, PlayerCam* cam, UIElements** hud, enum Gamem
     player->playerHUD = hud;
     player->gamemode = mode;
     player->showPlayerLocation = true;
+    player->puzzleInputEnabled = true;
 }
 
 void PollPlayer(float deltaTime, PlayerCam* pcam, FPSPlayer* player, CollisionPacket* colPacket, modelInfo** models, int numOfModels)

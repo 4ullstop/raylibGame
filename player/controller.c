@@ -121,6 +121,7 @@ void PollPlayerSecondaryInputs(FPSPlayer* player, Raycast* interactRay, QueryBox
 void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode)
 {
     bool directionalKeyPressed = false;
+    if (interactedItem->associatedPuzzle->player->puzzleInputEnabled == false) return;
     if (IsKeyPressed(KEY_LEFT))
     {
         MoveCursor(ED_Left, interactedItem, mode);

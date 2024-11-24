@@ -155,6 +155,8 @@ typedef struct
     enum Gamemode* gamemode;
 
     bool showPlayerLocation;
+
+    bool puzzleInputEnabled;
 } FPSPlayer;
 #endif
 

@@ -58,3 +58,8 @@ Kind of horrifically, things are not checked very well which leads to crashing w
 
 Make blinking Cursor
 Make cursor pushing action for buttons when submitted
+If your cursor gets stuck, meaning there is no where for it to exit one button away, reset the puzzle
+
+Quality of life features to be added or reworked:
+    - Rework the button solution sizes (some of them are too similiar to others making it difficult to discerne which is which)
+    - When the player inputs the wrong answer, show them why it was the wrong answer (flash the button that was input incorrectly rather than the whole puzzle)

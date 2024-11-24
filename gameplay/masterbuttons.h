@@ -30,3 +30,5 @@ void CheckForSolution(Button* button, ButtonMaster* master, enum Gamemode* mode)
 void RotateButtonMaster(ButtonMaster* master, float angle, Vector3 axis);
 
 void ResetPuzzle(ButtonMaster* puzzle);
+
+void PushCursor(Button* button);

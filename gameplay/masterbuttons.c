@@ -129,6 +129,8 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
         case ED_Enter:
             ChangeSelection(currSelectedButton);
             CheckForSolution(currSelectedButton, master, mode);
+            PushCursor(currSelectedButton);
+            //move cursor again
             break;
         case ED_Reset:
             //do reset thingys
@@ -137,6 +139,42 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
         default:
             printf("error default case run on switching highlight");
             break;
+    }
+}
+
+void PushCursor(Button* button)
+{
+    int circledButtonNum = 8;
+    Button* buttons[] = {
+        button->nAbove,
+        button->nAbove->nLeft,
+        button->nLeft,
+        button->nLeft->nBelow,
+        button->nBelow,
+        button->nBelow->nRight,
+        button->nRight,
+        button->nRight->nAbove
+    };
+
+    Button* buttonToHopTo = NULL;
+    for (int i = 0; i < 8; i++)
+    {
+        if (buttons[i]->submitted == false && buttons[i]->buttonState != EBS_off && buttons[i] != button)
+        {
+            buttonToHopTo = buttons[i];
+            break;
+        }
+    }
+
+    if (buttonToHopTo != NULL)
+    {
+        RemoveHighlight(button);
+        AddHighlight(buttonToHopTo);
+    }
+    else
+    {
+        //nothing was found reset the puzzle
+        printf("nothing was found, should reset puzzle\n");
     }
 }
 
@@ -190,19 +228,22 @@ void CheckForSolution(Button* button, ButtonMaster* master, enum Gamemode* mode)
         master->isUnderExamination = true;
         master->solvedOrderIndex = 0;
     }
-    master->solvedOrder[master->solvedOrderIndex] = button->textureSizes;
-    master->solvedOrderIndex++; 
+    if (button->solutionButton == true)
+    {
+        master->solvedOrder[master->solvedOrderIndex] = button->textureSizes;
+        master->solvedOrderIndex++;
+    }
     for (int i = 0; i < master->rows; i++)
     {
         for (int j = 0; j < master->columns; j++)
         {
-            if (master->childButtons[i][j].submitted && master->childButtons[i][j].solutionButton)
+            if (master->childButtons[i][j].submitted == true && master->childButtons[i][j].solutionButton == true)
             {
                 numberOfSolved++;
                 numberOfSelected++;
                 printf("this was one of the buttons, %i\n", numberOfSolved);
             }
-            else if (master->childButtons[i][j].submitted && !master->childButtons[i][j].solutionButton)
+            else if (master->childButtons[i][j].submitted == true && master->childButtons[i][j].solutionButton == false)
             {
                 numberOfSolved = 0;
                 numberOfSelected++;
