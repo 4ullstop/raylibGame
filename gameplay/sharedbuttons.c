@@ -83,6 +83,7 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
     buttonTextures->idle = *allTextures[3];
     buttonTextures->selected = *allTextures[5];
     buttonTextures->off = *allTextures[6];
+    buttonTextures->error = *allTextures[7];
 
     //initializng the associated models for the mechanic
     master->childButtons[i][j].model = malloc(sizeof(modelInfo));
@@ -261,6 +262,9 @@ void ConstructSinglePuzzle(int* lastPuzzleIndex, int columns, int rows, Vector3 
     puzzleLocConstruct(puzzle);
     puzzle->highlightStartLoc = highlightStart;
     puzzle->hasHighlightStartLoc = hasHighlightStartLoc;
+    puzzle->shouldReadTick = false;
+    puzzle->puzzleUnSolved = false;
+    puzzle->cursoredButton = NULL;
     puzzle->associatedGameplayElements = malloc(sizeof(GameplayElements));
     if (hasGameplayElements == true)
     {

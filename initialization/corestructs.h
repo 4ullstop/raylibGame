@@ -15,7 +15,7 @@
 #define NUMBER_OF_MODELS_A 54 //45
 #define NUMBER_OF_MODELS_B 1
 
-#define NUMBER_OF_TEXTURES_A 7 //this will always be one more than what is in the file
+#define NUMBER_OF_TEXTURES_A 8 //this will always be one more than what is in the file
 #define NUMBER_OF_TEXTURES_B 1
 
 #define NUMBER_OF_INTERACTABLES_A 9 //8
@@ -212,6 +212,7 @@ typedef struct
     Texture2D idle;
     Texture2D selected;
     Texture2D off;
+    Texture2D error;
 } PuzzleTexture;
 #endif
 
@@ -301,6 +302,8 @@ typedef struct Button
     bool shouldStayPoweredOff;
 
     enum TextureCoordinateLocations buttonTextureLocation;
+
+    bool wasFlippedIncorrectly;
 } Button;
 #endif
 
@@ -341,7 +344,7 @@ typedef struct ButtonMaster
 
     Button** solutionButtons;
 
-    
+    Button* cursoredButton;
 
     bool isUnderExamination;
     int* solvedOrder;
@@ -349,6 +352,9 @@ typedef struct ButtonMaster
     int solvedOrderIndex;
 
     enum ButtonTextureSizes* textureSizes;
+
+    bool shouldReadTick;
+    bool puzzleUnSolved;
 } ButtonMaster;
 #endif
 
@@ -492,4 +498,14 @@ typedef struct CollateralPower
 } CollateralPower;
 #endif
 
+#ifndef TICK_NODE
+#define TICK_NODE
+typedef struct TickNode
+{
+    int frameCounter;
+    double frameSpeed;
 
+    int iterations;
+    bool a;
+} TickNode;
+#endif

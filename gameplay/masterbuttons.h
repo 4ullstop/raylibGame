@@ -29,6 +29,10 @@ void CheckForSolution(Button* button, ButtonMaster* master, enum Gamemode* mode)
 
 void RotateButtonMaster(ButtonMaster* master, float angle, Vector3 axis);
 
-void ResetPuzzle(ButtonMaster* puzzle);
+void ResetPuzzle(ButtonMaster* puzzle, bool resultOfFailure);
 
-void PushCursor(Button* button);
+Button* PushCursor(Button* button);
+
+void PollPuzzles(ButtonMaster* puzzle, TickNode* tickNode);
+
+void BlinkCursor(ButtonMaster* puzzle, TickNode* tickNode);

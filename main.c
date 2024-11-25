@@ -43,6 +43,7 @@ enum Gametype gametype = EGT_A;
 
 GameplayElements gameplayElements = {0};
 
+TickNode interactedItemTickNode = {0};
 
 int main(int argc, char* argv[])
 {
@@ -51,7 +52,12 @@ int main(int argc, char* argv[])
     printf("Initializing window and player camera...\n");
     CreateWindow(800, 450);
     
-    
+    interactedItemTickNode.a = false;
+    interactedItemTickNode.frameCounter = 0;
+    interactedItemTickNode.frameSpeed = 0.1f;
+    interactedItemTickNode.iterations = 0;
+
+   
 
     //intialize UI
     UIElements* ui[UI_ELEMENT_TOTAL];
@@ -62,6 +68,7 @@ int main(int argc, char* argv[])
     //DO NOT PUT ANYTHING ABOVE THESE LINES, YOUR CODE WILL NOT WORK
 
     Interactable interactedItem = {0};
+    interactedItem.associatedPuzzle = NULL;
     ray.showDebugLines = true;
     ray.rayLength = 10.f;
     printf("Preparing model loading...\n");
@@ -74,7 +81,7 @@ int main(int argc, char* argv[])
     Texture2D* texturesA[NUMBER_OF_TEXTURES_A];
     Texture2D* texturesB[NUMBER_OF_TEXTURES_B];
 
-
+    
     //put the creation of gameplay elements here
     int lastModelIndex = 0;
     int numOfModels = 0;
@@ -244,6 +251,13 @@ void CallAllPolls(float dTime, modelInfo** models, QueryBox** areaBoxes, Interac
     else if (gamemode == EGM_Inactive)
     {
         PollPlayerInactiveStateInputs(&gamemode);
+    }
+    if (interactedItem != NULL)
+    {
+        if (interactedItem->associatedPuzzle != NULL)
+        {
+            PollPuzzles(interactedItem->associatedPuzzle, &interactedItemTickNode);
+        }
     }
     
 }

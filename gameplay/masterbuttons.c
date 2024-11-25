@@ -107,34 +107,38 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
             RemoveHighlight(currSelectedButton);
             currSelectedButton = currSelectedButton->nAbove;
             AddHighlight(currSelectedButton);
+            master->cursoredButton = currSelectedButton;
             break;
         case ED_Down:
             if (currSelectedButton->nBelow->buttonState == EBS_off || currSelectedButton->nBelow->submitted == true) return;
             RemoveHighlight(currSelectedButton);
             currSelectedButton = currSelectedButton->nBelow;
             AddHighlight(currSelectedButton);
+            master->cursoredButton = currSelectedButton;
             break;
         case ED_Left:
             if (currSelectedButton->nLeft->buttonState == EBS_off || currSelectedButton->nLeft->submitted == true) return;
             RemoveHighlight(currSelectedButton);
             currSelectedButton = currSelectedButton->nLeft;
             AddHighlight(currSelectedButton);
+            master->cursoredButton = currSelectedButton;
             break;
         case ED_Right:
             if (currSelectedButton->nRight->buttonState == EBS_off || currSelectedButton->nRight->submitted == true) return;
             RemoveHighlight(currSelectedButton);
             currSelectedButton = currSelectedButton->nRight;
             AddHighlight(currSelectedButton);
+            master->cursoredButton = currSelectedButton;
             break;
         case ED_Enter:
             ChangeSelection(currSelectedButton);
             CheckForSolution(currSelectedButton, master, mode);
-            PushCursor(currSelectedButton);
-            //move cursor again
+            currSelectedButton = PushCursor(currSelectedButton);
+            master->cursoredButton = currSelectedButton;
             break;
         case ED_Reset:
             //do reset thingys
-            ResetPuzzle(master);
+            ResetPuzzle(master, false);
             break;
         default:
             printf("error default case run on switching highlight");
@@ -142,7 +146,7 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
     }
 }
 
-void PushCursor(Button* button)
+Button* PushCursor(Button* button)
 {
     int circledButtonNum = 8;
     Button* buttons[] = {
@@ -157,7 +161,7 @@ void PushCursor(Button* button)
     };
 
     Button* buttonToHopTo = NULL;
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < circledButtonNum; i++)
     {
         if (buttons[i]->submitted == false && buttons[i]->buttonState != EBS_off && buttons[i] != button)
         {
@@ -170,11 +174,13 @@ void PushCursor(Button* button)
     {
         RemoveHighlight(button);
         AddHighlight(buttonToHopTo);
+        return buttonToHopTo;
     }
     else
     {
         //nothing was found reset the puzzle
         printf("nothing was found, should reset puzzle\n");
+        return NULL;
     }
 }
 
@@ -278,7 +284,7 @@ void CheckForSolution(Button* button, ButtonMaster* master, enum Gamemode* mode)
         else
         {
             printf("these are the right buttons but were input in the incorrect order\n");
-            ResetPuzzle(master);
+            ResetPuzzle(master, true);
         }
         
     }
@@ -291,8 +297,16 @@ void CheckForSolution(Button* button, ButtonMaster* master, enum Gamemode* mode)
     }
 }
 
-void ResetPuzzle(ButtonMaster* puzzle)
+void ResetPuzzle(ButtonMaster* puzzle, bool resultOfFailure)
 {
+    if (resultOfFailure == true)
+    {
+        //open gate
+        //add item to empty array
+        puzzle->shouldReadTick = true;
+        puzzle->puzzleUnSolved = true;
+        return;
+    }
     for (int i = 0; i < puzzle->rows; i++)
     {
         for (int j = 0; j < puzzle->columns; j++)
@@ -324,4 +338,51 @@ void ResetPuzzle(ButtonMaster* puzzle)
     puzzle->childButtons[puzzle->highlightStartLoc.x][puzzle->highlightStartLoc.y].model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = puzzle->childButtons[puzzle->highlightStartLoc.x][puzzle->highlightStartLoc.y].model->texture; 
     puzzle->highlightLocation = puzzle->highlightStartLoc;
     puzzle->childButtons[puzzle->highlightStartLoc.x][puzzle->highlightStartLoc.y].highlighted = true;
+}
+
+void PollPuzzles(ButtonMaster* puzzle, TickNode* tickNode)
+{
+    if (puzzle == NULL) return;
+    if (puzzle->shouldReadTick == true)
+    {
+        //blink cursor here
+        BlinkCursor(puzzle, tickNode);
+        if (puzzle->puzzleUnSolved == true)
+        {
+            //blink here for errors
+        }
+    }
+}
+
+void BlinkCursor(ButtonMaster* puzzle, TickNode* tickNode)
+{
+    
+    if (puzzle->cursoredButton == NULL) return;
+    
+    tickNode->frameCounter = tickNode->frameCounter + 1;
+    if (tickNode->frameCounter >= (60/tickNode->frameSpeed))
+    {
+        tickNode->frameCounter = 0;
+        tickNode->iterations = tickNode->iterations + 1;
+
+
+        if (tickNode->a == false)
+        {
+            tickNode->a = true;
+            if (puzzle->cursoredButton->submitted == true)
+            {
+                puzzle->cursoredButton->model->texture = puzzle->cursoredButton->buttonTextures->selected;
+            }
+            else
+            {
+                puzzle->cursoredButton->model->texture = puzzle->cursoredButton->buttonTextures->idle;
+            }
+        }
+        else
+        {
+            tickNode->a = false;
+            puzzle->cursoredButton->model->texture = puzzle->cursoredButton->buttonTextures->highlighted;
+        }
+        puzzle->cursoredButton->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = puzzle->cursoredButton->model->texture;
+    }
 }

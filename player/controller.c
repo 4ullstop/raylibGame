@@ -106,6 +106,7 @@ void PollPlayerSecondaryInputs(FPSPlayer* player, Raycast* interactRay, QueryBox
                     printf("closestbox id: %i\n", interactRay->closestBox->id);
                     interactRay->closestBox->interact(player, interactRay->closestBox);
                     *interactedItem = *areaBoxes[i]->associatedInteractables[interactRay->associatedIndex];
+                    interactedItem->associatedPuzzle->shouldReadTick = true;
                     *mode = EGM_Puzzle;
                 }
             }
@@ -151,6 +152,8 @@ void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode)
     if (IsKeyPressed(KEY_E))
     {
         *mode = EGM_Normal;
+        interactedItem->associatedPuzzle = NULL;
+        interactedItem = NULL;
     }
 
     if (IsKeyPressed(KEY_R))
