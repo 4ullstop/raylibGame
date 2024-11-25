@@ -104,6 +104,7 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
     master->childButtons[i][j].buttonRules = NULL;
     master->childButtons[i][j].ButtonSelected = NULL;
     master->childButtons[i][j].submitted = false;
+    master->childButtons[i][j].wasFlippedIncorrectly = false;
     master->childButtons[i][j].id = rand();
     dynamicModels[*lastModelIndex] = master->childButtons[i][j].model;
     *lastModelIndex = *lastModelIndex + 1;
@@ -265,6 +266,7 @@ void ConstructSinglePuzzle(int* lastPuzzleIndex, int columns, int rows, Vector3 
     puzzle->shouldReadTick = false;
     puzzle->puzzleUnSolved = false;
     puzzle->cursoredButton = NULL;
+    puzzle->errorButtons = NULL;
     puzzle->associatedGameplayElements = malloc(sizeof(GameplayElements));
     if (hasGameplayElements == true)
     {

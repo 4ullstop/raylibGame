@@ -56,8 +56,6 @@ Create error (input wrong answer)
 
 Kind of horrifically, things are not checked very well which leads to crashing when you are creating puzzles, this is probably a thing that should be fixed\
 
-Make blinking Cursor
-Make cursor pushing action for buttons when submitted
 If your cursor gets stuck, meaning there is no where for it to exit one button away, reset the puzzle
 
 Quality of life features to be added or reworked:

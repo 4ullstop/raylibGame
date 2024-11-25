@@ -253,6 +253,7 @@ void CheckForSolution(Button* button, ButtonMaster* master, enum Gamemode* mode)
             {
                 numberOfSolved = 0;
                 numberOfSelected++;
+                master->childButtons[i][j].wasFlippedIncorrectly == true;
                 printf("this was NOT one of the buttons\n");
             }
         }
@@ -295,6 +296,18 @@ void CheckForSolution(Button* button, ButtonMaster* master, enum Gamemode* mode)
             printf("You have selected all of the present buttons, try again\n");
         }
     }
+    ResetTemporaryPuzzleInfo(master);
+}
+
+void ResetTemporaryPuzzleInfo(ButtonMaster* puzzle)
+{
+    for (int i = 0; i < puzzle->rows; i++)
+    {
+        for (int j = 0; j < puzzle->columns; j++)
+        {
+            puzzle->childButtons[i][j].wasFlippedIncorrectly = false;
+        }
+    }
 }
 
 void ResetPuzzle(ButtonMaster* puzzle, bool resultOfFailure)
@@ -303,6 +316,9 @@ void ResetPuzzle(ButtonMaster* puzzle, bool resultOfFailure)
     {
         //open gate
         //add item to empty array
+        printf("about to populate buttons\n");
+        PopulateErrorButtons(puzzle);
+        puzzle->player->puzzleInputEnabled = false;
         puzzle->shouldReadTick = true;
         puzzle->puzzleUnSolved = true;
         return;
@@ -340,6 +356,33 @@ void ResetPuzzle(ButtonMaster* puzzle, bool resultOfFailure)
     puzzle->childButtons[puzzle->highlightStartLoc.x][puzzle->highlightStartLoc.y].highlighted = true;
 }
 
+void PopulateErrorButtons(ButtonMaster* puzzle)
+{
+    for (int i = 0; i < puzzle->rows; i++)
+    {
+        for (int j = 0; j < puzzle->columns; j++)
+        {
+            if (puzzle->childButtons[i][j].wasFlippedIncorrectly == true)
+            {
+                printf("button added to population\n");
+                ErrorButtons* newErrorButton = malloc(sizeof(ErrorButtons));
+                newErrorButton->button = &puzzle->childButtons[i][j];
+                newErrorButton->next = NULL;
+                if (puzzle->errorButtons == NULL)
+                {
+                    puzzle->errorButtons = newErrorButton;
+                }
+                else
+                {
+                    newErrorButton->next = puzzle->errorButtons;
+                    puzzle->errorButtons = newErrorButton;
+                    newErrorButton->next = NULL;
+                }
+            }
+        }
+    }
+}
+
 void PollPuzzles(ButtonMaster* puzzle, TickNode* tickNode)
 {
     if (puzzle == NULL) return;
@@ -350,13 +393,13 @@ void PollPuzzles(ButtonMaster* puzzle, TickNode* tickNode)
         if (puzzle->puzzleUnSolved == true)
         {
             //blink here for errors
+            RunThroughErrorButtons(puzzle, tickNode);
         }
     }
 }
 
 void BlinkCursor(ButtonMaster* puzzle, TickNode* tickNode)
 {
-    
     if (puzzle->cursoredButton == NULL) return;
     
     tickNode->frameCounter = tickNode->frameCounter + 1;
@@ -384,5 +427,77 @@ void BlinkCursor(ButtonMaster* puzzle, TickNode* tickNode)
             puzzle->cursoredButton->model->texture = puzzle->cursoredButton->buttonTextures->highlighted;
         }
         puzzle->cursoredButton->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = puzzle->cursoredButton->model->texture;
+    }
+}
+
+void RunThroughErrorButtons(ButtonMaster* puzzle, TickNode* tickNode)
+{
+    
+    ErrorButtons* buttonsToError = puzzle->errorButtons;
+    tickNode->frameCounter = tickNode->frameCounter + 1;
+    bool wasFired = false;
+    while (buttonsToError != NULL)
+    {
+        printf("running through buttons\n");
+        wasFired = BlinkError(buttonsToError->button, tickNode);
+        buttonsToError = puzzle->errorButtons->next;
+    }
+    if (wasFired == true)
+    {
+        tickNode->frameCounter = 0;
+    }
+    tickNode->iterations = tickNode->iterations + 1;
+    if (tickNode->iterations >= 4)
+    {
+        puzzle->player->puzzleInputEnabled = true;
+        if (tickNode->iterations >= 20)
+        {
+            //TODO: kill button error blinking
+            puzzle->puzzleUnSolved = false;
+            DepopulateErrorButtons(puzzle->errorButtons);
+            ResetPuzzle(puzzle, false);
+        }
+    }
+    buttonsToError = NULL;
+}
+
+bool BlinkError(Button* button, TickNode* tickNode)
+{
+    printf("blinking error\n");
+    bool wasFired = false;
+    if (tickNode->frameCounter >= (60/tickNode->frameSpeed))
+    {
+        wasFired = true;
+        if (tickNode->a == false)
+        {
+            if (button->submitted == true)
+            {
+                button->model->texture = button->buttonTextures->selected;
+            }
+            else
+            {
+                button->model->texture = button->buttonTextures->idle;
+            }
+        }
+        else
+        {
+            button->model->texture = button->buttonTextures->error;
+        }
+    }
+    button->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = button->model->texture;
+    return wasFired;
+}
+
+void DepopulateErrorButtons(ErrorButtons* buttons)
+{
+    if (buttons == NULL)
+    {
+        return;
+    }
+    else
+    {
+        DepopulateErrorButtons(buttons->next);
+        free(buttons);
+        buttons = NULL;
     }
 }

@@ -36,3 +36,13 @@ Button* PushCursor(Button* button);
 void PollPuzzles(ButtonMaster* puzzle, TickNode* tickNode);
 
 void BlinkCursor(ButtonMaster* puzzle, TickNode* tickNode);
+
+void PopulateErrorButtons(ButtonMaster* puzzle);
+
+void RunThroughErrorButtons(ButtonMaster* puzzle, TickNode* tickNode);
+
+bool BlinkError(Button* button, TickNode* tickNode);
+
+void ResetTemporaryPuzzleInfo(ButtonMaster* puzzle);
+
+void DepopulateErrorButtons(ErrorButtons* buttons);

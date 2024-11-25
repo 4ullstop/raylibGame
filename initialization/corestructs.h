@@ -307,6 +307,16 @@ typedef struct Button
 } Button;
 #endif
 
+#ifndef ERROR_BUTTONS
+#define ERROR_BUTTONS
+typedef struct ErrorButtons 
+{
+    Button* button;
+    struct ErrorButtons* next;
+} ErrorButtons;
+#endif
+
+
 #ifndef MASTER_OF_BUTTONS
 #define MASTER_OF_BUTTONS
 typedef struct ButtonMaster
@@ -355,6 +365,8 @@ typedef struct ButtonMaster
 
     bool shouldReadTick;
     bool puzzleUnSolved;
+
+    ErrorButtons* errorButtons;
 } ButtonMaster;
 #endif
 

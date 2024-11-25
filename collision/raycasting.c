@@ -3,14 +3,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-/*
-    With this current set up for the raycast system, you can cast and interact
-    through walls. Also it doesn't always register because we aren't checking edges
-    or vertices of a mesh. These are things that are relatively simple to fix, but
-    I'm not gonna do it just yet because I want to acutally get started on other parts
-    of the game.
-*/
-
 bool CastRayLine(FPSPlayer* player, Vector3 camForward, Raycast* ray, ColBox* allLocalBoxes, enum Gamemode* mode, int associatedInteractableIndex)
 {
     Vector3 start = player->location;
