@@ -359,12 +359,15 @@ typedef struct ButtonMaster
     bool isUnderExamination;
     int* solvedOrder;
 
+    int* correctOrder;
+
     int solvedOrderIndex;
 
     enum ButtonTextureSizes* textureSizes;
 
     bool shouldReadTick;
     bool puzzleUnSolved;
+    bool shouldBlinkCursor;
 
     ErrorButtons* errorButtons;
 } ButtonMaster;

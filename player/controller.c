@@ -168,9 +168,8 @@ void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode)
             interactedItem->associatedPuzzle->player->playerHUD[3]->hidden = true;
             interactedItem->showsArrowKeyHint = false;
         }
+        interactedItem->associatedPuzzle->shouldBlinkCursor = true;
     }
-
-    
 }
 
 void CalculatePlayerVelocity(FPSPlayer* player, double deltaTime)

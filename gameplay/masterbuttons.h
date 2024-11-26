@@ -37,9 +37,9 @@ void PollPuzzles(ButtonMaster* puzzle, TickNode* tickNode);
 
 void BlinkCursor(ButtonMaster* puzzle, TickNode* tickNode);
 
-void PopulateErrorButtons(ButtonMaster* puzzle);
+void PopulateErrorButtons(ButtonMaster* puzzle, ErrorButtons** errorButtons);
 
-void RunThroughErrorButtons(ButtonMaster* puzzle, TickNode* tickNode);
+void RunThroughErrorButtons(ButtonMaster* puzzle, TickNode* tickNode, ErrorButtons* errorButtons);
 
 bool BlinkError(Button* button, TickNode* tickNode);
 

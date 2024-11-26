@@ -65,6 +65,7 @@ void DestructAllButtons(ButtonMaster* master)
 
 void DestructAllSolutionLocations(ButtonMaster* master)
 {
+    free(master->correctOrder);
     free(master->solutionLocations);
     master->solutionLocations = NULL;
 }
@@ -253,7 +254,6 @@ void CheckForSolution(Button* button, ButtonMaster* master, enum Gamemode* mode)
             {
                 numberOfSolved = 0;
                 numberOfSelected++;
-                master->childButtons[i][j].wasFlippedIncorrectly == true;
                 printf("this was NOT one of the buttons\n");
             }
         }
@@ -264,12 +264,11 @@ void CheckForSolution(Button* button, ButtonMaster* master, enum Gamemode* mode)
         int prevIndex = 0;
         for (int i = 0; i < master->numberOfSolutions; i++)
         {
-            printf("master solved order: %i, i: %i\n", master->solvedOrder[i], i);
             if (i - 1 < 0) continue;
-            if (master->solvedOrder[i] < master->solvedOrder[i - 1])
+            if (master->solvedOrder[i] != master->correctOrder[i])
             {
                 wasCorrectOrder = false;
-                break;
+                master->solutionButtons[i]->wasFlippedIncorrectly = true;
             }
         }
         if (wasCorrectOrder == true)
@@ -294,6 +293,7 @@ void CheckForSolution(Button* button, ButtonMaster* master, enum Gamemode* mode)
         if (numberOfSelected >= (master->columns * master->rows))
         {
             printf("You have selected all of the present buttons, try again\n");
+            ResetPuzzle(master, true);
         }
     }
     ResetTemporaryPuzzleInfo(master);
@@ -317,10 +317,13 @@ void ResetPuzzle(ButtonMaster* puzzle, bool resultOfFailure)
         //open gate
         //add item to empty array
         printf("about to populate buttons\n");
-        PopulateErrorButtons(puzzle);
+        ErrorButtons* errorButtons = NULL;
+        PopulateErrorButtons(puzzle, &errorButtons);
+        puzzle->errorButtons = errorButtons;
         puzzle->player->puzzleInputEnabled = false;
         puzzle->shouldReadTick = true;
         puzzle->puzzleUnSolved = true;
+        puzzle->shouldBlinkCursor = false;
         return;
     }
     for (int i = 0; i < puzzle->rows; i++)
@@ -341,6 +344,7 @@ void ResetPuzzle(ButtonMaster* puzzle, bool resultOfFailure)
             }
         }
     }
+
     
     if (puzzle->isUnderExamination == true)
     {
@@ -356,31 +360,25 @@ void ResetPuzzle(ButtonMaster* puzzle, bool resultOfFailure)
     puzzle->childButtons[puzzle->highlightStartLoc.x][puzzle->highlightStartLoc.y].highlighted = true;
 }
 
-void PopulateErrorButtons(ButtonMaster* puzzle)
+void PopulateErrorButtons(ButtonMaster* puzzle, ErrorButtons** errorButtons)
 {
+    
     for (int i = 0; i < puzzle->rows; i++)
     {
         for (int j = 0; j < puzzle->columns; j++)
         {
+            printf("i: %i, j: %i\n", i, j);
             if (puzzle->childButtons[i][j].wasFlippedIncorrectly == true)
             {
                 printf("button added to population\n");
-                ErrorButtons* newErrorButton = malloc(sizeof(ErrorButtons));
-                newErrorButton->button = &puzzle->childButtons[i][j];
-                newErrorButton->next = NULL;
-                if (puzzle->errorButtons == NULL)
-                {
-                    puzzle->errorButtons = newErrorButton;
-                }
-                else
-                {
-                    newErrorButton->next = puzzle->errorButtons;
-                    puzzle->errorButtons = newErrorButton;
-                    newErrorButton->next = NULL;
-                }
+                ErrorButtons* newNode = malloc(sizeof(ErrorButtons));
+                newNode->button = &puzzle->childButtons[i][j];
+                newNode->next = *errorButtons;
+                *errorButtons = newNode;
             }
         }
     }
+    
 }
 
 void PollPuzzles(ButtonMaster* puzzle, TickNode* tickNode)
@@ -389,11 +387,15 @@ void PollPuzzles(ButtonMaster* puzzle, TickNode* tickNode)
     if (puzzle->shouldReadTick == true)
     {
         //blink cursor here
-        BlinkCursor(puzzle, tickNode);
+        if (puzzle->shouldBlinkCursor == true)
+        {
+            BlinkCursor(puzzle, tickNode);
+        }
+        
         if (puzzle->puzzleUnSolved == true)
         {
             //blink here for errors
-            RunThroughErrorButtons(puzzle, tickNode);
+            RunThroughErrorButtons(puzzle, tickNode, puzzle->errorButtons);
         }
     }
 }
@@ -430,27 +432,40 @@ void BlinkCursor(ButtonMaster* puzzle, TickNode* tickNode)
     }
 }
 
-void RunThroughErrorButtons(ButtonMaster* puzzle, TickNode* tickNode)
+void RunThroughErrorButtons(ButtonMaster* puzzle, TickNode* tickNode, ErrorButtons* errorButtons)
 {
-    
-    ErrorButtons* buttonsToError = puzzle->errorButtons;
+    ErrorButtons* buttonsToError = errorButtons;
+    if (buttonsToError == NULL)
+    {
+        printf("error bruh is null\n");
+    }
     tickNode->frameCounter = tickNode->frameCounter + 1;
     bool wasFired = false;
+    
     while (buttonsToError != NULL)
     {
-        printf("running through buttons\n");
+        
         wasFired = BlinkError(buttonsToError->button, tickNode);
-        buttonsToError = puzzle->errorButtons->next;
+        buttonsToError = buttonsToError->next;
+        
     }
     if (wasFired == true)
     {
         tickNode->frameCounter = 0;
+        if (tickNode->a == true)
+        {
+            tickNode->a = false;
+        }
+        else
+        {
+            tickNode->a = true;
+        }
     }
     tickNode->iterations = tickNode->iterations + 1;
-    if (tickNode->iterations >= 4)
+    if (tickNode->iterations >= 2000)
     {
         puzzle->player->puzzleInputEnabled = true;
-        if (tickNode->iterations >= 20)
+        if (tickNode->iterations >= 4000)
         {
             //TODO: kill button error blinking
             puzzle->puzzleUnSolved = false;
@@ -463,7 +478,6 @@ void RunThroughErrorButtons(ButtonMaster* puzzle, TickNode* tickNode)
 
 bool BlinkError(Button* button, TickNode* tickNode)
 {
-    printf("blinking error\n");
     bool wasFired = false;
     if (tickNode->frameCounter >= (60/tickNode->frameSpeed))
     {

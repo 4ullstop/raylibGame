@@ -61,3 +61,11 @@ If your cursor gets stuck, meaning there is no where for it to exit one button a
 Quality of life features to be added or reworked:
     - Rework the button solution sizes (some of them are too similiar to others making it difficult to discerne which is which)
     - When the player inputs the wrong answer, show them why it was the wrong answer (flash the button that was input incorrectly rather than the whole puzzle)
+
+
+
+What do you want to do?:
+    - I want the buttons that have errors to flash so that players can know which buttons they input incorrectly
+
+What is the current issue?:
+    - The list isn't always being populated because the order in which the buttons are examined doesn't produce the outcome wanted 

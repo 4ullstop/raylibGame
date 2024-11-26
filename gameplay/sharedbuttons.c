@@ -265,6 +265,7 @@ void ConstructSinglePuzzle(int* lastPuzzleIndex, int columns, int rows, Vector3 
     puzzle->hasHighlightStartLoc = hasHighlightStartLoc;
     puzzle->shouldReadTick = false;
     puzzle->puzzleUnSolved = false;
+    puzzle->shouldBlinkCursor = true;
     puzzle->cursoredButton = NULL;
     puzzle->errorButtons = NULL;
     puzzle->associatedGameplayElements = malloc(sizeof(GameplayElements));
@@ -308,6 +309,7 @@ void AssignAllPuzzlesSolutionButtons(ButtonMaster** allPuzzles)
 
 void AssignSolutionButtonsToPuzzle(ButtonMaster* puzzle)
 {
+    puzzle->correctOrder = malloc(sizeof(int) * puzzle->numberOfSolutions);
     printf("num of solutions: %i\n", puzzle->numberOfSolutions);
     for (int i = 0; i < puzzle->numberOfSolutions; i++)
     {
@@ -315,9 +317,10 @@ void AssignSolutionButtonsToPuzzle(ButtonMaster* puzzle)
         puzzle->solutionButtons[i]->textureSizes = puzzle->textureSizes[i];
         puzzle->solutionButtons[i]->buttonSolutionIndex = i;
         printf("buttonSolutionIndex is: %i\n", puzzle->solutionButtons[i]->buttonSolutionIndex);
+        puzzle->correctOrder[i] = puzzle->textureSizes[i];
     }
-}
 
+}
 
 void AssignButtonSpecialTextureAndAction(Button* button, enum TextureCoordinateLocations textureLocations)
 {
