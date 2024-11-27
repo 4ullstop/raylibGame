@@ -105,6 +105,10 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
     {
         case ED_Up:
             if (currSelectedButton->nAbove->buttonState == EBS_off || currSelectedButton->nAbove->submitted == true) return;
+            if (currSelectedButton->isAboveEdge == true)
+            {
+                return;
+            }
             RemoveHighlight(currSelectedButton);
             currSelectedButton = currSelectedButton->nAbove;
             AddHighlight(currSelectedButton);
@@ -112,6 +116,10 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
             break;
         case ED_Down:
             if (currSelectedButton->nBelow->buttonState == EBS_off || currSelectedButton->nBelow->submitted == true) return;
+            if (currSelectedButton->isBelowEdge == true)
+            {
+                return;
+            }
             RemoveHighlight(currSelectedButton);
             currSelectedButton = currSelectedButton->nBelow;
             AddHighlight(currSelectedButton);
@@ -119,6 +127,10 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
             break;
         case ED_Left:
             if (currSelectedButton->nLeft->buttonState == EBS_off || currSelectedButton->nLeft->submitted == true) return;
+            if (currSelectedButton->isLeftEdge == true)
+            {
+                return;
+            }
             RemoveHighlight(currSelectedButton);
             currSelectedButton = currSelectedButton->nLeft;
             AddHighlight(currSelectedButton);
@@ -126,6 +138,10 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
             break;
         case ED_Right:
             if (currSelectedButton->nRight->buttonState == EBS_off || currSelectedButton->nRight->submitted == true) return;
+            if (currSelectedButton->isRightEdge == true)
+            {
+                return;
+            }
             RemoveHighlight(currSelectedButton);
             currSelectedButton = currSelectedButton->nRight;
             AddHighlight(currSelectedButton);
@@ -252,7 +268,7 @@ void CheckForSolution(Button* button, ButtonMaster* master, enum Gamemode* mode)
             }
             else if (master->childButtons[i][j].submitted == true && master->childButtons[i][j].solutionButton == false)
             {
-                numberOfSolved = 0;
+                //numberOfSolved = 0;
                 numberOfSelected++;
                 printf("this was NOT one of the buttons\n");
             }
@@ -276,6 +292,7 @@ void CheckForSolution(Button* button, ButtonMaster* master, enum Gamemode* mode)
             printf("congrats you solved the puzzle\n");
             *mode = EGM_Normal;
             master->OnPuzzleSolved(master);
+            master->shouldBlinkCursor = false;
             printf("puzzle solved end\n");
             free(master->solvedOrder);
             master->solvedOrder = NULL;
@@ -314,9 +331,6 @@ void ResetPuzzle(ButtonMaster* puzzle, bool resultOfFailure)
 {
     if (resultOfFailure == true)
     {
-        //open gate
-        //add item to empty array
-        printf("about to populate buttons\n");
         ErrorButtons* errorButtons = NULL;
         PopulateErrorButtons(puzzle, &errorButtons);
         puzzle->errorButtons = errorButtons;

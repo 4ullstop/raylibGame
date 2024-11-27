@@ -62,6 +62,8 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
     int left = i < 1 ? master->rows - 1 : i - 1;
     int right = i + 1 >= master->rows ? 0 : i + 1;
 
+    
+
     master->childButtons[i][j].nAbove = &master->childButtons[i][above];
     master->childButtons[i][j].nBelow = &master->childButtons[i][below];
     master->childButtons[i][j].nLeft = &master->childButtons[left][j];
@@ -105,9 +107,30 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
     master->childButtons[i][j].ButtonSelected = NULL;
     master->childButtons[i][j].submitted = false;
     master->childButtons[i][j].wasFlippedIncorrectly = false;
+    master->childButtons[i][j].isBelowEdge = false;
+    master->childButtons[i][j].isAboveEdge = false;
+    master->childButtons[i][j].isLeftEdge = false;
+    master->childButtons[i][j].isRightEdge = false;
     master->childButtons[i][j].id = rand();
     dynamicModels[*lastModelIndex] = master->childButtons[i][j].model;
     *lastModelIndex = *lastModelIndex + 1;
+
+    if (j < 1)
+    {
+        master->childButtons[i][j].isBelowEdge = true;
+    }
+    if (j + 1 >= master->columns)
+    {
+        master->childButtons[i][j].isAboveEdge = true;
+    }
+    if (i < 1)
+    {
+        master->childButtons[i][j].isLeftEdge = true;
+    }
+    if (i + 1 >= master->rows)
+    {
+        master->childButtons[i][j].isRightEdge = true;
+    }
     //highlighting our middle button
     printf("creating button model\n");
 

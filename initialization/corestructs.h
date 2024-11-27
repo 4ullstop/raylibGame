@@ -12,7 +12,7 @@
     The current size of this array is : 48
     The current size of AssociatedDoors in GameplayElements is: 48
 */
-#define NUMBER_OF_MODELS_A 54 //45
+#define NUMBER_OF_MODELS_A 55 //45
 #define NUMBER_OF_MODELS_B 1
 
 #define NUMBER_OF_TEXTURES_A 8 //this will always be one more than what is in the file
@@ -280,6 +280,12 @@ typedef struct Button
     struct Button* nAbove;
     struct Button* nBelow;
 
+    bool isAboveEdge;
+    bool isBelowEdge;
+    bool isLeftEdge;
+    bool isRightEdge;
+
+
     PuzzleTexture* buttonTextures;
     enum PuzzleType puzzleType;
     //to use a simulated ButtonMaster, use the neighbor buttons if needed
@@ -370,6 +376,8 @@ typedef struct ButtonMaster
     bool shouldBlinkCursor;
 
     ErrorButtons* errorButtons;
+
+
 } ButtonMaster;
 #endif
 
