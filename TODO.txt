@@ -66,3 +66,9 @@ Quality of life features to be added or reworked:
 - BIG TO SMALL
 
 Remake intro to moving around since the two actions are split in two different puzzles 
+Make it so you are taking the player's facing direction into affect when the player interacts
+Errors only flash after first time inputting incorrect solution 
+
+Intro to puzzles
+Intro to solution to puzzles
+Intro to cursor pushing
