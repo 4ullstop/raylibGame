@@ -372,3 +372,14 @@ Vector3 CollideWithWorld(CollisionPacket* colPacket, Vector3 pos, Vector3 vel, m
     colPacket->collisionRecursionDepth++;
     return CollideWithWorld(colPacket, newBasePoint, newVelocityVector, models, numberOfModels);
 }
+
+
+
+
+void PollDebugInputs(bool* hideHideableObjects)
+{
+    if (IsKeyPressed(KEY_H))
+    {
+        *hideHideableObjects = !*hideHideableObjects;
+    }
+}

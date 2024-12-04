@@ -45,8 +45,11 @@ GameplayElements gameplayElements = {0};
 
 TickNode interactedItemTickNode = {0};
 
+bool hideObjects;
+
 int main(int argc, char* argv[])
 {
+    hideObjects = false;
     printf("%i\n", argc);
     if (argc > 1) gametype = EGT_B;
     printf("Initializing window and player camera...\n");
@@ -241,7 +244,7 @@ void CallAllPolls(float dTime, modelInfo** models, QueryBox** areaBoxes, Interac
     if (gamemode == EGM_Normal)
     {
         PollPlayer(dTime, &pcam, &player, &colPacket, models, numberOfModels);
-        PollPlayerSecondary(&player, &ray, areaBoxes, &gamemode, interactedItem, numOfAreaQueryBoxes);
+        PollPlayerSecondary(&player, &ray, areaBoxes, &gamemode, interactedItem, numOfAreaQueryBoxes, &hideObjects);
         PollOverlaps(overlapBoxes, &player);
     }
     else if (gamemode == EGM_Puzzle)
@@ -273,15 +276,20 @@ void Draw(modelInfo** models, Raycast* ray, QueryBox** queryBoxes, UIElements** 
         //draw here
         DrawAllModels(models, numberOfModels);
         
-        for (int i = 0; i < numberOfQueryBoxes; i++)
+        if (hideObjects == false)
         {
-            DrawCubeWires(queryBoxes[i]->location, queryBoxes[i]->width, queryBoxes[i]->height, queryBoxes[i]->length, BLUE);
-            
-            for (int j = 0, n = queryBoxes[i]->numberOfInteractables; j < n; j++)
+            for (int i = 0; i < numberOfQueryBoxes; i++)
             {
-                DrawCubeWires(queryBoxes[i]->associatedInteractables[j]->Location, queryBoxes[i]->associatedInteractables[j]->width, queryBoxes[i]->associatedInteractables[j]->height, queryBoxes[i]->associatedInteractables[j]->length, RED);
+                DrawCubeWires(queryBoxes[i]->location, queryBoxes[i]->width, queryBoxes[i]->height, queryBoxes[i]->length, BLUE);
+                
+                for (int j = 0, n = queryBoxes[i]->numberOfInteractables; j < n; j++)
+                {
+                    DrawCubeWires(queryBoxes[i]->associatedInteractables[j]->Location, queryBoxes[i]->associatedInteractables[j]->width, queryBoxes[i]->associatedInteractables[j]->height, queryBoxes[i]->associatedInteractables[j]->length, RED);
+                }
             }
         }
+
+        
         
         
         Drawline* line = ray->linesToDraw;

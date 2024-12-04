@@ -193,6 +193,7 @@ void AddHighlight(Button* button)
 
 void RotateButtonMaster(ButtonMaster* master, float angle, Vector3 axis)
 {
+    angle = angle * DEG2RAD;
     int centerR = floor((float)master->rows / 2.0);
     int centerC = floor((float)master->columns / 2.0);
     for (int i = 0; i < master->rows; i++)
