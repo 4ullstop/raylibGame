@@ -150,7 +150,7 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
         case ED_Enter:
             ChangeSelection(currSelectedButton);
             CheckForSolution(currSelectedButton, master, mode);
-            currSelectedButton = PushCursor(currSelectedButton);
+            currSelectedButton = PushCursor(currSelectedButton, master);
             master->cursoredButton = currSelectedButton;
             break;
         case ED_Reset:
@@ -163,7 +163,7 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
     }
 }
 
-Button* PushCursor(Button* button)
+Button* PushCursor(Button* button, ButtonMaster* master)
 {
     int circledButtonNum = 8;
     Button* buttons[] = {
@@ -197,6 +197,7 @@ Button* PushCursor(Button* button)
     {
         //nothing was found reset the puzzle
         printf("nothing was found, should reset puzzle\n");
+        ResetPuzzle(master, false);
         return NULL;
     }
 }
@@ -329,6 +330,7 @@ void ResetTemporaryPuzzleInfo(ButtonMaster* puzzle)
 
 void ResetPuzzle(ButtonMaster* puzzle, bool resultOfFailure)
 {
+    puzzle->shouldBlinkCursor = false;
     if (resultOfFailure == true)
     {
         ErrorButtons* errorButtons = NULL;
@@ -337,7 +339,6 @@ void ResetPuzzle(ButtonMaster* puzzle, bool resultOfFailure)
         puzzle->player->puzzleInputEnabled = false;
         puzzle->shouldReadTick = true;
         puzzle->puzzleUnSolved = true;
-        puzzle->shouldBlinkCursor = false;
         return;
     }
     for (int i = 0; i < puzzle->rows; i++)

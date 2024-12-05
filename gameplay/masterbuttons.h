@@ -31,7 +31,7 @@ void RotateButtonMaster(ButtonMaster* master, float angle, Vector3 axis);
 
 void ResetPuzzle(ButtonMaster* puzzle, bool resultOfFailure);
 
-Button* PushCursor(Button* button);
+Button* PushCursor(Button* button, ButtonMaster* master);
 
 void PollPuzzles(ButtonMaster* puzzle, TickNode* tickNode);
 
