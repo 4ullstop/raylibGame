@@ -196,13 +196,13 @@ int main(int argc, char* argv[])
         {
             CallAllPolls(deltaTime, modelsA, areaQueryBoxesA, &interactedItem, allBoxesA, numOfModels, numOfQueryBoxes);
             PollAllGameplayElements(allDoorsA, deltaTime, numOfDoors);
-            Draw(modelsA, &ray, areaQueryBoxesA, ui, allBoxesA, numOfModels, numOfQueryBoxes, numOfInteractables);
+            Draw(modelsA, &ray, areaQueryBoxesA, ui, allBoxesA, numOfModels, numOfQueryBoxes, numOfInteractables, allPuzzlesA);
         }
         else
         {
             CallAllPolls(deltaTime, modelsB, areaQueryBoxesB, &interactedItem, allBoxesB, numOfModels, numOfQueryBoxes);
             PollAllGameplayElements(allDoorsB, deltaTime, numOfDoors);
-            Draw(modelsB, &ray, areaQueryBoxesB, ui, allBoxesB, numOfModels, numOfQueryBoxes, numOfInteractables);
+            Draw(modelsB, &ray, areaQueryBoxesB, ui, allBoxesB, numOfModels, numOfQueryBoxes, numOfInteractables, allPuzzlesB);
         }
     }
     /*
@@ -244,12 +244,12 @@ void CallAllPolls(float dTime, modelInfo** models, QueryBox** areaBoxes, Interac
     if (gamemode == EGM_Normal)
     {
         PollPlayer(dTime, &pcam, &player, &colPacket, models, numberOfModels);
-        PollPlayerSecondary(&player, &ray, areaBoxes, &gamemode, interactedItem, numOfAreaQueryBoxes, &hideObjects);
+        PollPlayerSecondary(&player, &ray, areaBoxes, &gamemode, interactedItem, numOfAreaQueryBoxes, &hideObjects, dTime);
         PollOverlaps(overlapBoxes, &player);
     }
     else if (gamemode == EGM_Puzzle)
     {
-        PollPlayerPuzzle(interactedItem, &gamemode);
+        PollPlayerPuzzle(&player, dTime, interactedItem, &gamemode);
     }
     else if (gamemode == EGM_Inactive)
     {
@@ -265,7 +265,7 @@ void CallAllPolls(float dTime, modelInfo** models, QueryBox** areaBoxes, Interac
     
 }
 
-void Draw(modelInfo** models, Raycast* ray, QueryBox** queryBoxes, UIElements** ui, OverlapBox** overlapQueryList, int numberOfModels, int numberOfQueryBoxes, int numberOfInteractables)
+void Draw(modelInfo** models, Raycast* ray, QueryBox** queryBoxes, UIElements** ui, OverlapBox** overlapQueryList, int numberOfModels, int numberOfQueryBoxes, int numberOfInteractables, ButtonMaster** allPuzzles)
 {   
     BeginDrawing();
 
@@ -289,8 +289,14 @@ void Draw(modelInfo** models, Raycast* ray, QueryBox** queryBoxes, UIElements** 
             }
         }
 
-        
-        
+        //DEBUG
+        // for (int i = 0; i < NUMBER_OF_PUZZLES_A; i++)
+        // {
+        //     //printf("PuzzleNormal: %f, %f, %f\n", allPuzzles[i]->puzzleNormalDirection.x, allPuzzles[i]->puzzleNormalDirection.y, allPuzzles[i]->puzzleNormalDirection.z);
+        //     Vector3 end = Vector3Add(Vector3Scale(allPuzzles[i]->puzzleNormalDirection, 10.f), allPuzzles[i]->location);
+        //     DrawLine3D(Vector3Add(allPuzzles[i]->puzzleNormalDirection, allPuzzles[i]->location), end, RED);
+        //     DrawSphere(Vector3Add(allPuzzles[i]->puzzleNormalDirection, allPuzzles[i]->location), 0.1f, BLUE);
+        // }
         
         Drawline* line = ray->linesToDraw;
 

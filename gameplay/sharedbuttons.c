@@ -90,6 +90,7 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
     //initializng the associated models for the mechanic
     master->childButtons[i][j].model = malloc(sizeof(modelInfo));
     master->childButtons[i][j].model->collisionDisabled = true;
+    master->childButtons[i][j].model->modelVisible = true;
     master->childButtons[i][j].isBeingAssessed = false;
     master->childButtons[i][j].buttonTextures = buttonTextures;
     master->childButtons[i][j].puzzleType = EPT_Free;
@@ -292,6 +293,7 @@ void ConstructSinglePuzzle(int* lastPuzzleIndex, int columns, int rows, Vector3 
     puzzle->shouldBlinkCursor = true;
     puzzle->cursoredButton = NULL;
     puzzle->errorButtons = NULL;
+    puzzle->puzzleNormalDirection = (Vector3){0};
     puzzle->associatedGameplayElements = malloc(sizeof(GameplayElements));
     if (hasGameplayElements == true)
     {
@@ -413,5 +415,37 @@ void DetermineStartVal(int* min, enum PuzzleOnOffDirection direction)
         default:
             printf("ERROR, DEFAULT RUN IN DETERMINING TEXTURE\n");
         }
+}
+
+void AssignAllPuzzlesNormals(ButtonMaster** allPuzzles, int numOfPuzzles)
+{
+    for (int i = 0; i < numOfPuzzles; i++)
+    {
+        allPuzzles[i]->puzzleNormalDirection = CalculatePuzzleNormal(allPuzzles[i]);
+        printf("PuzzleNormal: %f, %f, %f\n", allPuzzles[i]->puzzleNormalDirection.x, allPuzzles[i]->puzzleNormalDirection.y, allPuzzles[i]->puzzleNormalDirection.z);
+        printf("\n");
+    }
+}
+
+Vector3 CalculatePuzzleNormal(ButtonMaster* puzzle)
+{
+    int centerR = floor((float)puzzle->rows / 2.0);
+    int centerC = floor((float)puzzle->columns / 2.0);
+    Vector3 v1, v2, v3;
+    GetVertsForNonIndexedMesh(puzzle->childButtons[centerR][centerC].model->model.meshes[0].vertices, 210, &v1, &v2, &v3);
+
+    
+
+    
+
+
+    Vector3 normal = Vector3CrossProduct(Vector3Subtract(v2, v1), Vector3Subtract(v3, v1));
+    
+
+    normal = Vector3Transform(normal, puzzle->childButtons[centerR][centerC].model->model.transform);
+    normal = Vector3Normalize(normal);
+    normal = Vector3Scale(normal, -1.0f);
+    //normal = Vector3Add(puzzle->location, normal);
+    return normal;
 }
 

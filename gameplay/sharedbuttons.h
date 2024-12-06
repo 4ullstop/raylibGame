@@ -29,7 +29,9 @@ void SwitchTextureOnPuzzleState(ButtonMaster* puzzle, Button* button, bool isHig
 
 void PowerOnPuzzle(ButtonMaster* puzzle);
 
+void AssignAllPuzzlesNormals(ButtonMaster** allPuzzles, int numOfPuzzles);
 
+Vector3 CalculatePuzzleNormal(ButtonMaster* puzzle);
 
 void AssignButtonSpecialTextureAndAction(Button* button, enum TextureCoordinateLocations textureLocations);
 

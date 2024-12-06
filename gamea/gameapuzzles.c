@@ -155,13 +155,16 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
         CreateAllButtons(gameAPuzzles[i], dynamicModels, lastModelIndex, allTextures);
     }
 
+    
+
     RotateButtonMaster(gameAPuzzles[0], 180.f, (Vector3){0.0f, 1.0f, 0.0f});
-    RotateButtonMaster(gameAPuzzles[1], 80.0f, (Vector3){0.0f, 1.0f, 0.0f});
-    RotateButtonMaster(gameAPuzzles[2], 80.0f, (Vector3){0.0f, 1.0f, 0.0f});
+    RotateButtonMaster(gameAPuzzles[1], -90.0f, (Vector3){0.0f, 1.0f, 0.0f});
+    RotateButtonMaster(gameAPuzzles[2], -90.0f, (Vector3){0.0f, 1.0f, 0.0f});
     RotateButtonMaster(gameAPuzzles[4], 180.0f, (Vector3){0.0f, 1.0f, 0.0f});
     RotateButtonMaster(gameAPuzzles[6], 90.f, (Vector3){0.0f, 1.0f, 0.0f});
-    RotateButtonMaster(gameAPuzzles[9], 180.f, (Vector3){0.0f, 1.0f, 0.0f});
+    RotateButtonMaster(gameAPuzzles[9], 45.f, (Vector3){0.0f, 1.0f, 0.0f});
 
+    AssignAllPuzzlesNormals(gameAPuzzles, NUMBER_OF_PUZZLES_A);
     /*
         After the initialziation of our buttons, we want to perscribe special textures to them if they so require
     */
@@ -221,6 +224,7 @@ void AssignSpecialTexturesGameA(ButtonMaster** allPuzzles, Texture2D** allTextur
     AssignSolutionsTextures(allPuzzles[5]);
     AssignSolutionsTextures(allPuzzles[6]);
     AssignSolutionsTextures(allPuzzles[7]);
+    AssignSolutionsTextures(allPuzzles[8]);
     AssignSolutionsTextures(allPuzzles[9]);
 }
 

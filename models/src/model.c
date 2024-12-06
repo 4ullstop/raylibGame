@@ -23,6 +23,7 @@ void DrawAllModels(modelInfo** models, int numOfModels)
 {
     for (int i = 0; i < numOfModels; i++)
     {
+        if (models[i]->modelVisible == false) continue;
         DrawModel(models[i]->model, models[i]->modelLocation, 1.0f, WHITE);
     }
 }

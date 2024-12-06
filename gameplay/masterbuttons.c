@@ -20,7 +20,6 @@ void DestructAllPuzzles(ButtonMaster** allPuzzles, int numberOfPuzzles)
 {
     for (int i = 0; i < numberOfPuzzles; i++)
     {
-        
         DestructAllButtons(allPuzzles[i]);
         if (allPuzzles[i]->associatedGameplayElements != NULL)
         {
@@ -32,7 +31,6 @@ void DestructAllPuzzles(ButtonMaster** allPuzzles, int numberOfPuzzles)
         printf("solution locations destroyed\n");
         free(allPuzzles[i]);
         allPuzzles[i] = NULL;
-        
     }
     printf("puzzles freed\n");
 }
@@ -154,7 +152,6 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
             master->cursoredButton = currSelectedButton;
             break;
         case ED_Reset:
-            //do reset thingys
             ResetPuzzle(master, false);
             break;
         default:
@@ -269,7 +266,6 @@ void CheckForSolution(Button* button, ButtonMaster* master, enum Gamemode* mode)
             }
             else if (master->childButtons[i][j].submitted == true && master->childButtons[i][j].solutionButton == false)
             {
-                //numberOfSolved = 0;
                 numberOfSelected++;
                 printf("this was NOT one of the buttons\n");
             }
@@ -482,7 +478,6 @@ void RunThroughErrorButtons(ButtonMaster* puzzle, TickNode* tickNode, ErrorButto
         puzzle->player->puzzleInputEnabled = true;
         if (tickNode->iterations >= 4000)
         {
-            //TODO: kill button error blinking
             puzzle->puzzleUnSolved = false;
             DepopulateErrorButtons(puzzle->errorButtons);
             ResetPuzzle(puzzle, false);

@@ -128,7 +128,7 @@ typedef struct PlayerCam3D
 
 #ifndef PLAYER_STRUCT
 #define PLAYER_STRUCT
-typedef struct 
+typedef struct FPSPlayer
 {
     Vector3 location;
     Vector3 forwardVector;
@@ -157,6 +157,12 @@ typedef struct
     bool showPlayerLocation;
 
     bool puzzleInputEnabled;
+
+    Vector3 a;
+    Vector3 b;
+
+    bool shouldTickPlayer;
+
 } FPSPlayer;
 #endif
 
@@ -173,6 +179,8 @@ typedef struct modelInfo
 
     //always set this on creation otherwise you could get a value greater than 0 which would mean true which could cause unwanted behavior
     bool collisionDisabled;
+
+    bool modelVisible;
     
 } modelInfo;
 #endif
@@ -377,6 +385,7 @@ typedef struct ButtonMaster
 
     ErrorButtons* errorButtons;
 
+    Vector3 puzzleNormalDirection;
 
 } ButtonMaster;
 #endif

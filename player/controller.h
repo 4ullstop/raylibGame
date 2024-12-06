@@ -36,3 +36,5 @@ void PollPlayerSecondaryInputs(FPSPlayer* player, Raycast* interactRay, QueryBox
 void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode);
 
 void PollDebugInputs(bool* hideHideableObjects);
+
+void LerpPlayer(FPSPlayer* player, ButtonMaster* puzzle);

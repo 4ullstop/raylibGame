@@ -14,6 +14,7 @@ void PlayerSetup(FPSPlayer* player, PlayerCam* cam, UIElements** hud, enum Gamem
     player->gamemode = mode;
     player->showPlayerLocation = true;
     player->puzzleInputEnabled = true;
+    player->shouldTickPlayer = false;
 }
 
 void PollPlayer(float deltaTime, PlayerCam* pcam, FPSPlayer* player, CollisionPacket* colPacket, modelInfo** models, int numOfModels)
@@ -23,13 +24,14 @@ void PollPlayer(float deltaTime, PlayerCam* pcam, FPSPlayer* player, CollisionPa
 
     
     //printf("%f, %f, %f\n", pcam->position.x, pcam->position.y, pcam->position.z);
-    
 }
 
-void PollPlayerSecondary(FPSPlayer* player, Raycast* interactRay, QueryBox** areaBoxes, enum Gamemode* mode, Interactable* interactedItem, int numOfAreaQueryBoxes, bool* hideHideableObjects)
+void PollPlayerSecondary(FPSPlayer* player, Raycast* interactRay, QueryBox** areaBoxes, enum Gamemode* mode, Interactable* interactedItem, int numOfAreaQueryBoxes, bool* hideHideableObjects, float deltaTime)
 {
     PollPlayerSecondaryInputs(player, interactRay, areaBoxes, mode, interactedItem, numOfAreaQueryBoxes);
     PollDebugInputs(hideHideableObjects);
+
+    
 }
 
 void DrawPlayerCollisionCapsule(Vector3 location)
@@ -37,12 +39,35 @@ void DrawPlayerCollisionCapsule(Vector3 location)
     DrawCapsuleWires((Vector3){location.x, location.y + 1.0f, location.z}, (Vector3){location.x, location.y - 1.0f, location.z}, 1.0f, 8, 8, VIOLET);
 }
 
-void PollPlayerPuzzle(Interactable* interactedItem, enum Gamemode* mode)
+void PollPlayerPuzzle(FPSPlayer* player, float deltaTime, Interactable* interactedItem, enum Gamemode* mode)
 {
     PollPlayerPuzzleInputs(interactedItem, mode);
+
+    if (player->shouldTickPlayer == true)
+    {
+        printf("ticking player\n");
+        LerpPlayerToLoc(player, deltaTime);
+    }
 }
 
 void PollPlayerOverlaps(OverlapBox** queryList, FPSPlayer* player)
 {
     PollOverlaps(queryList, player);
+}
+
+void LerpPlayerToLoc(FPSPlayer* player, float deltaTime)
+{
+    
+    if (Vector3Distance(player->location, player->b) > 0.01f)
+    {
+        Vector3 direction = Vector3Normalize(Vector3Subtract(player->a, player->location));
+        player->location = Vector3Add(player->location, Vector3Scale(direction, 0.03f * deltaTime));
+        player->attachedCam->position = player->location;
+    }
+    else
+    {
+        player->location = player->b;
+        player->attachedCam->position = player->location;
+        player->shouldTickPlayer = false;
+    }
 }

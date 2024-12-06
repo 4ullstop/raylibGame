@@ -45,6 +45,8 @@ Make it more obvious when you complete a puzzle/enter into a puzzle
 The Cursor is beginning to become a little hard to discerne from the rest of the puzzle might want to end up changing the color of it
 
 
+At some point, you need to start using Freedom units
+
 printf("The address of x is: %p\n", (void *)ptr);
 
 Create ordered solutions
@@ -61,7 +63,10 @@ If your cursor gets stuck, meaning there is no where for it to exit one button a
 Quality of life features to be added or reworked:
     - Rework the button solution sizes (some of them are too similiar to others making it difficult to discerne which is which)
 
-
+Add player lerping to puzzle 
+    - Should be a set distance away from the puzzle
+    - Should only happen if the player is a certain distance away from the puzzle
+    - The camera must also face the puzzle which means you'll need to get a normal for the direction of the puzzle
 
 - BIG TO SMALL
 

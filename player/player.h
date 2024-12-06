@@ -11,8 +11,10 @@ void DrawPlayerCollisionCapsule(Vector3 location);
 
 void PlayerSetup(FPSPlayer* player, PlayerCam* cam, UIElements** hud, enum Gamemode* mode);
 
-void PollPlayerSecondary(FPSPlayer* player, Raycast* interactRay, QueryBox** areaBoxes, enum Gamemode* mode, Interactable* interactedItem, int numOfAreaQueryBoxes, bool* hideHideableObjects);
+void PollPlayerSecondary(FPSPlayer* player, Raycast* interactRay, QueryBox** areaBoxes, enum Gamemode* mode, Interactable* interactedItem, int numOfAreaQueryBoxes, bool* hideHideableObjects, float deltaTime);
 
-void PollPlayerPuzzle(Interactable* interactedItem, enum Gamemode* mode);
+void PollPlayerPuzzle(FPSPlayer* player, float deltaTime, Interactable* interactedItem, enum Gamemode* mode);
 
 void PollPlayerOverlaps(OverlapBox** queryList, FPSPlayer* player);
+
+void LerpPlayerToLoc(FPSPlayer* player, float deltaTime);
