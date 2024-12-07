@@ -161,6 +161,11 @@ typedef struct FPSPlayer
     Vector3 a;
     Vector3 b;
 
+    float a2;
+    float b2;
+
+    Vector3 normalStart;
+    
     bool shouldTickPlayer;
 
 } FPSPlayer;

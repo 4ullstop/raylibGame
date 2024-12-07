@@ -1,6 +1,7 @@
 #include "externmath.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <math.h>
 
 /*
     I'm using the same algorithm of checking lines and triangles as I did with 
@@ -128,4 +129,18 @@ bool IsPointInDistanceTo(Vector3 pointA, Vector3 pointB, float distanceToObject)
 {
     float length = Vector3Distance(pointA, pointB);
     return length <= distanceToObject;
+}
+
+float ComputeAngleBetweenVectors(Vector3 v1, Vector3 v2)
+{
+    float dot = Vector3DotProduct(v1, v2);
+    float v1Len = Vector3Length(v1);
+    float v2Len = Vector3Length(v2);
+
+    float mult = v1Len * v2Len;
+    float divisor = dot / mult;
+
+    return (acos(divisor) * RAD2DEG);
+    
+    
 }

@@ -29,9 +29,7 @@ void PollPlayer(float deltaTime, PlayerCam* pcam, FPSPlayer* player, CollisionPa
 void PollPlayerSecondary(FPSPlayer* player, Raycast* interactRay, QueryBox** areaBoxes, enum Gamemode* mode, Interactable* interactedItem, int numOfAreaQueryBoxes, bool* hideHideableObjects, float deltaTime)
 {
     PollPlayerSecondaryInputs(player, interactRay, areaBoxes, mode, interactedItem, numOfAreaQueryBoxes);
-    PollDebugInputs(hideHideableObjects);
-
-    
+    PollDebugInputs(hideHideableObjects);    
 }
 
 void DrawPlayerCollisionCapsule(Vector3 location)
@@ -45,7 +43,6 @@ void PollPlayerPuzzle(FPSPlayer* player, float deltaTime, Interactable* interact
 
     if (player->shouldTickPlayer == true)
     {
-        printf("ticking player\n");
         LerpPlayerToLoc(player, deltaTime);
     }
 }
@@ -57,17 +54,68 @@ void PollPlayerOverlaps(OverlapBox** queryList, FPSPlayer* player)
 
 void LerpPlayerToLoc(FPSPlayer* player, float deltaTime)
 {
-    
+    bool turnedHead = TurnPlayerHead(player, deltaTime); 
+    bool movedEntirely = false;
     if (Vector3Distance(player->location, player->b) > 0.01f)
     {
-        Vector3 direction = Vector3Normalize(Vector3Subtract(player->a, player->location));
-        player->location = Vector3Add(player->location, Vector3Scale(direction, 0.03f * deltaTime));
+        Vector3 direction = Vector3Normalize(Vector3Subtract(player->b, player->location));
+        direction  = (Vector3){direction.x, 0.0f, direction.z};
+	
+	player->location = Vector3Add(player->location, Vector3Scale(direction, 1.0f * deltaTime));
+
+	Vector3 offset = Vector3Subtract(player->attachedCam->target, player->attachedCam->position);
         player->attachedCam->position = player->location;
+	player->attachedCam->target = Vector3Add(player->attachedCam->position, offset);
     }
     else
     {
         player->location = player->b;
         player->attachedCam->position = player->location;
-        player->shouldTickPlayer = false;
+	movedEntirely = true;
     }
+
+    if (turnedHead == true && movedEntirely == true)
+    {
+	player->shouldTickPlayer = false;
+    }
+    
+}
+
+bool TurnPlayerHead(FPSPlayer* player, float deltaTime)	
+{
+    float subtractor = player->a2 > 0 ? 2.0f : -2.0f;
+    subtractor *= deltaTime; 
+    //continue to rotate the head until the angle is between 0 and 1
+    //Whatever the current angle is +- the subtractor
+    //But how do we get the current angle?
+    
+
+    Vector3 camForward = GetCameraForwardVector(player->attachedCam);
+    float dot = Vector3DotProduct(player->normalStart, camForward);
+
+    float v1Len = Vector3Length(player->normalStart);
+    float v2Len = Vector3Length(camForward);
+    
+    float product = v1Len * v2Len;
+
+    
+    
+    dot = trunc(dot);
+    printf("dot is: %f\n", dot);
+    printf("product is: %f\n", product);
+    if (dot == product)
+    {
+	return true;
+    }
+    Vector3 up = GetCameraUpVector(player->attachedCam);
+    Vector3 targetPosition = Vector3Subtract(player->attachedCam->target, player->attachedCam->position);
+
+    float targetLength = Vector3Length(player->attachedCam->target);
+    
+    targetPosition = Vector3RotateByAxisAngle(targetPosition, up, subtractor);
+    targetPosition = Vector3Scale(Vector3Normalize(targetPosition), targetLength);
+    
+    player->attachedCam->target = Vector3Add(player->attachedCam->position, targetPosition);
+    return false;
+
 }

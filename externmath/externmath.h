@@ -13,3 +13,4 @@ Vector3 RotateAroundPoint(Vector3 point, Vector3 origin, float angle, Vector3 ax
 
 bool IsPointInDistanceTo(Vector3 pointA, Vector3 pointB, float distanceToObject);
 
+float ComputeAngleBetweenVectors(Vector3 v1, Vector3 v2);

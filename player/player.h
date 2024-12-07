@@ -18,3 +18,6 @@ void PollPlayerPuzzle(FPSPlayer* player, float deltaTime, Interactable* interact
 void PollPlayerOverlaps(OverlapBox** queryList, FPSPlayer* player);
 
 void LerpPlayerToLoc(FPSPlayer* player, float deltaTime);
+
+bool TurnPlayerHead(FPSPlayer* player, float deltaTime);
+

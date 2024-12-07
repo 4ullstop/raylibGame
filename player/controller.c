@@ -132,10 +132,24 @@ void LerpPlayer(FPSPlayer* player, ButtonMaster* puzzle)
         //from puzzle location, in the normal direction, a certain distance out
         //set values in the player
         //Vector3Add(allPuzzles[i]->puzzleNormalDirection, allPuzzles[i]->location)
+	
         player->a = player->location;
         Vector3 normalStart = Vector3Add(puzzle->puzzleNormalDirection, puzzle->location);
-        Vector3 normalEnd = Vector3Add(puzzle->location, Vector3Scale(puzzle->puzzleNormalDirection, 1.0f));
+        Vector3 normalEnd = Vector3Add(puzzle->location, Vector3Scale(puzzle->puzzleNormalDirection, 3.0f));
         player->b = normalEnd;
+
+	/*
+	  the function is
+	  cos = u dot v / len(u) * len(v)
+        */
+	float angle = ComputeAngleBetweenVectors(player->attachedCam->target, normalStart) - 100.0f;
+	player->b2 = 0.0f;
+	player->a2 = angle;
+	player->normalStart = normalStart;
+
+	
+	printf("angle between the vectors is: %f\n", angle);
+       
         player->shouldTickPlayer = true;
         printf("player should start ticking\n");
         
@@ -208,7 +222,6 @@ void CalculatePlayerVelocity(FPSPlayer* player, double deltaTime)
     player->lastPos = player->location;
     
 }
-
 void DetectPlayerLookInput(PlayerCam* pcam)
 {
     Vector2 mouseDelta = GetMouseDelta();
