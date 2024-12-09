@@ -2,6 +2,7 @@
 #include "C:\raylib\raylib\src\raylib.h"
 #include "../externmath/externmath.h"
 #include "interactionbox.h"
+#include "externcollision.h"
 #endif 
 
 void ConstructOverlapBoxes(OverlapBox** allBoxes);

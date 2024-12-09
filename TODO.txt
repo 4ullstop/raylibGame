@@ -54,7 +54,7 @@ Create ordered solutions
 
 
 
-Create error (input wrong answer)
+
 
 Kind of horrifically, things are not checked very well which leads to crashing when you are creating puzzles, this is probably a thing that should be fixed\
 
@@ -63,10 +63,7 @@ If your cursor gets stuck, meaning there is no where for it to exit one button a
 Quality of life features to be added or reworked:
     - Rework the button solution sizes (some of them are too similiar to others making it difficult to discerne which is which)
 
-Add player lerping to puzzle 
-    - Should be a set distance away from the puzzle
-    - Should only happen if the player is a certain distance away from the puzzle
-    - The camera must also face the puzzle which means you'll need to get a normal for the direction of the puzzle
+
 
 - BIG TO SMALL
 
@@ -79,3 +76,12 @@ Intro to solution to puzzles
 Intro to cursor pushing
 
 
+START ON GAME B
+
+I hate myself for not getting any work done these past few days you need to start locking in
+ - That's okay because today will be a productive day
+
+Game B stuff to do:
+ - Models like walls and floors
+ - A test puzzle
+ - Think about the design of game b

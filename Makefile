@@ -30,7 +30,9 @@ SRC = main.c \
 	  gameplay\puzzles\togglepuzzle.c \
 	  models\src\textures.c \
 	  gamea\gameatextures.c \
-	  models\src\buttonatlas.c
+	  models\src\buttonatlas.c \
+	  gamea\gameaqueryboxes.c \
+	  gameb\gamebqueryboxes.c
 OBJ = intermediate\main.o \
       intermediate\window.o \
       intermediate\camera.o \
@@ -62,7 +64,9 @@ OBJ = intermediate\main.o \
 	  intermediate\togglepuzzle.o \
 	  intermediate\texture.o \
 	  intermediate\gameatextures.o \
-	  intermediate\buttonatlas.o
+	  intermediate\buttonatlas.o \
+	  intermediate\gameaqueryboxes.o \
+	  intermediate\gamebqueryboxes.o
 !IFNDEF OUTPUT
 OUTPUT = test.exe
 !ENDIF
@@ -178,9 +182,17 @@ intermediate\gameatextures.o: gamea\gameatextures.c intermediate
 intermediate\buttonatlas.o: models\src\buttonatlas.c intermediate
 	$(CC) $(CFLAGS) -c models\src\buttonatlas.c -o intermediate\buttonatlas.o $(INCLUDE)
 
+intermediate\gameaqueryboxes.o: gamea\gameaqueryboxes.c intermediate
+	$(CC) $(CFLAGS) -c gamea\gameaqueryboxes.c -o intermediate\gameaqueryboxes.o $(INCLUDE)
+
+intermediate\gamebqueryboxes.o: gameb\gamebqueryboxes.c intermediate
+	$(CC) $(CFLAGS) -c gameb\gamebqueryboxes.c -o intermediate\gamebqueryboxes.o $(INCLUDE)
+
 # Clean rule to delete
 clean:
 	del /q intermediate\*.o 
 	del /q $(OUTPUT)
 
 
+run: $(OUTPUT)
+	$(OUTPUT) $(ARGS)

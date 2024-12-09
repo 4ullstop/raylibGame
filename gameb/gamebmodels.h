@@ -4,4 +4,4 @@
 #include "../initialization/corestructs.h"
 #endif
 
-void CreateModelsForGameB(modelInfo** models, int* lastModelIndex);
+void CreateModelsForGameB(modelInfo** models, int* lastModelIndex, Texture2D** allTextures);

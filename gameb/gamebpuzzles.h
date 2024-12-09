@@ -6,4 +6,8 @@
 #include "../gameplay/sharedbuttons.h"
 #endif
 
-void ConstructGameBPuzzles(ButtonMaster** gameBPuzzles, Texture2D** allTextures, modelInfo** dynamicModels, int* lastModelIndex);
+void ConstructGameBPuzzles(ButtonMaster** gameBPuzzles, Texture2D** allTextures, modelInfo** dynamicModels, int* lastModelIndex, FPSPlayer* player, GameplayElements* gameplayElements);
+
+void Puzzle_01(ButtonMaster* puzzle);
+
+void AssignSpecialTexturesGameB(ButtonMaster** allPuzzles, Texture2D** allTextures);

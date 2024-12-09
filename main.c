@@ -54,7 +54,10 @@ int main(int argc, char* argv[])
     if (argc > 1) gametype = EGT_B;
     printf("Initializing window and player camera...\n");
     CreateWindow(800, 450);
-    
+
+    printf("\n");
+    printf("num of argc: %i\n", argc);
+    printf("\n");
     interactedItemTickNode.a = false;
     interactedItemTickNode.frameCounter = 0;
     interactedItemTickNode.frameSpeed = 0.1f;
@@ -146,14 +149,14 @@ int main(int argc, char* argv[])
     int numOfQueryBoxes = 0;
     if (gametype == EGT_A)
     {
-        CreatePlayerAreaQueries(areaQueryBoxesA);
+        CreatePlayerAreaQueries(areaQueryBoxesA, EGT_A);
         CreateInteractablesForGameType(interactablesA, areaQueryBoxesA, allPuzzlesA, gametype);
         numOfInteractables = NUMBER_OF_INTERACTABLES_A;
         numOfQueryBoxes = NUMBER_OF_AREA_QUERY_BOXES_A;
     }
     else
     {
-        CreatePlayerAreaQueries(areaQueryBoxesB);
+        CreatePlayerAreaQueries(areaQueryBoxesB, EGT_B);
         CreateInteractablesForGameType(interactablesB, areaQueryBoxesB, allPuzzlesB, gametype);
         numOfInteractables = NUMBER_OF_INTERACTABLES_B;
         numOfQueryBoxes = NUMBER_OF_AREA_QUERY_BOXES_B;

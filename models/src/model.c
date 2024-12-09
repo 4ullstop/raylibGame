@@ -15,7 +15,7 @@ void CreateModels(modelInfo** models, int* lastModelIndex, enum Gametype gametyp
     }
     else
     {
-        CreateModelsForGameB(models, lastModelIndex);
+        CreateModelsForGameB(models, lastModelIndex, allTextures);
     }
 }
 

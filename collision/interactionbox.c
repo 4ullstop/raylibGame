@@ -8,13 +8,6 @@ void CreateInteractables(Interactable** interactables, QueryBox** areaQueryBoxes
     
 }
 
-
-void InteractionBoxInteract(FPSPlayer* player, ColBox* box)
-{
-    //do stuff here later
-    printf("You interacted and everything works!\n");
-}
-
 void ConstructInteractable(Interactable* interactable, Vector3 location, ColBox* box, float boxWidth, float boxHeight, float boxLength)
 {
     if (interactable == NULL)
@@ -41,53 +34,6 @@ bool IsPointInInteractable(Interactable* interactable, Vector3 point)
     return IsPointInColBox(interactable->colBox, point);
 }
 
-void ConstructColBox(ColBox* box, Vector3 location, float width, float height, float length)
-{
-    box->vertsNum = 8;
-    box->verts = malloc(sizeof(float) * 24);
-
-    if (box->verts == NULL)
-    {
-        printf("BAD ALLOCATION YOU ARE OUT OF MEMORY?\n");
-    }
-
-    box->interact = InteractionBoxInteract;
-
-    float unassignedVerts[] = {
-        location.x - width/2, location.y - height/2, location.z - length/2, // bottom left back (0)
-        location.x + width/2, location.y - height/2, location.z - length/2, // bottom right back (1)
-        location.x + width/2, location.y + height/2, location.z - length/2, // top right back (2)
-        location.x - width/2, location.y + height/2, location.z - length/2, // top left back (3)
-    
-        location.x - width/2, location.y - height/2, location.z + length/2, // bottom left front (4)
-        location.x + width/2, location.y - height/2, location.z + length/2, // bottom right front (5)
-        location.x + width/2, location.y + height/2, location.z + length/2, // top right front (6)
-        location.x - width/2, location.y + height/2, location.z + length/2  // top left front (7)
-    };
-
-    for (int i = 0; i < 24; i++)
-    {
-        box->verts[i] = unassignedVerts[i];
-    }
-    
-
-    unsigned short unassignedIndicies[] = {
-        0, 1, 2,  2, 3, 0, //back face
-        4, 5, 6,  6, 7, 4, //front face
-        0, 3, 7,  7, 4, 0, //left face
-        1, 5, 6,  6, 2, 1, //right face
-        3, 2, 6,  6, 7, 3, //top face
-        0, 1, 5,  5, 4, 0 //bottomface
-    };
-
-    box->indices = malloc(sizeof(unsigned short) * 36);
-
-    for (int i = 0; i < 36; i++)
-    {
-        box->indices[i] = unassignedIndicies[i];
-    }
-}
-
 void DestructColBox(ColBox* box)
 {
     printf("ColBox id on destruct: %i\n", box->id);
@@ -104,19 +50,16 @@ void DestructColBox(ColBox* box)
     
 }
 
-void CreatePlayerAreaQueries(QueryBox** areaQueryBoxes)
+void CreatePlayerAreaQueries(QueryBox** areaQueryBoxes, enum Gametype gametype)
 {
-    QueryBox* box_01 = malloc(sizeof(QueryBox));
-    box_01->areaBox = malloc(sizeof(ColBox));
-    box_01->location = (Vector3){1.0, 2.0, -15.0};
-    box_01->length = 100.f;
-    box_01->width = 100.f;
-    box_01->height = 20.f;
-    box_01->areaBox->id = 10;
-    ConstructColBox(box_01->areaBox, box_01->location, box_01->width, box_01->height, box_01->length);
-
-    areaQueryBoxes[0] = box_01;
-    areaQueryBoxes[0]->numberOfInteractables = 10;
+    if (gametype == EGT_A)
+    {
+	CreateGameAQueryBoxes(areaQueryBoxes);
+    }
+    else
+    {
+	CreateGameBQueryBoxes(areaQueryBoxes);
+    }
 }
 
 
