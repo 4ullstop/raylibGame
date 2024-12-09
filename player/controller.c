@@ -145,7 +145,7 @@ void LerpPlayer(FPSPlayer* player, ButtonMaster* puzzle)
 	float angle = ComputeAngleBetweenVectors(player->attachedCam->target, normalStart) - 100.0f;
 	player->b2 = 0.0f;
 	player->a2 = angle;
-	player->normalStart = normalStart;
+	player->normalStart = puzzle->puzzleNormalDirection;
 
 	
 	printf("angle between the vectors is: %f\n", angle);
@@ -222,6 +222,7 @@ void CalculatePlayerVelocity(FPSPlayer* player, double deltaTime)
     player->lastPos = player->location;
     
 }
+
 void DetectPlayerLookInput(PlayerCam* pcam)
 {
     Vector2 mouseDelta = GetMouseDelta();

@@ -91,19 +91,19 @@ bool TurnPlayerHead(FPSPlayer* player, float deltaTime)
     
 
     Vector3 camForward = GetCameraForwardVector(player->attachedCam);
-    float dot = Vector3DotProduct(player->normalStart, camForward);
+    Vector3 normalStart = Vector3Normalize(player->normalStart);
+    float dot = Vector3DotProduct(camForward, normalStart);
+        
+        
+    
+    
+    //Look into VectorLerp function
+    //We could: set the camera's target to be the result of the VectorLerp function
+    float angleToTarget = acosf(dot);
 
-    float v1Len = Vector3Length(player->normalStart);
-    float v2Len = Vector3Length(camForward);
     
-    float product = v1Len * v2Len;
-
-    
-    
-    dot = trunc(dot);
-    printf("dot is: %f\n", dot);
-    printf("product is: %f\n", product);
-    if (dot == product)
+    printf("dot: %f\n", dot);
+    if (dot > -1.0f && dot < -0.96f)
     {
 	return true;
     }
