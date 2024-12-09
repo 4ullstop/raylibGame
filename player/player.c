@@ -61,7 +61,7 @@ void LerpPlayerToLoc(FPSPlayer* player, float deltaTime)
         Vector3 direction = Vector3Normalize(Vector3Subtract(player->b, player->location));
         direction  = (Vector3){direction.x, 0.0f, direction.z};
 	
-	player->location = Vector3Add(player->location, Vector3Scale(direction, 1.0f * deltaTime));
+	player->location = Vector3Add(player->location, Vector3Scale(direction, 4.0f * deltaTime));
 
 	Vector3 offset = Vector3Subtract(player->attachedCam->target, player->attachedCam->position);
         player->attachedCam->position = player->location;
@@ -83,39 +83,14 @@ void LerpPlayerToLoc(FPSPlayer* player, float deltaTime)
 
 bool TurnPlayerHead(FPSPlayer* player, float deltaTime)	
 {
-    float subtractor = player->a2 > 0 ? 2.0f : -2.0f;
-    subtractor *= deltaTime; 
-    //continue to rotate the head until the angle is between 0 and 1
-    //Whatever the current angle is +- the subtractor
-    //But how do we get the current angle?
-    
-
-    Vector3 camForward = GetCameraForwardVector(player->attachedCam);
-    Vector3 normalStart = Vector3Normalize(player->normalStart);
-    float dot = Vector3DotProduct(camForward, normalStart);
-        
-        
-    
-    
-    //Look into VectorLerp function
-    //We could: set the camera's target to be the result of the VectorLerp function
-    float angleToTarget = acosf(dot);
-
-    
-    printf("dot: %f\n", dot);
-    if (dot > -1.0f && dot < -0.96f)
+    if (player->lerpAmount >= 1.0f)
     {
 	return true;
     }
-    Vector3 up = GetCameraUpVector(player->attachedCam);
-    Vector3 targetPosition = Vector3Subtract(player->attachedCam->target, player->attachedCam->position);
 
-    float targetLength = Vector3Length(player->attachedCam->target);
+    player->lerpAmount += 0.1 * deltaTime;
     
-    targetPosition = Vector3RotateByAxisAngle(targetPosition, up, subtractor);
-    targetPosition = Vector3Scale(Vector3Normalize(targetPosition), targetLength);
-    
-    player->attachedCam->target = Vector3Add(player->attachedCam->position, targetPosition);
+    Vector3 updatedLoc = Vector3Lerp(player->attachedCam->target, player->lookAtLoc, player->lerpAmount);
+    player->attachedCam->target = updatedLoc;
     return false;
-
 }

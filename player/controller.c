@@ -128,28 +128,15 @@ void LerpPlayer(FPSPlayer* player, ButtonMaster* puzzle)
     if (distance <= 5.0f)
     {
         printf("distance is checked\n");
-        //start player lerp and such
-        //from puzzle location, in the normal direction, a certain distance out
-        //set values in the player
-        //Vector3Add(allPuzzles[i]->puzzleNormalDirection, allPuzzles[i]->location)
-	
+        
         player->a = player->location;
         Vector3 normalStart = Vector3Add(puzzle->puzzleNormalDirection, puzzle->location);
-        Vector3 normalEnd = Vector3Add(puzzle->location, Vector3Scale(puzzle->puzzleNormalDirection, 3.0f));
+        Vector3 normalEnd = Vector3Add(puzzle->location, Vector3Scale(puzzle->puzzleNormalDirection, 2.0f));
         player->b = normalEnd;
-
-	/*
-	  the function is
-	  cos = u dot v / len(u) * len(v)
-        */
-	float angle = ComputeAngleBetweenVectors(player->attachedCam->target, normalStart) - 100.0f;
-	player->b2 = 0.0f;
-	player->a2 = angle;
-	player->normalStart = puzzle->puzzleNormalDirection;
-
+        	
+	player->lookAtLoc = puzzle->location;
+	player->lerpAmount = 0.0f;
 	
-	printf("angle between the vectors is: %f\n", angle);
-       
         player->shouldTickPlayer = true;
         printf("player should start ticking\n");
         
