@@ -10,7 +10,7 @@ void LoadAllTextures(Texture2D** allTextures, enum Gametype gametype)
     }
     else
     {
-        
+	LoadGameBModels(allTextures);
     }
 }
 
@@ -28,5 +28,22 @@ void LoadGameAModels(Texture2D** allTextures)
         Texture2D* texture = malloc(sizeof(Texture2D));
         *texture = LoadTextureFromImage(image);
         allTextures[i] = texture;
+    }
+}
+
+void LoadGameBModels(Texture2D** allTextures)
+{
+    char* gameBTextures[NUMBER_OF_TEXTURES_B];
+    RetrieveGameBTextureFiles(gameBTextures);
+    for (int i  = 0; i < NUMBER_OF_TEXTURES_B; i++)
+    {
+	printf("gameBTexturesLoc: %s\n", gameBTextures[i]);
+    }
+    for (int i = 0; i < NUMBER_OF_TEXTURES_B; i++)
+    {
+	Image image = LoadImage(gameBTextures[i]);
+	Texture2D* texture = malloc(sizeof(Texture2D));
+	*texture = LoadTextureFromImage(image);
+	allTextures[i] = texture;
     }
 }

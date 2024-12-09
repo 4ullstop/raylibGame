@@ -41,6 +41,6 @@ void DetermineAndUpdateTexture(Button* button, enum ButtonState state);
 
 void DetermineStartVal(int* min, enum PuzzleOnOffDirection direction);
 
-void AssignAllPuzzlesSolutionButtons(ButtonMaster** allPuzzles);
+void AssignAllPuzzlesSolutionButtons(ButtonMaster** allPuzzles, int numOfPuzzles);
 
 void AssignSolutionButtonsToPuzzle(ButtonMaster* puzzle);

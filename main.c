@@ -129,9 +129,11 @@ int main(int argc, char* argv[])
     }
     else
     {
+	LoadAllTextures(texturesB, gametype);
         ConstructGameplayElements(modelsB, &lastModelIndex, texturesB, NUMBER_OF_DOORS_B, &gameplayElements, allDoorsB);
         ConstructPuzzles(allPuzzlesB, modelsB, &lastModelIndex, gametype, &player, &gameplayElements, texturesB);
-        CreateModels(modelsB, &lastModelIndex, gametype, texturesB);
+	printf("puzzles created for game b\n");
+	CreateModels(modelsB, &lastModelIndex, gametype, texturesB);
         numOfPuzzles = NUMBER_OF_PUZZLES_B;
         numOfDoors = NUMBER_OF_DOORS_B;
     }

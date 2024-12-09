@@ -32,7 +32,8 @@ SRC = main.c \
 	  gamea\gameatextures.c \
 	  models\src\buttonatlas.c \
 	  gamea\gameaqueryboxes.c \
-	  gameb\gamebqueryboxes.c
+	  gameb\gamebqueryboxes.c \
+	  gameb\gamebtextures.c
 OBJ = intermediate\main.o \
       intermediate\window.o \
       intermediate\camera.o \
@@ -66,7 +67,8 @@ OBJ = intermediate\main.o \
 	  intermediate\gameatextures.o \
 	  intermediate\buttonatlas.o \
 	  intermediate\gameaqueryboxes.o \
-	  intermediate\gamebqueryboxes.o
+	  intermediate\gamebqueryboxes.o \
+	  intermediate\gamebtextures.o
 !IFNDEF OUTPUT
 OUTPUT = test.exe
 !ENDIF
@@ -187,6 +189,9 @@ intermediate\gameaqueryboxes.o: gamea\gameaqueryboxes.c intermediate
 
 intermediate\gamebqueryboxes.o: gameb\gamebqueryboxes.c intermediate
 	$(CC) $(CFLAGS) -c gameb\gamebqueryboxes.c -o intermediate\gamebqueryboxes.o $(INCLUDE)
+
+intermediate\gamebtextures.o: gameb\gamebtextures.c intermediate
+	$(CC) $(CFLAGS) -c gameb\gamebtextures.c -o intermediate\gamebtextures.o $(INCLUDE)
 
 # Clean rule to delete
 clean:

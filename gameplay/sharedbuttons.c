@@ -325,9 +325,9 @@ void EnactButton(Button* button)
     }
 }
 
-void AssignAllPuzzlesSolutionButtons(ButtonMaster** allPuzzles)
+void AssignAllPuzzlesSolutionButtons(ButtonMaster** allPuzzles, int numOfPuzzles)
 {
-    for (int i = 0; i < NUMBER_OF_PUZZLES_A; i++)
+    for (int i = 0; i < numOfPuzzles; i++)
     {
         AssignSolutionButtonsToPuzzle(allPuzzles[i]);
     }
@@ -367,14 +367,18 @@ void AssignButtonSpecialTextureAndAction(Button* button, enum TextureCoordinateL
 
 void AssignSolutionsTextures(ButtonMaster* puzzle)
 {
+    printf("about to assign solution textures\n");
     for (int i = 0; i < puzzle->numberOfSolutions; i++)
     {
+	printf("i: %i\n", i);
         DetermineAndUpdateTexture(puzzle->solutionButtons[i], puzzle->solutionButtons[i]->buttonState);
     }
+    printf("Solution textures assigned gameb\n");
 }
 
 void DetermineAndUpdateTexture(Button* button, enum ButtonState state)
 {
+    printf("determining value\n");
     int startingValue = 2;
     if (button->buttonRules != NULL)
     {

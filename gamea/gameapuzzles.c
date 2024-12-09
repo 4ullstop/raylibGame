@@ -168,7 +168,7 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
     /*
         After the initialziation of our buttons, we want to perscribe special textures to them if they so require
     */
-    AssignAllPuzzlesSolutionButtons(gameAPuzzles);
+    AssignAllPuzzlesSolutionButtons(gameAPuzzles, NUMBER_OF_PUZZLES_A);
     AssignSpecialTexturesGameA(gameAPuzzles, allTextures);
     
     gameAPuzzles[3]->puzzleToPowerOn = gameAPuzzles[4];
