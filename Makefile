@@ -70,7 +70,7 @@ OBJ = intermediate\main.o \
 	  intermediate\gamebqueryboxes.o \
 	  intermediate\gamebtextures.o
 !IFNDEF OUTPUT
-OUTPUT = test.exe
+OUTPUT = scenea.exe
 !ENDIF
 INCLUDE = -IC:\raylib\raylib\src
 LIBS = -LC:\raylib\raylib\src -lraylib -lopengl32 -lgdi32 -lwinmm
