@@ -86,3 +86,6 @@ IPC communication:
 
 
 nmake /f Makefile OUTPUT=custom_name.exe 
+
+When it comes to the collision thing, check your timings for collision detection, you might need to call CollideAndSlide/CollideWIthWorld so that the player isn't ending
+up in the floor on game start if you change the size of the ellipsoid

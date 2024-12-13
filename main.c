@@ -178,9 +178,11 @@ int main(int argc, char* argv[])
     
     
     
-    //Set the size for our ellipsoid for collision
-    colPacket.eRadius = (Vector3){1.0f, 1.0f, 1.0f};
 
+    //Set the size for our ellipsoid for collision
+    colPacket.eRadius = (Vector3){1.0f, 4.0f, 1.0f};
+
+    
     /*
         Where are we?:
             -
@@ -197,6 +199,7 @@ int main(int argc, char* argv[])
         float now = GetTime();
         deltaTime = now - lastTime;
         lastTime = now;
+
         if (gametype == EGT_A)
         {
             CallAllPolls(deltaTime, modelsA, areaQueryBoxesA, &interactedItem, allBoxesA, numOfModels, numOfQueryBoxes);

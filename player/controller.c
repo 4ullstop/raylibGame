@@ -282,7 +282,10 @@ void InputCamPitch(PlayerCam* pcam, float angle, bool lockView, bool rotateUp)
 
 void CollideAndSlide(CollisionPacket* colPacket, FPSPlayer* player, double deltaTime, modelInfo** models, int numberOfModels)
 {
-    colPacket->R3Position = player->location;
+    //colPacket->R3Position = player->location;
+    colPacket->R3Position = colPacket->eRadius.y > 1.0f ?
+	(Vector3){player->location.x, colPacket->eRadius.y + player->location.y, player->location.z} :
+	player->location;
     colPacket->R3Velocity = player->velocity;
 
     Vector3 eSpacePosition = Vector3Divide(colPacket->R3Position, colPacket->eRadius);

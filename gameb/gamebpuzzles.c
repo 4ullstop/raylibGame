@@ -23,7 +23,7 @@ void ConstructGameBPuzzles(ButtonMaster** gameBPuzzles, Texture2D** allTextures,
     ConstructSinglePuzzle(&lastPuzzleIndex,
 			  4,
 			  1,
-			  (Vector3){1.0f, 1.0f, 1.0f},
+			  (Vector3){1.0f, 1.5f, 1.0f},
 			  player,
 			  Puzzle_02B,
 			  false,
@@ -81,6 +81,7 @@ void Puzzle_02B(ButtonMaster* puzzle)
     int numOfSolutions = 4;
     puzzle->numberOfSolutions = numOfSolutions;
     puzzle->solutionLocations = malloc(sizeof(Vector2Int) * numOfSolutions);
+    puzzle->solutionButtons = malloc(sizeof(Button) * puzzle->numberOfSolutions);
     puzzle->solutionLocations[0] = (Vector2Int){0, 0};
     puzzle->solutionLocations[1] = (Vector2Int){1, 0};
     puzzle->solutionLocations[2] = (Vector2Int){2, 0};
