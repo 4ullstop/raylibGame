@@ -23,7 +23,7 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
 
 void RemoveHighlight(Button* button);
 
-void ChangeSelection(Button* button);
+void ChangeSelection(Button* button, ButtonMaster* puzzle);
 
 void CheckForSolution(Button* button, ButtonMaster* master, enum Gamemode* mode);
 
@@ -37,12 +37,14 @@ void PollPuzzles(ButtonMaster* puzzle, TickNode* tickNode);
 
 void BlinkCursor(ButtonMaster* puzzle, TickNode* tickNode);
 
-void PopulateErrorButtons(ButtonMaster* puzzle, ErrorButtons** errorButtons);
-
 void RunThroughErrorButtons(ButtonMaster* puzzle, TickNode* tickNode, ErrorButtons* errorButtons);
 
 bool BlinkError(Button* button, TickNode* tickNode);
 
-void ResetTemporaryPuzzleInfo(ButtonMaster* puzzle);
+void AddItemToSolvedButtonList(SolvedButtons** head, enum ButtonTextureSizes textureSizesToAdd);
 
-void DepopulateErrorButtons(ErrorButtons* buttons);
+void RemoveItemToSolvedButtonList(SolvedButtons** head, enum ButtonTextureSizes buttonToRemove);
+
+void ClearSolvedButtons(SolvedButtons* solvedButtons);
+
+void AddButtonToErrorList(Button* button, ErrorButtons** errorButton);

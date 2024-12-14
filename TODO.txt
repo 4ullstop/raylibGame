@@ -89,3 +89,9 @@ nmake /f Makefile OUTPUT=custom_name.exe
 
 When it comes to the collision thing, check your timings for collision detection, you might need to call CollideAndSlide/CollideWIthWorld so that the player isn't ending
 up in the floor on game start if you change the size of the ellipsoid
+
+Create ability to remove submitted buttons from the linked list when the player un submits a submitted button
+
+Currently there are errors:
+ - Currently the game crashes if you input the puzzle incorrectly and then try to input again
+ 

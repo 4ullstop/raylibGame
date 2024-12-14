@@ -102,7 +102,7 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
     switch (direction)
     {
         case ED_Up:
-            if (currSelectedButton->nAbove->buttonState == EBS_off || currSelectedButton->nAbove->submitted == true) return;
+            if (currSelectedButton->nAbove->buttonState == EBS_off) return;
             if (currSelectedButton->isAboveEdge == true)
             {
                 return;
@@ -113,7 +113,7 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
             master->cursoredButton = currSelectedButton;
             break;
         case ED_Down:
-            if (currSelectedButton->nBelow->buttonState == EBS_off || currSelectedButton->nBelow->submitted == true) return;
+            if (currSelectedButton->nBelow->buttonState == EBS_off) return;
             if (currSelectedButton->isBelowEdge == true)
             {
                 return;
@@ -124,7 +124,7 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
             master->cursoredButton = currSelectedButton;
             break;
         case ED_Left:
-            if (currSelectedButton->nLeft->buttonState == EBS_off || currSelectedButton->nLeft->submitted == true) return;
+            if (currSelectedButton->nLeft->buttonState == EBS_off) return;
             if (currSelectedButton->isLeftEdge == true)
             {
                 return;
@@ -135,7 +135,7 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
             master->cursoredButton = currSelectedButton;
             break;
         case ED_Right:
-            if (currSelectedButton->nRight->buttonState == EBS_off || currSelectedButton->nRight->submitted == true) return;
+            if (currSelectedButton->nRight->buttonState == EBS_off) return;
             if (currSelectedButton->isRightEdge == true)
             {
                 return;
@@ -146,7 +146,7 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
             master->cursoredButton = currSelectedButton;
             break;
         case ED_Enter:
-            ChangeSelection(currSelectedButton);
+            ChangeSelection(currSelectedButton, master);
             CheckForSolution(currSelectedButton, master, mode);
             currSelectedButton = PushCursor(currSelectedButton, master);
             master->cursoredButton = currSelectedButton;
@@ -216,7 +216,7 @@ void RemoveHighlight(Button* button)
     }
 }
 
-void ChangeSelection(Button* button)
+void ChangeSelection(Button* button, ButtonMaster* puzzle)
 {
     if (!button->submitted)
     {
@@ -227,114 +227,188 @@ void ChangeSelection(Button* button)
         {
             button->ButtonSelected(button);
         }
-    }
-    // else
-    // {
-    //     button->submitted = false;
-    //     if (button->ButtonSelected != NULL)
-    //     {
-    //         button->ButtonSelected(button);
-    //     }
-    //     AddHighlight(button);
-    // }
-}
-
-void CheckForSolution(Button* button, ButtonMaster* master, enum Gamemode* mode)
-{
-    int numberOfSolved = 0;
-    int numberOfSelected = 0;
-    if (master->isUnderExamination == false)
-    {
-        master->solvedOrder = malloc(sizeof(int) * master->numberOfSolutions);
-        master->isUnderExamination = true;
-        master->solvedOrderIndex = 0;
-    }
-    if (button->solutionButton == true)
-    {
-        master->solvedOrder[master->solvedOrderIndex] = button->textureSizes;
-        master->solvedOrderIndex++;
-    }
-    for (int i = 0; i < master->rows; i++)
-    {
-        for (int j = 0; j < master->columns; j++)
-        {
-            if (master->childButtons[i][j].submitted == true && master->childButtons[i][j].solutionButton == true)
-            {
-                numberOfSolved++;
-                numberOfSelected++;
-                printf("this was one of the buttons, %i\n", numberOfSolved);
-            }
-            else if (master->childButtons[i][j].submitted == true && master->childButtons[i][j].solutionButton == false)
-            {
-                numberOfSelected++;
-                printf("this was NOT one of the buttons\n");
-            }
-        }
-    }
-    if (master->numberOfSolutions == numberOfSolved)
-    {
-        bool wasCorrectOrder = true;
-        int prevIndex = 0;
-        for (int i = 0; i < master->numberOfSolutions; i++)
-        {
-            if (i - 1 < 0) continue;
-            if (master->solvedOrder[i] != master->correctOrder[i])
-            {
-                wasCorrectOrder = false;
-                master->solutionButtons[i]->wasFlippedIncorrectly = true;
-            }
-        }
-        if (wasCorrectOrder == true)
-        {
-            printf("congrats you solved the puzzle\n");
-            *mode = EGM_Normal;
-            master->OnPuzzleSolved(master);
-            master->shouldBlinkCursor = false;
-            printf("puzzle solved end\n");
-            free(master->solvedOrder);
-            master->solvedOrder = NULL;
-            master->isUnderExamination = false;
-        }
-        else
-        {
-            printf("these are the right buttons but were input in the incorrect order\n");
-            ResetPuzzle(master, true);
-        }
-        
+	if (button->solutionButton == true)
+	{
+	    AddItemToSolvedButtonList(&puzzle->solvedButtons, button->textureSizes);
+	    puzzle->numOfSolved = puzzle->numOfSolved + 1;
+	    puzzle->numOfSelected = puzzle->numOfSelected + 1;
+	    printf("this was one of the buttons\n");
+	}
     }
     else
     {
-        if (numberOfSelected >= (master->columns * master->rows))
+        button->submitted = false;
+        if (button->ButtonSelected != NULL)
         {
-            printf("You have selected all of the present buttons, try again\n");
-            ResetPuzzle(master, true);
+            button->ButtonSelected(button);
         }
+	if (button->solutionButton == true)
+	{
+	    printf("removing item from linked list\n");
+	    RemoveItemToSolvedButtonList(&puzzle->solvedButtons, button->textureSizes);
+	    puzzle->numOfSolved = puzzle->numOfSolved - 1;
+	}
+	
+        AddHighlight(button);
     }
-    ResetTemporaryPuzzleInfo(master);
 }
 
-void ResetTemporaryPuzzleInfo(ButtonMaster* puzzle)
+void CheckForSolution(Button* button, ButtonMaster* puzzle, enum Gamemode* mode)
 {
-    for (int i = 0; i < puzzle->rows; i++)
+    if (puzzle->numberOfSolutions == puzzle->numOfSolved)
     {
-        for (int j = 0; j < puzzle->columns; j++)
-        {
-            puzzle->childButtons[i][j].wasFlippedIncorrectly = false;
-        }
+	puzzle->errorButtons = malloc(sizeof(ErrorButtons));
+	printf("numOfSolutions: %i\n", puzzle->numberOfSolutions);
+	bool wasCorrectOrder = true;
+	SolvedButtons* solvedButtons = puzzle->solvedButtons;
+	for (int i = 0; i < puzzle->numberOfSolutions; i++)
+	{
+	    if (puzzle->correctOrder[i] != solvedButtons->textureSizes)
+	    {
+		Button* incorrectButton = NULL;
+		for (int j = 0; j < puzzle->numberOfSolutions; j++)
+		{
+		    if (puzzle->solutionButtons[j]->textureSizes == solvedButtons->textureSizes)
+		    {
+			incorrectButton = puzzle->solutionButtons[j];
+			printf("incorrectButton found\n"); 
+			break;
+		    }
+		}
+		
+		wasCorrectOrder = false;
+		printf("solved button: %i\n", solvedButtons->textureSizes);
+		printf("incorrectButton id: %i\n", incorrectButton->id);
+		puzzle->errorButtons->next = NULL;
+		AddButtonToErrorList(incorrectButton, &puzzle->errorButtons);
+	    }
+	    solvedButtons = solvedButtons->next;
+	}
+	if (wasCorrectOrder == true)
+	{
+	    printf("Congrats, you solved the puzzle!\n");
+	    *mode = EGM_Normal;
+	    puzzle->shouldBlinkCursor = false;
+	    ClearSolvedButtons(puzzle->solvedButtons);
+	    puzzle->solvedButtons = NULL;
+	}
+	else
+	{
+	    printf("These are the right buttons input in the incorrect order\n");
+	    
+	    ResetPuzzle(puzzle, true);
+	}
+    }
+    else
+    {
+	if (puzzle->numOfSelected >= (puzzle->columns * puzzle->rows))
+	{
+	    printf("You have selected all of the present buttons, try again\n");
+	    ResetPuzzle(puzzle, true);
+	}
+    }
+}
+
+void AddButtonToErrorList(Button* button, ErrorButtons** errorButton)
+{
+    ErrorButtons* newButton = (ErrorButtons*)malloc(sizeof(ErrorButtons));
+
+    if (newButton == NULL)
+    {
+	printf("Failed to allocate for errorbutton nodes\n");
+	return;
+    }
+
+    newButton->button = button;
+    newButton->next = *errorButton;
+    *errorButton = newButton;
+    
+    printf("button id added to list: %i\n", button->id);
+}
+
+void AddItemToSolvedButtonList(SolvedButtons** head, enum ButtonTextureSizes textureSizesToAdd)
+{
+    SolvedButtons* newNode = (SolvedButtons*)malloc(sizeof(SolvedButtons));
+    if (newNode == NULL)
+    {
+	printf("ERROR, Failed to allocated memory for solved button list\n");
+	return;
+    }
+
+    newNode->textureSizes = textureSizesToAdd;
+    newNode->next = NULL;
+
+    if (*head == NULL)
+    {
+	*head = newNode;
+	return;
+    }
+
+    SolvedButtons* lastNode = *head;
+    while (lastNode->next != NULL)
+    {
+	lastNode = lastNode->next;
+    }
+    
+    lastNode->next = newNode;
+}
+
+void RemoveItemToSolvedButtonList(SolvedButtons** head, enum ButtonTextureSizes buttonToRemove)
+{
+    SolvedButtons* current = *head;
+    SolvedButtons* previous = NULL;
+
+    if (current == NULL)
+    {
+	return;
+    }
+
+    if (current->textureSizes == buttonToRemove)
+    {
+	*head = current->next;
+	free(current);
+	return;
+    }
+
+    while (current != NULL && current->textureSizes != buttonToRemove)
+    {
+	previous = current;
+	current = current->next;
+    }
+
+    if (current == NULL)
+    {
+	return;
+    }
+
+    previous->next = current->next;
+    free(current);
+}
+
+void ClearSolvedButtons(SolvedButtons* solvedButtons)
+{
+    SolvedButtons* current = solvedButtons;
+    SolvedButtons* next;
+
+    while (current != NULL)
+    {
+	next = current->next;
+	free(current);
+	current = next;
     }
 }
 
 void ResetPuzzle(ButtonMaster* puzzle, bool resultOfFailure)
 {
     puzzle->shouldBlinkCursor = false;
+    puzzle->numOfSelected = 0;
+    puzzle->numOfSolved = 0;
     if (resultOfFailure == true)
     {
-        ErrorButtons* errorButtons = NULL;
-        PopulateErrorButtons(puzzle, &errorButtons);
-        puzzle->errorButtons = errorButtons;
         puzzle->player->puzzleInputEnabled = false;
         puzzle->shouldReadTick = true;
         puzzle->puzzleUnSolved = true;
+	printf("about to blink cursor\n");
         return;
     }
     for (int i = 0; i < puzzle->rows; i++)
@@ -356,40 +430,14 @@ void ResetPuzzle(ButtonMaster* puzzle, bool resultOfFailure)
         }
     }
 
-    
-    if (puzzle->isUnderExamination == true)
-    {
-        free(puzzle->solvedOrder);
-        puzzle->solvedOrder = NULL;
-        puzzle->isUnderExamination = false;
-    }
-
+    ClearSolvedButtons(puzzle->solvedButtons);
+    puzzle->solvedButtons = NULL;
+   
     puzzle->childButtons[puzzle->highlightStartLoc.x][puzzle->highlightStartLoc.y].buttonState = EBS_highlighted;
     puzzle->childButtons[puzzle->highlightStartLoc.x][puzzle->highlightStartLoc.y].model->texture = puzzle->childButtons[puzzle->highlightStartLoc.x][puzzle->highlightStartLoc.y].buttonTextures->highlighted; 
     puzzle->childButtons[puzzle->highlightStartLoc.x][puzzle->highlightStartLoc.y].model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = puzzle->childButtons[puzzle->highlightStartLoc.x][puzzle->highlightStartLoc.y].model->texture; 
     puzzle->highlightLocation = puzzle->highlightStartLoc;
     puzzle->childButtons[puzzle->highlightStartLoc.x][puzzle->highlightStartLoc.y].highlighted = true;
-}
-
-void PopulateErrorButtons(ButtonMaster* puzzle, ErrorButtons** errorButtons)
-{
-    
-    for (int i = 0; i < puzzle->rows; i++)
-    {
-        for (int j = 0; j < puzzle->columns; j++)
-        {
-            printf("i: %i, j: %i\n", i, j);
-            if (puzzle->childButtons[i][j].wasFlippedIncorrectly == true)
-            {
-                printf("button added to population\n");
-                ErrorButtons* newNode = malloc(sizeof(ErrorButtons));
-                newNode->button = &puzzle->childButtons[i][j];
-                newNode->next = *errorButtons;
-                *errorButtons = newNode;
-            }
-        }
-    }
-    
 }
 
 void PollPuzzles(ButtonMaster* puzzle, TickNode* tickNode)
@@ -455,7 +503,6 @@ void RunThroughErrorButtons(ButtonMaster* puzzle, TickNode* tickNode, ErrorButto
     
     while (buttonsToError != NULL)
     {
-        
         wasFired = BlinkError(buttonsToError->button, tickNode);
         buttonsToError = buttonsToError->next;
         
@@ -479,7 +526,6 @@ void RunThroughErrorButtons(ButtonMaster* puzzle, TickNode* tickNode, ErrorButto
         if (tickNode->iterations >= 4000)
         {
             puzzle->puzzleUnSolved = false;
-            DepopulateErrorButtons(puzzle->errorButtons);
             ResetPuzzle(puzzle, false);
         }
     }
@@ -510,18 +556,4 @@ bool BlinkError(Button* button, TickNode* tickNode)
     }
     button->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = button->model->texture;
     return wasFired;
-}
-
-void DepopulateErrorButtons(ErrorButtons* buttons)
-{
-    if (buttons == NULL)
-    {
-        return;
-    }
-    else
-    {
-        DepopulateErrorButtons(buttons->next);
-        free(buttons);
-        buttons = NULL;
-    }
 }

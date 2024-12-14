@@ -333,6 +333,15 @@ typedef struct ErrorButtons
 } ErrorButtons;
 #endif
 
+#ifndef SOLVED_BUTTONS
+#define SOLVED_BUTTONS
+typedef struct SolvedButtons
+{
+    enum ButtonTextureSizes textureSizes;
+    struct SolvedButtons* next;
+} SolvedButtons;
+#endif
+
 
 #ifndef MASTER_OF_BUTTONS
 #define MASTER_OF_BUTTONS
@@ -373,12 +382,7 @@ typedef struct ButtonMaster
 
     Button* cursoredButton;
 
-    bool isUnderExamination;
-    int* solvedOrder;
-
     int* correctOrder;
-
-    int solvedOrderIndex;
 
     enum ButtonTextureSizes* textureSizes;
 
@@ -389,6 +393,11 @@ typedef struct ButtonMaster
     ErrorButtons* errorButtons;
 
     Vector3 puzzleNormalDirection;
+
+    SolvedButtons* solvedButtons;
+
+    int numOfSolved;
+    int numOfSelected;
 
 } ButtonMaster;
 #endif
