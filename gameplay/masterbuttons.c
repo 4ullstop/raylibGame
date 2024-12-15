@@ -98,12 +98,12 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
     {
         printf("highlighted button not found there is an error somewhere\n");
     }
-    
+    bool checkForEdges = false;
     switch (direction)
     {
         case ED_Up:
             if (currSelectedButton->nAbove->buttonState == EBS_off) return;
-            if (currSelectedButton->isAboveEdge == true)
+            if (currSelectedButton->isAboveEdge == true && checkForEdges == true)
             {
                 return;
             }
@@ -114,7 +114,7 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
             break;
         case ED_Down:
             if (currSelectedButton->nBelow->buttonState == EBS_off) return;
-            if (currSelectedButton->isBelowEdge == true)
+            if (currSelectedButton->isBelowEdge == true && checkForEdges == true)
             {
                 return;
             }
@@ -125,7 +125,7 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
             break;
         case ED_Left:
             if (currSelectedButton->nLeft->buttonState == EBS_off) return;
-            if (currSelectedButton->isLeftEdge == true)
+            if (currSelectedButton->isLeftEdge == true && checkForEdges == true)
             {
                 return;
             }
@@ -136,7 +136,7 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
             break;
         case ED_Right:
             if (currSelectedButton->nRight->buttonState == EBS_off) return;
-            if (currSelectedButton->isRightEdge == true)
+            if (currSelectedButton->isRightEdge == true && checkForEdges == true)
             {
                 return;
             }
@@ -177,6 +177,27 @@ Button* PushCursor(Button* button, ButtonMaster* master)
     Button* buttonToHopTo = NULL;
     for (int i = 0; i < circledButtonNum; i++)
     {
+	if (button->isRightEdge == true)
+	{
+	    if (i == 6) continue;
+	    if (button->isAboveEdge == true && i == 7) continue;
+	}
+	if (button->isLeftEdge == true)
+	{
+	    if (i == 2) continue;
+	    if (button->isBelowEdge == true && i == 3) continue;
+	}
+	if (button->isAboveEdge == true)
+	{
+	    if (i == 0) continue;
+	    if (button->isLeftEdge == true && i == 1) continue;
+	}
+	if (button->isBelowEdge == true)
+	{
+	    if (i == 4) continue;
+	    if (button->isRightEdge == true && i == 5) continue;
+	}
+	
         if (buttons[i]->submitted == false && buttons[i]->buttonState != EBS_off && buttons[i] != button)
         {
             buttonToHopTo = buttons[i];
@@ -197,6 +218,11 @@ Button* PushCursor(Button* button, ButtonMaster* master)
         ResetPuzzle(master, false);
         return NULL;
     }
+}
+
+bool PushedCheckForEdges(Button* button)
+{
+    return button->isRightEdge == true || button->isLeftEdge == true || button->isBelowEdge == true || button->isAboveEdge == true;
 }
 
 void RemoveHighlight(Button* button)

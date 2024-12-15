@@ -48,3 +48,5 @@ void RemoveItemToSolvedButtonList(SolvedButtons** head, enum ButtonTextureSizes 
 void ClearSolvedButtons(SolvedButtons* solvedButtons);
 
 void AddButtonToErrorList(Button* button, ErrorButtons** errorButton);
+
+bool PushedCheckForEdges(Button* button);

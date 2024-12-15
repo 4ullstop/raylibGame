@@ -13,19 +13,19 @@
     The current size of AssociatedDoors in GameplayElements is: 48
 */
 #define NUMBER_OF_MODELS_A 94 //45
-#define NUMBER_OF_MODELS_B 24
+#define NUMBER_OF_MODELS_B 40 //24
 
 #define NUMBER_OF_TEXTURES_A 8 //this will always be one more than what is in the file
 #define NUMBER_OF_TEXTURES_B 8
 
 #define NUMBER_OF_INTERACTABLES_A 10 //9
-#define NUMBER_OF_INTERACTABLES_B 3
+#define NUMBER_OF_INTERACTABLES_B 4
 
 #define NUMBER_OF_AREA_QUERY_BOXES_A 1
 #define NUMBER_OF_AREA_QUERY_BOXES_B 1
 
 #define NUMBER_OF_PUZZLES_A 10 //9
-#define NUMBER_OF_PUZZLES_B 3
+#define NUMBER_OF_PUZZLES_B 4
 
 #define NUMBER_OF_OVERLAP_BOXES_A 1
 #define NUMBER_OF_OVERLAP_BOXES_B 1

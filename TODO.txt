@@ -92,6 +92,25 @@ up in the floor on game start if you change the size of the ellipsoid
 
 Create ability to remove submitted buttons from the linked list when the player un submits a submitted button
 
-Currently there are errors:
- - Currently the game crashes if you input the puzzle incorrectly and then try to input again
+The rules of the puzzles:
+ - Movement by use of arrow keys
+ - You cannot interact with powered off puzzles
+ - You cannot cursor over powered off buttons inside of puzzles
+ - You can move the cursor with arrow keys on buttons that are submitted
+ - You can submit buttons by pressing enter
+ - To solve the puzzles, you must submit the buttons in the correct order
+   - This means symbols must be submitted as:
+     - Big to small for game a
+     - Counter clockwise for game b
+ - When you submit a button the cursor automatically gets pushed to another open button:
+   - The cursor moves in counter clockwise order to another button based on the submitted buttons neighbors
+   - The cursor's reach also extends to the other side of the puzzle meaning if the submitted button is on a side and there is an open button on the opposite side of the puzzle (in some circumstances)
+   the cursor will reach to the opposite side of the puzzle
+   - The cursor will not push to a button that is:
+     - Powered off
+     - Submitted
+ 
+
+
+
  
