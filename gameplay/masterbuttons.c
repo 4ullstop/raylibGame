@@ -179,27 +179,24 @@ Button* PushCursor(Button* button, ButtonMaster* master)
     {
 	if (button->isRightEdge == true)
 	{
-	    if (i == 6) continue;
-	    if (button->isAboveEdge == true && i == 7) continue;
+	    if (i == 6 || i == 7 || i == 5) continue;
 	}
 	if (button->isLeftEdge == true)
 	{
-	    if (i == 2) continue;
-	    if (button->isBelowEdge == true && i == 3) continue;
-	}
+	    if (i == 2 || i == 3 || i == 1) continue;
+       	}
 	if (button->isAboveEdge == true)
 	{
-	    if (i == 0) continue;
-	    if (button->isLeftEdge == true && i == 1) continue;
+	    if (i == 0 || i == 1 || i == 7) continue;
 	}
 	if (button->isBelowEdge == true)
 	{
-	    if (i == 4) continue;
-	    if (button->isRightEdge == true && i == 5) continue;
-	}
+	    if (i == 3 || i == 5 || i == 4) continue;
+       	}
 	
         if (buttons[i]->submitted == false && buttons[i]->buttonState != EBS_off && buttons[i] != button)
         {
+	    
             buttonToHopTo = buttons[i];
             break;
         }
