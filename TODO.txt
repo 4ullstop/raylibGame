@@ -96,6 +96,7 @@ The rules of the puzzles:
  - Movement by use of arrow keys
  - You cannot interact with powered off puzzles
  - You cannot cursor over powered off buttons inside of puzzles
+ - You can reach to the other side of the puzzle using the arrow keys
  - You can move the cursor with arrow keys on buttons that are submitted
  - You can submit buttons by pressing enter
  - To solve the puzzles, you must submit the buttons in the correct order
@@ -104,11 +105,23 @@ The rules of the puzzles:
      - Counter clockwise for game b
  - When you submit a button the cursor automatically gets pushed to another open button:
    - The cursor moves in counter clockwise order to another button based on the submitted buttons neighbors
-   - The cursor's reach also extends to the other side of the puzzle meaning if the submitted button is on a side and there is an open button on the opposite side of the puzzle (in some circumstances)
-   the cursor will reach to the opposite side of the puzzle
    - The cursor will not push to a button that is:
      - Powered off
      - Submitted
+     - Considered a "reach" button (unlike the ability to reach around with the arrow keys)
+
+
+Fix issues with submission and completed puzzles where the board turns blank bc it's still checking if all inputs have been given saying it's false
+Create a better way for players to understand when the puzzle is complete
+
+Finish gameb puzzles (create more until satisfied and before creating combination puzzles)
+Redo gamea (Clean up intro, intro to cursor pushing directions)
+
+Shared memory and 2 games at once!
+
+Create some sort of way for players to identify the order in which they have pressed the buttons - whether the shade of the color changes or something else (change color == not colorblind ppl)
+
+Drop the amount of polygons in the button mesh for faster loading times
  
 
 

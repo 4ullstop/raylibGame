@@ -61,6 +61,34 @@ void ConstructGameBPuzzles(ButtonMaster** gameBPuzzles, Texture2D** allTextures,
 			  true,
 			  EPS_active,
 			  0.3f);
+
+    ConstructSinglePuzzle(&lastPuzzleIndex,
+			  3,
+			  5,
+			  (Vector3){3.0f, 1.0f, -6.0f},
+			  player,
+			  Puzzle_05B,
+			  false,
+			  gameplayElements,
+			  gameBPuzzles,
+			  (Vector2Int){2, 0},
+			  true,
+			  EPS_active,
+			  0.3f);
+
+    ConstructSinglePuzzle(&lastPuzzleIndex,
+			4,
+			3,
+			(Vector3){6.0f, 1.0f, -6.0f},
+			player,
+			Puzzle_06B,
+			false,
+			gameplayElements,
+			gameBPuzzles,
+			(Vector2Int){1, 1},
+			true,
+			EPS_active,
+			0.4f);
     
     for (int i = 0; i < NUMBER_OF_PUZZLES_B; i++)
     {
@@ -97,11 +125,26 @@ void AssignSpecialTexturesGameB(ButtonMaster** allPuzzles, Texture2D** allTextur
     AssignButtonSpecialTextureAndAction(&allPuzzles[3]->childButtons[3][2], TCL_OFF);
     AssignButtonSpecialTextureAndAction(&allPuzzles[3]->childButtons[0][2], TCL_OFF);
 
-    
+
+    AssignButtonSpecialTextureAndAction(&allPuzzles[4]->childButtons[0][0], TCL_OFF);
+    AssignButtonSpecialTextureAndAction(&allPuzzles[4]->childButtons[1][1], TCL_OFF);
+    AssignButtonSpecialTextureAndAction(&allPuzzles[4]->childButtons[2][2], TCL_OFF);
+    AssignButtonSpecialTextureAndAction(&allPuzzles[4]->childButtons[3][2], TCL_OFF);
+    AssignButtonSpecialTextureAndAction(&allPuzzles[4]->childButtons[3][1], TCL_OFF);
+    AssignButtonSpecialTextureAndAction(&allPuzzles[4]->childButtons[3][0], TCL_OFF);
+
+    AssignButtonSpecialTextureAndAction(&allPuzzles[5]->childButtons[0][1], TCL_OFF);
+    AssignButtonSpecialTextureAndAction(&allPuzzles[5]->childButtons[2][1], TCL_OFF);
+    AssignButtonSpecialTextureAndAction(&allPuzzles[5]->childButtons[1][3], TCL_OFF);
+    AssignButtonSpecialTextureAndAction(&allPuzzles[5]->childButtons[1][2], TCL_OFF);
+    AssignButtonSpecialTextureAndAction(&allPuzzles[5]->childButtons[1][0], TCL_OFF);
+        
     AssignSolutionsTextures(allPuzzles[0]);
     AssignSolutionsTextures(allPuzzles[1]);
     AssignSolutionsTextures(allPuzzles[2]);
     AssignSolutionsTextures(allPuzzles[3]);
+    AssignSolutionsTextures(allPuzzles[4]);
+    AssignSolutionsTextures(allPuzzles[5]);
 }
 
 void Puzzle_01B(ButtonMaster* puzzle)
@@ -178,4 +221,46 @@ void Puzzle_04B(ButtonMaster* puzzle)
     puzzle->textureSizes[0] = EBTS_02;
     puzzle->textureSizes[1] = EBTS_04;
     puzzle->textureSizes[2] = EBTS_07; 
+}
+
+void Puzzle_05B(ButtonMaster* puzzle)
+{
+    int numOfSolutions = 5;
+    puzzle->numberOfSolutions = numOfSolutions;
+    puzzle->solutionLocations = malloc(sizeof(Vector2Int) * numOfSolutions);
+    puzzle->solutionButtons = malloc(sizeof(Button) * puzzle->numberOfSolutions);
+    puzzle->solutionLocations[0] = (Vector2Int){0, 2};
+    puzzle->solutionLocations[1] = (Vector2Int){2, 1};
+    puzzle->solutionLocations[2] = (Vector2Int){0, 1};
+    puzzle->solutionLocations[3] = (Vector2Int){0, 4};
+    puzzle->solutionLocations[4] = (Vector2Int){1, 2};
+
+    puzzle->textureSizes = malloc(sizeof(enum ButtonTextureSizes) * puzzle->numberOfSolutions);
+    puzzle->textureSizes[0] = EBTS_01;
+    puzzle->textureSizes[1] = EBTS_02;
+    puzzle->textureSizes[2] = EBTS_03;
+    puzzle->textureSizes[3] = EBTS_04;
+    puzzle->textureSizes[4] = EBTS_05;
+}
+
+/*
+  {2,0} {2,1} {2,2} {2,3} {2,4}
+  {1,0} {1,1} {1,2} {1,3} {1,4}
+  {0,0} {0,1} {0,2} {0,3} {0,4}
+*/
+
+void Puzzle_06B(ButtonMaster* puzzle)
+{
+    int numOfSolutions = 3;
+    puzzle->numberOfSolutions = numOfSolutions;
+    puzzle->solutionLocations = malloc(sizeof(Vector2Int) * numOfSolutions);
+    puzzle->solutionButtons = malloc(sizeof(Button) * puzzle->numberOfSolutions);
+    puzzle->solutionLocations[0] = (Vector2Int){1, 1};
+    puzzle->solutionLocations[1] = (Vector2Int){1, 0};
+    puzzle->solutionLocations[2] = (Vector2Int){0, 2};
+
+    puzzle->textureSizes = malloc(sizeof(enum ButtonTextureSizes) * puzzle->numberOfSolutions);
+    puzzle->textureSizes[0] = EBTS_01;
+    puzzle->textureSizes[1] = EBTS_03;
+    puzzle->textureSizes[2] = EBTS_05;
 }
