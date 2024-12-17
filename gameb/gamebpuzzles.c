@@ -6,10 +6,11 @@ void ConstructGameBPuzzles(ButtonMaster** gameBPuzzles, Texture2D** allTextures,
 {
     int lastPuzzleIndex = 0;
 
+    //Puzzle 4
     ConstructSinglePuzzle(&lastPuzzleIndex,
 			  3,
 			  3,
-			  (Vector3){3.0f, 1.0f, 2.0f},
+			  (Vector3){0.0f, 1.0f, -6.0f},
 			  player,
 			  Puzzle_01B,
 			  false,
@@ -20,10 +21,11 @@ void ConstructGameBPuzzles(ButtonMaster** gameBPuzzles, Texture2D** allTextures,
 			  EPS_active,
 			  0.0f);
     
+    //Puzzle 1
     ConstructSinglePuzzle(&lastPuzzleIndex,
 			  4,
 			  1,
-			  (Vector3){1.0f, 1.5f, 1.0f},
+			  (Vector3){1.0f, 1.0f, 1.0f},
 			  player,
 			  Puzzle_02B,
 			  false,
@@ -32,12 +34,13 @@ void ConstructGameBPuzzles(ButtonMaster** gameBPuzzles, Texture2D** allTextures,
 			  (Vector2Int){0, 0},
 			  true,
 			  EPS_active,
-			  0.0f);
-
+			  0.4f);
+    
+    //Puzzle 2
     ConstructSinglePuzzle(&lastPuzzleIndex,
 			3,
 			3,
-			(Vector3){6.0f, 1.0f, 3.0f},
+			(Vector3){3.0f, 1.0f, 1.0f},
 			player,
 		        Puzzle_03B,
 			false,
@@ -47,7 +50,8 @@ void ConstructGameBPuzzles(ButtonMaster** gameBPuzzles, Texture2D** allTextures,
 			true,
 			EPS_active,
 			0.0f);
-
+    
+    //broken puzzle
     ConstructSinglePuzzle(&lastPuzzleIndex,
 			  4,
 			  4,
@@ -61,7 +65,8 @@ void ConstructGameBPuzzles(ButtonMaster** gameBPuzzles, Texture2D** allTextures,
 			  true,
 			  EPS_active,
 			  0.3f);
-
+    
+    //Later Puzzle
     ConstructSinglePuzzle(&lastPuzzleIndex,
 			  3,
 			  5,
@@ -75,7 +80,8 @@ void ConstructGameBPuzzles(ButtonMaster** gameBPuzzles, Texture2D** allTextures,
 			  true,
 			  EPS_active,
 			  0.3f);
-
+    
+    //Later Puzzle
     ConstructSinglePuzzle(&lastPuzzleIndex,
 			5,
 			3,
@@ -89,6 +95,21 @@ void ConstructGameBPuzzles(ButtonMaster** gameBPuzzles, Texture2D** allTextures,
 			true,
 			EPS_active,
 			0.4f);
+    
+    //Puzzle 3
+    ConstructSinglePuzzle(&lastPuzzleIndex,
+			  4,
+			  3,
+			  (Vector3){5.0f, 1.0f, 1.0f},
+			  player,
+			  Puzzle_07B,
+			  false,
+			  gameplayElements,
+			  gameBPuzzles,
+			  (Vector2Int){0, 3},
+			  true,
+			  EPS_active,
+			  0.3f);
     
     for (int i = 0; i < NUMBER_OF_PUZZLES_B; i++)
     {
@@ -140,6 +161,11 @@ void AssignSpecialTexturesGameB(ButtonMaster** allPuzzles, Texture2D** allTextur
     AssignButtonSpecialTextureAndAction(&allPuzzles[5]->childButtons[1][4], TCL_OFF);
     AssignButtonSpecialTextureAndAction(&allPuzzles[5]->childButtons[2][2], TCL_OFF);
     AssignButtonSpecialTextureAndAction(&allPuzzles[5]->childButtons[1][1], TCL_OFF);
+
+    AssignButtonSpecialTextureAndAction(&allPuzzles[6]->childButtons[0][1], TCL_OFF);
+    AssignButtonSpecialTextureAndAction(&allPuzzles[6]->childButtons[1][2], TCL_OFF);
+    AssignButtonSpecialTextureAndAction(&allPuzzles[6]->childButtons[2][1], TCL_OFF);
+    AssignButtonSpecialTextureAndAction(&allPuzzles[6]->childButtons[1][0], TCL_OFF);
         
     AssignSolutionsTextures(allPuzzles[0]);
     AssignSolutionsTextures(allPuzzles[1]);
@@ -147,6 +173,7 @@ void AssignSpecialTexturesGameB(ButtonMaster** allPuzzles, Texture2D** allTextur
     AssignSolutionsTextures(allPuzzles[3]);
     AssignSolutionsTextures(allPuzzles[4]);
     AssignSolutionsTextures(allPuzzles[5]);
+    AssignSolutionsTextures(allPuzzles[6]);
 }
 
 void Puzzle_01B(ButtonMaster* puzzle)
@@ -277,3 +304,19 @@ void Puzzle_06B(ButtonMaster* puzzle)
   {1,0} {1,1} {1,2}
   {0,0} {0,1} {0,2}
 */
+
+void Puzzle_07B(ButtonMaster* puzzle)
+{
+    int numOfSolutions = 3;
+    puzzle->numberOfSolutions = numOfSolutions;
+    puzzle->solutionLocations = malloc(sizeof(Vector2Int) * numOfSolutions);
+    puzzle->solutionButtons = malloc(sizeof(Button) * puzzle->numberOfSolutions);
+    puzzle->solutionLocations[0] = (Vector2Int){0, 0};
+    puzzle->solutionLocations[1] = (Vector2Int){2, 2};
+    puzzle->solutionLocations[2] = (Vector2Int){0, 2};
+
+    puzzle->textureSizes = malloc(sizeof(enum ButtonTextureSizes) * puzzle->numberOfSolutions);
+    puzzle->textureSizes[0] = EBTS_03;
+    puzzle->textureSizes[1] = EBTS_05;
+    puzzle->textureSizes[2] = EBTS_07;
+}

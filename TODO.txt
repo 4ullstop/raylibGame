@@ -119,7 +119,7 @@ Redo gamea (Clean up intro, intro to cursor pushing directions)
 
 Shared memory and 2 games at once!
 
-Create some sort of way for players to identify the order in which they have pressed the buttons - whether the shade of the color changes or something else (change color == not colorblind ppl)
+Create some sort of way for players to identify the order in which they have pressed the buttons - whether the shade of the color changes or something else (change color == not colorblind ppl), or sounds getting lower/or higher
 
 Drop the amount of polygons in the button mesh for faster loading times
 
