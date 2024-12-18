@@ -86,7 +86,8 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
     buttonTextures->selected = *allTextures[5];
     buttonTextures->off = *allTextures[6];
     buttonTextures->error = *allTextures[7];
-
+    buttonTextures->completed = *allTextures[8];
+    
     //initializng the associated models for the mechanic
     master->childButtons[i][j].model = malloc(sizeof(modelInfo));
     master->childButtons[i][j].model->collisionDisabled = true;

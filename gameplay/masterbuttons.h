@@ -50,3 +50,5 @@ void ClearSolvedButtons(SolvedButtons* solvedButtons);
 void AddButtonToErrorList(Button* button, ErrorButtons** errorButton);
 
 bool PushedCheckForEdges(Button* button);
+
+void PuzzleCompleted(ButtonMaster* puzzle);

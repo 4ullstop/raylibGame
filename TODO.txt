@@ -35,10 +35,6 @@ Figure out how to $(SolutionDir) things to make it possible for other machines t
 
 It would also probably be nice if you made the player a little taller
 
-Might consider separating some of the stuff in the controller, it's getting quite long
-
-
-
 Make it more obvious when you complete a puzzle/enter into a puzzle 
 
 
@@ -66,7 +62,6 @@ Quality of life features to be added or reworked:
 
 Remake intro to moving around since the two actions are split in two different puzzles 
 Make it so you are taking the player's facing direction into affect when the player interacts
-Errors only flash after first time inputting incorrect solution 
 
 Intro to puzzles
 Intro to solution to puzzles
@@ -90,7 +85,6 @@ nmake /f Makefile OUTPUT=custom_name.exe
 When it comes to the collision thing, check your timings for collision detection, you might need to call CollideAndSlide/CollideWIthWorld so that the player isn't ending
 up in the floor on game start if you change the size of the ellipsoid
 
-Create ability to remove submitted buttons from the linked list when the player un submits a submitted button
 
 The rules of the puzzles:
  - Movement by use of arrow keys
@@ -111,7 +105,6 @@ The rules of the puzzles:
      - Considered a "reach" button (unlike the ability to reach around with the arrow keys)
 
 
-Fix issues with submission and completed puzzles where the board turns blank bc it's still checking if all inputs have been given saying it's false
 Create a better way for players to understand when the puzzle is complete
 
 Finish gameb puzzles (create more until satisfied and before creating combination puzzles)
@@ -126,7 +119,9 @@ Drop the amount of polygons in the button mesh for faster loading times
 
 Gameb starts implementing the idea of un-submitting submitted buttons?
  
+Probably find a way to make it super obvious that you failed when you get stuck
 
-
-
+Figure out why the door is in sceneb and not scenea
  
+Currently working on puzzle input enabling and disabling using the enum, the puzzle allows for input when the puzzle is input incorrectly (I do not want this, input should be disabled)
+Only the reset button should be enabled upon interacting with the solved puzzle for the player to reset the puzzle for whatever purpose they so desire

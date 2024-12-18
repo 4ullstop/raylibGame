@@ -15,9 +15,8 @@
 #define NUMBER_OF_MODELS_A 94 //45
 #define NUMBER_OF_MODELS_B 82 //24
 
-#define NUMBER_OF_TEXTURES_A 8 //this will always be one more than what is in the file
-#define NUMBER_OF_TEXTURES_B 8
-
+#define NUMBER_OF_TEXTURES_A 9 //this will always be one more than what is in the file
+#define NUMBER_OF_TEXTURES_B 9
 #define NUMBER_OF_INTERACTABLES_A 10 //9
 #define NUMBER_OF_INTERACTABLES_B 7
 
@@ -113,6 +112,15 @@ typedef struct
 } Vector2Int;
 #endif
 
+#ifndef PUZZLE_INPUT_TYPE
+#define PUZZLE_INPUT_TYPE
+enum PuzzleInputType
+{
+    EPIT_Enabled,
+    EPIT_Disabled,
+    EPIT_ResetOnly
+};
+#endif
 
 
 #ifndef CAMERA_STRUCT
@@ -166,6 +174,8 @@ typedef struct FPSPlayer
     bool shouldTickPlayer;
 
     float lerpAmount;
+
+    enum PuzzleInputType puzzleInputType;
 } FPSPlayer;
 #endif
 
@@ -224,6 +234,7 @@ typedef struct
     Texture2D selected;
     Texture2D off;
     Texture2D error;
+    Texture2D completed;
 } PuzzleTexture;
 #endif
 

@@ -278,6 +278,7 @@ void ChangeSelection(Button* button, ButtonMaster* puzzle)
 
 void CheckForSolution(Button* button, ButtonMaster* puzzle, enum Gamemode* mode)
 {
+    bool answerFound = false;
     if (puzzle->numberOfSolutions == puzzle->numOfSolved)
     {
 	puzzle->errorButtons = malloc(sizeof(ErrorButtons));
@@ -314,9 +315,13 @@ void CheckForSolution(Button* button, ButtonMaster* puzzle, enum Gamemode* mode)
 	    puzzle->shouldBlinkCursor = false;
 	    ClearSolvedButtons(puzzle->solvedButtons);
 	    puzzle->solvedButtons = NULL;
-	}
+	    answerFound = true;
+	    PuzzleCompleted(puzzle);
+	    puzzle->player->puzzleInputType = EPIT_ResetOnly;
+       	}
 	else
 	{
+	    
 	    printf("These are the right buttons input in the incorrect order\n");
 	    
 	    ResetPuzzle(puzzle, true);
@@ -324,7 +329,7 @@ void CheckForSolution(Button* button, ButtonMaster* puzzle, enum Gamemode* mode)
     }
     else
     {
-	if (puzzle->numOfSelected >= (puzzle->columns * puzzle->rows))
+	if (puzzle->numOfSelected >= (puzzle->columns * puzzle->rows) && answerFound == false)
 	{
 	    printf("You have selected all of the present buttons, try again\n");
 	    ResetPuzzle(puzzle, true);
@@ -428,12 +433,13 @@ void ResetPuzzle(ButtonMaster* puzzle, bool resultOfFailure)
     puzzle->numOfSolved = 0;
     if (resultOfFailure == true)
     {
-        puzzle->player->puzzleInputEnabled = false;
+        puzzle->player->puzzleInputType = EPIT_Disabled;
         puzzle->shouldReadTick = true;
         puzzle->puzzleUnSolved = true;
 	printf("about to blink cursor\n");
         return;
     }
+    
     for (int i = 0; i < puzzle->rows; i++)
     {
         for (int j = 0; j < puzzle->columns; j++)
@@ -545,10 +551,11 @@ void RunThroughErrorButtons(ButtonMaster* puzzle, TickNode* tickNode, ErrorButto
     tickNode->iterations = tickNode->iterations + 1;
     if (tickNode->iterations >= 2000)
     {
-        puzzle->player->puzzleInputEnabled = true;
+        puzzle->player->puzzleInputType = EPIT_Enabled;
         if (tickNode->iterations >= 4000)
         {
             puzzle->puzzleUnSolved = false;
+	    tickNode->iterations = 0;
             ResetPuzzle(puzzle, false);
         }
     }
@@ -579,4 +586,13 @@ bool BlinkError(Button* button, TickNode* tickNode)
     }
     button->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = button->model->texture;
     return wasFired;
+}
+
+void PuzzleCompleted(ButtonMaster* puzzle)
+{
+    for (int i = 0; i < puzzle->numberOfSolutions; i++)
+    {
+	puzzle->solutionButtons[i]->model->texture = puzzle->solutionButtons[i]->buttonTextures->completed;
+	puzzle->solutionButtons[i]->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = puzzle->solutionButtons[i]->model->texture;
+    }
 }

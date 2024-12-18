@@ -15,6 +15,7 @@ void PlayerSetup(FPSPlayer* player, PlayerCam* cam, UIElements** hud, enum Gamem
     player->showPlayerLocation = true;
     player->puzzleInputEnabled = true;
     player->shouldTickPlayer = false;
+    player->puzzleInputType = EPIT_Enabled;
 }
 
 void PollPlayer(float deltaTime, PlayerCam* pcam, FPSPlayer* player, CollisionPacket* colPacket, modelInfo** models, int numOfModels)
