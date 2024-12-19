@@ -110,7 +110,7 @@ void PollPlayerSecondaryInputs(FPSPlayer* player, Raycast* interactRay, QueryBox
                     interactedItem->associatedPuzzle->shouldReadTick = true;
                     LerpPlayer(player, interactedItem->associatedPuzzle);
                     *mode = EGM_Puzzle;
-                    
+		                        
                 }
             }
         }
@@ -147,7 +147,7 @@ void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode)
 {
     if (interactedItem->associatedPuzzle->player->puzzleInputType == EPIT_Disabled) return;
     bool directionalKeyPressed = false;
-    if (interactedItem->associatedPuzzle->player->puzzleInputEnabled == false) return;
+    //if (interactedItem->associatedPuzzle->player->puzzleInputEnabled == false) return;
 
     if (IsKeyPressed(KEY_R))
     {

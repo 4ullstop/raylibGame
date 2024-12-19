@@ -448,6 +448,14 @@ void ResetPuzzle(ButtonMaster* puzzle, bool resultOfFailure)
             {
                 continue;
             }
+	    if (puzzle->childButtons[i][j].shouldStaySubmitted == true)
+	    {
+		printf("button should stay submitted\n");
+		puzzle->childButtons[i][j].buttonState = EBS_selected;
+		puzzle->childButtons[i][j].model->texture = puzzle->childButtons[i][j].buttonTextures->selected;
+		puzzle->childButtons[i][j].model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = puzzle->childButtons[i][j].model->texture;
+		continue;
+	    }
             puzzle->childButtons[i][j].buttonState = EBS_idle;
             puzzle->childButtons[i][j].model->texture = puzzle->childButtons[i][j].buttonTextures->idle;
             puzzle->childButtons[i][j].model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = puzzle->childButtons[i][j].model->texture; 
@@ -467,6 +475,8 @@ void ResetPuzzle(ButtonMaster* puzzle, bool resultOfFailure)
     puzzle->childButtons[puzzle->highlightStartLoc.x][puzzle->highlightStartLoc.y].model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = puzzle->childButtons[puzzle->highlightStartLoc.x][puzzle->highlightStartLoc.y].model->texture; 
     puzzle->highlightLocation = puzzle->highlightStartLoc;
     puzzle->childButtons[puzzle->highlightStartLoc.x][puzzle->highlightStartLoc.y].highlighted = true;
+
+
 }
 
 void PollPuzzles(ButtonMaster* puzzle, TickNode* tickNode)
@@ -551,11 +561,12 @@ void RunThroughErrorButtons(ButtonMaster* puzzle, TickNode* tickNode, ErrorButto
     tickNode->iterations = tickNode->iterations + 1;
     if (tickNode->iterations >= 2000)
     {
-        puzzle->player->puzzleInputType = EPIT_Enabled;
+        
         if (tickNode->iterations >= 4000)
         {
             puzzle->puzzleUnSolved = false;
 	    tickNode->iterations = 0;
+	    puzzle->player->puzzleInputType = EPIT_Enabled;
             ResetPuzzle(puzzle, false);
         }
     }

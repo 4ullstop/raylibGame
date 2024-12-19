@@ -13,7 +13,7 @@
     The current size of AssociatedDoors in GameplayElements is: 48
 */
 #define NUMBER_OF_MODELS_A 94 //45
-#define NUMBER_OF_MODELS_B 82 //24
+#define NUMBER_OF_MODELS_B 84 //24
 
 #define NUMBER_OF_TEXTURES_A 9 //this will always be one more than what is in the file
 #define NUMBER_OF_TEXTURES_B 9
@@ -332,6 +332,8 @@ typedef struct Button
     enum TextureCoordinateLocations buttonTextureLocation;
 
     bool wasFlippedIncorrectly;
+
+    bool shouldStaySubmitted;
 } Button;
 #endif
 

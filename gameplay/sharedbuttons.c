@@ -109,6 +109,7 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
     master->childButtons[i][j].ButtonSelected = NULL;
     master->childButtons[i][j].submitted = false;
     master->childButtons[i][j].wasFlippedIncorrectly = false;
+    master->childButtons[i][j].shouldStaySubmitted = false;
     master->childButtons[i][j].isBelowEdge = false;
     master->childButtons[i][j].isAboveEdge = false;
     master->childButtons[i][j].isLeftEdge = false;
@@ -354,18 +355,26 @@ void AssignSolutionButtonsToPuzzle(ButtonMaster* puzzle)
 
 void AssignButtonSpecialTextureAndAction(Button* button, enum TextureCoordinateLocations textureLocations)
 {
-    if (textureLocations != TCL_OFF)
+    if (textureLocations != TCL_OFF || textureLocations != TCL_SUB)
     {
         UpdateShaderForButtonAtlas(button, textureLocations);
     }
-    else
+
+    if (textureLocations == TCL_OFF)
     {
-        button->buttonState = EBS_off;
-        button->model->texture = button->buttonTextures->off;
-        button->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = button->model->texture;
-        button->shouldStayPoweredOff = true;
+	button->buttonState = EBS_off;
+	button->model->texture = button->buttonTextures->off;
+	button->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = button->model->texture;
+	button->shouldStayPoweredOff = true;
     }
-    
+
+    if (textureLocations == TCL_SUB)
+    {
+	button->buttonState = EBS_selected;
+	button->model->texture = button->buttonTextures->selected;
+	button->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = button->model->texture;
+	button->shouldStaySubmitted = true;
+    }
     AssignToggleAction(button, textureLocations);
 }
 
