@@ -145,16 +145,27 @@ void LerpPlayer(FPSPlayer* player, ButtonMaster* puzzle)
 
 void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode)
 {
-    if (interactedItem->associatedPuzzle->player->puzzleInputType == EPIT_Disabled) return;
+
+    if (IsKeyPressed(KEY_E))
+    {
+	*mode = EGM_Normal;
+	interactedItem->associatedPuzzle = NULL;
+	interactedItem = NULL;
+	return;
+    }
+    if (interactedItem->associatedPuzzle->puzzleInputType == EPIT_Disabled) return;
+    
     bool directionalKeyPressed = false;
     //if (interactedItem->associatedPuzzle->player->puzzleInputEnabled == false) return;
+    //printf("hello?\n");
 
     if (IsKeyPressed(KEY_R))
     {
         MoveCursor(ED_Reset, interactedItem, mode);
     }
     
-    if (interactedItem->associatedPuzzle->player->puzzleInputType == EPIT_ResetOnly) return;
+    if (interactedItem->associatedPuzzle->puzzleInputType == EPIT_ResetOnly) return;
+    
     if (IsKeyPressed(KEY_LEFT))
     {
         MoveCursor(ED_Left, interactedItem, mode);
@@ -181,12 +192,14 @@ void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode)
         MoveCursor(ED_Enter, interactedItem, mode);
     }
 
+    /*
     if (IsKeyPressed(KEY_E))
     {
         *mode = EGM_Normal;
         interactedItem->associatedPuzzle = NULL;
         interactedItem = NULL;
     }
+    */
 
     if (directionalKeyPressed == true)
     {

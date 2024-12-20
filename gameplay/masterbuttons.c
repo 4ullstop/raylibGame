@@ -70,6 +70,7 @@ void DestructAllSolutionLocations(ButtonMaster* master)
 
 void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gamemode* mode)
 {
+    printf("moving cursor\n");
     ButtonMaster* master = interactedItem->associatedPuzzle;
     Button* currSelectedButton;
     if (master == NULL)
@@ -99,6 +100,7 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
         printf("highlighted button not found there is an error somewhere\n");
     }
     bool checkForEdges = false;
+    
     switch (direction)
     {
         case ED_Up:
@@ -317,9 +319,8 @@ void CheckForSolution(Button* button, ButtonMaster* puzzle, enum Gamemode* mode)
 	    puzzle->solvedButtons = NULL;
 	    answerFound = true;
 	    PuzzleCompleted(puzzle);
-	    puzzle->player->puzzleInputType = EPIT_ResetOnly;
-	    puzzle->puzzleHasBeenSolved = true;
-       	}
+	    puzzle->puzzleInputType = EPIT_ResetOnly;
+      	}
 	else
 	{
 	    
@@ -434,7 +435,7 @@ void ResetPuzzle(ButtonMaster* puzzle, bool resultOfFailure)
     puzzle->numOfSolved = 0;
     if (resultOfFailure == true)
     {
-        puzzle->player->puzzleInputType = EPIT_Disabled;
+	puzzle->puzzleInputType = EPIT_Disabled;
         puzzle->shouldReadTick = true;
         puzzle->puzzleUnSolved = true;
 	printf("about to blink cursor\n");
@@ -567,7 +568,7 @@ void RunThroughErrorButtons(ButtonMaster* puzzle, TickNode* tickNode, ErrorButto
         {
             puzzle->puzzleUnSolved = false;
 	    tickNode->iterations = 0;
-	    puzzle->player->puzzleInputType = EPIT_Enabled;
+	    puzzle->puzzleInputType = EPIT_Enabled;
             ResetPuzzle(puzzle, false);
         }
     }

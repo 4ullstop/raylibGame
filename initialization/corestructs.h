@@ -175,7 +175,6 @@ typedef struct FPSPlayer
 
     float lerpAmount;
 
-    enum PuzzleInputType puzzleInputType;
 } FPSPlayer;
 #endif
 
@@ -412,7 +411,7 @@ typedef struct ButtonMaster
     int numOfSolved;
     int numOfSelected;
 
-    bool puzzleHasBeenSolved;
+    enum PuzzleInputType puzzleInputType;
 } ButtonMaster;
 #endif
 
