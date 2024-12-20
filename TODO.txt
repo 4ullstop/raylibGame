@@ -125,3 +125,10 @@ Figure out why the door is in sceneb and not scenea
  
 Currently working on puzzle input enabling and disabling using the enum, the puzzle allows for input when the puzzle is input incorrectly (I do not want this, input should be disabled)
 Only the reset button should be enabled upon interacting with the solved puzzle for the player to reset the puzzle for whatever purpose they so desire
+
+If something weird happens, it might be the compiler being dumb
+
+After you are done recreating all of the puzzles for gamea, go through and check to make sure you are freeing all of the memoory that needs to be freed, I fear that you are getting very high in numbers where
+this could start being a problem.
+
+When you are home, you need to clean, remove the assignspeicaltextures from gamea and try to run the game (it will not work first time)

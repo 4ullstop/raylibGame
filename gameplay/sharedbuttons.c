@@ -298,6 +298,7 @@ void ConstructSinglePuzzle(int* lastPuzzleIndex, int columns, int rows, Vector3 
     puzzle->solvedButtons = NULL;
     puzzle->numOfSolved = 0;
     puzzle->numOfSelected = 0;
+    puzzle->puzzleHasBeenSolved = false;
     puzzle->puzzleNormalDirection = (Vector3){0};
     puzzle->associatedGameplayElements = malloc(sizeof(GameplayElements));
     if (hasGameplayElements == true)

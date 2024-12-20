@@ -318,6 +318,7 @@ void CheckForSolution(Button* button, ButtonMaster* puzzle, enum Gamemode* mode)
 	    answerFound = true;
 	    PuzzleCompleted(puzzle);
 	    puzzle->player->puzzleInputType = EPIT_ResetOnly;
+	    puzzle->puzzleHasBeenSolved = true;
        	}
 	else
 	{
