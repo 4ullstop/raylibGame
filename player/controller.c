@@ -138,8 +138,6 @@ void LerpPlayer(FPSPlayer* player, ButtonMaster* puzzle)
 	player->lerpAmount = 0.0f;
 	
         player->shouldTickPlayer = true;
-        printf("player should start ticking\n");
-        
     }
 }
 
@@ -156,9 +154,7 @@ void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode)
     if (interactedItem->associatedPuzzle->puzzleInputType == EPIT_Disabled) return;
     
     bool directionalKeyPressed = false;
-    //if (interactedItem->associatedPuzzle->player->puzzleInputEnabled == false) return;
-    //printf("hello?\n");
-
+    
     if (IsKeyPressed(KEY_R))
     {
         MoveCursor(ED_Reset, interactedItem, mode);
