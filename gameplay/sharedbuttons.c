@@ -299,6 +299,9 @@ void ConstructSinglePuzzle(int* lastPuzzleIndex, int columns, int rows, Vector3 
     puzzle->numOfSolved = 0;
     puzzle->numOfSelected = 0;
     puzzle->puzzleInputType = EPIT_Enabled;
+    puzzle->plainSubmittedButtons = NULL;
+    puzzle->numOfPlainSubmittedButtons = 0;
+    puzzle->plainSubmittedButttonsMax = 0;
     puzzle->puzzleNormalDirection = (Vector3){0};
     puzzle->associatedGameplayElements = malloc(sizeof(GameplayElements));
     if (hasGameplayElements == true)

@@ -52,3 +52,13 @@ void AddButtonToErrorList(Button* button, ErrorButtons** errorButton);
 bool PushedCheckForEdges(Button* button);
 
 void PuzzleCompleted(ButtonMaster* puzzle);
+
+void AddPlainButtonToSubmittedList(PlainSubmittedButtons** head, Button* buttonToAdd);
+
+PlainSubmittedButton* RemoveFromPlainSubmittedButtons(PlainSubmittedButtons** head);
+
+bool SubmitButton(Button* button, ButtonMaster* puzzle);
+
+void UnsubmitButton(Button* button, ButtonMaster* puzzle);
+
+

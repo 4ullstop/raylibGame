@@ -245,37 +245,56 @@ void ChangeSelection(Button* button, ButtonMaster* puzzle)
 {
     if (!button->submitted)
     {
-        button->model->texture = button->buttonTextures->selected;
-        button->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = button->model->texture;
-        button->submitted = true;
-        if (button->ButtonSelected != NULL)
-        {
-            button->ButtonSelected(button);
-        }
-	if (button->solutionButton == true)
+	if (!SubmitButton(button, puzzle))
 	{
-	    AddItemToSolvedButtonList(&puzzle->solvedButtons, button->textureSizes);
-	    puzzle->numOfSolved = puzzle->numOfSolved + 1;
-	    puzzle->numOfSelected = puzzle->numOfSelected + 1;
-	    printf("this was one of the buttons\n");
+	    if (puzzle->numOfPlainSubmittedButtons >= puzzle->plainSubmittedButtonsMax)
+	    {
+		UnsubmitButton(button, puzzle);
+		puzzle->plainSubmittedButtons = RemoveFromSubmittedButtons(&puzzle->SubmittedButtons);
+	    }
+	    AddPlainButtonToSubmittedList(&puzzle->plainSubmittedButtons, button, puzzle->plainSubmittedButtonMax);
 	}
     }
     else
     {
-        button->submitted = false;
-        if (button->ButtonSelected != NULL)
-        {
-            button->ButtonSelected(button);
-        }
-	if (button->solutionButton == true)
-	{
-	    printf("removing item from linked list\n");
-	    RemoveItemToSolvedButtonList(&puzzle->solvedButtons, button->textureSizes);
-	    puzzle->numOfSolved = puzzle->numOfSolved - 1;
-	}
-	
-        AddHighlight(button);
+	UnsubmitButton(button, puzzle);
     }
+}
+
+bool SubmitButton(Button* button, ButtonMaster* puzzle)
+{
+    button->model->texture = button->buttonTextures->selected;
+    button->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = button->model->texture;
+    button->submitted = true;
+    if (button->ButtonSelected != NULL)
+    {
+	button->ButtonSelected(button);
+    }
+    if (button->solutionButton == true)
+    {
+	AddItemToSolvedButtonList(&puzzle->solvedButtons, button->textureSizes);
+	puzzle->numOfSolved = puzzle->numOfSolved + 1;
+	puzzle->numOfSelected = puzzle->numOfSelected + 1;
+	printf("this was one of the buttons\n");
+	return true;
+    }
+    return false;
+}
+
+void UnsubmitButton(Button* button, ButtonMaster* puzzle)
+{
+    button->submitted = false;
+    if (button->ButtonSelected != NULL)
+    {
+	button->ButtonSelected(button);
+    }
+    if (button->solutionButton == true)
+    {
+	printf("removing item from linked list\n");
+	RemoveItemToSolvedButtonList(&puzzle->solvedButtons, button->textureSizes);
+	puzzle->numOfSolved = puzzle->numOfSolved - 1;
+    }
+    AddHighlight(button);
 }
 
 void CheckForSolution(Button* button, ButtonMaster* puzzle, enum Gamemode* mode)
@@ -608,4 +627,49 @@ void PuzzleCompleted(ButtonMaster* puzzle)
 	puzzle->solutionButtons[i]->model->texture = puzzle->solutionButtons[i]->buttonTextures->completed;
 	puzzle->solutionButtons[i]->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = puzzle->solutionButtons[i]->model->texture;
     }
+}
+
+void AddPlainButtonToSubmittedList(PlainSubmittedButtons** head, Button* buttonToAdd, int maxLen)
+{
+    PlainSubmittedButtons* node = (PlainSubmittedButtons*)malloc(sizeof(PlainSubmittedButtons));
+    if (node == NULL)
+    {
+	printf("ERROR, failed to allocate memory for solved button list\n");
+	return;
+    }
+
+    node->button = buttonToAdd;
+    node->next = NULL;
+
+    if (*head == NULL)
+    {
+	*head = node;
+	return;
+    }
+
+    PlainSubmittedButton* last = *head;
+    int listLen = 0;
+    while(last->next != NULL)
+    {
+	last = last->next;
+	listLen++;
+    }
+
+    last->next = node;
+}
+
+PlainSubmittedButton* RemoveFromPlainSubmittedButtons(PlainSubmittedButtons** head)
+{
+    if (*head == NULL)
+    {
+	return NULL;
+    }
+
+    PlainSubmittedButtons* temp = *head;
+
+    *head = (*head)->next;
+
+    free(temp);
+
+    return *head;
 }
