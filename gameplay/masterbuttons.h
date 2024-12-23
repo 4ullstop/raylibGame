@@ -53,12 +53,10 @@ bool PushedCheckForEdges(Button* button);
 
 void PuzzleCompleted(ButtonMaster* puzzle);
 
-PlainSubmittedButtons*  AddPlainButtonToSubmittedList(PlainSubmittedButtons* head, Button* buttonToAdd, int maxLen);
-
-PlainSubmittedButtons* RemoveFromPlainSubmittedButtons(PlainSubmittedButtons* head, Button* buttonToRemove);
-
 bool SubmitButton(Button* button, ButtonMaster* puzzle);
 
-void UnsubmitButton(Button* button, ButtonMaster* puzzle);
+void UnsubmitButton(Button* button, ButtonMaster* puzzle, bool isFromAuto);
 
+void AddPlainButtonToSubmittedList(Button* buttonToAdd, PlainSubmittedButtons** head, ButtonMaster* puzzle);
 
+void RemoveHead(PlainSubmittedButtons** head, ButtonMaster* puzzle);

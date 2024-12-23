@@ -245,23 +245,15 @@ void ChangeSelection(Button* button, ButtonMaster* puzzle)
 {
     if (!button->submitted)
     {
-	if (!SubmitButton(button, puzzle))
+	bool solutionButton = SubmitButton(button, puzzle);
+	if (solutionButton == false)
 	{
-	    if (puzzle->numOfPlainSubmittedButtons >= puzzle->plainSubmittedButtonsMax)
-	    {
-		Button* buttonToRemove = NULL;
-		puzzle->plainSubmittedButtons = RemoveFromPlainSubmittedButtons(puzzle->plainSubmittedButtons, buttonToRemove);
-		UnsubmitButton(buttonToRemove, puzzle);
-		puzzle->numOfPlainSubmittedButtons = puzzle->numOfPlainSubmittedButtons - 1;
-		printf("removal finished\n");
-	    }
-	    puzzle->plainSubmittedButtons = AddPlainButtonToSubmittedList(puzzle->plainSubmittedButtons, button, puzzle->plainSubmittedButtonsMax);
-	    puzzle->numOfPlainSubmittedButtons = puzzle->numOfPlainSubmittedButtons + 1;
+	    AddPlainButtonToSubmittedList(button, &puzzle->plainSubmittedButtons, puzzle);
 	}
     }
     else
     {
-	UnsubmitButton(button, puzzle);
+	UnsubmitButton(button, puzzle, false);
     }
 }
 
@@ -285,7 +277,7 @@ bool SubmitButton(Button* button, ButtonMaster* puzzle)
     return false;
 }
 
-void UnsubmitButton(Button* button, ButtonMaster* puzzle)
+void UnsubmitButton(Button* button, ButtonMaster* puzzle, bool isFromAuto)
 {
     button->submitted = false;
     if (button->ButtonSelected != NULL)
@@ -297,6 +289,12 @@ void UnsubmitButton(Button* button, ButtonMaster* puzzle)
 	printf("removing item from linked list\n");
 	RemoveItemToSolvedButtonList(&puzzle->solvedButtons, button->textureSizes);
 	puzzle->numOfSolved = puzzle->numOfSolved - 1;
+    }
+    if (isFromAuto == true)
+    {
+	button->model->texture = button->buttonTextures->idle;
+	button->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = button->model->texture;
+	return;
     }
     AddHighlight(button);
 }
@@ -633,35 +631,49 @@ void PuzzleCompleted(ButtonMaster* puzzle)
     }
 }
 
-PlainSubmittedButtons* AddPlainButtonToSubmittedList(PlainSubmittedButtons* head, Button* buttonToAdd, int maxLen)
+void AddPlainButtonToSubmittedList(Button* buttonToAdd, PlainSubmittedButtons** head, ButtonMaster* puzzle)
 {
-    PlainSubmittedButtons* node = (PlainSubmittedButtons*)malloc(sizeof(PlainSubmittedButtons));
-    node->button = buttonToAdd;
+    if (puzzle->numOfPlainSubmittedButtons >= puzzle->plainSubmittedButtonsMax)
+    {
+	RemoveHead(head, puzzle);
+    }
+    PlainSubmittedButtons* newNode = (PlainSubmittedButtons*)malloc(sizeof(SolvedButtons));
 
-    node->next = head;
+    if (newNode == NULL)
+    {
+	printf("ERROR, Failed to allocated memory for plain submitted button list\n");
+	return;
+    }
 
-    return node;
+    newNode->button = buttonToAdd;
+    newNode->next = NULL;
+
+    if (*head == NULL)
+    {
+	*head = newNode;
+	return;
+    }
+
+    PlainSubmittedButtons* lastNode = *head;
+    while (lastNode->next != NULL)
+    {
+	lastNode = lastNode->next;
+    }
+    lastNode-> next = newNode;
+    puzzle->numOfPlainSubmittedButtons = puzzle->numOfPlainSubmittedButtons + 1;
 }
 
-PlainSubmittedButtons* RemoveFromPlainSubmittedButtons(PlainSubmittedButtons* head, Button* buttonToRemove)
+void RemoveHead(PlainSubmittedButtons** head, ButtonMaster* puzzle)
 {
-    if (head == NULL) return NULL;
+    puzzle->numOfPlainSubmittedButtons = puzzle->numOfPlainSubmittedButtons - 1;
+    
+    PlainSubmittedButtons* out = (*head)->next;
 
-    if (head->next == NULL)
-    {
-	free(head);
-	return NULL;
-    }
-    PlainSubmittedButtons* secondLast = head;
+    UnsubmitButton((*head)->button, puzzle, true);
 
-    while(secondLast->next->next != NULL)
-    {
-	secondLast = secondLast->next;
-    }
+    PlainSubmittedButtons* temp = *head;
 
-    buttonToRemove = secondLast->next->button;
-    free(secondLast->next);
-    secondLast->next = NULL;
+    *head = out;
 
-    return head;
+    free(temp);
 }
