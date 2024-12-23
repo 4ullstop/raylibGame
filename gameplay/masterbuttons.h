@@ -60,3 +60,5 @@ void UnsubmitButton(Button* button, ButtonMaster* puzzle, bool isFromAuto);
 void AddPlainButtonToSubmittedList(Button* buttonToAdd, PlainSubmittedButtons** head, ButtonMaster* puzzle);
 
 void RemoveHead(PlainSubmittedButtons** head, ButtonMaster* puzzle);
+
+void DestructAllPlainSubmittedButtons(ButtonMaster* puzzle);

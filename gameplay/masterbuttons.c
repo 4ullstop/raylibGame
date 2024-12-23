@@ -20,6 +20,7 @@ void DestructAllPuzzles(ButtonMaster** allPuzzles, int numberOfPuzzles)
 {
     for (int i = 0; i < numberOfPuzzles; i++)
     {
+	DestructAllPlainSubmittedButtons(allPuzzles[i]);
         DestructAllButtons(allPuzzles[i]);
         if (allPuzzles[i]->associatedGameplayElements != NULL)
         {
@@ -66,6 +67,19 @@ void DestructAllSolutionLocations(ButtonMaster* master)
     free(master->correctOrder);
     free(master->solutionLocations);
     master->solutionLocations = NULL;
+}
+
+void DestructAllPlainSubmittedButtons(ButtonMaster* puzzle)
+{
+    PlainSubmittedButtons* current = puzzle->plainSubmittedButtons;
+    PlainSubmittedButtons* next;
+
+    while (current != NULL)
+    {
+	next = current->next;
+	free(current);
+	current = next;
+    }
 }
 
 void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gamemode* mode)
@@ -286,7 +300,6 @@ void UnsubmitButton(Button* button, ButtonMaster* puzzle, bool isFromAuto)
     }
     if (button->solutionButton == true)
     {
-	printf("removing item from linked list\n");
 	RemoveItemToSolvedButtonList(&puzzle->solvedButtons, button->textureSizes);
 	puzzle->numOfSolved = puzzle->numOfSolved - 1;
     }
