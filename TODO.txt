@@ -111,4 +111,5 @@ Probably...:
 	- Keep a linked list of the plain buttons that have been submitted
 	- Once the length is a certain size, remove the first item from the list and add a new item to the end of the list
 
-You still need to decide how to tell players the amount of plain buttons that can be submitted until they start unsubmitting themselves
+You still need to decide how to tell players the amount of plain buttons that can be submitted until they start unsubmitting themselves and you also need to write the code for this bc rn the button is just set to 0 which
+is gonna cause problems.

@@ -249,10 +249,14 @@ void ChangeSelection(Button* button, ButtonMaster* puzzle)
 	{
 	    if (puzzle->numOfPlainSubmittedButtons >= puzzle->plainSubmittedButtonsMax)
 	    {
-		UnsubmitButton(button, puzzle);
-		puzzle->plainSubmittedButtons = RemoveFromSubmittedButtons(&puzzle->SubmittedButtons);
+		Button* buttonToRemove = NULL;
+		puzzle->plainSubmittedButtons = RemoveFromPlainSubmittedButtons(puzzle->plainSubmittedButtons, buttonToRemove);
+		UnsubmitButton(buttonToRemove, puzzle);
+		puzzle->numOfPlainSubmittedButtons = puzzle->numOfPlainSubmittedButtons - 1;
+		printf("removal finished\n");
 	    }
-	    AddPlainButtonToSubmittedList(&puzzle->plainSubmittedButtons, button, puzzle->plainSubmittedButtonMax);
+	    puzzle->plainSubmittedButtons = AddPlainButtonToSubmittedList(puzzle->plainSubmittedButtons, button, puzzle->plainSubmittedButtonsMax);
+	    puzzle->numOfPlainSubmittedButtons = puzzle->numOfPlainSubmittedButtons + 1;
 	}
     }
     else
@@ -629,47 +633,35 @@ void PuzzleCompleted(ButtonMaster* puzzle)
     }
 }
 
-void AddPlainButtonToSubmittedList(PlainSubmittedButtons** head, Button* buttonToAdd, int maxLen)
+PlainSubmittedButtons* AddPlainButtonToSubmittedList(PlainSubmittedButtons* head, Button* buttonToAdd, int maxLen)
 {
     PlainSubmittedButtons* node = (PlainSubmittedButtons*)malloc(sizeof(PlainSubmittedButtons));
-    if (node == NULL)
-    {
-	printf("ERROR, failed to allocate memory for solved button list\n");
-	return;
-    }
-
     node->button = buttonToAdd;
-    node->next = NULL;
 
-    if (*head == NULL)
-    {
-	*head = node;
-	return;
-    }
+    node->next = head;
 
-    PlainSubmittedButton* last = *head;
-    int listLen = 0;
-    while(last->next != NULL)
-    {
-	last = last->next;
-	listLen++;
-    }
-
-    last->next = node;
+    return node;
 }
 
-PlainSubmittedButton* RemoveFromPlainSubmittedButtons(PlainSubmittedButtons** head)
+PlainSubmittedButtons* RemoveFromPlainSubmittedButtons(PlainSubmittedButtons* head, Button* buttonToRemove)
 {
-    if (*head == NULL)
+    if (head == NULL) return NULL;
+
+    if (head->next == NULL)
     {
+	free(head);
 	return NULL;
     }
+    PlainSubmittedButtons* secondLast = head;
 
-    PlainSubmittedButtons* temp = *head;
+    while(secondLast->next->next != NULL)
+    {
+	secondLast = secondLast->next;
+    }
 
-    *head = (*head)->next;
+    buttonToRemove = secondLast->next->button;
+    free(secondLast->next);
+    secondLast->next = NULL;
 
-    free(temp);
-
-    return *head;
+    return head;
 }
