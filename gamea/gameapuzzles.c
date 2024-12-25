@@ -158,17 +158,17 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
 
     ConstructSinglePuzzle(&lastPuzzleIndex,
 			  3,
-			  3,
+			  4,
 			  (Vector3){-15.0f, 1.0f, -10.0f},
 			  player,
 			  Puzzle_11,
 			  false,
 			  gameplayElements,
 			  gameAPuzzles,
-			  (Vector2Int){0, 0},
+			  (Vector2Int){0, 2},
 			  true,
 			  EPS_active,
-			  0.0f);
+			  0.3f);
 
     ConstructSinglePuzzle(&lastPuzzleIndex,
 			  5,
@@ -286,8 +286,10 @@ void AssignSpecialTexturesGameA(ButtonMaster** allPuzzles, Texture2D** allTextur
 
     AssignButtonSpecialTextureAndAction(&allPuzzles[10]->childButtons[1][2], TCL_OFF);
     AssignButtonSpecialTextureAndAction(&allPuzzles[10]->childButtons[1][1], TCL_OFF);
-    AssignButtonSpecialTextureAndAction(&allPuzzles[10]->childButtons[2][0], TCL_OFF);
-
+    AssignButtonSpecialTextureAndAction(&allPuzzles[10]->childButtons[0][0], TCL_OFF);
+    AssignButtonSpecialTextureAndAction(&allPuzzles[10]->childButtons[3][1], TCL_OFF);
+    AssignButtonSpecialTextureAndAction(&allPuzzles[10]->childButtons[1][0], TCL_OFF);
+        
     AssignButtonSpecialTextureAndAction(&allPuzzles[11]->childButtons[0][0], TCL_OFF);
     AssignButtonSpecialTextureAndAction(&allPuzzles[11]->childButtons[0][3], TCL_OFF);
     AssignButtonSpecialTextureAndAction(&allPuzzles[11]->childButtons[1][4], TCL_OFF);
@@ -529,9 +531,9 @@ void Puzzle_11(ButtonMaster* puzzle)
     puzzle->numberOfSolutions = numOfSolutions;
     puzzle->solutionLocations = malloc(sizeof(Vector2Int) * numOfSolutions);
     puzzle->solutionButtons = malloc(sizeof(Button) * puzzle->numberOfSolutions);
-    puzzle->solutionLocations[0] = (Vector2Int){2, 0};
-    puzzle->solutionLocations[1] = (Vector2Int){2, 2};
-    puzzle->solutionLocations[2] = (Vector2Int){1, 2};
+    puzzle->solutionLocations[0] = (Vector2Int){2, 2};
+    puzzle->solutionLocations[1] = (Vector2Int){1, 2};
+    puzzle->solutionLocations[2] = (Vector2Int){2, 0};
 
     puzzle->textureSizes = malloc(sizeof(enum ButtonTextureSizes) * puzzle->numberOfSolutions);
     puzzle->textureSizes[0] = EBTS_02;
