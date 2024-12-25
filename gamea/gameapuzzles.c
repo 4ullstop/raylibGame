@@ -114,7 +114,7 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
 
     ConstructSinglePuzzle(&lastPuzzleIndex,
         3,
-        3,
+        5,
         (Vector3){-21.0f, 1.0f, -5.0f},
         player,
         Puzzle_08,
@@ -266,9 +266,13 @@ void AssignSpecialTexturesGameA(ButtonMaster** allPuzzles, Texture2D** allTextur
     AssignButtonSpecialTextureAndAction(&allPuzzles[6]->childButtons[0][0], TCL_OFF);
     AssignButtonSpecialTextureAndAction(&allPuzzles[6]->childButtons[4][0], TCL_OFF);
 
-    AssignButtonSpecialTextureAndAction(&allPuzzles[7]->childButtons[0][0], TCL_OFF);
-    AssignButtonSpecialTextureAndAction(&allPuzzles[7]->childButtons[1][0], TCL_OFF);
     AssignButtonSpecialTextureAndAction(&allPuzzles[7]->childButtons[2][0], TCL_OFF);
+    AssignButtonSpecialTextureAndAction(&allPuzzles[7]->childButtons[0][1], TCL_OFF);
+    AssignButtonSpecialTextureAndAction(&allPuzzles[7]->childButtons[1][1], TCL_OFF);
+    AssignButtonSpecialTextureAndAction(&allPuzzles[7]->childButtons[2][1], TCL_OFF);
+    AssignButtonSpecialTextureAndAction(&allPuzzles[7]->childButtons[3][0], TCL_OFF);
+    AssignButtonSpecialTextureAndAction(&allPuzzles[7]->childButtons[4][2], TCL_OFF);
+    AssignButtonSpecialTextureAndAction(&allPuzzles[7]->childButtons[2][2], TCL_OFF);
     
     AssignButtonSpecialTextureAndAction(&allPuzzles[9]->childButtons[0][1], TCL_OFF);
     AssignButtonSpecialTextureAndAction(&allPuzzles[9]->childButtons[0][2], TCL_OFF);
@@ -467,20 +471,18 @@ void Puzzle_07(ButtonMaster* puzzle)
 
 void Puzzle_08(ButtonMaster* puzzle)
 {
-    int numOfSolutions = 4;
+    int numOfSolutions = 3;
     puzzle->numberOfSolutions = numOfSolutions;
     puzzle->solutionLocations = malloc(sizeof(Vector2Int) * numOfSolutions);
     puzzle->solutionButtons = malloc(sizeof(Button) * puzzle->numberOfSolutions);
-    puzzle->solutionLocations[0] = (Vector2Int){2, 2};
-    puzzle->solutionLocations[1] = (Vector2Int){2, 1};
-    puzzle->solutionLocations[2] = (Vector2Int){1, 2};
-    puzzle->solutionLocations[3] = (Vector2Int){1, 1};
-
+    puzzle->solutionLocations[0] = (Vector2Int){2, 1};
+    puzzle->solutionLocations[1] = (Vector2Int){0, 1};
+    puzzle->solutionLocations[2] = (Vector2Int){1, 4};
+    
     puzzle->textureSizes = malloc(sizeof(enum ButtonTextureSizes) * puzzle->numberOfSolutions);
     puzzle->textureSizes[0] = EBTS_02;
     puzzle->textureSizes[1] = EBTS_04;
     puzzle->textureSizes[2] = EBTS_07;
-    puzzle->textureSizes[3] = EBTS_08;
 }
 
 void Puzzle_09(ButtonMaster* puzzle)
