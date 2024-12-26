@@ -110,3 +110,6 @@ is gonna cause problems.
 
 
 We are crashing somewhere sometimes
+
+
+Actually, before we start with the mutliple games, lets do some code refactoring and clean up

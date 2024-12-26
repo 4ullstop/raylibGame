@@ -1,3 +1,5 @@
+#pragma once
+
 #ifndef RAYLIB_CAMERA_HEAD
 #include "C:\raylib\raylib\src\raylib.h"
 #include "../libs/drawingstructs.h"
@@ -576,4 +578,14 @@ typedef struct TickNode
     int iterations;
     bool a;
 } TickNode;
+#endif
+
+#ifndef SPECIAL_TEXTURE_INFO
+#define SPECIAL_TEXUTRE_INFO
+typedef struct 
+{
+    Vector2Int loc;
+    enum TextureCoordinateLocations texLoc;
+    
+} GameButtonTextures;
 #endif
