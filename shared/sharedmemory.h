@@ -1,5 +1,5 @@
 #pragma once
 
-#include <windows.h>
+void SetupSharedMemory(STARTUPINFO* si, PROCESS_INFORMATION* pi, HANDLE* hMapFile, int* outValue);
 
-void SetupSharedMemory(void);
+void DestroySharedMemory(PROCESS_INFORMATION* pi, HANDLE* hMapFile, int* sharedValue);

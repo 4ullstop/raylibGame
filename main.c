@@ -7,6 +7,8 @@
 #include "filereading/filereader.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include "processthreadsapi.h"
+#include "shared/sharedmemory.h"
 
 #define GLSL_VERSION 330
 
@@ -31,7 +33,9 @@ float zVelocity = 0.0f;
 Vector3 cubePos = {-5.0f, 0.0f, 0.0f};
 Vector3 twoCube = {0.0f, 5.0f, 0.0f};
 
-
+HANDLE hMapFile;
+STARTUPINFO si;
+PROCESS_INFORMATION pi;
 
 CollisionPacket colPacket = {0};
 
@@ -49,6 +53,7 @@ bool hideObjects;
 
 int main(int argc, char* argv[])
 {
+    int sharedMemVal = 0;
     hideObjects = false;
     printf("%i\n", argc);
     if (argc > 1) gametype = EGT_B;
@@ -182,6 +187,10 @@ int main(int argc, char* argv[])
     //Set the size for our ellipsoid for collision
     colPacket.eRadius = (Vector3){1.0f, 4.0f, 1.0f};
 
+    if (gametype == EGT_A)
+    {
+	SetupSharedMemory(&si, &pi, &hMapFile, &sharedMemVal);
+    }
     
     /*
         Where are we?:
@@ -240,7 +249,11 @@ int main(int argc, char* argv[])
     
     DestroyLines(ray.linesToDraw);
     DestructAllUIElements(ui);
-    
+
+    if (gametype == EGT_A)
+    {
+	DestroySharedMemory(&pi, &hMapFile, &sharedMemVal);
+    }
     printf("destroyed\n");
     CloseWindow();
 
