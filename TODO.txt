@@ -105,11 +105,5 @@ When you get Home:
 After you are done recreating all of the puzzles for gamea, go through and check to make sure you are freeing all of the memoory that needs to be freed, I fear that you are getting very high in numbers where
 this could start being a problem.
 
-Start implementation of plain button deselection process
-
-Probably...:
-	- Keep a linked list of the plain buttons that have been submitted
-	- Once the length is a certain size, remove the first item from the list and add a new item to the end of the list
-
 You still need to decide how to tell players the amount of plain buttons that can be submitted until they start unsubmitting themselves and you also need to write the code for this bc rn the button is just set to 0 which
 is gonna cause problems.
