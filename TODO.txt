@@ -107,3 +107,6 @@ this could start being a problem.
 
 You still need to decide how to tell players the amount of plain buttons that can be submitted until they start unsubmitting themselves and you also need to write the code for this bc rn the button is just set to 0 which
 is gonna cause problems.
+
+
+We are crashing somewhere sometimes
