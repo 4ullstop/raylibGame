@@ -113,3 +113,5 @@ We are crashing somewhere sometimes
 
 
 Actually, before we start with the mutliple games, lets do some code refactoring and clean up
+
+Use void pointers when passing into the shared memory thingy

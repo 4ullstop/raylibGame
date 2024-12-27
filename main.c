@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "processthreadsapi.h"
-#include "shared/sharedmemory.h"
+#include "shared/memory_setup.h"
 
 #define GLSL_VERSION 330
 
@@ -189,7 +189,7 @@ int main(int argc, char* argv[])
 
     if (gametype == EGT_A)
     {
-	SetupSharedMemory(&si, &pi, &hMapFile, &sharedMemVal);
+	sharedMemVal  = *(int *)SetupSharedMemory(&si, &pi, &hMapFile, &sharedMemVal);
     }
     
     /*
@@ -227,7 +227,7 @@ int main(int argc, char* argv[])
         MAIN GAME LOOP
         MAIN GAME LOOP
     */
-
+    
     if (gametype == EGT_A)
     {
         DestroyAllModels(modelsA, numOfModels, texturesA, numOfTextures);

@@ -1,8 +1,8 @@
 #include <windows.h>
-#include "sharedmemory.h"
+#include "memory_setup.h"
 #include <stdio.h>
 
-void SetupSharedMemory(STARTUPINFO* si, PROCESS_INFORMATION* pi, HANDLE* hMapFile, int* outValue)
+void* SetupSharedMemory(STARTUPINFO* si, PROCESS_INFORMATION* pi, HANDLE* hMapFile, void* outValue)
 {
         
     *hMapFile = CreateFileMapping(
@@ -16,10 +16,10 @@ void SetupSharedMemory(STARTUPINFO* si, PROCESS_INFORMATION* pi, HANDLE* hMapFil
     if (*hMapFile == NULL)
     {
 	printf("ERROR, HMAPFILE NULL\n");
-	return;
+	return NULL;
     }
 
-    int* sharedValue = (int* )MapViewOfFile(
+    void* sharedValue = MapViewOfFile(
 	*hMapFile, //handle to the memory allocated
 	FILE_MAP_ALL_ACCESS, //dwDesiredAccess: the type of access desired r/rw/rwx
 	0, //file offset high
@@ -30,10 +30,9 @@ void SetupSharedMemory(STARTUPINFO* si, PROCESS_INFORMATION* pi, HANDLE* hMapFil
     {
 	printf("ERROR SHAREDVALUE IS NULL\n");
 	CloseHandle(hMapFile);
-	return;
+	return NULL;
     }
 
-    *sharedValue = 42;
 
     ZeroMemory(si, sizeof(STARTUPINFO));
     si->cb = sizeof(STARTUPINFO);
@@ -51,21 +50,19 @@ void SetupSharedMemory(STARTUPINFO* si, PROCESS_INFORMATION* pi, HANDLE* hMapFil
 	    pi)) //process info
     {
 	printf("Parent process: child process forked with PID %ld\n", pi->dwProcessId);
-	*outValue = *sharedValue;
+	return sharedValue;
 	//WaitForSingleObject(pi->hProcess, INFINITE);
     }
     else
     {
 	printf("Failed to fork process");
-	*outValue = 0;
-	return;
+	return NULL;
     }
 }
 
-void DestroySharedMemory(PROCESS_INFORMATION* pi, HANDLE* hMapFile, int* sharedValue)
+void DestroySharedMemory(PROCESS_INFORMATION* pi, HANDLE* hMapFile, void* sharedValue)
 {
-    if (sharedValue != 0)
-	UnmapViewOfFile(sharedValue);
+    UnmapViewOfFile(sharedValue);
     CloseHandle(*hMapFile);
     CloseHandle(pi->hProcess);
     CloseHandle(pi->hThread);

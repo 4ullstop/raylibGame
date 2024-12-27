@@ -34,7 +34,8 @@ SRC = main.c \
 	  gamea\gameaqueryboxes.c \
 	  gameb\gamebqueryboxes.c \
 	  gameb\gamebtextures.c \
-	  shared\sharedmemory.c
+	  shared\memory_setup.c \
+	  shared\memory_editing.c 
 OBJ = intermediate\main.o \
       intermediate\window.o \
       intermediate\camera.o \
@@ -70,7 +71,8 @@ OBJ = intermediate\main.o \
 	  intermediate\gameaqueryboxes.o \
 	  intermediate\gamebqueryboxes.o \
 	  intermediate\gamebtextures.o \
-	  intermediate\sharedmemory.o
+	  intermediate\memory_setup.o \
+	  intermediate\memory_editing.o
 !IFNDEF OUTPUT
 OUTPUT = scenea.exe
 !ENDIF
@@ -195,8 +197,11 @@ intermediate\gamebqueryboxes.o: gameb\gamebqueryboxes.c intermediate
 intermediate\gamebtextures.o: gameb\gamebtextures.c intermediate
 	$(CC) $(CFLAGS) -c gameb\gamebtextures.c -o intermediate\gamebtextures.o $(INCLUDE)
 
-intermediate\sharedmemory.o: shared\sharedmemory.c intermediate
-	$(CC) $(CFLAGS) -c shared\sharedmemory.c -o intermediate\sharedmemory.o $(INCLUDE)
+intermediate\memory_setup.o: shared\memory_setup.c intermediate
+	$(CC) $(CFLAGS) -c shared\memory_setup.c -o intermediate\memory_setup.o $(INCLUDE)
+
+intermediate\memory_editing.o: shared\memory_editing.c intermediate
+	$(CC) $(CFLAGS) -c shared\memory_editing.c -o intermediate\memory_editing.o $(INCLUDE)
 
 # Clean rule to delete
 clean:
