@@ -9,6 +9,8 @@
 #include <stdio.h>
 #include "processthreadsapi.h"
 #include "shared/memory_setup.h"
+#include "shared/sharedstructs.h"
+
 
 #define GLSL_VERSION 330
 
@@ -53,7 +55,7 @@ bool hideObjects;
 
 int main(int argc, char* argv[])
 {
-    int sharedMemVal = 0;
+    SharedMemoryData sharedMemVal = {0};
     hideObjects = false;
     printf("%i\n", argc);
     if (argc > 1) gametype = EGT_B;
@@ -180,17 +182,16 @@ int main(int argc, char* argv[])
     {
         ConstructOverlapBoxes(allBoxesB);
     }
-    
-    
-    
 
-    //Set the size for our ellipsoid for collision
     colPacket.eRadius = (Vector3){1.0f, 4.0f, 1.0f};
-
+    
     if (gametype == EGT_A)
     {
-	sharedMemVal  = *(int *)SetupSharedMemory(&si, &pi, &hMapFile, &sharedMemVal);
+	sharedMemVal  = *(SharedMemoryData *)SetupSharedMemory(&si, &pi, &hMapFile, sizeof(SharedMemoryData));
     }
+
+    SetWindowLocationForGameType(gametype);
+
     
     /*
         Where are we?:
