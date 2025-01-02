@@ -1,6 +1,8 @@
 #include "player.h"
 #include <stdio.h>
 
+
+
 void PlayerSetup(FPSPlayer* player, PlayerCam* cam, UIElements** hud, enum Gamemode* mode)
 {
     //player->location = (Vector3){0.0, 5.0, -21.0};
@@ -26,9 +28,9 @@ void PollPlayer(float deltaTime, PlayerCam* pcam, FPSPlayer* player, CollisionPa
     //printf("%f, %f, %f\n", pcam->position.x, pcam->position.y, pcam->position.z);
 }
 
-void PollPlayerSecondary(FPSPlayer* player, Raycast* interactRay, QueryBox** areaBoxes, enum Gamemode* mode, Interactable* interactedItem, int numOfAreaQueryBoxes, bool* hideHideableObjects, float deltaTime)
+void PollPlayerSecondary(FPSPlayer* player, Raycast* interactRay, QueryBox** areaBoxes, enum Gamemode* mode, Interactable* interactedItem, int numOfAreaQueryBoxes, bool* hideHideableObjects, float deltaTime, SharedMemory* sharedMemory, enum Gametype gameType)
 {
-    PollPlayerSecondaryInputs(player, interactRay, areaBoxes, mode, interactedItem, numOfAreaQueryBoxes);
+    PollPlayerSecondaryInputs(player, interactRay, areaBoxes, mode, interactedItem, numOfAreaQueryBoxes, sharedMemory, gameType);
     PollDebugInputs(hideHideableObjects);    
 }
 

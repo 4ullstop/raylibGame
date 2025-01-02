@@ -9,7 +9,7 @@
 #include <stdio.h>
 #include "processthreadsapi.h"
 #include "shared/memory_setup.h"
-#include "shared/sharedstructs.h"
+
 
 
 #define GLSL_VERSION 330
@@ -36,6 +36,7 @@ Vector3 cubePos = {-5.0f, 0.0f, 0.0f};
 Vector3 twoCube = {0.0f, 5.0f, 0.0f};
 
 HANDLE hMapFile;
+HANDLE eventHandle;
 STARTUPINFO si;
 PROCESS_INFORMATION pi;
 
@@ -55,12 +56,29 @@ bool hideObjects;
 
 int main(int argc, char* argv[])
 {
-    SharedMemoryData sharedMemVal = {0};
+    ExitCode exitCodes = {0};
+    exitCodes.returnCode = 0;
+    SharedMemory sharedMemValA = {0};
+    SharedMemory sharedMemValB = {0};
+    sharedMemValA.sharedValTesting = 23;
+    sharedMemValA.ActiveWindowA = false;
+    sharedMemValB.ActiveWindowA = false;
     hideObjects = false;
     printf("%i\n", argc);
     if (argc > 1) gametype = EGT_B;
     printf("Initializing window and player camera...\n");
-    CreateWindow(800, 450);
+
+    char* windowTitle = "";
+    if (gametype == EGT_A)
+    {
+	windowTitle = "Scenea";
+    }
+    else
+    {
+	windowTitle = "Sceneb";
+    }
+    
+    CreateWindow(800, 450, windowTitle);
 
     printf("\n");
     printf("num of argc: %i\n", argc);
@@ -103,11 +121,13 @@ int main(int argc, char* argv[])
     {
         numOfModels = NUMBER_OF_MODELS_A;
         numOfTextures = NUMBER_OF_TEXTURES_A;
+	exitCodes.gameVersion = "A";
     }
     else
     {
         numOfModels = NUMBER_OF_MODELS_B;
         numOfTextures = NUMBER_OF_TEXTURES_B;
+	exitCodes.gameVersion = "B";
     }
 
     //
@@ -187,7 +207,17 @@ int main(int argc, char* argv[])
     
     if (gametype == EGT_A)
     {
-	sharedMemVal  = *(SharedMemoryData *)SetupSharedMemory(&si, &pi, &hMapFile, sizeof(SharedMemoryData));
+	sharedMemValA  = *(SharedMemory *)SetupSharedMemory(&si, &pi, &hMapFile, sizeof(SharedMemory), &eventHandle);
+	sharedMemValA.sharedValTesting = 23;
+	ReportEditedValue(&eventHandle);
+	
+	printf("shared value %i\n", sharedMemValA.sharedValTesting);
+    }
+    else
+    {
+	sharedMemValA = *(SharedMemory *)AttachChildProcessToMemory(&hMapFile, sizeof(SharedMemory));
+	sharedMemValA.flag = 0;
+	printf("shared value %i\n", sharedMemValA.sharedValTesting);
     }
 
     SetWindowLocationForGameType(gametype);
@@ -203,6 +233,7 @@ int main(int argc, char* argv[])
         MAIN GAME LOOP
         MAIN GAME LOOP
     */
+    bool doOnce = false;
     printf("Game loop starting...\n");
     while (!WindowShouldClose())
     {
@@ -212,13 +243,23 @@ int main(int argc, char* argv[])
 
         if (gametype == EGT_A)
         {
-            CallAllPolls(deltaTime, modelsA, areaQueryBoxesA, &interactedItem, allBoxesA, numOfModels, numOfQueryBoxes);
+	    if(sharedMemValA.flag == 0)
+	    {
+		sharedMemValA.sharedValTesting = 34;
+		sharedMemValA.flag = 1;
+	    }
+            CallAllPolls(deltaTime, modelsA, areaQueryBoxesA, &interactedItem, allBoxesA, numOfModels, numOfQueryBoxes, &sharedMemValA);
             PollAllGameplayElements(allDoorsA, deltaTime, numOfDoors);
             Draw(modelsA, &ray, areaQueryBoxesA, ui, allBoxesA, numOfModels, numOfQueryBoxes, numOfInteractables, allPuzzlesA);
         }
         else
         {
-            CallAllPolls(deltaTime, modelsB, areaQueryBoxesB, &interactedItem, allBoxesB, numOfModels, numOfQueryBoxes);
+	    if (sharedMemValA.flag == 1)
+	    {
+		printf("process read: %i\n", sharedMemValA.sharedValTesting);
+		sharedMemValA.flag = 0;
+	    }
+            CallAllPolls(deltaTime, modelsB, areaQueryBoxesB, &interactedItem, allBoxesB, numOfModels, numOfQueryBoxes, &sharedMemValA);
             PollAllGameplayElements(allDoorsB, deltaTime, numOfDoors);
             Draw(modelsB, &ray, areaQueryBoxesB, ui, allBoxesB, numOfModels, numOfQueryBoxes, numOfInteractables, allPuzzlesB);
         }
@@ -253,7 +294,11 @@ int main(int argc, char* argv[])
 
     if (gametype == EGT_A)
     {
-	DestroySharedMemory(&pi, &hMapFile, &sharedMemVal);
+	DestroySharedMemory(&pi, &hMapFile, &sharedMemValA);
+    }
+    else
+    {
+	DestroyChildSharedMemory(&hMapFile, &sharedMemValA);
     }
     printf("destroyed\n");
     CloseWindow();
@@ -261,12 +306,12 @@ int main(int argc, char* argv[])
     return 0;
 }
 
-void CallAllPolls(float dTime, modelInfo** models, QueryBox** areaBoxes, Interactable* interactedItem, OverlapBox** overlapBoxes, int numberOfModels, int numOfAreaQueryBoxes)
+void CallAllPolls(float dTime, modelInfo** models, QueryBox** areaBoxes, Interactable* interactedItem, OverlapBox** overlapBoxes, int numberOfModels, int numOfAreaQueryBoxes, SharedMemory* sharedMemory)
 {
     if (gamemode == EGM_Normal)
     {
         PollPlayer(dTime, &pcam, &player, &colPacket, models, numberOfModels);
-        PollPlayerSecondary(&player, &ray, areaBoxes, &gamemode, interactedItem, numOfAreaQueryBoxes, &hideObjects, dTime);
+        PollPlayerSecondary(&player, &ray, areaBoxes, &gamemode, interactedItem, numOfAreaQueryBoxes, &hideObjects, dTime, sharedMemory, gametype);
         PollOverlaps(overlapBoxes, &player);
     }
     else if (gamemode == EGM_Puzzle)

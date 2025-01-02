@@ -110,7 +110,23 @@ void ConstructGameBPuzzles(ButtonMaster** gameBPuzzles, Texture2D** allTextures,
 			  true,
 			  EPS_active,
 			  0.3f);
+
+    //Shared memory testing
+    ConstructSinglePuzzle(&lastPuzzleIndex,
+			  3,
+			  3,
+			  (Vector3){0.0f, 1.0f, 0.0f},
+			  player,
+			  Puzzle_08B,
+			  false,
+			  gameplayElements,
+			  gameBPuzzles,
+			  (Vector2Int){0, 0},
+			  true,
+			  EPS_active,
+			  0.0f);
     
+
     for (int i = 0; i < NUMBER_OF_PUZZLES_B; i++)
     {
         CreateAllButtons(gameBPuzzles[i], dynamicModels, lastModelIndex, allTextures);
@@ -174,6 +190,7 @@ void AssignSpecialTexturesGameB(ButtonMaster** allPuzzles, Texture2D** allTextur
     AssignSolutionsTextures(allPuzzles[4]);
     AssignSolutionsTextures(allPuzzles[5]);
     AssignSolutionsTextures(allPuzzles[6]);
+    AssignSolutionsTextures(allPuzzles[7]);
 }
 
 void Puzzle_01B(ButtonMaster* puzzle)
@@ -330,4 +347,18 @@ void Puzzle_07B(ButtonMaster* puzzle)
     puzzle->textureSizes[0] = EBTS_03;
     puzzle->textureSizes[1] = EBTS_05;
     puzzle->textureSizes[2] = EBTS_07;
+}
+
+void Puzzle_08B(ButtonMaster* puzzle)
+{
+    int numOfSolutions = 2;
+    puzzle->numberOfSolutions = numOfSolutions;
+    puzzle->solutionLocations = malloc(sizeof(Vector2Int) * numOfSolutions);
+    puzzle->solutionButtons = malloc(sizeof(Button) * puzzle->numberOfSolutions);
+    puzzle->solutionLocations[0] = (Vector2Int){1, 1};
+    puzzle->solutionLocations[1] = (Vector2Int){1, 2};
+
+    puzzle->textureSizes = malloc(sizeof(enum ButtonTextureSizes) * puzzle->numberOfSolutions);
+    puzzle->textureSizes[0] = EBTS_03;
+    puzzle->textureSizes[1] = EBTS_06;
 }

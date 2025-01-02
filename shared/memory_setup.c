@@ -2,9 +2,13 @@
 #include "memory_setup.h"
 #include <stdio.h>
 
-void* SetupSharedMemory(STARTUPINFO* si, PROCESS_INFORMATION* pi, HANDLE* hMapFile, size_t valueSize)
+void* SetupSharedMemory(STARTUPINFO* si, PROCESS_INFORMATION* pi, HANDLE* hMapFile, size_t valueSize, HANDLE* eventHandle)
 {
-        
+
+    printf("\n");
+    printf("\n");
+    printf("\n");
+    printf("opening sceneb.exe\n");
     *hMapFile = CreateFileMapping(
 	INVALID_HANDLE_VALUE, //hFile a handle to a file or device
 	NULL, //lpAttributes: determines if the handle can be inherited by a child process
@@ -20,13 +24,13 @@ void* SetupSharedMemory(STARTUPINFO* si, PROCESS_INFORMATION* pi, HANDLE* hMapFi
 	return NULL;
     }
 
+    printf("creating sharedValue\n");
     void* sharedValue = MapViewOfFile(
 	*hMapFile, //handle to the memory allocated
 	FILE_MAP_ALL_ACCESS, //dwDesiredAccess: the type of access desired r/rw/rwx
 	0, //file offset high
 	0, //file offset low
-	valueSize); //number of bytes to map into the calling process's address
-
+	0); //number of bytes to map into the calling process's address
     if (sharedValue == NULL)
     {
 	printf("ERROR SHAREDVALUE IS NULL\n");
@@ -34,7 +38,7 @@ void* SetupSharedMemory(STARTUPINFO* si, PROCESS_INFORMATION* pi, HANDLE* hMapFi
 	return NULL;
     }
 
-
+    printf("Zeroing memory\n");
     ZeroMemory(si, sizeof(STARTUPINFO));
     si->cb = sizeof(STARTUPINFO);
 
@@ -51,12 +55,19 @@ void* SetupSharedMemory(STARTUPINFO* si, PROCESS_INFORMATION* pi, HANDLE* hMapFi
 	    pi)) //process info
     {
 	printf("Parent process: child process forked with PID %ld\n", pi->dwProcessId);
+	printf("\n");
+	printf("\n");
+	printf("\n");
+	*eventHandle = CreateEventW(NULL, FALSE, FALSE, L"sceneb");
 	return sharedValue;
 	//WaitForSingleObject(pi->hProcess, INFINITE);
     }
     else
     {
 	printf("Failed to fork process");
+	printf("\n");
+	printf("\n");
+	printf("\n");
 	return NULL;
     }
 }
@@ -67,4 +78,77 @@ void DestroySharedMemory(PROCESS_INFORMATION* pi, HANDLE* hMapFile, void* shared
     CloseHandle(*hMapFile);
     CloseHandle(pi->hProcess);
     CloseHandle(pi->hThread);
+}
+
+void* FindWindowByTitle(const char* windowTitle)
+{
+    HWND* hwnd = malloc(sizeof(HWND));
+    *hwnd = FindWindow(NULL, windowTitle);
+    return hwnd;
+}
+
+bool SwitchToWindow(const char* windowTitle)
+{
+    HWND hwnd = *(HWND*)(FindWindowByTitle(windowTitle));
+
+    if (hwnd == NULL)
+    {
+	return false;
+    }
+
+    return SetForegroundWindow(hwnd);
+}
+    
+void* AttachChildProcessToMemory(HANDLE* hMapFileB, size_t valueSize)
+{
+    printf("\n");
+    printf("\n");
+    printf("\n");
+    
+
+    printf("opening file location\n");
+    
+    *hMapFileB = OpenFileMapping(
+	FILE_MAP_ALL_ACCESS,
+	TRUE,
+	"sceneb");
+    
+    if (*hMapFileB == NULL)
+    {
+	printf("FAILED TO OPEN SHARED MEMORY IN CHILD PROCESS\n");
+	return NULL;
+    }
+
+    printf("creating shared value\n");
+    void* sharedValue = MapViewOfFile(*hMapFileB, FILE_MAP_ALL_ACCESS, 0, 0, valueSize);
+
+    
+    
+    if (sharedValue == NULL)
+    {
+	printf("FAILED TO MAP TO SHARED MEMORY\n");
+	return NULL;
+    }
+
+    HANDLE eventHandle = CreateEventW(NULL, FALSE, FALSE, L"sceneb");
+    
+    WaitForSingleObject(eventHandle, 20);
+    
+    printf("memory success\n");
+    printf("\n");
+    printf("\n");
+    printf("\n");
+    return sharedValue;
+    
+}
+
+void DestroyChildSharedMemory(HANDLE* hMapFileB, void* sharedValueB)
+{
+    UnmapViewOfFile(sharedValueB);
+    CloseHandle(*hMapFileB);
+}
+
+void ReportEditedValue(HANDLE* inHandle)
+{
+    SetEvent(*inHandle);
 }

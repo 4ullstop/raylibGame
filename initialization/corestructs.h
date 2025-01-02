@@ -6,6 +6,8 @@
 #include "../gameplay/gameplaystructs.h"
 #include "../ui/src/uistructs.h"
 #include "../models/src/textcoordhelpers.h"
+#include "enginestructs.h"
+#include "globalfunc.h"
 #endif 
 
 /*
@@ -14,19 +16,19 @@
     The current size of this array is : 48
     The current size of AssociatedDoors in GameplayElements is: 48
 */
-#define NUMBER_OF_MODELS_A 179//45
-#define NUMBER_OF_MODELS_B 84 //24
+#define NUMBER_OF_MODELS_A 188//45
+#define NUMBER_OF_MODELS_B 93 //24
 
 #define NUMBER_OF_TEXTURES_A 9 //this will always be one more than what is in the file
 #define NUMBER_OF_TEXTURES_B 9
-#define NUMBER_OF_INTERACTABLES_A 14 //9
-#define NUMBER_OF_INTERACTABLES_B 7
+#define NUMBER_OF_INTERACTABLES_A 15 //9
+#define NUMBER_OF_INTERACTABLES_B 8
 
 #define NUMBER_OF_AREA_QUERY_BOXES_A 1
 #define NUMBER_OF_AREA_QUERY_BOXES_B 1
 
-#define NUMBER_OF_PUZZLES_A 14 //9
-#define NUMBER_OF_PUZZLES_B 7
+#define NUMBER_OF_PUZZLES_A 15 //9
+#define NUMBER_OF_PUZZLES_B 8
 
 #define NUMBER_OF_OVERLAP_BOXES_A 1
 #define NUMBER_OF_OVERLAP_BOXES_B 1
@@ -123,7 +125,6 @@ enum PuzzleInputType
     EPIT_ResetOnly
 };
 #endif
-
 
 #ifndef CAMERA_STRUCT
 #define CAMERA_STRUCT
@@ -364,6 +365,27 @@ typedef struct PlainSubmittedButtons
 } PlainSubmittedButtons;
 #endif
 
+#ifndef REACH_WINDOW_LOCATION
+#define REACH_WINDOW_LOCATION
+enum ReachWindowLocation
+{
+    RWL_RightSide,
+    RWL_LeftSide,
+    RWL_TopSide,
+    RWL_BottomSide
+};
+#endif
+
+#ifndef SHARED_REACH
+#define SHARED_REACH
+typedef struct
+{
+    Button* currCursoredButton;
+    
+    enum ReachWindowLocation reachWindowLocation;
+} SharedReach;
+#endif
+
 #ifndef MASTER_OF_BUTTONS
 #define MASTER_OF_BUTTONS
 typedef struct ButtonMaster
@@ -425,6 +447,8 @@ typedef struct ButtonMaster
     PlainSubmittedButtons* plainSubmittedButtons;
     int numOfPlainSubmittedButtons;
     int plainSubmittedButtonsMax;
+
+    SharedReach* sharedReach;
 } ButtonMaster;
 #endif
 

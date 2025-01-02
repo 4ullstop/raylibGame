@@ -37,4 +37,6 @@ void Puzzle_13(ButtonMaster* puzzle);
 
 void Puzzle_14(ButtonMaster* puzzle);
 
+void Puzzle_15(ButtonMaster* puzzle);
+
 void AssignSpecialTexturesGameA(ButtonMaster** allPuzzles, Texture2D** allTextures);

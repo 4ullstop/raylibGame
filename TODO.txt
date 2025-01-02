@@ -26,7 +26,8 @@ What is our best course of action here:
 
 
 
-
+0000000E0E7FFD10
+000000CD58BFFC00
 
 Design a rule for gameb puzzle 
 
@@ -115,3 +116,9 @@ We are crashing somewhere sometimes
 Actually, before we start with the mutliple games, lets do some code refactoring and clean up
 
 Use void pointers when passing into the shared memory thingy
+
+
+Exit Codes:
+ - We have a struct, if it returns anything other than 0,
+
+It might be best to find another way for game a puzzle solutions rather than the sizes of the buttons, something more easily comparable to game b (maybe even use the same symbols for the best solution)

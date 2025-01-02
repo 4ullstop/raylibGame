@@ -1,4 +1,5 @@
 #include "controller.h"
+#include "../shared/memory_setup.h"
 #include <stdio.h>
 
 
@@ -68,7 +69,7 @@ void PollPlayerInput(PlayerCam* pcam, double deltaTime, FPSPlayer* player, Colli
     CalculatePlayerVelocity(player, deltaTime);
 }
 
-void PollPlayerSecondaryInputs(FPSPlayer* player, Raycast* interactRay, QueryBox** areaBoxes, enum Gamemode* mode, Interactable* interactedItem, int numOfAreaQueryBoxes)
+void PollPlayerSecondaryInputs(FPSPlayer* player, Raycast* interactRay, QueryBox** areaBoxes, enum Gamemode* mode, Interactable* interactedItem, int numOfAreaQueryBoxes, SharedMemory* sharedMemory, enum Gametype gameType)
 {
     if (IsKeyPressed(KEY_E))
     {
@@ -117,8 +118,21 @@ void PollPlayerSecondaryInputs(FPSPlayer* player, Raycast* interactRay, QueryBox
     }
     if (IsKeyPressed(KEY_F))
     {
+
+	if (gameType == EGT_A)
+	{
+	    SwitchToWindow("Sceneb");
+	}
+	else
+	{
+	    SwitchToWindow("Scenea");
+	}
+		
+	
+	/*
         *mode = EGM_Inactive;
         ShowCursor();
+	*/
     }
 }
 

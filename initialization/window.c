@@ -1,9 +1,10 @@
 #include "window.h"
 #include <stdio.h>
 
-void CreateWindow(const int screenWidth, const int screenHeight)
+
+void CreateWindow(const int screenWidth, const int screenHeight, const char* title)
 {
-    InitWindow(screenWidth, screenHeight, "Game");
+    InitWindow(screenWidth, screenHeight, title);
 }
 
 void SetWindowLocationForGameType(enum Gametype gametype)
@@ -35,3 +36,22 @@ void SetWindowLocationForGameType(enum Gametype gametype)
     printf("midpointX: %i, midpointY: %i\n", midpointX, midpointY);
     printf("locX: %i, locY: %i\n", locX, locY);
 }
+
+/*
+HWND FindWindowByTitle(const char* windowTitle)
+{
+    return FindWindow(NULL, windowTitle);
+}
+
+bool SwitchToWindow(const char* windowTitle)
+{
+    HWND hwnd = FindWindowByTitle(windowTitle);
+
+    if (hwnd == NULL)
+    {
+	return false;
+    }
+
+    return SetForegroundWindow(hwnd);
+}
+*/
