@@ -2,9 +2,14 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-void ConstructDoors(modelInfo** dynamicModels, Texture2D** gameTextures, int* lastModelIndex, Door** allDoors)
+void ConstructDoors(modelInfo** dynamicModels, Texture2D** gameTextures, int* lastModelIndex, Door** allDoors, ExitCode* exitCode)
 {
     Door* door_01 = malloc(sizeof(Door));
+    if (door_01 == NULL)
+    {
+	EditReturnCodeInfo(100, "Failed to allocated memory for Door\n", exitCode);
+	return;
+    }
     door_01->doorModel.collisionDisabled = false;
     door_01->id = 1;
     door_01->location = (Vector3){0.0f, 0.0f, -13.8f};

@@ -4,4 +4,4 @@
 #include "../collision/externcollision.h"
 #endif
 
-void CreateGameBQueryBoxes(QueryBox** areaQueryBoxes);
+void CreateGameBQueryBoxes(QueryBox** areaQueryBoxes, ExitCode* exitCode);

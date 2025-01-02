@@ -7,15 +7,15 @@
     entities... probably
 */
 
-void CreateModels(modelInfo** models, int* lastModelIndex, enum Gametype gametype, Texture2D** allTextures)
+void CreateModels(modelInfo** models, int* lastModelIndex, enum Gametype gametype, Texture2D** allTextures, ExitCode* exitCode)
 {
     if (gametype == EGT_A)
     {
-        CreateModelsForGameA(models, lastModelIndex, allTextures);
+        CreateModelsForGameA(models, lastModelIndex, allTextures, exitCode);
     }
     else
     {
-        CreateModelsForGameB(models, lastModelIndex, allTextures);
+        CreateModelsForGameB(models, lastModelIndex, allTextures, exitCode);
     }
 }
 

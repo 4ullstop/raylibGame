@@ -7,7 +7,7 @@
 #include "../gameplay/puzzles/togglepuzzle.h"
 #endif
 
-void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures, modelInfo** dynamicModels, int* lastModelIndex, FPSPlayer* player, GameplayElements* gameplayElements);
+void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures, modelInfo** dynamicModels, int* lastModelIndex, FPSPlayer* player, GameplayElements* gameplayElements, ExitCode* exitCode);
 
 void Puzzle_01(ButtonMaster* puzzle);
 

@@ -8,7 +8,7 @@ void CreateInteractables(Interactable** interactables, QueryBox** areaQueryBoxes
     
 }
 
-void ConstructInteractable(Interactable* interactable, Vector3 location, ColBox* box, float boxWidth, float boxHeight, float boxLength)
+void ConstructInteractable(Interactable* interactable, Vector3 location, ColBox* box, float boxWidth, float boxHeight, float boxLength, ExitCode* exitCode)
 {
     if (interactable == NULL)
     {
@@ -19,7 +19,7 @@ void ConstructInteractable(Interactable* interactable, Vector3 location, ColBox*
     interactable->height = boxHeight;
     interactable->length = boxLength;
     
-    ConstructColBox(box, interactable->Location, boxWidth, boxHeight, boxLength);
+    ConstructColBox(box, interactable->Location, boxWidth, boxHeight, boxLength, exitCode);
     interactable->colBox = box;
 
 }
@@ -50,15 +50,15 @@ void DestructColBox(ColBox* box)
     
 }
 
-void CreatePlayerAreaQueries(QueryBox** areaQueryBoxes, enum Gametype gametype)
+void CreatePlayerAreaQueries(QueryBox** areaQueryBoxes, enum Gametype gametype, ExitCode* exitCode)
 {
     if (gametype == EGT_A)
     {
-	CreateGameAQueryBoxes(areaQueryBoxes);
+	CreateGameAQueryBoxes(areaQueryBoxes, exitCode);
     }
     else
     {
-	CreateGameBQueryBoxes(areaQueryBoxes);
+	CreateGameBQueryBoxes(areaQueryBoxes, exitCode);
     }
 }
 
@@ -110,17 +110,27 @@ void PuzzleInteract(FPSPlayer* player, ColBox* box)
     }
 }
 
-void ConstructSingleInteractable(int* lastInteractableIndex, enum InteractableType puzzleType, bool showArrowKeyHint, float len, float width, float height, ButtonMaster* assignedPuzzle, void(*colBoxInteract)(FPSPlayer*, ColBox*), Interactable** interactables, QueryBox** areaQueryBox, int areaQueryBoxId)
+void ConstructSingleInteractable(int* lastInteractableIndex, enum InteractableType puzzleType, bool showArrowKeyHint, float len, float width, float height, ButtonMaster* assignedPuzzle, void(*colBoxInteract)(FPSPlayer*, ColBox*), Interactable** interactables, QueryBox** areaQueryBox, int areaQueryBoxId, ExitCode* exitCode)
 {
     ColBox* box = malloc(sizeof(ColBox));
+    if (box == NULL)
+    {
+	EditReturnCodeInfo(600, "Failed To allocate memory for interactable box\n", exitCode);
+	return;
+    }
     NullifyColBoxValues(box);
     box->id = *lastInteractableIndex;
     Interactable* interactable = malloc(sizeof(Interactable));
+    if (interactable == NULL)
+    {
+	EditReturnCodeInfo(601, "Failed to allocate memory for Interactable\n", exitCode);
+	return;
+    }
     interactable->type = puzzleType;
     interactable->hasBeenUsed = false;
     interactable->id = *lastInteractableIndex;
     interactable->showsArrowKeyHint = showArrowKeyHint;
-    ConstructInteractable(interactable, assignedPuzzle->location, box, width, height, len);
+    ConstructInteractable(interactable, assignedPuzzle->location, box, width, height, len, exitCode);
     box->interact = colBoxInteract;
     interactable->associatedPuzzle = assignedPuzzle;
     interactable->Location = assignedPuzzle->location;

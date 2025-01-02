@@ -217,14 +217,15 @@ bool GetLowestRoot(float a, float b, float c, float maxR, float* root)
 }
 
 
-void ConstructColBox(ColBox* box, Vector3 location, float width, float height, float length)
+void ConstructColBox(ColBox* box, Vector3 location, float width, float height, float length, ExitCode* exitCode)
 {
     box->vertsNum = 8;
     box->verts = malloc(sizeof(float) * 24);
 
     if (box->verts == NULL)
     {
-        printf("BAD ALLOCATION YOU ARE OUT OF MEMORY?\n");
+        EditReturnCodeInfo(702, "Verts of colBox are NULL", exitCode);
+	return;
     }
 
     box->interact = InteractionBoxInteract;
@@ -258,6 +259,11 @@ void ConstructColBox(ColBox* box, Vector3 location, float width, float height, f
 
     box->indices = malloc(sizeof(unsigned short) * 36);
 
+    if (box->indices == NULL)
+    {
+	EditReturnCodeInfo(703, "Failed to allocate memory for Box Indicies", exitCode);
+    }
+    
     for (int i = 0; i < 36; i++)
     {
         box->indices[i] = unassignedIndicies[i];

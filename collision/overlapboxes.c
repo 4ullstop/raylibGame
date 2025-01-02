@@ -7,10 +7,19 @@
     passed by reference and not by value because pointers, it might be helpful to come
     back to this to understand why when you are less tired
 */
-void ConstructOverlapBoxes(OverlapBox** allBoxes)
+void ConstructOverlapBoxes(OverlapBox** allBoxes, ExitCode* exitCode)
 {
     OverlapBox* interactHintOverlap = malloc(sizeof(OverlapBox));
+    if (interactHintOverlap == NULL)
+    {
+	EditReturnCodeInfo(700, "Failed to allocate memory for Overlap Box", exitCode);
+	return;
+    }
     ColBox* overlapBox = malloc(sizeof(ColBox));
+    if (overlapBox == NULL)
+    {
+	EditReturnCodeInfo(701, "Failed to allocate memory for OverlapBox", exitCode);
+    }
     interactHintOverlap->collisionBox = overlapBox;
     interactHintOverlap->location = (Vector3){2.3f, 1.0f, -15.0f};
     overlapBox->location = interactHintOverlap->location;
@@ -21,7 +30,7 @@ void ConstructOverlapBoxes(OverlapBox** allBoxes)
     interactHintOverlap->id = 1;
     interactHintOverlap->shouldDetect = true;
     overlapBox->id = 11;
-    ConstructColBox(overlapBox, interactHintOverlap->location, interactHintOverlap->width, interactHintOverlap->height, interactHintOverlap->length);
+    ConstructColBox(overlapBox, interactHintOverlap->location, interactHintOverlap->width, interactHintOverlap->height, interactHintOverlap->length, exitCode);
     interactHintOverlap->OnOverlap = PlayerInInteractHintBox;
 
     allBoxes[0] = interactHintOverlap;

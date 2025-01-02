@@ -12,6 +12,6 @@ void CheckVertice(Vector3 vector, Vector3 base, float* t, Vector3 vertex, bool* 
 void CheckEdge(Vector3 p1, Vector3 p2, Vector3 base, Vector3 vector, float* t, bool* foundCollision, Vector3* collisionPoint);
 bool GetLowestRoot(float a, float b, float c, float maxR, float* root);
 
-void ConstructColBox(ColBox* box, Vector3 location, float width, float height, float length);
+void ConstructColBox(ColBox* box, Vector3 location, float width, float height, float length, ExitCode* exitCode);
 
 void InteractionBoxInteract(FPSPlayer* player, ColBox* box);

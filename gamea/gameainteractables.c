@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-void CreateGameAInteractables(Interactable** interactables, QueryBox** areaQueryBoxes, ButtonMaster** allPuzzles)
+void CreateGameAInteractables(Interactable** interactables, QueryBox** areaQueryBoxes, ButtonMaster** allPuzzles, ExitCode* exitCode)
 {
     int lastInteractableIndex = 0;
 
@@ -16,7 +16,8 @@ void CreateGameAInteractables(Interactable** interactables, QueryBox** areaQuery
         PuzzleInteract,
         interactables,
         areaQueryBoxes,
-        0);
+	0,
+	exitCode);
     
     ConstructSingleInteractable(&lastInteractableIndex,
         ITT_Puzzle,
@@ -28,7 +29,8 @@ void CreateGameAInteractables(Interactable** interactables, QueryBox** areaQuery
         PuzzleInteract,
         interactables,
         areaQueryBoxes,
-        0);
+	0,
+	exitCode);
 
     ConstructSingleInteractable(&lastInteractableIndex,
         ITT_Puzzle,
@@ -40,7 +42,8 @@ void CreateGameAInteractables(Interactable** interactables, QueryBox** areaQuery
         PuzzleInteract,
         interactables,
         areaQueryBoxes,
-        0);
+	0,
+	exitCode);
     
     ConstructSingleInteractable(&lastInteractableIndex,
         ITT_Puzzle,
@@ -52,7 +55,8 @@ void CreateGameAInteractables(Interactable** interactables, QueryBox** areaQuery
         PuzzleInteract,
         interactables,
         areaQueryBoxes,
-        0);
+	0,
+	exitCode);
 
     ConstructSingleInteractable(&lastInteractableIndex,
         ITT_Puzzle,
@@ -64,7 +68,8 @@ void CreateGameAInteractables(Interactable** interactables, QueryBox** areaQuery
         PuzzleInteract,
         interactables,
         areaQueryBoxes,
-        0);
+	0,
+	exitCode);
 
     ConstructSingleInteractable(&lastInteractableIndex,
         ITT_Puzzle,
@@ -76,7 +81,8 @@ void CreateGameAInteractables(Interactable** interactables, QueryBox** areaQuery
         PuzzleInteract,
         interactables,
         areaQueryBoxes,
-        0);
+	0,
+	exitCode);
 
     ConstructSingleInteractable(&lastInteractableIndex,
         ITT_Puzzle,
@@ -88,7 +94,8 @@ void CreateGameAInteractables(Interactable** interactables, QueryBox** areaQuery
         PuzzleInteract,
         interactables,
         areaQueryBoxes,
-        0);
+	0,
+	exitCode);
 
     ConstructSingleInteractable(&lastInteractableIndex,
         ITT_Puzzle,
@@ -100,7 +107,8 @@ void CreateGameAInteractables(Interactable** interactables, QueryBox** areaQuery
         PuzzleInteract,
         interactables,
         areaQueryBoxes,
-        0);
+	0,
+	exitCode);
         
     ConstructSingleInteractable(&lastInteractableIndex,
         ITT_Puzzle,
@@ -112,7 +120,8 @@ void CreateGameAInteractables(Interactable** interactables, QueryBox** areaQuery
         PuzzleInteract,
         interactables,
         areaQueryBoxes,
-        0);
+	0,
+	exitCode);
 
     ConstructSingleInteractable(&lastInteractableIndex,
         ITT_Puzzle,
@@ -124,7 +133,8 @@ void CreateGameAInteractables(Interactable** interactables, QueryBox** areaQuery
         PuzzleInteract,
         interactables,
         areaQueryBoxes,
-        0);
+	0,
+	exitCode);
 
     ConstructSingleInteractable(&lastInteractableIndex,
 				ITT_Puzzle,
@@ -136,7 +146,8 @@ void CreateGameAInteractables(Interactable** interactables, QueryBox** areaQuery
 				PuzzleInteract,
 				interactables,
 				areaQueryBoxes,
-				0);
+				0,
+				exitCode);
 
     ConstructSingleInteractable(&lastInteractableIndex,
 				ITT_Puzzle,
@@ -148,7 +159,8 @@ void CreateGameAInteractables(Interactable** interactables, QueryBox** areaQuery
 				PuzzleInteract,
 				interactables,
 				areaQueryBoxes,
-				0);
+				0,
+				exitCode);
 
     ConstructSingleInteractable(&lastInteractableIndex,
 				ITT_Puzzle,
@@ -160,7 +172,8 @@ void CreateGameAInteractables(Interactable** interactables, QueryBox** areaQuery
 				PuzzleInteract,
 				interactables,
 				areaQueryBoxes,
-				0);
+				0,
+				exitCode);
 
     ConstructSingleInteractable(&lastInteractableIndex,
 				ITT_Puzzle,
@@ -172,7 +185,8 @@ void CreateGameAInteractables(Interactable** interactables, QueryBox** areaQuery
 				PuzzleInteract,
 				interactables,
 				areaQueryBoxes,
-				0);
+				0,
+				exitCode);
 
     ConstructSingleInteractable(&lastInteractableIndex,
 				ITT_Puzzle,
@@ -184,5 +198,6 @@ void CreateGameAInteractables(Interactable** interactables, QueryBox** areaQuery
 				PuzzleInteract,
 				interactables,
 				areaQueryBoxes,
-				0);
+				0,
+				exitCode);
 }

@@ -7,9 +7,9 @@
 #include "../models/src/buttonatlas.h"
 #endif
 
-void CreateAllButtons(ButtonMaster* master, modelInfo** dynamicModels, int* lastModelIndex, Texture2D** allTextures);
+void CreateAllButtons(ButtonMaster* master, modelInfo** dynamicModels, int* lastModelIndex, Texture2D** allTextures, ExitCode* exitCode);
 
-void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelIndex, modelInfo** dynamicModels, Texture2D** allTextures);
+void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelIndex, modelInfo** dynamicModels, Texture2D** allTextures, ExitCode* exitCode);
 
 void AddHighlight(Button* button);
 
@@ -21,7 +21,7 @@ void AssignGameplayElementsToPuzzles(ButtonMaster* puzzle, Door* door);
 
 void InactGameplayElement(GameplayElements* gameplayElement);
 
-void ConstructSinglePuzzle(int* lastPuzzleIndex, int columns, int rows, Vector3 location, FPSPlayer* player, void(*puzzleLocConstruct)(ButtonMaster*), bool hasGameplayElements, GameplayElements* gameplayElements, ButtonMaster** gameAPuzzles, Vector2Int highlightStart, bool hasHighlightStartLoc, enum PuzzleState puzzleState, float buttonSpread);
+void ConstructSinglePuzzle(int* lastPuzzleIndex, int columns, int rows, Vector3 location, FPSPlayer* player, void(*puzzleLocConstruct)(ButtonMaster*), bool hasGameplayElements, GameplayElements* gameplayElements, ButtonMaster** gameAPuzzles, Vector2Int highlightStart, bool hasHighlightStartLoc, enum PuzzleState puzzleState, float buttonSpread, ExitCode* exitCode);
 
 void EnactButton(Button* button);
 
@@ -41,6 +41,6 @@ void DetermineAndUpdateTexture(Button* button, enum ButtonState state);
 
 void DetermineStartVal(int* min, enum PuzzleOnOffDirection direction);
 
-void AssignAllPuzzlesSolutionButtons(ButtonMaster** allPuzzles, int numOfPuzzles);
+void AssignAllPuzzlesSolutionButtons(ButtonMaster** allPuzzles, int numOfPuzzles, ExitCode* exitCode);
 
-void AssignSolutionButtonsToPuzzle(ButtonMaster* puzzle);
+void AssignSolutionButtonsToPuzzle(ButtonMaster* puzzle, ExitCode* exitCode);

@@ -7,5 +7,9 @@ typedef struct ExitCode
     int returnCode;
     char* gameVersion;
     char* extraReturnInfo;
+
+    int numOfLoadedItems;
 } ExitCode;
 #endif
+
+

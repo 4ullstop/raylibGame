@@ -4,4 +4,4 @@
 #include "../collision/interactionbox.h"
 #endif
 
-void CreateGameAInteractables(Interactable** interactables, QueryBox** areaQueryBoxes, ButtonMaster** allPuzzles);
+void CreateGameAInteractables(Interactable** interactables, QueryBox** areaQueryBoxes, ButtonMaster** allPuzzles, ExitCode* exitCode);

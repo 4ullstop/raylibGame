@@ -10,7 +10,7 @@
 
 
 
-void CreateModels(modelInfo** models, int* lastModelIndex, enum Gametype gametype, Texture2D** allTextures);
+void CreateModels(modelInfo** models, int* lastModelIndex, enum Gametype gametype, Texture2D** allTextures, ExitCode* exitCode);
 
 void DrawAllModels(modelInfo** models, int numOfModels);
 

@@ -30,7 +30,7 @@ void* SetupSharedMemory(STARTUPINFO* si, PROCESS_INFORMATION* pi, HANDLE* hMapFi
 	FILE_MAP_ALL_ACCESS, //dwDesiredAccess: the type of access desired r/rw/rwx
 	0, //file offset high
 	0, //file offset low
-	0); //number of bytes to map into the calling process's address
+	valueSize); //number of bytes to map into the calling process's address
     if (sharedValue == NULL)
     {
 	printf("ERROR SHAREDVALUE IS NULL\n");

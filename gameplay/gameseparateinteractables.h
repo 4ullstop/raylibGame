@@ -6,4 +6,4 @@
 #include "../gameb/gamebinteractables.h"
 #endif
 
-void CreateInteractablesForGameType(Interactable** interactables, QueryBox** areaQueryBoxes, ButtonMaster** allPuzzles, enum Gametype type);
+void CreateInteractablesForGameType(Interactable** interactables, QueryBox** areaQueryBoxes, ButtonMaster** allPuzzles, enum Gametype type, ExitCode* exitCode);

@@ -2,10 +2,11 @@
 #include <stdlib.h>
 #include <stdio.h> 
 
-void ConstructGameBPuzzles(ButtonMaster** gameBPuzzles, Texture2D** allTextures, modelInfo** dynamicModels, int* lastModelIndex, FPSPlayer* player, GameplayElements* gameplayElements)
+void ConstructGameBPuzzles(ButtonMaster** gameBPuzzles, Texture2D** allTextures, modelInfo** dynamicModels, int* lastModelIndex, FPSPlayer* player, GameplayElements* gameplayElements, ExitCode* exitCode)
 {
     int lastPuzzleIndex = 0;
 
+    exitCode->numOfLoadedItems = 0;
     //Puzzle 4
     ConstructSinglePuzzle(&lastPuzzleIndex,
 			  3,
@@ -19,7 +20,8 @@ void ConstructGameBPuzzles(ButtonMaster** gameBPuzzles, Texture2D** allTextures,
 			  (Vector2Int){2, 0},
 			  true,
 			  EPS_active,
-			  0.0f);
+			  0.0f,
+			  exitCode);
     
     //Puzzle 1
     ConstructSinglePuzzle(&lastPuzzleIndex,
@@ -34,7 +36,8 @@ void ConstructGameBPuzzles(ButtonMaster** gameBPuzzles, Texture2D** allTextures,
 			  (Vector2Int){0, 0},
 			  true,
 			  EPS_active,
-			  0.4f);
+			  0.4f,
+			  exitCode);
     
     //Puzzle 2
     ConstructSinglePuzzle(&lastPuzzleIndex,
@@ -49,7 +52,8 @@ void ConstructGameBPuzzles(ButtonMaster** gameBPuzzles, Texture2D** allTextures,
 			(Vector2Int){0, 1},
 			true,
 			EPS_active,
-			0.0f);
+		        0.0f,
+			exitCode);
     
     //broken puzzle
     ConstructSinglePuzzle(&lastPuzzleIndex,
@@ -64,7 +68,8 @@ void ConstructGameBPuzzles(ButtonMaster** gameBPuzzles, Texture2D** allTextures,
 			  (Vector2Int){0, 1},
 			  true,
 			  EPS_active,
-			  0.3f);
+			  0.3f,
+			  exitCode);
     
     //Later Puzzle
     ConstructSinglePuzzle(&lastPuzzleIndex,
@@ -79,7 +84,8 @@ void ConstructGameBPuzzles(ButtonMaster** gameBPuzzles, Texture2D** allTextures,
 			  (Vector2Int){2, 0},
 			  true,
 			  EPS_active,
-			  0.3f);
+			  0.3f,
+			  exitCode);
     
     //Later Puzzle
     ConstructSinglePuzzle(&lastPuzzleIndex,
@@ -94,7 +100,8 @@ void ConstructGameBPuzzles(ButtonMaster** gameBPuzzles, Texture2D** allTextures,
 			(Vector2Int){0, 3},
 			true,
 			EPS_active,
-			0.4f);
+		        0.4f,
+			exitCode);
     
     //Puzzle 3
     ConstructSinglePuzzle(&lastPuzzleIndex,
@@ -109,7 +116,8 @@ void ConstructGameBPuzzles(ButtonMaster** gameBPuzzles, Texture2D** allTextures,
 			  (Vector2Int){0, 3},
 			  true,
 			  EPS_active,
-			  0.3f);
+			  0.3f,
+			  exitCode);
 
     //Shared memory testing
     ConstructSinglePuzzle(&lastPuzzleIndex,
@@ -124,19 +132,21 @@ void ConstructGameBPuzzles(ButtonMaster** gameBPuzzles, Texture2D** allTextures,
 			  (Vector2Int){0, 0},
 			  true,
 			  EPS_active,
-			  0.0f);
+			  0.0f,
+			  exitCode);
     
-
+    exitCode->numOfLoadedItems = 0;
+    
     for (int i = 0; i < NUMBER_OF_PUZZLES_B; i++)
     {
-        CreateAllButtons(gameBPuzzles[i], dynamicModels, lastModelIndex, allTextures);
+        CreateAllButtons(gameBPuzzles[i], dynamicModels, lastModelIndex, allTextures, exitCode);
     }
 
     AssignAllPuzzlesNormals(gameBPuzzles, NUMBER_OF_PUZZLES_B);
     printf("buttons created in game b\n");
     //rotate buttons here
     //assign all values here
-    AssignAllPuzzlesSolutionButtons(gameBPuzzles, NUMBER_OF_PUZZLES_B);
+    AssignAllPuzzlesSolutionButtons(gameBPuzzles, NUMBER_OF_PUZZLES_B, exitCode);
     printf("solutions assigned\n");
     AssignSpecialTexturesGameB(gameBPuzzles, allTextures);
 }

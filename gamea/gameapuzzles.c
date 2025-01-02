@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures, modelInfo** dynamicModels, int* lastModelIndex, FPSPlayer* player, GameplayElements* gameplayElements)
+void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures, modelInfo** dynamicModels, int* lastModelIndex, FPSPlayer* player, GameplayElements* gameplayElements, ExitCode* exitCode)
 {
     int lastPuzzleIndex = 0;
 
@@ -21,7 +21,8 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
         (Vector2Int){0, 0},
         true,
         EPS_active,
-        0.0f);
+        0.0f,
+	exitCode);
 
     //The very first puzzle that isn't really a puzzle
     ConstructSinglePuzzle(&lastPuzzleIndex,
@@ -36,7 +37,8 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
         nullStartLoc,
         false,
         EPS_active,
-        0.0f);
+	0.0f,
+	exitCode);
 
     //Intro puzzle 2
     ConstructSinglePuzzle(&lastPuzzleIndex,
@@ -51,7 +53,8 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
         (Vector2Int){0, 1},
         true,
         EPS_active,
-        0.3f);
+	0.3f,
+	exitCode);
 
     ConstructSinglePuzzle(&lastPuzzleIndex,
         3,
@@ -65,7 +68,8 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
         (Vector2Int){0, 0},
         true,
         EPS_active,
-        0.0f);
+	0.0f,
+	exitCode);
 
     //First starter puzzle
     ConstructSinglePuzzle(&lastPuzzleIndex,
@@ -80,7 +84,8 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
         (Vector2Int){0, 0},
         true,
         EPS_active,
-        0.3f);
+	0.3f,
+	exitCode);
 
 
     ConstructSinglePuzzle(&lastPuzzleIndex,
@@ -95,7 +100,8 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
         (Vector2Int){2, 0},
         true,
         EPS_active,
-        0.3f);
+	0.3f,
+	exitCode);
 
     //Intro puzzle 1
     ConstructSinglePuzzle(&lastPuzzleIndex,
@@ -110,7 +116,8 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
         (Vector2Int){1, 0},
         true, 
         EPS_inactive,
-        0.3f);
+        0.3f,
+	exitCode);
 
     ConstructSinglePuzzle(&lastPuzzleIndex,
         3,
@@ -124,7 +131,8 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
         (Vector2Int){0, 2},
         true, 
         EPS_active,
-        0.3f);
+	0.3f,
+	exitCode);
 
     //test puzzle
     ConstructSinglePuzzle(&lastPuzzleIndex,
@@ -139,7 +147,8 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
         (Vector2Int){0, 0},
         false, 
         EPS_active,
-        0.3f);
+	0.3f,
+	exitCode);
 
     //Down left
     ConstructSinglePuzzle(&lastPuzzleIndex,
@@ -154,7 +163,8 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
         (Vector2Int){4, 2},
         true, 
         EPS_active,
-        0.3f);
+	0.3f,
+	exitCode);
 
     ConstructSinglePuzzle(&lastPuzzleIndex,
 			  3,
@@ -168,7 +178,8 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
 			  (Vector2Int){0, 2},
 			  true,
 			  EPS_active,
-			  0.3f);
+			  0.3f,
+			  exitCode);
 
     ConstructSinglePuzzle(&lastPuzzleIndex,
 			  5,
@@ -182,7 +193,8 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
 			  (Vector2Int){0, 1},
 			  true,
 			  EPS_active,
-			  0.3f);
+			  0.3f,
+			  exitCode);
 
     ConstructSinglePuzzle(&lastPuzzleIndex,
 			  3,
@@ -196,7 +208,8 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
 			  (Vector2Int){0, 1},
 			  true,
 			  EPS_active,
-			  0.3f);
+			  0.3f,
+			  exitCode);
 
     ConstructSinglePuzzle(&lastPuzzleIndex,
 			  5,
@@ -210,7 +223,8 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
 			  (Vector2Int){1, 2},
 			  true,
 			  EPS_active,
-			  0.3f);
+			  0.3f,
+			  exitCode);
 
     ConstructSinglePuzzle(&lastPuzzleIndex,
 			  3,
@@ -224,11 +238,12 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
 			  (Vector2Int){0, 0},
 			  true,
 			  EPS_active,
-			  0.0f);
+			  0.0f,
+			  exitCode);
     
     for (int i = 0; i < NUMBER_OF_PUZZLES_A; i++)
     {
-        CreateAllButtons(gameAPuzzles[i], dynamicModels, lastModelIndex, allTextures);
+        CreateAllButtons(gameAPuzzles[i], dynamicModels, lastModelIndex, allTextures, exitCode);
     }
 
 
@@ -240,7 +255,7 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
     /*
         After the initialziation of our buttons, we want to perscribe special textures to them if they so require
     */
-    AssignAllPuzzlesSolutionButtons(gameAPuzzles, NUMBER_OF_PUZZLES_A);
+    AssignAllPuzzlesSolutionButtons(gameAPuzzles, NUMBER_OF_PUZZLES_A, exitCode);
     AssignSpecialTexturesGameA(gameAPuzzles, allTextures);
     
     gameAPuzzles[3]->puzzleToPowerOn = gameAPuzzles[4];

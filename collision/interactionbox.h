@@ -7,7 +7,7 @@
 #include "../gameb/gamebqueryboxes.h" 
 #endif
 
-void ConstructInteractable(Interactable* interactable, Vector3 location, ColBox* box, float boxWidth, float boxHeight, float boxLength);
+void ConstructInteractable(Interactable* interactable, Vector3 location, ColBox* box, float boxWidth, float boxHeight, float boxLength, ExitCode* exitCode);
 
 void DestructInteractable(Interactable* interactable);
 
@@ -17,7 +17,7 @@ void DestructColBox(ColBox* box);
 
 void PuzzleInteract(FPSPlayer* player, ColBox* box);
 
-void CreatePlayerAreaQueries(QueryBox** areaQueryBoxes, enum Gametype gametype);
+void CreatePlayerAreaQueries(QueryBox** areaQueryBoxes, enum Gametype gametype, ExitCode* exitCode);
 
 void CreateInteractables(Interactable** interactables, QueryBox** areaQueryBoxes, ButtonMaster** allPuzzles);
 
@@ -25,5 +25,5 @@ void DestroyAreasAndInteractables(QueryBox** areaQueryBoxes, int numOfQueryBoxes
 
 void NullifyColBoxValues(ColBox* box);
 
-void ConstructSingleInteractable(int* lastInteractableIndex, enum InteractableType puzzleType, bool showArrowKeyHint, float len, float width, float height, ButtonMaster* assignedPuzzle, void(*colBoxInteract)(FPSPlayer*, ColBox*), Interactable** interactables, QueryBox** areaQueryBox, int areaQueryBoxId);
+void ConstructSingleInteractable(int* lastInteractableIndex, enum InteractableType puzzleType, bool showArrowKeyHint, float len, float width, float height, ButtonMaster* assignedPuzzle, void(*colBoxInteract)(FPSPlayer*, ColBox*), Interactable** interactables, QueryBox** areaQueryBox, int areaQueryBoxId, ExitCode* exitCode);
 

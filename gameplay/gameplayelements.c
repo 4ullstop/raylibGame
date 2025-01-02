@@ -11,9 +11,9 @@ void DestructAllGameplayElements(GameplayElements* gameplayElements, Door** allD
     DestructAllDoors(allDoors, gameplayElements->numOfDoors);
 }
 
-void ConstructGameplayElements(modelInfo** models, int* lastModelIndex, Texture2D** allTextures, int numOfDoors, GameplayElements* gameplayElements, Door* allDoors[])
+void ConstructGameplayElements(modelInfo** models, int* lastModelIndex, Texture2D** allTextures, int numOfDoors, GameplayElements* gameplayElements, Door* allDoors[], ExitCode* exitCode)
 {
-    ConstructDoors(models, allTextures, lastModelIndex, allDoors);
+    ConstructDoors(models, allTextures, lastModelIndex, allDoors, exitCode);
     gameplayElements->numOfDoors = numOfDoors;
     for (int i = 0; i < gameplayElements->numOfDoors; i++)
     {

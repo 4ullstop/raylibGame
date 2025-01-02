@@ -5,7 +5,7 @@
 #include "externcollision.h"
 #endif 
 
-void ConstructOverlapBoxes(OverlapBox** allBoxes);
+void ConstructOverlapBoxes(OverlapBox** allBoxes, ExitCode* exitCode);
 
 void AddBoxToQueryList(OverlapBox* newBox, OverlapBox* allQueriedBoxes);
 

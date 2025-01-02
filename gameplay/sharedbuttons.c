@@ -2,12 +2,17 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-void CreateAllButtons(ButtonMaster* master, modelInfo** dynamicModels, int* lastModelIndex, Texture2D** allTextures)
+void CreateAllButtons(ButtonMaster* master, modelInfo** dynamicModels, int* lastModelIndex, Texture2D** allTextures, ExitCode* exitCode)
 {
     
     printf("master id:%i\n", master->id);
     master->totalButtons = master->rows * master->columns;
     master->childButtons = (Button**)malloc(master->rows * sizeof(Button*));
+    if (master->childButtons == NULL)
+    {
+	EditReturnCodeInfo(202, "Failed to allocate memory for childbuttons\n", exitCode);
+	return;
+    }
     master->OnPuzzleSolved = OnPuzzleCompleted;
     Vector3 location = master->location;
     int r = master->rows;
@@ -15,6 +20,10 @@ void CreateAllButtons(ButtonMaster* master, modelInfo** dynamicModels, int* last
     for (int i = 0; i < r; i++)
     {
         master->childButtons[i] = (Button*)malloc(c * sizeof(Button));
+	if (master->childButtons[i] == NULL)
+	{
+	    EditReturnCodeInfo(203, "Failed to allocate memory for child button\n", exitCode);
+	}
     }
 
     
@@ -28,12 +37,12 @@ void CreateAllButtons(ButtonMaster* master, modelInfo** dynamicModels, int* last
         {
             printf("i: %i, j: %i\n", i, j);
             printf("\n");
-            ConstructSingleButton(master, i, j, lastModelIndex, dynamicModels, allTextures);
+            ConstructSingleButton(master, i, j, lastModelIndex, dynamicModels, allTextures, exitCode);
         }
     }
 }
 
-void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelIndex, modelInfo** dynamicModels, Texture2D** allTextures)
+void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelIndex, modelInfo** dynamicModels, Texture2D** allTextures, ExitCode* exitCode)
 {
     
     int centerR = floor((float)master->rows / 2.0);
@@ -81,6 +90,11 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
     }
 
     PuzzleTexture* buttonTextures = malloc(sizeof(PuzzleTexture));
+    if (buttonTextures == NULL)
+    {
+	EditReturnCodeInfo(204, "Failed to allocate memory for buttontextures\n", exitCode);
+	return;
+    }
     buttonTextures->highlighted = *allTextures[4];
     buttonTextures->idle = *allTextures[3];
     buttonTextures->selected = *allTextures[5];
@@ -90,6 +104,11 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
     
     //initializng the associated models for the mechanic
     master->childButtons[i][j].model = malloc(sizeof(modelInfo));
+    if (master->childButtons[i][j].model == NULL)
+    {
+	EditReturnCodeInfo(205, "Failed to allocate memory for button model", exitCode);
+	return;
+    }
     master->childButtons[i][j].model->collisionDisabled = true;
     master->childButtons[i][j].model->modelVisible = true;
     master->childButtons[i][j].isBeingAssessed = false;
@@ -275,9 +294,14 @@ void InactGameplayElement(GameplayElements* gameplayElement)
     printf("gameplay element enacted\n");
 }
 
-void ConstructSinglePuzzle(int* lastPuzzleIndex, int columns, int rows, Vector3 location, FPSPlayer* player, void(*puzzleLocConstruct)(ButtonMaster*), bool hasGameplayElements, GameplayElements* gameplayElements, ButtonMaster** gameAPuzzles, Vector2Int highlightStart, bool hasHighlightStartLoc, enum PuzzleState puzzleState, float buttonSpread)
+void ConstructSinglePuzzle(int* lastPuzzleIndex, int columns, int rows, Vector3 location, FPSPlayer* player, void(*puzzleLocConstruct)(ButtonMaster*), bool hasGameplayElements, GameplayElements* gameplayElements, ButtonMaster** gameAPuzzles, Vector2Int highlightStart, bool hasHighlightStartLoc, enum PuzzleState puzzleState, float buttonSpread, ExitCode* exitCode)
 {
     ButtonMaster* puzzle = malloc(sizeof(ButtonMaster));
+    if (puzzle == NULL)
+    {
+	EditReturnCodeInfo(200, "Failed To allocate memory for puzzle\n", exitCode);
+	return;
+    }
     puzzle->columns = columns;
     puzzle->rows = rows;
     puzzle->location = location;
@@ -305,6 +329,10 @@ void ConstructSinglePuzzle(int* lastPuzzleIndex, int columns, int rows, Vector3 
     puzzle->plainSubmittedButtonsMax = columns - 1;
     puzzle->puzzleNormalDirection = (Vector3){0};
     puzzle->associatedGameplayElements = malloc(sizeof(GameplayElements));
+    if (puzzle->associatedGameplayElements == NULL)
+    {
+	EditReturnCodeInfo(201, "Failed to allocate memory for puzzle's associated gameplay elements\n", exitCode);
+    }
     if (hasGameplayElements == true)
     {
         AssignGameplayElementsToPuzzles(puzzle, gameplayElements->doors[0]);
@@ -335,17 +363,22 @@ void EnactButton(Button* button)
     }
 }
 
-void AssignAllPuzzlesSolutionButtons(ButtonMaster** allPuzzles, int numOfPuzzles)
+void AssignAllPuzzlesSolutionButtons(ButtonMaster** allPuzzles, int numOfPuzzles, ExitCode* exitCode)
 {
     for (int i = 0; i < numOfPuzzles; i++)
     {
-        AssignSolutionButtonsToPuzzle(allPuzzles[i]);
+        AssignSolutionButtonsToPuzzle(allPuzzles[i], exitCode);
     }
 }
 
-void AssignSolutionButtonsToPuzzle(ButtonMaster* puzzle)
+void AssignSolutionButtonsToPuzzle(ButtonMaster* puzzle, ExitCode* exitCode)
 {
     puzzle->correctOrder = malloc(sizeof(int) * puzzle->numberOfSolutions);
+    if (puzzle->correctOrder == NULL)
+    {
+	EditReturnCodeInfo(206, "Failed to allocate memory for puzzle correct order\n", exitCode);
+	return;
+    }
     printf("num of solutions: %i\n", puzzle->numberOfSolutions);
     for (int i = 0; i < puzzle->numberOfSolutions; i++)
     {

@@ -146,24 +146,45 @@ int main(int argc, char* argv[])
     int numOfDoors = 0;
     if (gametype == EGT_A)
     {
-        LoadAllTextures(texturesA, gametype);
-        ConstructGameplayElements(modelsA, &lastModelIndex, texturesA, NUMBER_OF_DOORS_A, &gameplayElements, allDoorsA);
-        ConstructPuzzles(allPuzzlesA, modelsA, &lastModelIndex, gametype, &player, &gameplayElements, texturesA);
-        CreateModels(modelsA, &lastModelIndex, gametype, texturesA);
+        LoadAllTextures(texturesA, gametype, &exitCodes);
+	CheckForErrors(&exitCodes);
+        ConstructGameplayElements(modelsA, &lastModelIndex, texturesA, NUMBER_OF_DOORS_A, &gameplayElements, allDoorsA, &exitCodes);
+	CheckForErrors(&exitCodes);
+        ConstructPuzzles(allPuzzlesA, modelsA, &lastModelIndex, gametype, &player, &gameplayElements, texturesA, &exitCodes);
+	CheckForErrors(&exitCodes);
+	
+        CreateModels(modelsA, &lastModelIndex, gametype, texturesA, &exitCodes);
+
+	CheckForErrors(&exitCodes);
+	
         numOfPuzzles = NUMBER_OF_PUZZLES_A;
         numOfDoors = NUMBER_OF_DOORS_A;
         
     }
     else
     {
-	LoadAllTextures(texturesB, gametype);
-        ConstructGameplayElements(modelsB, &lastModelIndex, texturesB, NUMBER_OF_DOORS_B, &gameplayElements, allDoorsB);
-        ConstructPuzzles(allPuzzlesB, modelsB, &lastModelIndex, gametype, &player, &gameplayElements, texturesB);
+	LoadAllTextures(texturesB, gametype, &exitCodes);
+
+	CheckForErrors(&exitCodes);
+	
+        ConstructGameplayElements(modelsB, &lastModelIndex, texturesB, NUMBER_OF_DOORS_B, &gameplayElements, allDoorsB, &exitCodes);
+
+	CheckForErrors(&exitCodes);
+	
+        ConstructPuzzles(allPuzzlesB, modelsB, &lastModelIndex, gametype, &player, &gameplayElements, texturesB, &exitCodes);
+
+	CheckForErrors(&exitCodes);
+	
 	printf("puzzles created for game b\n");
-	CreateModels(modelsB, &lastModelIndex, gametype, texturesB);
+	CreateModels(modelsB, &lastModelIndex, gametype, texturesB, &exitCodes);
+
+	CheckForErrors(&exitCodes);
+	
         numOfPuzzles = NUMBER_OF_PUZZLES_B;
         numOfDoors = NUMBER_OF_DOORS_B;
     }
+
+    CheckForErrors(&exitCodes);
 
     /*
         Creation of interactables
@@ -178,15 +199,27 @@ int main(int argc, char* argv[])
     int numOfQueryBoxes = 0;
     if (gametype == EGT_A)
     {
-        CreatePlayerAreaQueries(areaQueryBoxesA, EGT_A);
-        CreateInteractablesForGameType(interactablesA, areaQueryBoxesA, allPuzzlesA, gametype);
+        CreatePlayerAreaQueries(areaQueryBoxesA, EGT_A, &exitCodes);
+
+	CheckForErrors(&exitCodes);
+	
+        CreateInteractablesForGameType(interactablesA, areaQueryBoxesA, allPuzzlesA, gametype, &exitCodes);
+
+	CheckForErrors(&exitCodes);
+	
         numOfInteractables = NUMBER_OF_INTERACTABLES_A;
         numOfQueryBoxes = NUMBER_OF_AREA_QUERY_BOXES_A;
     }
     else
     {
-        CreatePlayerAreaQueries(areaQueryBoxesB, EGT_B);
-        CreateInteractablesForGameType(interactablesB, areaQueryBoxesB, allPuzzlesB, gametype);
+        CreatePlayerAreaQueries(areaQueryBoxesB, EGT_B, &exitCodes);
+
+	CheckForErrors(&exitCodes);
+	
+        CreateInteractablesForGameType(interactablesB, areaQueryBoxesB, allPuzzlesB, gametype, &exitCodes);
+
+	CheckForErrors(&exitCodes);
+	
         numOfInteractables = NUMBER_OF_INTERACTABLES_B;
         numOfQueryBoxes = NUMBER_OF_AREA_QUERY_BOXES_B;
     }
@@ -196,11 +229,13 @@ int main(int argc, char* argv[])
 
     if (gametype == EGT_A)
     {
-        ConstructOverlapBoxes(allBoxesA);
+        ConstructOverlapBoxes(allBoxesA, &exitCodes);
+	CheckForErrors(&exitCodes);
     }
     else
     {
-        ConstructOverlapBoxes(allBoxesB);
+        ConstructOverlapBoxes(allBoxesB, &exitCodes);
+	CheckForErrors(&exitCodes);
     }
 
     colPacket.eRadius = (Vector3){1.0f, 4.0f, 1.0f};
