@@ -4,6 +4,12 @@
 
 void CreateAllButtons(ButtonMaster* master, modelInfo** dynamicModels, int* lastModelIndex, Texture2D** allTextures, ExitCode* exitCode)
 {
+
+    if (master == NULL || lastModelIndex == NULL)
+    {
+	EditReturnCodeInfo(207, "Puzzle/model index null", exitCode);
+	return;
+    }
     
     printf("master id:%i\n", master->id);
     master->totalButtons = master->rows * master->columns;
@@ -44,6 +50,7 @@ void CreateAllButtons(ButtonMaster* master, modelInfo** dynamicModels, int* last
 
 void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelIndex, modelInfo** dynamicModels, Texture2D** allTextures, ExitCode* exitCode)
 {
+
     
     int centerR = floor((float)master->rows / 2.0);
     int centerC = floor((float)master->columns / 2.0);
@@ -296,6 +303,10 @@ void InactGameplayElement(GameplayElements* gameplayElement)
 
 void ConstructSinglePuzzle(int* lastPuzzleIndex, int columns, int rows, Vector3 location, FPSPlayer* player, void(*puzzleLocConstruct)(ButtonMaster*), bool hasGameplayElements, GameplayElements* gameplayElements, ButtonMaster** gameAPuzzles, Vector2Int highlightStart, bool hasHighlightStartLoc, enum PuzzleState puzzleState, float buttonSpread, ExitCode* exitCode)
 {
+    if (lastPuzzleIndex == NULL || player == NULL)
+    {
+	EditReturnCodeInfo(208, "PuzzleIndex/Player null upon puzzle construction", exitCode);
+    }
     ButtonMaster* puzzle = malloc(sizeof(ButtonMaster));
     if (puzzle == NULL)
     {

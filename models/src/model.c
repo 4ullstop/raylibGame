@@ -27,17 +27,3 @@ void DrawAllModels(modelInfo** models, int numOfModels)
         DrawModel(models[i]->model, models[i]->modelLocation, 1.0f, WHITE);
     }
 }
-
-void DestroyAllModels(modelInfo** models, int numOfModels, Texture2D** allTextures, int numOfTextures)
-{
-    for (int i = 0; i < numOfTextures; i++)
-    {
-        UnloadTexture(*allTextures[i]);
-    }
-    for (int i = 0; i < numOfModels; i++)
-    {
-        UnloadModel(models[i]->model);
-        free(models[i]);
-        models[i] = NULL;
-    }
-}

@@ -14,5 +14,5 @@ void CreateModels(modelInfo** models, int* lastModelIndex, enum Gametype gametyp
 
 void DrawAllModels(modelInfo** models, int numOfModels);
 
-void DestroyAllModels(modelInfo** models, int numOfModels, Texture2D** allTextures, int numOfTextures);
+
 

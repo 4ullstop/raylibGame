@@ -57,6 +57,7 @@ bool hideObjects;
 int main(int argc, char* argv[])
 {
     ExitCode exitCodes = {0};
+    enum DestructionLocations destructionLocations = 0;
     exitCodes.returnCode = 0;
     SharedMemory sharedMemValA = {0};
     SharedMemory sharedMemValB = {0};
@@ -147,15 +148,15 @@ int main(int argc, char* argv[])
     if (gametype == EGT_A)
     {
         LoadAllTextures(texturesA, gametype, &exitCodes);
-	CheckForErrors(&exitCodes);
+	if (CheckForErrors(&exitCodes, &destructionLocations)) goto KillProgram; 
+
         ConstructGameplayElements(modelsA, &lastModelIndex, texturesA, NUMBER_OF_DOORS_A, &gameplayElements, allDoorsA, &exitCodes);
-	CheckForErrors(&exitCodes);
+	if (CheckForErrors(&exitCodes, &destructionLocations)) goto KillProgram; 
         ConstructPuzzles(allPuzzlesA, modelsA, &lastModelIndex, gametype, &player, &gameplayElements, texturesA, &exitCodes);
-	CheckForErrors(&exitCodes);
+	if (CheckForErrors(&exitCodes, &destructionLocations)) goto KillProgram; 
 	
         CreateModels(modelsA, &lastModelIndex, gametype, texturesA, &exitCodes);
-
-	CheckForErrors(&exitCodes);
+	if (CheckForErrors(&exitCodes, &destructionLocations)) goto KillProgram; 
 	
         numOfPuzzles = NUMBER_OF_PUZZLES_A;
         numOfDoors = NUMBER_OF_DOORS_A;
@@ -164,27 +165,23 @@ int main(int argc, char* argv[])
     else
     {
 	LoadAllTextures(texturesB, gametype, &exitCodes);
-
-	CheckForErrors(&exitCodes);
+	if (CheckForErrors(&exitCodes, &destructionLocations)) goto KillProgram; 
 	
         ConstructGameplayElements(modelsB, &lastModelIndex, texturesB, NUMBER_OF_DOORS_B, &gameplayElements, allDoorsB, &exitCodes);
-
-	CheckForErrors(&exitCodes);
+	if (CheckForErrors(&exitCodes, &destructionLocations)) goto KillProgram; 
 	
         ConstructPuzzles(allPuzzlesB, modelsB, &lastModelIndex, gametype, &player, &gameplayElements, texturesB, &exitCodes);
-
-	CheckForErrors(&exitCodes);
+	if (CheckForErrors(&exitCodes, &destructionLocations)) goto KillProgram; 
 	
 	printf("puzzles created for game b\n");
 	CreateModels(modelsB, &lastModelIndex, gametype, texturesB, &exitCodes);
 
-	CheckForErrors(&exitCodes);
+	if (CheckForErrors(&exitCodes, &destructionLocations)) goto KillProgram; 
 	
         numOfPuzzles = NUMBER_OF_PUZZLES_B;
         numOfDoors = NUMBER_OF_DOORS_B;
     }
-
-    CheckForErrors(&exitCodes);
+    if (CheckForErrors(&exitCodes, &destructionLocations)) goto KillProgram; 
 
     /*
         Creation of interactables
@@ -201,11 +198,11 @@ int main(int argc, char* argv[])
     {
         CreatePlayerAreaQueries(areaQueryBoxesA, EGT_A, &exitCodes);
 
-	CheckForErrors(&exitCodes);
+	if (CheckForErrors(&exitCodes, &destructionLocations)) goto KillProgram; 
 	
         CreateInteractablesForGameType(interactablesA, areaQueryBoxesA, allPuzzlesA, gametype, &exitCodes);
 
-	CheckForErrors(&exitCodes);
+	if (CheckForErrors(&exitCodes, &destructionLocations)) goto KillProgram; 
 	
         numOfInteractables = NUMBER_OF_INTERACTABLES_A;
         numOfQueryBoxes = NUMBER_OF_AREA_QUERY_BOXES_A;
@@ -214,11 +211,11 @@ int main(int argc, char* argv[])
     {
         CreatePlayerAreaQueries(areaQueryBoxesB, EGT_B, &exitCodes);
 
-	CheckForErrors(&exitCodes);
+	if (CheckForErrors(&exitCodes, &destructionLocations)) goto KillProgram; 
 	
         CreateInteractablesForGameType(interactablesB, areaQueryBoxesB, allPuzzlesB, gametype, &exitCodes);
 
-	CheckForErrors(&exitCodes);
+	if (CheckForErrors(&exitCodes, &destructionLocations)) goto KillProgram; 
 	
         numOfInteractables = NUMBER_OF_INTERACTABLES_B;
         numOfQueryBoxes = NUMBER_OF_AREA_QUERY_BOXES_B;
@@ -230,12 +227,12 @@ int main(int argc, char* argv[])
     if (gametype == EGT_A)
     {
         ConstructOverlapBoxes(allBoxesA, &exitCodes);
-	CheckForErrors(&exitCodes);
+	if (CheckForErrors(&exitCodes, &destructionLocations)) goto KillProgram; 
     }
     else
     {
         ConstructOverlapBoxes(allBoxesB, &exitCodes);
-	CheckForErrors(&exitCodes);
+	if (CheckForErrors(&exitCodes, &destructionLocations)) goto KillProgram; 
     }
 
     colPacket.eRadius = (Vector3){1.0f, 4.0f, 1.0f};
@@ -300,10 +297,13 @@ int main(int argc, char* argv[])
         }
     }
     /*
-        MAIN GAME LOOP
-        MAIN GAME LOOP
-        MAIN GAME LOOP
+        MAIN GAME LOOP END
+        MAIN GAME LOOP END
+        MAIN GAME LOOP END
     */
+
+
+KillProgram:
     
     if (gametype == EGT_A)
     {

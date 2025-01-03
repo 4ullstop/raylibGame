@@ -10,10 +10,12 @@ void CreateInteractables(Interactable** interactables, QueryBox** areaQueryBoxes
 
 void ConstructInteractable(Interactable* interactable, Vector3 location, ColBox* box, float boxWidth, float boxHeight, float boxLength, ExitCode* exitCode)
 {
-    if (interactable == NULL)
+    if (interactable == NULL || box == NULL)
     {
-        printf("ERROR: Interactable is invalid!\n");
+        EditReturnCodeInfo(605, "Interactable/box is null upon construction", exitCode);
+	return;
     }
+    
     interactable->Location = location;
     interactable->width = boxWidth;
     interactable->height = boxHeight;
@@ -97,6 +99,10 @@ void DestroyAreasAndInteractables(QueryBox** areaQueryBoxes, int numOfQueryBoxes
 
 void PuzzleInteract(FPSPlayer* player, ColBox* box)
 {
+    if (player == NULL || box == NULL)
+    {
+	
+    }
     printf("puzzle interact! %i\n", box->id);
     if (box->id == 1)
     {
@@ -112,6 +118,11 @@ void PuzzleInteract(FPSPlayer* player, ColBox* box)
 
 void ConstructSingleInteractable(int* lastInteractableIndex, enum InteractableType puzzleType, bool showArrowKeyHint, float len, float width, float height, ButtonMaster* assignedPuzzle, void(*colBoxInteract)(FPSPlayer*, ColBox*), Interactable** interactables, QueryBox** areaQueryBox, int areaQueryBoxId, ExitCode* exitCode)
 {
+    if (assignedPuzzle == NULL || lastInteractableIndex == NULL)
+    {
+	EditReturnCodeInfo(601, "Assigned puzzle/last interactable null", exitCode);
+	return;
+    }
     ColBox* box = malloc(sizeof(ColBox));
     if (box == NULL)
     {
