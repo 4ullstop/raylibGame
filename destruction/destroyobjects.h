@@ -7,7 +7,7 @@
 
 void DestroyAllModels(modelInfo** models, int numOfModels, Texture2D** allTextures, int numOfTextures);
 
-void EnduceTearDown(modelInfo** models, int numOfModels, Texture2D** allTextures, int numOfTextures, ButtonMaster** allPuzzles, int numOfPuzzles, QueryBox** areaQueryBoxes, int numOfQueryBoxes, int numOfInteractables, OverlapBox** allOverlapBoxes, int numOfOverlapBoxes, enum DestructionLocations destructionLocations, ExitCode* exitCode);
+void EnduceTearDown(modelInfo** models, int numOfModels, Texture2D** allTextures, int numOfTextures, ButtonMaster** allPuzzles, int numOfPuzzles, QueryBox** areaQueryBoxes, int numOfQueryBoxes, int numOfInteractables, OverlapBox** allOverlapBoxes, int numOfOverlapBoxes, GameplayElements* gameplayElements, int numOfDoors, enum DestructionLocations destructionLocations, ExitCode* exitCode);
 
 void UnloadAllTextures(Texture2D** allTextures, int numOfTextures);
 
@@ -27,5 +27,8 @@ void DestructInteractable(Interactable* interactable);
 
 void DestructColBox(ColBox* box);
 
-void DestroyOverlapBoxes(OverlapBox** allBoxes);
+void DestroyOverlapBoxes(OverlapBox** allBoxes, int numOfOverlapBoxes);
 
+void DestructAllGameplayElements(GameplayElements* gameplayElements, int numOfDoors);
+
+void DestructAllDoors(Door* allDoors[], int numOfDoors);

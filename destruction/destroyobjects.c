@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-void EnduceTearDown(modelInfo** models, int numOfModels, Texture2D** allTextures, int numOfTextures, ButtonMaster** allPuzzles, int numOfPuzzles, QueryBox** areaQueryBoxes, int numOfQueryBoxes, int numOfInteractables, OverlapBox** allOverlapBoxes, int numOfOverlapBoxes, enum DestructionLocations destructionLocations, ExitCode* exitCode)
+void EnduceTearDown(modelInfo** models, int numOfModels, Texture2D** allTextures, int numOfTextures, ButtonMaster** allPuzzles, int numOfPuzzles, QueryBox** areaQueryBoxes, int numOfQueryBoxes, int numOfInteractables, OverlapBox** allOverlapBoxes, int numOfOverlapBoxes, GameplayElements* gameplayElements, int numOfDoors, enum DestructionLocations destructionLocations, ExitCode* exitCode)
 {
     //destroy textures
     UnloadAllTextures(allTextures, numOfTextures);
@@ -19,19 +19,16 @@ void EnduceTearDown(modelInfo** models, int numOfModels, Texture2D** allTextures
     //destroy puzzles
     DestructAllPuzzles(allPuzzles, numOfPuzzles);
     if (destructionLocations == DL_Puzzles && exitCode->gameLoaded == false) return;    
+
+    DestroyAreasAndInteractables(areaQueryBoxes, numOfQueryBoxes, numOfInteractables);
+    if (destructionLocations == DL_AreaQueryBoxes && exitCode->gameLoaded == false) return;    
     
     //destroy gameplay elements
-    
+    DestructAllGameplayElements(gameplayElements, numOfDoors);
     if (destructionLocations == DL_GameplayElements && exitCode->gameLoaded == false) return;
     
-    //destroy area queries
-    
-    if (destructionLocations == DL_AreaQueryBoxes && exitCode->gameLoaded == false) return;
-
-    //destroy interactables
-    if (destructionLocations == DL_Interactables && exitCode->gameLoaded == false) return;
-
     //destroy overlaps
+    DestroyOverlapBoxes(allOverlapBoxes, numOfOverlapBoxes);
     if (destructionLocations == DL_OverlapBoxes && exitCode->gameLoaded == false) return;
 
     //destroy shared memory
@@ -184,12 +181,30 @@ void DestructColBox(ColBox* box)
     
 }
 
-void DestroyOverlapBoxes(OverlapBox** allBoxes)
+void DestroyOverlapBoxes(OverlapBox** allBoxes, int numOfOverlapBoxes)
 {
-    for (int i = 0; i < NUMBER_OF_OVERLAP_BOXES_A; i++)
+    for (int i = 0; i < numOfOverlapBoxes; i++)
     {
         DestructColBox(allBoxes[i]->collisionBox);
         free(allBoxes[i]);
         allBoxes[i] = NULL;
     }
+}
+
+void DestructAllGameplayElements(GameplayElements* gameplayElements, int numOfDoors)
+{
+//    DestructAllDoors(gameplayElements->doors, numOfDoors);
+}
+
+void DestructAllDoors(Door* allDoors[], int numOfDoors)
+{
+    printf("alldoors %p\n", (void*)&allDoors[0]);
+    printf("num of doors %i\n", numOfDoors);
+    if (allDoors[0] != NULL)
+    {
+	free(allDoors[0]);
+	allDoors[0] = NULL;
+    }
+    
+    printf("Door destruct complete\n");
 }

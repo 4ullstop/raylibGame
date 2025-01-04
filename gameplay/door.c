@@ -25,7 +25,8 @@ void ConstructDoors(modelInfo** dynamicModels, Texture2D** gameTextures, int* la
     dynamicModels[*lastModelIndex] = &door_01->doorModel;
     *lastModelIndex = *lastModelIndex + 1;
     allDoors[0] = door_01;
-
+    exitCode->numOfDoorsLoaded = exitCode->numOfDoorsLoaded + 1;
+    
     printf("doors constructed\n");
     printf("door on construct %p \n", (void*)&door_01);
     printf("alldoors on construct %p \n", (void*)&allDoors[0]);
@@ -59,23 +60,4 @@ void LowerDoor(Door* door, double deltaTime)
             door->isLowering = false;
         }
     }
-}
-
-void DestructAllDoors(Door* allDoors[], int numOfDoors)
-{
-    // for (int i = 0; i < numOfDoors; i++)
-    // {
-    //     printf("alldoors %p\n", (void*)&allDoors[i]);
-        
-    //     free(allDoors[i]);
-    //     allDoors[i] = NULL;
-    // }
-    printf("alldoors %p\n", (void*)&allDoors[0]);
-
-    if (allDoors[0] != NULL)
-    {
-        free(allDoors[0]);
-        allDoors[0] = NULL;
-    }
-    printf("Destruct complete\n");
 }
