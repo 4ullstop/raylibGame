@@ -1,5 +1,11 @@
 #pragma once
 
+#ifndef ENGINE_STRUCTS_HEADER
+#define ENGINE_STRUCTS_HEADER
+#include <stdbool.h>
+#endif
+
+
 #ifndef EXIT_CODE
 #define EXIT_CODE
 typedef struct ExitCode
@@ -8,7 +14,15 @@ typedef struct ExitCode
     char* gameVersion;
     char* extraReturnInfo;
 
-    int numOfLoadedItems; 
+    int numOfLoadedItems;
+    bool gameLoaded;
+
+    int numOfPuzzlesLoaded;
+    int numOfModelsLoaded;
+    int numOfOverlapBoxesLoaded;
+    int numOfColBoxesLoaded;
+    int numOfInteractablesLoaded;
+    
 } ExitCode;
 #endif
 

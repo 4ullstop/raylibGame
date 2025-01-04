@@ -25,7 +25,7 @@ void LoadGameAModels(Texture2D** allTextures, ExitCode* exitCode)
     RetrieveGameATextureFiles(gameATextures);
     for (int i  = 0; i < NUMBER_OF_TEXTURES_A; i++)
     {
-	printf("gameBTexturesLoc: %s\n", gameATextures[i]);
+	printf("gameATexturesLoc: %s\n", gameATextures[i]);
     }
     for (int i = 0; i < NUMBER_OF_TEXTURES_A; i++)
     {

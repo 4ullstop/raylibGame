@@ -3,7 +3,6 @@
 
 void CreateModelsForGameB(modelInfo** models, int* lastModelIndex, Texture2D** allTextures, ExitCode* exitCode)
 {
-    exitCode->numOfLoadedItems = 0;
     modelInfo* floor = malloc(sizeof(modelInfo));
     if (floor == NULL)
     {
@@ -12,7 +11,8 @@ void CreateModelsForGameB(modelInfo** models, int* lastModelIndex, Texture2D** a
     }
     floor->collisionDisabled = false;
     floor->modelVisible = true;
-    floor->model = LoadModel("D:/CFiles/FirstGame/models/obj/floor.obj"); 
+    floor->model = LoadModel("D:/CFiles/FirstGame/models/obj/floor.obj");
+    exitCode->numOfModelsLoaded = exitCode->numOfModelsLoaded + 1;
     floor->texture = *allTextures[0];
     floor->modelLocation = (Vector3){0.0f, 0.0f, 0.0f};
     floor->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = floor->texture;

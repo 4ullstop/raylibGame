@@ -20,7 +20,7 @@ void CreateModelsForGameA(modelInfo** models, int* lastModelIndex, Texture2D** a
     floor->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = floor->texture;
     models[*lastModelIndex] = floor;
     *lastModelIndex = *lastModelIndex + 1;
-    exitCode->numOfLoadedItems = exitCode->numOfLoadedItems + 1;
+    exitCode->numOfModelsLoaded = exitCode->numOfModelsLoaded + 1;
     
     modelInfo* wall_01 = malloc(sizeof(modelInfo));
     if (wall_01 == NULL)
@@ -36,7 +36,7 @@ void CreateModelsForGameA(modelInfo** models, int* lastModelIndex, Texture2D** a
     wall_01->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = wall_01->texture;
     models[*lastModelIndex] = wall_01;
     *lastModelIndex = *lastModelIndex + 1;
-    exitCode->numOfLoadedItems = exitCode->numOfLoadedItems + 1;
+    exitCode->numOfModelsLoaded = exitCode->numOfModelsLoaded + 1;
 
     //
 }

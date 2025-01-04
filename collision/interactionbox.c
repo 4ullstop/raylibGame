@@ -26,30 +26,9 @@ void ConstructInteractable(Interactable* interactable, Vector3 location, ColBox*
 
 }
 
-void DestructInteractable(Interactable* interactable)
-{
-    DestructColBox(interactable->colBox);
-}
-
 bool IsPointInInteractable(Interactable* interactable, Vector3 point)
 {
     return IsPointInColBox(interactable->colBox, point);
-}
-
-void DestructColBox(ColBox* box)
-{
-    printf("ColBox id on destruct: %i\n", box->id);
-    if (box->verts == NULL || box->indices == NULL|| box == NULL) return;
-    printf("verts: %f\n", *box->verts);
-    free(box->verts);
-    box->verts = NULL;
-    printf("ColBox destroyed\n");
-    free(box->indices);
-    box->indices = NULL;
-    
-    free(box);
-    box = NULL;
-    
 }
 
 void CreatePlayerAreaQueries(QueryBox** areaQueryBoxes, enum Gametype gametype, ExitCode* exitCode)
@@ -71,31 +50,6 @@ void NullifyColBoxValues(ColBox* box)
     box->verts = NULL;
     box->indices = NULL;
 }
-
-void DestroyAreasAndInteractables(QueryBox** areaQueryBoxes, int numOfQueryBoxes, int numOfInteractables)
-{
-    printf("num of queryboxes: %i\n", numOfQueryBoxes);
-    printf("num of interactables: %i\n", numOfInteractables);
-    for (int i = 0; i < numOfQueryBoxes; i++)
-    {
-        for (int j = 0; j < numOfInteractables; j++)
-        {
-            DestructInteractable(areaQueryBoxes[i]->associatedInteractables[j]);
-            
-            if (areaQueryBoxes[i]->associatedInteractables[j] != NULL)
-            {
-                free(areaQueryBoxes[i]->associatedInteractables[j]);
-                areaQueryBoxes[i]->associatedInteractables[j] = NULL;
-            }
-            
-        }
-        DestructColBox(areaQueryBoxes[i]->areaBox);
-        areaQueryBoxes[i]->areaBox = NULL;
-        //Wouldn't doubt if there were still things that needed to be freed
-        //but uhh... you got this Windows
-    }
-}
-
 
 void PuzzleInteract(FPSPlayer* player, ColBox* box)
 {
@@ -145,7 +99,8 @@ void ConstructSingleInteractable(int* lastInteractableIndex, enum InteractableTy
     box->interact = colBoxInteract;
     interactable->associatedPuzzle = assignedPuzzle;
     interactable->Location = assignedPuzzle->location;
-
+    exitCode->numOfInteractablesLoaded = exitCode->numOfInteractablesLoaded + 1;
+    
     interactables[*lastInteractableIndex] = interactable;
     areaQueryBox[areaQueryBoxId]->associatedInteractables[*lastInteractableIndex] = interactable;
     *lastInteractableIndex = *lastInteractableIndex + 1;

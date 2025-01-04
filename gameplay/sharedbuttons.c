@@ -126,6 +126,7 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
     master->childButtons[i][j].shouldStayPoweredOff = false;
     master->childButtons[i][j].loadedShader = NULL;
     master->childButtons[i][j].model->model = LoadModel("D:/CFiles/FirstGame/models/obj/button.obj");
+    exitCode->numOfModelsLoaded = exitCode->numOfModelsLoaded + 1;
     master->childButtons[i][j].buttonTextures = buttonTextures;
     master->childButtons[i][j].buttonTextureLocation = TCL_NULL;
     master->childButtons[i][j].buttonState = EBS_idle;
@@ -354,6 +355,8 @@ void ConstructSinglePuzzle(int* lastPuzzleIndex, int columns, int rows, Vector3 
     }
     gameAPuzzles[*lastPuzzleIndex] = puzzle;
     *lastPuzzleIndex = *lastPuzzleIndex + 1;
+
+    exitCode->numOfPuzzlesLoaded = exitCode->numOfPuzzlesLoaded + 1;
 }
 
 //this is our function that will need to be assigned to our function pointer for special

@@ -19,6 +19,7 @@ void ConstructDoors(modelInfo** dynamicModels, Texture2D** gameTextures, int* la
     door_01->speed = 1.0f;
     door_01->isLowering = false;
     door_01->doorModel.model = LoadModel("D:/CFiles/FirstGame/models/obj/door.obj");
+    exitCode->numOfModelsLoaded = exitCode->numOfModelsLoaded + 1;
     door_01->doorModel.texture = *gameTextures[2];
     door_01->doorModel.model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = door_01->doorModel.texture;
     dynamicModels[*lastModelIndex] = &door_01->doorModel;

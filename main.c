@@ -59,6 +59,7 @@ int main(int argc, char* argv[])
     ExitCode exitCodes = {0};
     enum DestructionLocations destructionLocations = 0;
     exitCodes.returnCode = 0;
+    exitCodes.gameLoaded = false;
     SharedMemory sharedMemValA = {0};
     SharedMemory sharedMemValB = {0};
     sharedMemValA.sharedValTesting = 23;
@@ -254,6 +255,7 @@ int main(int argc, char* argv[])
 
     SetWindowLocationForGameType(gametype);
 
+    exitCodes.gameLoaded = true;
     
     /*
         Where are we?:
@@ -267,6 +269,8 @@ int main(int argc, char* argv[])
     */
     bool doOnce = false;
     printf("Game loop starting...\n");
+    printf("numOfLoaded models: %i\n", exitCodes.numOfModelsLoaded);
+    printf("numOfLoaded puzzles: %i\n", exitCodes.numOfPuzzlesLoaded);
     while (!WindowShouldClose())
     {
         float now = GetTime();
@@ -304,6 +308,8 @@ int main(int argc, char* argv[])
 
 
 KillProgram:
+
+
     
     if (gametype == EGT_A)
     {

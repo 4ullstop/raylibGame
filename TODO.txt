@@ -126,3 +126,6 @@ It might be best to find another way for game a puzzle solutions rather than the
 ERROR CHECKING - NOW!
 
 If you decide to Multithreading, which seems like a pretty good option, you do not want open threads, that will probably screw up your computer more than the unfreed memory
+
+
+

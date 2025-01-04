@@ -32,18 +32,8 @@ void ConstructOverlapBoxes(OverlapBox** allBoxes, ExitCode* exitCode)
     overlapBox->id = 11;
     ConstructColBox(overlapBox, interactHintOverlap->location, interactHintOverlap->width, interactHintOverlap->height, interactHintOverlap->length, exitCode);
     interactHintOverlap->OnOverlap = PlayerInInteractHintBox;
-
+    exitCode->numOfOverlapBoxesLoaded = exitCode->numOfOverlapBoxesLoaded + 1;
     allBoxes[0] = interactHintOverlap;
-}
-void DestroyOverlapBoxes(OverlapBox** allBoxes)
-{
-    for (int i = 0; i < NUMBER_OF_OVERLAP_BOXES_A; i++)
-    {
-        DestructColBox(allBoxes[i]->collisionBox);
-        free(allBoxes[i]);
-        allBoxes[i] = NULL;
-    }
-    
 }
 
 void PlayerInInteractHintBox(FPSPlayer* player, OverlapBox* box)

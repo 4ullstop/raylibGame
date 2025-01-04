@@ -268,6 +268,8 @@ void ConstructColBox(ColBox* box, Vector3 location, float width, float height, f
     {
         box->indices[i] = unassignedIndicies[i];
     }
+
+    exitCode->numOfColBoxesLoaded = exitCode->numOfColBoxesLoaded + 1;
 }
 
 

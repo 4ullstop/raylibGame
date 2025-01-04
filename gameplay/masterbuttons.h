@@ -11,13 +11,7 @@
 #include "sharedbuttons.h"
 #endif
 
-void DestructAllButtons(ButtonMaster* master);
-
 void ConstructPuzzles(ButtonMaster** allPuzzles, modelInfo** dynamicModels, int* lastModelIndex, enum Gametype gametype, FPSPlayer* player, GameplayElements* gameplayElements, Texture2D** allTextures, ExitCode* exitCode);
-
-void DestructAllPuzzles(ButtonMaster** allPuzzles, int numberOfPuzzles);
-
-void DestructAllSolutionLocations(ButtonMaster* master);
 
 void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gamemode* mode);
 
@@ -61,4 +55,3 @@ void AddPlainButtonToSubmittedList(Button* buttonToAdd, PlainSubmittedButtons** 
 
 void RemoveHead(PlainSubmittedButtons** head, ButtonMaster* puzzle);
 
-void DestructAllPlainSubmittedButtons(ButtonMaster* puzzle);
