@@ -21,7 +21,8 @@ void CreateGameAQueryBoxes(QueryBox** areaQueryBoxes, ExitCode* exitCode)
     box_01->height = 20.f;
     box_01->areaBox->id = 10;
     ConstructColBox(box_01->areaBox, box_01->location, box_01->width, box_01->height, box_01->length, exitCode);
-
+    exitCode->numOfQueryBoxesLoaded = exitCode->numOfQueryBoxesLoaded + 1;
+    
     areaQueryBoxes[0] = box_01;
     areaQueryBoxes[0]->numberOfInteractables = NUMBER_OF_INTERACTABLES_A;
 }

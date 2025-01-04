@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-void EnduceTearDown(modelInfo** models, int numOfModels, Texture2D** allTextures, int numOfTextures, ButtonMaster** allPuzzles, int numOfPuzzles, QueryBox** areaQueryBoxes, int numOfQueryBoxes, int numOfInteractables, OverlapBox** allOverlapBoxes, enum DestructionLocations destructionLocations, ExitCode* exitCode)
+void EnduceTearDown(modelInfo** models, int numOfModels, Texture2D** allTextures, int numOfTextures, ButtonMaster** allPuzzles, int numOfPuzzles, QueryBox** areaQueryBoxes, int numOfQueryBoxes, int numOfInteractables, OverlapBox** allOverlapBoxes, int numOfOverlapBoxes, enum DestructionLocations destructionLocations, ExitCode* exitCode)
 {
     //destroy textures
     UnloadAllTextures(allTextures, numOfTextures);
@@ -138,7 +138,6 @@ void DestructAllSolutionLocations(ButtonMaster* master)
     free(master->solutionLocations);
     master->solutionLocations = NULL;
 }
-
 
 void DestroyAreasAndInteractables(QueryBox** areaQueryBoxes, int numOfQueryBoxes, int numOfInteractables)
 {

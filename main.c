@@ -313,21 +313,11 @@ KillProgram:
     
     if (gametype == EGT_A)
     {
-        DestroyAllModels(modelsA, numOfModels, texturesA, numOfTextures);
-        printf("models destroyed\n");
-        DestructAllPuzzles(allPuzzlesA, numOfPuzzles);
-        printf("puzzles destroyed\n");
-        DestroyAreasAndInteractables(areaQueryBoxesA, numOfQueryBoxes, numOfInteractables);
-        printf("interactables destroyed\n");
-        DestroyOverlapBoxes(allBoxesA);
-        printf("game a destroyed\n");
+	EnduceTearDown(modelsA, exitCodes.numOfModelsLoaded, texturesA, numOfTextures, allPuzzlesA, exitCodes.numOfPuzzlesLoaded, areaQueryBoxesA, exitCodes.numOfQueryBoxesLoaded, exitCodes.numOfInteractablesLoaded, allBoxesA, exitCodes.numOfOverlapBoxesLoaded, destructionLocations, &exitCodes);
     }
     else
     {
-        DestroyAllModels(modelsB, numOfModels, texturesB, numOfTextures);
-        DestructAllPuzzles(allPuzzlesB, numOfPuzzles);
-        DestroyAreasAndInteractables(areaQueryBoxesB, numOfQueryBoxes, numOfInteractables);
-        DestroyOverlapBoxes(allBoxesB);
+	EnduceTearDown(modelsB, exitCodes.numOfModelsLoaded, texturesB, numOfTextures, allPuzzlesB, exitCodes.numOfPuzzlesLoaded, areaQueryBoxesB, exitCodes.numOfQueryBoxesLoaded, exitCodes.numOfInteractablesLoaded, allBoxesB, exitCodes.numOfOverlapBoxesLoaded, destructionLocations, &exitCodes);
     }
     
     DestroyLines(ray.linesToDraw);

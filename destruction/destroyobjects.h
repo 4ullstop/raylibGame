@@ -7,7 +7,7 @@
 
 void DestroyAllModels(modelInfo** models, int numOfModels, Texture2D** allTextures, int numOfTextures);
 
-void EnduceTearDown(modelInfo** models, int numOfModels, Texture2D** allTextures, int numOfTextures, ButtonMaster** allPuzzles, int numOfPuzzles, QueryBox** areaQueryBoxes, int numOfQueryBoxes, int numOfInteractables, OverlapBox** allOverlapBoxes, enum DestructionLocations destructionLocations, ExitCode* exitCode);
+void EnduceTearDown(modelInfo** models, int numOfModels, Texture2D** allTextures, int numOfTextures, ButtonMaster** allPuzzles, int numOfPuzzles, QueryBox** areaQueryBoxes, int numOfQueryBoxes, int numOfInteractables, OverlapBox** allOverlapBoxes, int numOfOverlapBoxes, enum DestructionLocations destructionLocations, ExitCode* exitCode);
 
 void UnloadAllTextures(Texture2D** allTextures, int numOfTextures);
 

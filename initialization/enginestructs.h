@@ -19,6 +19,7 @@ typedef struct ExitCode
 
     int numOfPuzzlesLoaded;
     int numOfModelsLoaded;
+    int numOfQueryBoxesLoaded;
     int numOfOverlapBoxesLoaded;
     int numOfColBoxesLoaded;
     int numOfInteractablesLoaded;
