@@ -1,8 +1,9 @@
 #include "gameapuzzles.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include "../shared/memory_editing.h"
 
-void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures, modelInfo** dynamicModels, int* lastModelIndex, FPSPlayer* player, GameplayElements* gameplayElements, ExitCode* exitCode)
+void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures, modelInfo** dynamicModels, int* lastModelIndex, FPSPlayer* player, GameplayElements* gameplayElements, SharedMemory* sharedMemory, ExitCode* exitCode)
 {
     int lastPuzzleIndex = 0;
 
@@ -257,9 +258,16 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
     */
     AssignAllPuzzlesSolutionButtons(gameAPuzzles, NUMBER_OF_PUZZLES_A, exitCode);
     AssignSpecialTexturesGameA(gameAPuzzles, allTextures);
+
+    AddGameAPuzzlesToSharedMemory(gameAPuzzles, sharedMemory);
     
     gameAPuzzles[3]->puzzleToPowerOn = gameAPuzzles[4];
     gameAPuzzles[2]->puzzleToPowerOn = gameAPuzzles[6];
+}
+
+void AddGameAPuzzlesToSharedMemory(ButtonMaster** allPuzzles, SharedMemory* sharedMemory)
+{
+    AddPuzzleToSharedPuzzles(allPuzzles[14], sharedMemory, 0, true);
 }
 
 /*

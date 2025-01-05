@@ -157,3 +157,5 @@ void DestroySharedMemory(PROCESS_INFORMATION* pi, HANDLE* hMapFile, void* shared
     CloseHandle(pi->hProcess);
     CloseHandle(pi->hThread);
 }
+
+

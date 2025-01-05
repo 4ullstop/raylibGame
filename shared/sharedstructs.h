@@ -28,6 +28,8 @@ typedef struct SharedMemory
     int flag;
 
     bool gameClosing;
+
+    int pairsOfSharedPuzzles;
 } SharedMemory;
 #endif
 

@@ -4,10 +4,10 @@
 #include "../initialization/corestructs.h"
 #include "../filereading/filereader.h"
 #include "../gameplay/sharedbuttons.h"
-
+#include "../shared/memory_editing.h"
 #endif
 
-void ConstructGameBPuzzles(ButtonMaster** gameBPuzzles, Texture2D** allTextures, modelInfo** dynamicModels, int* lastModelIndex, FPSPlayer* player, GameplayElements* gameplayElements, ExitCode* exitCode);
+void ConstructGameBPuzzles(ButtonMaster** gameBPuzzles, Texture2D** allTextures, modelInfo** dynamicModels, int* lastModelIndex, FPSPlayer* player, GameplayElements* gameplayElements, SharedMemory* sharedMemory, ExitCode* exitCode);
 
 void Puzzle_01B(ButtonMaster* puzzle);
 
@@ -26,3 +26,5 @@ void Puzzle_07B(ButtonMaster* puzzle);
 void Puzzle_08B(ButtonMaster* puzzle);
 
 void AssignSpecialTexturesGameB(ButtonMaster** allPuzzles, Texture2D** allTextures);
+
+void AddGameBPuzzlesToSharedMemory(ButtonMaster** allPuzzles, SharedMemory* sharedMemory);

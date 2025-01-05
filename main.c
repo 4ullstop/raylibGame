@@ -31,10 +31,6 @@ const float gravity = 400.0f;
 float groundLevel = 2.0f;
 float zVelocity = 0.0f;
 
-
-Vector3 cubePos = {-5.0f, 0.0f, 0.0f};
-Vector3 twoCube = {0.0f, 5.0f, 0.0f};
-
 HANDLE hMapFile;
 HANDLE eventHandle;
 STARTUPINFO si;
@@ -62,8 +58,8 @@ int main(int argc, char* argv[])
     exitCodes.gameLoaded = false;
     SharedMemory* sharedMemValA = malloc(sizeof(SharedMemory));
     sharedMemValA->sharedValTesting = 23;
-    sharedMemValA->ActiveWindowA = false;
-    sharedMemValA->gameClosing = false;
+    
+
     hideObjects = false;
     printf("%i\n", argc);
     if (argc > 1) gametype = EGT_B;
@@ -147,12 +143,13 @@ int main(int argc, char* argv[])
     int numOfDoors = 0;
     if (gametype == EGT_A)
     {
+	InitSharedMemoryValues(sharedMemValA, 1);
         LoadAllTextures(texturesA, gametype, &exitCodes);
 	if (CheckForErrors(&exitCodes, &destructionLocations)) goto KillProgram; 
 
         ConstructGameplayElements(modelsA, &lastModelIndex, texturesA, NUMBER_OF_DOORS_A, &gameplayElements, allDoorsA, &exitCodes);
 	if (CheckForErrors(&exitCodes, &destructionLocations)) goto KillProgram; 
-        ConstructPuzzles(allPuzzlesA, modelsA, &lastModelIndex, gametype, &player, &gameplayElements, texturesA, &exitCodes);
+        ConstructPuzzles(allPuzzlesA, modelsA, &lastModelIndex, gametype, &player, &gameplayElements, texturesA, sharedMemValA, &exitCodes);
 	if (CheckForErrors(&exitCodes, &destructionLocations)) goto KillProgram; 
 	
         CreateModels(modelsA, &lastModelIndex, gametype, texturesA, &exitCodes);
@@ -170,7 +167,7 @@ int main(int argc, char* argv[])
         ConstructGameplayElements(modelsB, &lastModelIndex, texturesB, NUMBER_OF_DOORS_B, &gameplayElements, allDoorsB, &exitCodes);
 	if (CheckForErrors(&exitCodes, &destructionLocations)) goto KillProgram; 
 	
-        ConstructPuzzles(allPuzzlesB, modelsB, &lastModelIndex, gametype, &player, &gameplayElements, texturesB, &exitCodes);
+        ConstructPuzzles(allPuzzlesB, modelsB, &lastModelIndex, gametype, &player, &gameplayElements, texturesB, sharedMemValA, &exitCodes);
 	if (CheckForErrors(&exitCodes, &destructionLocations)) goto KillProgram; 
 	
 	printf("puzzles created for game b\n");

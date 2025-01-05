@@ -5,9 +5,10 @@
 #include "../filereading/filereader.h"
 #include "../gameplay/sharedbuttons.h"
 #include "../gameplay/puzzles/togglepuzzle.h"
+#include "../shared/memory_editing.h"
 #endif
 
-void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures, modelInfo** dynamicModels, int* lastModelIndex, FPSPlayer* player, GameplayElements* gameplayElements, ExitCode* exitCode);
+void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures, modelInfo** dynamicModels, int* lastModelIndex, FPSPlayer* player, GameplayElements* gameplayElements, SharedMemory* sharedMemory, ExitCode* exitCode);
 
 void Puzzle_01(ButtonMaster* puzzle);
 
@@ -40,3 +41,5 @@ void Puzzle_14(ButtonMaster* puzzle);
 void Puzzle_15(ButtonMaster* puzzle);
 
 void AssignSpecialTexturesGameA(ButtonMaster** allPuzzles, Texture2D** allTextures);
+
+void AddGameAPuzzlesToSharedMemory(ButtonMaster** allPuzzles, SharedMemory* sharedMemory);

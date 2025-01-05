@@ -9,9 +9,10 @@
 #include "../gameb/gamebpuzzles.h"
 #include "gameplayelements.h"
 #include "sharedbuttons.h"
+#include "../shared/sharedstructs.h"
 #endif
 
-void ConstructPuzzles(ButtonMaster** allPuzzles, modelInfo** dynamicModels, int* lastModelIndex, enum Gametype gametype, FPSPlayer* player, GameplayElements* gameplayElements, Texture2D** allTextures, ExitCode* exitCode);
+void ConstructPuzzles(ButtonMaster** allPuzzles, modelInfo** dynamicModels, int* lastModelIndex, enum Gametype gametype, FPSPlayer* player, GameplayElements* gameplayElements, Texture2D** allTextures, SharedMemory* sharedMemory, ExitCode* exitCode);
 
 void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gamemode* mode);
 
