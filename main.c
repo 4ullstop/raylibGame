@@ -63,6 +63,7 @@ int main(int argc, char* argv[])
     SharedMemory* sharedMemValA = malloc(sizeof(SharedMemory));
     sharedMemValA->sharedValTesting = 23;
     sharedMemValA->ActiveWindowA = false;
+    sharedMemValA->gameClosing = false;
     hideObjects = false;
     printf("%i\n", argc);
     if (argc > 1) gametype = EGT_B;
@@ -287,6 +288,11 @@ int main(int argc, char* argv[])
             PollAllGameplayElements(allDoorsB, deltaTime, numOfDoors);
             Draw(modelsB, &ray, areaQueryBoxesB, ui, allBoxesB, numOfModels, numOfQueryBoxes, numOfInteractables, allPuzzlesB);
         }
+
+	if (sharedMemValA->gameClosing == true)
+	{
+	    goto KillProgram;
+	}
     }
     /*
         MAIN GAME LOOP END
@@ -295,30 +301,26 @@ int main(int argc, char* argv[])
     */
 
 
+
 KillProgram:
 
-
     
+    if (sharedMemValA->gameClosing == false)
+    {
+	sharedMemValA->gameClosing = true;
+    }
     if (gametype == EGT_A)
     {
-	EnduceTearDown(modelsA, exitCodes.numOfModelsLoaded, texturesA, numOfTextures, allPuzzlesA, exitCodes.numOfPuzzlesLoaded, areaQueryBoxesA, exitCodes.numOfQueryBoxesLoaded, exitCodes.numOfInteractablesLoaded, allBoxesA, exitCodes.numOfOverlapBoxesLoaded, &gameplayElements, exitCodes.numOfDoorsLoaded, destructionLocations, &exitCodes);
+	EnduceTearDown(modelsA, exitCodes.numOfModelsLoaded, texturesA, numOfTextures, allPuzzlesA, exitCodes.numOfPuzzlesLoaded, areaQueryBoxesA, exitCodes.numOfQueryBoxesLoaded, exitCodes.numOfInteractablesLoaded, allBoxesA, exitCodes.numOfOverlapBoxesLoaded, &gameplayElements, exitCodes.numOfDoorsLoaded, &si, &hMapFile, &pi, destructionLocations, sharedMemValA, &exitCodes, gametype);
     }
     else
     {
-	EnduceTearDown(modelsB, exitCodes.numOfModelsLoaded, texturesB, numOfTextures, allPuzzlesB, exitCodes.numOfPuzzlesLoaded, areaQueryBoxesB, exitCodes.numOfQueryBoxesLoaded, exitCodes.numOfInteractablesLoaded, allBoxesB, exitCodes.numOfOverlapBoxesLoaded, &gameplayElements, exitCodes.numOfDoorsLoaded, destructionLocations, &exitCodes);
+	EnduceTearDown(modelsB, exitCodes.numOfModelsLoaded, texturesB, numOfTextures, allPuzzlesB, exitCodes.numOfPuzzlesLoaded, areaQueryBoxesB, exitCodes.numOfQueryBoxesLoaded, exitCodes.numOfInteractablesLoaded, allBoxesB, exitCodes.numOfOverlapBoxesLoaded, &gameplayElements, exitCodes.numOfDoorsLoaded, &si, &hMapFile, &pi, destructionLocations,sharedMemValA, &exitCodes, gametype);
     }
     
     DestroyLines(ray.linesToDraw);
     DestructAllUIElements(ui);
 
-    if (gametype == EGT_A)
-    {
-	DestroySharedMemory(&pi, &hMapFile, &sharedMemValA);
-    }
-    else
-    {
-	DestroyChildSharedMemory(&hMapFile, &sharedMemValA);
-    }
     printf("destroyed\n");
     CloseWindow();
 

@@ -72,14 +72,6 @@ void* SetupSharedMemory(STARTUPINFO* si, PROCESS_INFORMATION* pi, HANDLE* hMapFi
     }
 }
 
-void DestroySharedMemory(PROCESS_INFORMATION* pi, HANDLE* hMapFile, void* sharedValue)
-{
-    UnmapViewOfFile(sharedValue);
-    CloseHandle(*hMapFile);
-    CloseHandle(pi->hProcess);
-    CloseHandle(pi->hThread);
-}
-
 void* FindWindowByTitle(const char* windowTitle)
 {
     HWND* hwnd = malloc(sizeof(HWND));
@@ -147,14 +139,21 @@ void* AttachChildProcessToMemory(HANDLE* hMapFileB, size_t valueSize)
     
 }
 
+void ReportEditedValue(HANDLE* inHandle)
+{
+    SetEvent(*inHandle);
+}
+
 void DestroyChildSharedMemory(HANDLE* hMapFileB, void* sharedValueB)
 {
     UnmapViewOfFile(sharedValueB);
     CloseHandle(*hMapFileB);
 }
 
-void ReportEditedValue(HANDLE* inHandle)
+void DestroySharedMemory(PROCESS_INFORMATION* pi, HANDLE* hMapFile, void* sharedValue)
 {
-    SetEvent(*inHandle);
+    UnmapViewOfFile(sharedValue);
+    CloseHandle(*hMapFile);
+    CloseHandle(pi->hProcess);
+    CloseHandle(pi->hThread);
 }
-

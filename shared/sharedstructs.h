@@ -26,6 +26,8 @@ typedef struct SharedMemory
 
     int sharedValTesting;
     int flag;
+
+    bool gameClosing;
 } SharedMemory;
 #endif
 

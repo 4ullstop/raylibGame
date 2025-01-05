@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-void EnduceTearDown(modelInfo** models, int numOfModels, Texture2D** allTextures, int numOfTextures, ButtonMaster** allPuzzles, int numOfPuzzles, QueryBox** areaQueryBoxes, int numOfQueryBoxes, int numOfInteractables, OverlapBox** allOverlapBoxes, int numOfOverlapBoxes, GameplayElements* gameplayElements, int numOfDoors, enum DestructionLocations destructionLocations, ExitCode* exitCode)
+void EnduceTearDown(modelInfo** models, int numOfModels, Texture2D** allTextures, int numOfTextures, ButtonMaster** allPuzzles, int numOfPuzzles, QueryBox** areaQueryBoxes, int numOfQueryBoxes, int numOfInteractables, OverlapBox** allOverlapBoxes, int numOfOverlapBoxes, GameplayElements* gameplayElements, int numOfDoors, STARTUPINFO* si, HANDLE* hMapFile, PROCESS_INFORMATION* pi, enum DestructionLocations destructionLocations, void* sharedMemVal, ExitCode* exitCode, enum Gametype gametype)
 {
     //destroy textures
     UnloadAllTextures(allTextures, numOfTextures);
@@ -32,11 +32,15 @@ void EnduceTearDown(modelInfo** models, int numOfModels, Texture2D** allTextures
     if (destructionLocations == DL_OverlapBoxes && exitCode->gameLoaded == false) return;
 
     //destroy shared memory
+    if (gametype == EGT_A)
+    {
+	DestroySharedMemory(pi, hMapFile, sharedMemVal); 
+    }
+    else
+    {
+	DestroyChildSharedMemory(hMapFile, &sharedMemVal);
+    }
     if (destructionLocations == DL_SharedMemory && exitCode->gameLoaded == false) return;
-
-    //destroy threads
-    if (destructionLocations == DL_Threads && exitCode->gameLoaded == false) return;
-    
 }
 
 void DestroyAllModels(modelInfo** models, int numOfModels, Texture2D** allTextures, int numOfTextures)

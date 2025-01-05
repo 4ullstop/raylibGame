@@ -7,14 +7,14 @@
 
 void* SetupSharedMemory(STARTUPINFO* si, PROCESS_INFORMATION* pi, HANDLE* hMapFile, size_t valueSize, HANDLE* eventHandle);
 
-void DestroySharedMemory(PROCESS_INFORMATION* pi, HANDLE* hMapFile, void* sharedValue);
-
 void* FindWindowByTitle(const char* windowTitle);
 
 bool SwitchToWindow(const char* windowTitle);
 
 void* AttachChildProcessToMemory(HANDLE* hMapFileB, size_t valueSize);
 
-void DestroyChildSharedMemory(HANDLE* hMapFileB, void* sharedValueB);
-
 void ReportEditedValue(HANDLE* inHandle);
+
+void DestroySharedMemory(PROCESS_INFORMATION* pi, HANDLE* hMapFile, void* sharedValue);
+
+void DestroyChildSharedMemory(HANDLE* hMapFileB, void* sharedValueB);
