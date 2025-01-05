@@ -60,11 +60,9 @@ int main(int argc, char* argv[])
     enum DestructionLocations destructionLocations = 0;
     exitCodes.returnCode = 0;
     exitCodes.gameLoaded = false;
-    SharedMemory sharedMemValA = {0};
-    SharedMemory sharedMemValB = {0};
-    sharedMemValA.sharedValTesting = 23;
-    sharedMemValA.ActiveWindowA = false;
-    sharedMemValB.ActiveWindowA = false;
+    SharedMemory* sharedMemValA = malloc(sizeof(SharedMemory));
+    sharedMemValA->sharedValTesting = 23;
+    sharedMemValA->ActiveWindowA = false;
     hideObjects = false;
     printf("%i\n", argc);
     if (argc > 1) gametype = EGT_B;
@@ -237,20 +235,20 @@ int main(int argc, char* argv[])
     }
 
     colPacket.eRadius = (Vector3){1.0f, 4.0f, 1.0f};
-    
+
     if (gametype == EGT_A)
     {
-	sharedMemValA  = *(SharedMemory *)SetupSharedMemory(&si, &pi, &hMapFile, sizeof(SharedMemory), &eventHandle);
-	sharedMemValA.sharedValTesting = 23;
+	sharedMemValA  = (SharedMemory *)SetupSharedMemory(&si, &pi, &hMapFile, sizeof(SharedMemory), &eventHandle);
+	sharedMemValA->sharedValTesting = 23;
 	ReportEditedValue(&eventHandle);
 	
-	printf("shared value %i\n", sharedMemValA.sharedValTesting);
+
     }
     else
     {
-	sharedMemValA = *(SharedMemory *)AttachChildProcessToMemory(&hMapFile, sizeof(SharedMemory));
-	sharedMemValA.flag = 0;
-	printf("shared value %i\n", sharedMemValA.sharedValTesting);
+	sharedMemValA = (SharedMemory *)AttachChildProcessToMemory(&hMapFile, sizeof(SharedMemory));
+	
+
     }
 
     SetWindowLocationForGameType(gametype);
@@ -279,23 +277,13 @@ int main(int argc, char* argv[])
 
         if (gametype == EGT_A)
         {
-	    if(sharedMemValA.flag == 0)
-	    {
-		sharedMemValA.sharedValTesting = 34;
-		sharedMemValA.flag = 1;
-	    }
-            CallAllPolls(deltaTime, modelsA, areaQueryBoxesA, &interactedItem, allBoxesA, numOfModels, numOfQueryBoxes, &sharedMemValA);
+            CallAllPolls(deltaTime, modelsA, areaQueryBoxesA, &interactedItem, allBoxesA, numOfModels, numOfQueryBoxes, sharedMemValA);
             PollAllGameplayElements(allDoorsA, deltaTime, numOfDoors);
             Draw(modelsA, &ray, areaQueryBoxesA, ui, allBoxesA, numOfModels, numOfQueryBoxes, numOfInteractables, allPuzzlesA);
         }
         else
         {
-	    if (sharedMemValA.flag == 1)
-	    {
-		printf("process read: %i\n", sharedMemValA.sharedValTesting);
-		sharedMemValA.flag = 0;
-	    }
-            CallAllPolls(deltaTime, modelsB, areaQueryBoxesB, &interactedItem, allBoxesB, numOfModels, numOfQueryBoxes, &sharedMemValA);
+            CallAllPolls(deltaTime, modelsB, areaQueryBoxesB, &interactedItem, allBoxesB, numOfModels, numOfQueryBoxes, sharedMemValA);
             PollAllGameplayElements(allDoorsB, deltaTime, numOfDoors);
             Draw(modelsB, &ray, areaQueryBoxesB, ui, allBoxesB, numOfModels, numOfQueryBoxes, numOfInteractables, allPuzzlesB);
         }

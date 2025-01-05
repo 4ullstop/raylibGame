@@ -118,6 +118,11 @@ void* AttachChildProcessToMemory(HANDLE* hMapFileB, size_t valueSize)
 	printf("FAILED TO OPEN SHARED MEMORY IN CHILD PROCESS\n");
 	return NULL;
     }
+    if (*hMapFileB == INVALID_HANDLE_VALUE)
+    {
+	printf("Failed to open handle: invalid handle. Error: %ld\n", GetLastError());
+	return NULL;
+    }
 
     printf("creating shared value\n");
     void* sharedValue = MapViewOfFile(*hMapFileB, FILE_MAP_ALL_ACCESS, 0, 0, valueSize);
@@ -152,3 +157,4 @@ void ReportEditedValue(HANDLE* inHandle)
 {
     SetEvent(*inHandle);
 }
+
