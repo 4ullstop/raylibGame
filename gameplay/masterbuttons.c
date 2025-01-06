@@ -16,7 +16,7 @@ void ConstructPuzzles(ButtonMaster** allPuzzles, modelInfo** dynamicModels, int*
     }
 }
 
-void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gamemode* mode)
+void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gamemode* mode, OpenSharedValues* openSharedValues, bool isPlayerSharingPuzzle)
 {
     printf("moving cursor\n");
     ButtonMaster* master = interactedItem->associatedPuzzle;
@@ -48,6 +48,8 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
         printf("highlighted button not found there is an error somewhere\n");
     }
     bool checkForEdges = false;
+
+    bool isConsumer = master->gameAPuzzle;
     
     switch (direction)
     {
@@ -90,10 +92,13 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
             {
                 return;
             }
+	    HandleCursorMovement(currSelectedButton, currSelectedButton->nRight, master, openSharedValues, isConsumer);
+	    /*
             RemoveHighlight(currSelectedButton);
             currSelectedButton = currSelectedButton->nRight;
             AddHighlight(currSelectedButton);
             master->cursoredButton = currSelectedButton;
+	    */
             break;
         case ED_Enter:
             ChangeSelection(currSelectedButton, master);
@@ -108,6 +113,14 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
             printf("error default case run on switching highlight");
             break;
     }
+}
+
+void HandleCursorMovement(Button* currSelectedButton, Button* newButton, ButtonMaster* puzzle, OpenSharedValues* openSharedValues, bool isConsumer)
+{
+    RemoveHighlight(currSelectedButton);
+    currSelectedButton = newButton;
+    AddHighlight(currSelectedButton);
+    puzzle->cursoredButton = currSelectedButton;
 }
 
 Button* PushCursor(Button* button, ButtonMaster* master)

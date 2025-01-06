@@ -38,7 +38,8 @@ SRC = main.c \
 	  shared\memory_editing.c \
 	  initialization\globalfunc.c \
 	  destruction\destroyobjects.c \
-	  shared\threading.c
+	  shared\threading.c \
+	  shared\sharedpuzzle.c
 OBJ = intermediate\main.o \
       intermediate\window.o \
       intermediate\camera.o \
@@ -78,7 +79,8 @@ OBJ = intermediate\main.o \
 	  intermediate\memory_editing.o \
 	  intermediate\globalfunc.o \
 	  intermediate\destroyobjects.o \
-	  intermediate\threading.o
+	  intermediate\threading.o \
+	  intermediate\sharedpuzzle.o
 !IFNDEF OUTPUT
 OUTPUT = scenea.exe
 !ENDIF
@@ -217,6 +219,9 @@ intermediate\destroyobjects.o: destruction\destroyobjects.c intermediate
 
 intermediate\threading.o: shared\threading.c intermediate
 	$(CC) $(CFLAGS) -c shared\threading.c -o intermediate\threading.o $(INCLUDE)
+
+intermediate\sharedpuzzle.o: shared\sharedpuzzle.c intermediate
+	$(CC) $(CFLAGS) -c shared\sharedpuzzle.c -o intermediate\sharedpuzzle.o $(INCLUDE)
 
 # Clean rule to delete
 clean:

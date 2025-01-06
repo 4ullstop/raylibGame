@@ -50,7 +50,7 @@ void CreateAllButtons(ButtonMaster* master, modelInfo** dynamicModels, int* last
 
 void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelIndex, modelInfo** dynamicModels, Texture2D** allTextures, ExitCode* exitCode)
 {
-
+    
     
     int centerR = floor((float)master->rows / 2.0);
     int centerC = floor((float)master->columns / 2.0);
@@ -116,6 +116,10 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
 	EditReturnCodeInfo(205, "Failed to allocate memory for button model", exitCode);
 	return;
     }
+
+    int halfRows = master->rows / 2;
+    
+    
     master->childButtons[i][j].model->collisionDisabled = true;
     master->childButtons[i][j].model->modelVisible = true;
     master->childButtons[i][j].isBeingAssessed = false;
@@ -145,6 +149,26 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
     dynamicModels[*lastModelIndex] = master->childButtons[i][j].model;
     *lastModelIndex = *lastModelIndex + 1;
 
+    if (master->sharedPuzzle)
+    {
+	if (master->gameAPuzzle == true)
+	{
+	    if (i + 1 > halfRows)
+	    {
+		master->childButtons[i][j].model->modelVisible = false;
+	    }
+	}
+	else
+	{
+	    if (i < halfRows)
+	    {
+		master->childButtons[i][j].model->modelVisible = false;
+	    }
+	}
+    }
+
+											       
+											       
     if (j < 1)
     {
         master->childButtons[i][j].isBelowEdge = true;
@@ -163,9 +187,7 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
     }
     //highlighting our middle button
     printf("creating button model\n");
-
-
-
+											       
     if (i == master->highlightStartLoc.x && j == master->highlightStartLoc.y)
     {
         SwitchTextureOnPuzzleState(master, &master->childButtons[i][j], true);
@@ -174,6 +196,7 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
     {
         SwitchTextureOnPuzzleState(master, &master->childButtons[i][j], false);
     }
+											       
     
 }
 
@@ -302,7 +325,7 @@ void InactGameplayElement(GameplayElements* gameplayElement)
     printf("gameplay element enacted\n");
 }
 
-void ConstructSinglePuzzle(int* lastPuzzleIndex, int columns, int rows, Vector3 location, FPSPlayer* player, void(*puzzleLocConstruct)(ButtonMaster*), bool hasGameplayElements, GameplayElements* gameplayElements, ButtonMaster** gameAPuzzles, Vector2Int highlightStart, bool hasHighlightStartLoc, enum PuzzleState puzzleState, float buttonSpread, ExitCode* exitCode)
+void ConstructSinglePuzzle(int* lastPuzzleIndex, int columns, int rows, Vector3 location, FPSPlayer* player, void(*puzzleLocConstruct)(ButtonMaster*), bool hasGameplayElements, GameplayElements* gameplayElements, ButtonMaster** gameAPuzzles, Vector2Int highlightStart, bool hasHighlightStartLoc, enum PuzzleState puzzleState, float buttonSpread, bool sharedPuzzle, bool gameA, ExitCode* exitCode)
 {
     if (lastPuzzleIndex == NULL || player == NULL)
     {
@@ -314,8 +337,11 @@ void ConstructSinglePuzzle(int* lastPuzzleIndex, int columns, int rows, Vector3 
 	EditReturnCodeInfo(200, "Failed To allocate memory for puzzle\n", exitCode);
 	return;
     }
+
+    puzzle->gameAPuzzle = gameA;
     puzzle->columns = columns;
     puzzle->rows = rows;
+    puzzle->sharedPuzzle = sharedPuzzle;
     puzzle->location = location;
     puzzle->puzzleToPowerOn = NULL;
     puzzle->buttonSpread = buttonSpread == 0.0f ? 0.5 : buttonSpread;
@@ -358,6 +384,7 @@ void ConstructSinglePuzzle(int* lastPuzzleIndex, int columns, int rows, Vector3 
 
     exitCode->numOfPuzzlesLoaded = exitCode->numOfPuzzlesLoaded + 1;
 }
+
 
 //this is our function that will need to be assigned to our function pointer for special
 //button actions

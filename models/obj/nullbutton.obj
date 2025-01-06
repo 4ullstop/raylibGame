@@ -1,0 +1,5 @@
+# Blender 4.3.2
+# www.blender.org
+mtllib nullbutton.mtl
+o Plane
+v 0.000000 0.000000 0.000000

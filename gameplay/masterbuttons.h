@@ -14,7 +14,7 @@
 
 void ConstructPuzzles(ButtonMaster** allPuzzles, modelInfo** dynamicModels, int* lastModelIndex, enum Gametype gametype, FPSPlayer* player, GameplayElements* gameplayElements, Texture2D** allTextures, SharedMemory* sharedMemory, ExitCode* exitCode);
 
-void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gamemode* mode);
+void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gamemode* mode, OpenSharedValues* openSharedValues, bool isPlayerSharingPuzzle);
 
 void RemoveHighlight(Button* button);
 
@@ -56,3 +56,4 @@ void AddPlainButtonToSubmittedList(Button* buttonToAdd, PlainSubmittedButtons** 
 
 void RemoveHead(PlainSubmittedButtons** head, ButtonMaster* puzzle);
 
+void HandleCursorMovement(Button* currSelectedButton, Button* newButton, ButtonMaster* puzzle, OpenSharedValues* openSharedValues, bool isConsumer);

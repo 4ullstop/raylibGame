@@ -2,41 +2,15 @@
 #include "memory_setup.h"
 #include <stdio.h>
 
-void* SetupSharedMemory(STARTUPINFO* si, PROCESS_INFORMATION* pi, HANDLE* hMapFile, size_t valueSize, HANDLE* eventHandle)
+void* SetupSharedMemoryAndCreateProcess(STARTUPINFO* si, PROCESS_INFORMATION* pi, HANDLE* hMapFile, size_t valueSize, HANDLE* eventHandle)
 {
 
     printf("\n");
     printf("\n");
     printf("\n");
     printf("opening sceneb.exe\n");
-    *hMapFile = CreateFileMapping(
-	INVALID_HANDLE_VALUE, //hFile a handle to a file or device
-	NULL, //lpAttributes: determines if the handle can be inherited by a child process
-	PAGE_READWRITE, //flProtext: the protection for the desired file
-	0, //MaximumSizeHigh
-	valueSize, //MaximumSizeLow, this will be your struct when you have one made eventually
-	"sceneb" //lpName: name of the file object mapped
-	);
-    
-    if (*hMapFile == NULL)
-    {
-	printf("ERROR, HMAPFILE NULL\n");
-	return NULL;
-    }
 
-    printf("creating sharedValue\n");
-    void* sharedValue = MapViewOfFile(
-	*hMapFile, //handle to the memory allocated
-	FILE_MAP_ALL_ACCESS, //dwDesiredAccess: the type of access desired r/rw/rwx
-	0, //file offset high
-	0, //file offset low
-	valueSize); //number of bytes to map into the calling process's address
-    if (sharedValue == NULL)
-    {
-	printf("ERROR SHAREDVALUE IS NULL\n");
-	CloseHandle(hMapFile);
-	return NULL;
-    }
+    void* sharedValue = SetupSharedMemory(hMapFile, valueSize);
 
     printf("Zeroing memory\n");
     ZeroMemory(si, sizeof(STARTUPINFO));
@@ -70,6 +44,39 @@ void* SetupSharedMemory(STARTUPINFO* si, PROCESS_INFORMATION* pi, HANDLE* hMapFi
 	printf("\n");
 	return NULL;
     }
+}
+
+void* SetupSharedMemory(HANDLE* hMapFile, size_t valueSize)
+{
+    *hMapFile = CreateFileMapping(
+	INVALID_HANDLE_VALUE, //hFile a handle to a file or device
+	NULL, //lpAttributes: determines if the handle can be inherited by a child process
+        PAGE_READWRITE, //flProtext: the protection for the desired file
+	0, //MaximumSizeHigh
+	valueSize, //MaximumSizeLow, this will be your struct when you have one made eventually
+	"sceneb" //lpName: name of the file object mapped
+        );
+    
+    if (*hMapFile == NULL)
+    {
+	printf("ERROR, HMAPFILE NULL\n");
+	return NULL;
+    }
+
+    printf("creating sharedValue\n");
+    void* sharedValue = MapViewOfFile(
+	*hMapFile, //handle to the memory allocated
+	FILE_MAP_ALL_ACCESS, //dwDesiredAccess: the type of access desired r/rw/rwx
+	0, //file offset high
+	0, //file offset low
+	valueSize); //number of bytes to map into the calling process's address
+    if (sharedValue == NULL)
+    {
+	printf("ERROR SHAREDVALUE IS NULL\n");
+	CloseHandle(hMapFile);
+	return NULL;
+    }
+    return sharedValue;
 }
 
 void* FindWindowByTitle(const char* windowTitle)

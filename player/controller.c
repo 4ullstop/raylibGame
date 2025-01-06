@@ -69,7 +69,7 @@ void PollPlayerInput(PlayerCam* pcam, double deltaTime, FPSPlayer* player, Colli
     CalculatePlayerVelocity(player, deltaTime);
 }
 
-void PollPlayerSecondaryInputs(FPSPlayer* player, Raycast* interactRay, QueryBox** areaBoxes, enum Gamemode* mode, Interactable* interactedItem, int numOfAreaQueryBoxes, SharedMemory* sharedMemory, enum Gametype gameType)
+void PollPlayerSecondaryInputs(FPSPlayer* player, Raycast* interactRay, QueryBox** areaBoxes, enum Gamemode* mode, Interactable* interactedItem, int numOfAreaQueryBoxes, OpenSharedValues* openSharedValues, enum Gametype gameType)
 {
     if (IsKeyPressed(KEY_E))
     {
@@ -111,7 +111,20 @@ void PollPlayerSecondaryInputs(FPSPlayer* player, Raycast* interactRay, QueryBox
                     interactedItem->associatedPuzzle->shouldReadTick = true;
                     LerpPlayer(player, interactedItem->associatedPuzzle);
                     *mode = EGM_Puzzle;
-		                        
+		    if (interactedItem->associatedPuzzle->sharedPuzzle == true)
+		    {
+			if (gameType == EGT_A)
+			{
+			    openSharedValues->mainSharedValues->gameAInSharedPuzzle = true;
+			    openSharedValues->mainSharedValues->gameACurrPuzzleId = interactedItem->associatedPuzzle->sharedPuzzleId;
+			}
+			else
+			{
+			    openSharedValues->mainSharedValues->gameBInSharedPuzzle = true;
+			    openSharedValues->mainSharedValues->gameBCurrPuzzleId = interactedItem->associatedPuzzle->sharedPuzzleId;
+			}
+		        openSharedValues->playerIsSharingPuzzles = IsPlayerReadyToSharePuzzles(openSharedValues->mainSharedValues);
+		    }
                 }
             }
         }
@@ -155,9 +168,9 @@ void LerpPlayer(FPSPlayer* player, ButtonMaster* puzzle)
     }
 }
 
-void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode)
+void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode, OpenSharedValues* openSharedValues, bool isPlayerSharingPuzzle)
 {
-
+    
     if (IsKeyPressed(KEY_E))
     {
 	*mode = EGM_Normal;
@@ -171,35 +184,40 @@ void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode)
     
     if (IsKeyPressed(KEY_R))
     {
-        MoveCursor(ED_Reset, interactedItem, mode);
+        MoveCursor(ED_Reset, interactedItem, mode, openSharedValues, isPlayerSharingPuzzle);
+	if (isPlayerSharingPuzzle) openSharedValues->puzzleSharedValues->pressedButton = PB_Reset;
     }
+
+    
     
     if (interactedItem->associatedPuzzle->puzzleInputType == EPIT_ResetOnly) return;
+
+    
     
     if (IsKeyPressed(KEY_LEFT))
     {
-        MoveCursor(ED_Left, interactedItem, mode);
+        MoveCursor(ED_Left, interactedItem, mode, openSharedValues, isPlayerSharingPuzzle);
         directionalKeyPressed = true;
     }
     if (IsKeyPressed(KEY_UP))
     {
-        MoveCursor(ED_Up, interactedItem, mode);
+        MoveCursor(ED_Up, interactedItem, mode, openSharedValues, isPlayerSharingPuzzle);
         directionalKeyPressed = true;
     }
     if (IsKeyPressed(KEY_RIGHT))
     {
-        MoveCursor(ED_Right, interactedItem, mode);
+        MoveCursor(ED_Right, interactedItem, mode, openSharedValues, isPlayerSharingPuzzle);
         directionalKeyPressed = true;
     }
     if (IsKeyPressed(KEY_DOWN))
     {
-        MoveCursor(ED_Down, interactedItem, mode);
+        MoveCursor(ED_Down, interactedItem, mode, openSharedValues, isPlayerSharingPuzzle);
         directionalKeyPressed = true;
     }
 
     if (IsKeyPressed(KEY_ENTER))
     {
-        MoveCursor(ED_Enter, interactedItem, mode);
+        MoveCursor(ED_Enter, interactedItem, mode, openSharedValues, isPlayerSharingPuzzle);
     }
 
     /*

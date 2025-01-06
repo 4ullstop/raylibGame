@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "processthreadsapi.h"
+#include "shared/sharedpuzzle.h"
 #include "shared/memory_setup.h"
 
 
@@ -33,8 +34,11 @@ float zVelocity = 0.0f;
 
 HANDLE hMapFile;
 HANDLE eventHandle;
+HANDLE puzzleHandle;
 STARTUPINFO si;
 PROCESS_INFORMATION pi;
+
+OpenSharedValues openSharedValues = {0};
 
 CollisionPacket colPacket = {0};
 
@@ -143,7 +147,6 @@ int main(int argc, char* argv[])
     int numOfDoors = 0;
     if (gametype == EGT_A)
     {
-	InitSharedMemoryValues(sharedMemValA, 1);
         LoadAllTextures(texturesA, gametype, &exitCodes);
 	if (CheckForErrors(&exitCodes, &destructionLocations)) goto KillProgram; 
 
@@ -236,16 +239,16 @@ int main(int argc, char* argv[])
 
     if (gametype == EGT_A)
     {
-	sharedMemValA  = (SharedMemory *)SetupSharedMemory(&si, &pi, &hMapFile, sizeof(SharedMemory), &eventHandle);
+	sharedMemValA  = (SharedMemory *)SetupSharedMemoryAndCreateProcess(&si, &pi, &hMapFile, sizeof(SharedMemory), &eventHandle);
 	sharedMemValA->sharedValTesting = 23;
 	ReportEditedValue(&eventHandle);
-	
+	InitSharedPuzzleGameA(&puzzleHandle, &openSharedValues);
 
     }
     else
     {
 	sharedMemValA = (SharedMemory *)AttachChildProcessToMemory(&hMapFile, sizeof(SharedMemory));
-	
+	InitSharedPuzzleGameB(&puzzleHandle, &openSharedValues);
 
     }
 
@@ -329,12 +332,12 @@ void CallAllPolls(float dTime, modelInfo** models, QueryBox** areaBoxes, Interac
     if (gamemode == EGM_Normal)
     {
         PollPlayer(dTime, &pcam, &player, &colPacket, models, numberOfModels);
-        PollPlayerSecondary(&player, &ray, areaBoxes, &gamemode, interactedItem, numOfAreaQueryBoxes, &hideObjects, dTime, sharedMemory, gametype);
+        PollPlayerSecondary(&player, &ray, areaBoxes, &gamemode, interactedItem, numOfAreaQueryBoxes, &hideObjects, dTime, gametype, &openSharedValues);
         PollOverlaps(overlapBoxes, &player);
     }
     else if (gamemode == EGM_Puzzle)
     {
-        PollPlayerPuzzle(&player, dTime, interactedItem, &gamemode);
+        PollPlayerPuzzle(&player, dTime, interactedItem, &gamemode, &openSharedValues, openSharedValues.playerIsSharingPuzzles);
     }
     else if (gamemode == EGM_Inactive)
     {

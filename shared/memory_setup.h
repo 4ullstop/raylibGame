@@ -5,7 +5,9 @@
 #include "processthreadsapi.h"
 #endif
 
-void* SetupSharedMemory(STARTUPINFO* si, PROCESS_INFORMATION* pi, HANDLE* hMapFile, size_t valueSize, HANDLE* eventHandle);
+void* SetupSharedMemoryAndCreateProcess(STARTUPINFO* si, PROCESS_INFORMATION* pi, HANDLE* hMapFile, size_t valueSize, HANDLE* eventHandle);
+
+void* SetupSharedMemory(HANDLE* hMapFile, size_t valueSize);
 
 void* FindWindowByTitle(const char* windowTitle);
 

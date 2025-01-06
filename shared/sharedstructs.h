@@ -6,22 +6,32 @@
 #include "../initialization/corestructs.h"
 #endif
 
-#ifndef SHARED_MEMORY_DATA
-#define SHARED_MEMORY_DATA
-typedef struct SharedMemoryData
+#ifndef PRESSED_BUTTON
+#define PRESSED_BUTTON
+enum PressedButton 
 {
-    ButtonMaster* sharedPuzzleA;
-    ButtonMaster* sharedPuzzleB;
+    PB_Up,
+    PB_Down,
+    PB_Left,
+    PB_Right,
+    PB_Enter,
+    PB_Reset
+};
+#endif
 
-    void (*StartSharedSetup)(ButtonMaster** allPuzzles, ButtonMaster* sharedPuzzle);
-} SharedMemoryData;
+#ifndef PUZZLE_SHARED_VALUES
+#define PUZZLE_SHARED_VALUES
+typedef struct
+{
+    Vector2Int sharedCursorLocation;
+    enum PressedButton pressedButton;
+} PuzzleSharedValues;
 #endif
 
 #ifndef SHARED_MEMORY
 #define SHARED_MEMORY
 typedef struct SharedMemory
 {
-    SharedMemoryData** allSharedMemory;
     bool ActiveWindowA;
 
     int sharedValTesting;
@@ -30,8 +40,25 @@ typedef struct SharedMemory
     bool gameClosing;
 
     int pairsOfSharedPuzzles;
+
+    bool gameAInSharedPuzzle;
+    bool gameBInSharedPuzzle;
+
+    int gameACurrPuzzleId;
+    int gameBCurrPuzzleId;
+
+    
 } SharedMemory;
 #endif
 
+//the values inside of this struct are shared as opposed to the struct itself being shared
+#ifndef OPEN_SHARED_VALUES
+#define OPEN_SHARED_VALUES
+typedef struct OpenSharedValues
+{
+    SharedMemory* mainSharedValues;
+    PuzzleSharedValues* puzzleSharedValues;
 
-
+    bool playerIsSharingPuzzles;
+} OpenSharedValues;
+#endif

@@ -21,6 +21,8 @@ void ConstructGameBPuzzles(ButtonMaster** gameBPuzzles, Texture2D** allTextures,
 			  true,
 			  EPS_active,
 			  0.0f,
+			  false,
+			  false,
 			  exitCode);
     
     //Puzzle 1
@@ -37,6 +39,8 @@ void ConstructGameBPuzzles(ButtonMaster** gameBPuzzles, Texture2D** allTextures,
 			  true,
 			  EPS_active,
 			  0.4f,
+			  false,
+			  false,
 			  exitCode);
     
     //Puzzle 2
@@ -53,6 +57,8 @@ void ConstructGameBPuzzles(ButtonMaster** gameBPuzzles, Texture2D** allTextures,
 			true,
 			EPS_active,
 		        0.0f,
+			false,
+			false,
 			exitCode);
     
     //broken puzzle
@@ -69,6 +75,8 @@ void ConstructGameBPuzzles(ButtonMaster** gameBPuzzles, Texture2D** allTextures,
 			  true,
 			  EPS_active,
 			  0.3f,
+			  false,
+			  false,
 			  exitCode);
     
     //Later Puzzle
@@ -85,6 +93,8 @@ void ConstructGameBPuzzles(ButtonMaster** gameBPuzzles, Texture2D** allTextures,
 			  true,
 			  EPS_active,
 			  0.3f,
+			  false,
+			  false,
 			  exitCode);
     
     //Later Puzzle
@@ -101,6 +111,8 @@ void ConstructGameBPuzzles(ButtonMaster** gameBPuzzles, Texture2D** allTextures,
 			true,
 			EPS_active,
 		        0.4f,
+			false,
+			false,
 			exitCode);
     
     //Puzzle 3
@@ -117,13 +129,15 @@ void ConstructGameBPuzzles(ButtonMaster** gameBPuzzles, Texture2D** allTextures,
 			  true,
 			  EPS_active,
 			  0.3f,
+			  false,
+			  false,
 			  exitCode);
 
     //Shared memory testing
     ConstructSinglePuzzle(&lastPuzzleIndex,
 			  3,
-			  3,
-			  (Vector3){0.0f, 1.0f, 0.0f},
+			  6,
+			  (Vector3){-5.0f, 1.0f, -3.0f},
 			  player,
 			  Puzzle_08B,
 			  false,
@@ -133,6 +147,8 @@ void ConstructGameBPuzzles(ButtonMaster** gameBPuzzles, Texture2D** allTextures,
 			  true,
 			  EPS_active,
 			  0.0f,
+			  true,
+			  false,
 			  exitCode);
     
     exitCode->numOfLoadedItems = 0;

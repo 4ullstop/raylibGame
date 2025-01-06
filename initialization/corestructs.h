@@ -16,8 +16,8 @@
     The current size of this array is : 48
     The current size of AssociatedDoors in GameplayElements is: 48
 */
-#define NUMBER_OF_MODELS_A 188//45
-#define NUMBER_OF_MODELS_B 93 //24
+#define NUMBER_OF_MODELS_A 197//45
+#define NUMBER_OF_MODELS_B 104 //24
 
 #define NUMBER_OF_TEXTURES_A 9 //this will always be one more than what is in the file
 #define NUMBER_OF_TEXTURES_B 9
@@ -449,6 +449,12 @@ typedef struct ButtonMaster
     int plainSubmittedButtonsMax;
 
     SharedReach* sharedReach;
+
+    bool sharedPuzzle;
+
+    bool gameAPuzzle;
+
+    int sharedPuzzleId;
 } ButtonMaster;
 #endif
 
