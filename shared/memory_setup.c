@@ -2,7 +2,7 @@
 #include "memory_setup.h"
 #include <stdio.h>
 
-void* SetupSharedMemoryAndCreateProcess(STARTUPINFO* si, PROCESS_INFORMATION* pi, HANDLE* hMapFile, size_t valueSize, HANDLE* eventHandle)
+void* SetupSharedMemoryAndCreateProcess(STARTUPINFO* si, PROCESS_INFORMATION* pi, HANDLE* hMapFile, size_t valueSize, HANDLE* eventHandle, char* mapFileName)
 {
 
     printf("\n");
@@ -10,7 +10,7 @@ void* SetupSharedMemoryAndCreateProcess(STARTUPINFO* si, PROCESS_INFORMATION* pi
     printf("\n");
     printf("opening sceneb.exe\n");
 
-    void* sharedValue = SetupSharedMemory(hMapFile, valueSize);
+    void* sharedValue = SetupSharedMemory(hMapFile, valueSize, mapFileName);
 
     printf("Zeroing memory\n");
     ZeroMemory(si, sizeof(STARTUPINFO));
@@ -46,7 +46,7 @@ void* SetupSharedMemoryAndCreateProcess(STARTUPINFO* si, PROCESS_INFORMATION* pi
     }
 }
 
-void* SetupSharedMemory(HANDLE* hMapFile, size_t valueSize)
+void* SetupSharedMemory(HANDLE* hMapFile, size_t valueSize, char* mapFileName)
 {
     *hMapFile = CreateFileMapping(
 	INVALID_HANDLE_VALUE, //hFile a handle to a file or device
@@ -54,7 +54,7 @@ void* SetupSharedMemory(HANDLE* hMapFile, size_t valueSize)
         PAGE_READWRITE, //flProtext: the protection for the desired file
 	0, //MaximumSizeHigh
 	valueSize, //MaximumSizeLow, this will be your struct when you have one made eventually
-	"sceneb" //lpName: name of the file object mapped
+	mapFileName //lpName: name of the file object mapped
         );
     
     if (*hMapFile == NULL)
@@ -98,7 +98,7 @@ bool SwitchToWindow(const char* windowTitle)
     return SetForegroundWindow(hwnd);
 }
     
-void* AttachChildProcessToMemory(HANDLE* hMapFileB, size_t valueSize)
+void* AttachChildProcessToMemory(HANDLE* hMapFileB, size_t valueSize, char* mapFileName)
 {
     printf("\n");
     printf("\n");
@@ -110,7 +110,7 @@ void* AttachChildProcessToMemory(HANDLE* hMapFileB, size_t valueSize)
     *hMapFileB = OpenFileMapping(
 	FILE_MAP_ALL_ACCESS,
 	TRUE,
-	"sceneb");
+	mapFileName);
     
     if (*hMapFileB == NULL)
     {

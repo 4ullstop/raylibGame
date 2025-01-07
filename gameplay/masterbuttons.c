@@ -1,4 +1,5 @@
 #include "masterbuttons.h"
+#include "../shared/sharedpuzzle.h"
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -49,7 +50,7 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
     }
     bool checkForEdges = false;
 
-    bool isConsumer = master->gameAPuzzle;
+    bool isConsumer = !master->gameAPuzzle;
     
     switch (direction)
     {
@@ -59,10 +60,7 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
             {
                 return;
             }
-            RemoveHighlight(currSelectedButton);
-            currSelectedButton = currSelectedButton->nAbove;
-            AddHighlight(currSelectedButton);
-            master->cursoredButton = currSelectedButton;
+	    HandleCursorMovement(currSelectedButton, currSelectedButton->nAbove, master, openSharedValues, isConsumer, isPlayerSharingPuzzle);
             break;
         case ED_Down:
             if (currSelectedButton->nBelow->buttonState == EBS_off) return;
@@ -70,10 +68,7 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
             {
                 return;
             }
-            RemoveHighlight(currSelectedButton);
-            currSelectedButton = currSelectedButton->nBelow;
-            AddHighlight(currSelectedButton);
-            master->cursoredButton = currSelectedButton;
+	    HandleCursorMovement(currSelectedButton, currSelectedButton->nBelow, master, openSharedValues, isConsumer, isPlayerSharingPuzzle);
             break;
         case ED_Left:
             if (currSelectedButton->nLeft->buttonState == EBS_off) return;
@@ -81,10 +76,7 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
             {
                 return;
             }
-            RemoveHighlight(currSelectedButton);
-            currSelectedButton = currSelectedButton->nLeft;
-            AddHighlight(currSelectedButton);
-            master->cursoredButton = currSelectedButton;
+	    HandleCursorMovement(currSelectedButton, currSelectedButton->nLeft, master, openSharedValues, isConsumer, isPlayerSharingPuzzle);
             break;
         case ED_Right:
             if (currSelectedButton->nRight->buttonState == EBS_off) return;
@@ -92,13 +84,7 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
             {
                 return;
             }
-	    HandleCursorMovement(currSelectedButton, currSelectedButton->nRight, master, openSharedValues, isConsumer);
-	    /*
-            RemoveHighlight(currSelectedButton);
-            currSelectedButton = currSelectedButton->nRight;
-            AddHighlight(currSelectedButton);
-            master->cursoredButton = currSelectedButton;
-	    */
+	    HandleCursorMovement(currSelectedButton, currSelectedButton->nRight, master, openSharedValues, isConsumer, isPlayerSharingPuzzle);
             break;
         case ED_Enter:
             ChangeSelection(currSelectedButton, master);
@@ -109,18 +95,54 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
         case ED_Reset:
             ResetPuzzle(master, false);
             break;
-        default:
+         default:
             printf("error default case run on switching highlight");
             break;
     }
 }
 
-void HandleCursorMovement(Button* currSelectedButton, Button* newButton, ButtonMaster* puzzle, OpenSharedValues* openSharedValues, bool isConsumer)
+void HandleCursorMovement(Button* currSelectedButton, Button* newButton, ButtonMaster* puzzle, OpenSharedValues* openSharedValues, bool isConsumer, bool isSharedPuzzle)
 {
+    if (isSharedPuzzle == true)
+    {
+	printf("handing cursor movement for shared puzzle\n");
+	HandleProducerInput(puzzle, currSelectedButton, newButton, openSharedValues, isConsumer);
+    }
+
     RemoveHighlight(currSelectedButton);
     currSelectedButton = newButton;
     AddHighlight(currSelectedButton);
     puzzle->cursoredButton = currSelectedButton;
+
+}
+
+Button* FindCursoredButton(ButtonMaster* puzzle)
+{
+    bool found = false;
+    for (int i = 0; i < puzzle->rows; i++)
+    {
+	for (int j = 0; j < puzzle->columns; j++)
+	{
+	    if (puzzle->childButtons[i][j].highlighted == true)
+	    {
+		return &puzzle->childButtons[i][j];
+	    }
+	}
+    }
+}
+
+void PollConsumer(OpenSharedValues* openSharedValues, ButtonMaster* puzzle)
+{
+    if (openSharedValues->mainSharedValues->flag == 0) return;
+
+    Button* cursoredButton = FindCursoredButton(puzzle);
+    
+    printf("curoredButtonAddress: %p\n", (void*) cursoredButton);
+    RemoveHighlight(cursoredButton);
+    cursoredButton = HandleConsumerInput(puzzle, cursoredButton, openSharedValues);
+    AddHighlight(cursoredButton);
+    puzzle->cursoredButton = cursoredButton;
+    openSharedValues->mainSharedValues->flag = 0;
 }
 
 Button* PushCursor(Button* button, ButtonMaster* master)

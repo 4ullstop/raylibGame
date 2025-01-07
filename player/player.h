@@ -6,7 +6,7 @@
 #include "../shared/sharedstructs.h"
 #endif
 
-void PollPlayer(float deltaTime, PlayerCam* pcam, FPSPlayer* player, CollisionPacket* colPacket, modelInfo** models, int numOfModels);
+void PollPlayer(float deltaTime, PlayerCam* pcam, FPSPlayer* player, CollisionPacket* colPacket, modelInfo** models, int numOfModels, bool gameA);
 
 void DrawPlayerCollisionCapsule(Vector3 location);
 
@@ -14,7 +14,7 @@ void PlayerSetup(FPSPlayer* player, PlayerCam* cam, UIElements** hud, enum Gamem
 
 void PollPlayerSecondary(FPSPlayer* player, Raycast* interactRay, QueryBox** areaBoxes, enum Gamemode* mode, Interactable* interactedItem, int numOfAreaQueryBoxes, bool* hideHideableObjects, float deltaTime, enum Gametype gameType, OpenSharedValues* openSharedValues);
 
-void PollPlayerPuzzle(FPSPlayer* player, float deltaTime, Interactable* interactedItem, enum Gamemode* mode, OpenSharedValues* openSharedValues, bool isPlayerSharingPuzzles);
+void PollPlayerPuzzle(FPSPlayer* player, float deltaTime, Interactable* interactedItem, enum Gamemode* mode, OpenSharedValues* openSharedValues, bool isPlayerSharingPuzzles, enum Gametype gametype);
 
 void PollPlayerOverlaps(OverlapBox** queryList, FPSPlayer* player);
 

@@ -31,11 +31,11 @@ void CollideAndSlide(CollisionPacket* colPacket, FPSPlayer* player, double delta
 
 Vector3 CollideWithWorld(CollisionPacket* colPacket, Vector3 pos, Vector3 vel, modelInfo** models, int numberOfModels);
 
-void PollPlayerInput(PlayerCam* pcam, double deltaTime, FPSPlayer* player, CollisionPacket* colPacket, modelInfo** models, int numOfModels);
+void PollPlayerInput(PlayerCam* pcam, double deltaTime, FPSPlayer* player, CollisionPacket* colPacket, modelInfo** models, int numOfModels, bool gameA);
 
 void PollPlayerSecondaryInputs(FPSPlayer* player, Raycast* interactRay, QueryBox** areaBoxes, enum Gamemode* mode, Interactable* interactedItem, int numOfAreaQueryBoxes, OpenSharedValues* openSharedValues, enum Gametype gameType);
 
-void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode, OpenSharedValues* openSharedValues, bool isPlayerSharingPuzzle);
+void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode, OpenSharedValues* openSharedValues, bool isPlayerSharingPuzzle, enum Gametype gametype);
 
 void PollDebugInputs(bool* hideHideableObjects);
 

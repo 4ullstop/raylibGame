@@ -19,9 +19,9 @@ void PlayerSetup(FPSPlayer* player, PlayerCam* cam, UIElements** hud, enum Gamem
     player->shouldTickPlayer = false;
 }
 
-void PollPlayer(float deltaTime, PlayerCam* pcam, FPSPlayer* player, CollisionPacket* colPacket, modelInfo** models, int numOfModels)
+void PollPlayer(float deltaTime, PlayerCam* pcam, FPSPlayer* player, CollisionPacket* colPacket, modelInfo** models, int numOfModels, bool gameA)
 {
-    PollPlayerInput(pcam, deltaTime, player, colPacket, models, numOfModels);
+    PollPlayerInput(pcam, deltaTime, player, colPacket, models, numOfModels, gameA);
     DetectPlayerLookInput(pcam);
 
     
@@ -39,9 +39,9 @@ void DrawPlayerCollisionCapsule(Vector3 location)
     DrawCapsuleWires((Vector3){location.x, location.y + 1.0f, location.z}, (Vector3){location.x, location.y - 1.0f, location.z}, 1.0f, 8, 8, VIOLET);
 }
 
-void PollPlayerPuzzle(FPSPlayer* player, float deltaTime, Interactable* interactedItem, enum Gamemode* mode, OpenSharedValues* openSharedValues, bool isPlayerSharingPuzzles)
+void PollPlayerPuzzle(FPSPlayer* player, float deltaTime, Interactable* interactedItem, enum Gamemode* mode, OpenSharedValues* openSharedValues, bool isPlayerSharingPuzzles, enum Gametype gametype)
 {
-    PollPlayerPuzzleInputs(interactedItem, mode, openSharedValues, isPlayerSharingPuzzles);
+    PollPlayerPuzzleInputs(interactedItem, mode, openSharedValues, isPlayerSharingPuzzles, gametype);
 
     if (player->shouldTickPlayer == true)
     {

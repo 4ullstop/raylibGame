@@ -5,15 +5,15 @@
 #include "processthreadsapi.h"
 #endif
 
-void* SetupSharedMemoryAndCreateProcess(STARTUPINFO* si, PROCESS_INFORMATION* pi, HANDLE* hMapFile, size_t valueSize, HANDLE* eventHandle);
+void* SetupSharedMemoryAndCreateProcess(STARTUPINFO* si, PROCESS_INFORMATION* pi, HANDLE* hMapFile, size_t valueSize, HANDLE* eventHandle, char* mapFileName);
 
-void* SetupSharedMemory(HANDLE* hMapFile, size_t valueSize);
+void* SetupSharedMemory(HANDLE* hMapFile, size_t valueSize, char* mapFileName);
 
 void* FindWindowByTitle(const char* windowTitle);
 
 bool SwitchToWindow(const char* windowTitle);
 
-void* AttachChildProcessToMemory(HANDLE* hMapFileB, size_t valueSize);
+void* AttachChildProcessToMemory(HANDLE* hMapFileB, size_t valueSize, char* mapFileName);
 
 void ReportEditedValue(HANDLE* inHandle);
 

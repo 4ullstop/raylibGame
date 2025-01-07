@@ -152,7 +152,7 @@ int main(int argc, char* argv[])
 
         ConstructGameplayElements(modelsA, &lastModelIndex, texturesA, NUMBER_OF_DOORS_A, &gameplayElements, allDoorsA, &exitCodes);
 	if (CheckForErrors(&exitCodes, &destructionLocations)) goto KillProgram; 
-        ConstructPuzzles(allPuzzlesA, modelsA, &lastModelIndex, gametype, &player, &gameplayElements, texturesA, sharedMemValA, &exitCodes);
+        ConstructPuzzles(allPuzzlesA, modelsA, &lastModelIndex, gametype, &player, &gameplayElements, texturesA, openSharedValues.mainSharedValues, &exitCodes);
 	if (CheckForErrors(&exitCodes, &destructionLocations)) goto KillProgram; 
 	
         CreateModels(modelsA, &lastModelIndex, gametype, texturesA, &exitCodes);
@@ -170,7 +170,7 @@ int main(int argc, char* argv[])
         ConstructGameplayElements(modelsB, &lastModelIndex, texturesB, NUMBER_OF_DOORS_B, &gameplayElements, allDoorsB, &exitCodes);
 	if (CheckForErrors(&exitCodes, &destructionLocations)) goto KillProgram; 
 	
-        ConstructPuzzles(allPuzzlesB, modelsB, &lastModelIndex, gametype, &player, &gameplayElements, texturesB, sharedMemValA, &exitCodes);
+        ConstructPuzzles(allPuzzlesB, modelsB, &lastModelIndex, gametype, &player, &gameplayElements, texturesB, openSharedValues.mainSharedValues, &exitCodes);
 	if (CheckForErrors(&exitCodes, &destructionLocations)) goto KillProgram; 
 	
 	printf("puzzles created for game b\n");
@@ -239,16 +239,18 @@ int main(int argc, char* argv[])
 
     if (gametype == EGT_A)
     {
-	sharedMemValA  = (SharedMemory *)SetupSharedMemoryAndCreateProcess(&si, &pi, &hMapFile, sizeof(SharedMemory), &eventHandle);
+	openSharedValues.mainSharedValues  = (SharedMemory *)SetupSharedMemoryAndCreateProcess(&si, &pi, &hMapFile, sizeof(SharedMemory), &eventHandle, "sceneb");
 	sharedMemValA->sharedValTesting = 23;
 	ReportEditedValue(&eventHandle);
-	InitSharedPuzzleGameA(&puzzleHandle, &openSharedValues);
-
+	InitSharedPuzzleGameA(&puzzleHandle, &openSharedValues, &exitCodes, "puzzle");
+	if (CheckForErrors(&exitCodes, &destructionLocations)) goto KillProgram;
     }
     else
     {
-	sharedMemValA = (SharedMemory *)AttachChildProcessToMemory(&hMapFile, sizeof(SharedMemory));
-	InitSharedPuzzleGameB(&puzzleHandle, &openSharedValues);
+	openSharedValues.mainSharedValues = (SharedMemory *)AttachChildProcessToMemory(&hMapFile, sizeof(SharedMemory), "sceneb");
+	InitSharedPuzzleGameB(&puzzleHandle, &openSharedValues, &exitCodes, "puzzle");
+	if (CheckForErrors(&exitCodes, &destructionLocations)) goto KillProgram;
+	printf("shared value for game b created\n");
 
     }
 
@@ -278,19 +280,20 @@ int main(int argc, char* argv[])
 
         if (gametype == EGT_A)
         {
-            CallAllPolls(deltaTime, modelsA, areaQueryBoxesA, &interactedItem, allBoxesA, numOfModels, numOfQueryBoxes, sharedMemValA);
+            CallAllPolls(deltaTime, modelsA, areaQueryBoxesA, &interactedItem, allBoxesA, numOfModels, numOfQueryBoxes, openSharedValues.mainSharedValues);
             PollAllGameplayElements(allDoorsA, deltaTime, numOfDoors);
             Draw(modelsA, &ray, areaQueryBoxesA, ui, allBoxesA, numOfModels, numOfQueryBoxes, numOfInteractables, allPuzzlesA);
         }
         else
         {
-            CallAllPolls(deltaTime, modelsB, areaQueryBoxesB, &interactedItem, allBoxesB, numOfModels, numOfQueryBoxes, sharedMemValA);
+            CallAllPolls(deltaTime, modelsB, areaQueryBoxesB, &interactedItem, allBoxesB, numOfModels, numOfQueryBoxes, openSharedValues.mainSharedValues);
             PollAllGameplayElements(allDoorsB, deltaTime, numOfDoors);
             Draw(modelsB, &ray, areaQueryBoxesB, ui, allBoxesB, numOfModels, numOfQueryBoxes, numOfInteractables, allPuzzlesB);
         }
 
-	if (sharedMemValA->gameClosing == true)
+	if (openSharedValues.mainSharedValues->gameClosing == true)
 	{
+	    printf("closing the game");
 	    goto KillProgram;
 	}
     }
@@ -305,17 +308,17 @@ int main(int argc, char* argv[])
 KillProgram:
 
     
-    if (sharedMemValA->gameClosing == false)
+    if (openSharedValues.mainSharedValues->gameClosing == false)
     {
-	sharedMemValA->gameClosing = true;
+	openSharedValues.mainSharedValues->gameClosing = true;
     }
     if (gametype == EGT_A)
     {
-	EnduceTearDown(modelsA, exitCodes.numOfModelsLoaded, texturesA, numOfTextures, allPuzzlesA, exitCodes.numOfPuzzlesLoaded, areaQueryBoxesA, exitCodes.numOfQueryBoxesLoaded, exitCodes.numOfInteractablesLoaded, allBoxesA, exitCodes.numOfOverlapBoxesLoaded, &gameplayElements, exitCodes.numOfDoorsLoaded, &si, &hMapFile, &pi, destructionLocations, sharedMemValA, &exitCodes, gametype);
+	EnduceTearDown(modelsA, exitCodes.numOfModelsLoaded, texturesA, numOfTextures, allPuzzlesA, exitCodes.numOfPuzzlesLoaded, areaQueryBoxesA, exitCodes.numOfQueryBoxesLoaded, exitCodes.numOfInteractablesLoaded, allBoxesA, exitCodes.numOfOverlapBoxesLoaded, &gameplayElements, exitCodes.numOfDoorsLoaded, &si, &hMapFile, &pi, destructionLocations, openSharedValues.mainSharedValues, &exitCodes, gametype);
     }
     else
     {
-	EnduceTearDown(modelsB, exitCodes.numOfModelsLoaded, texturesB, numOfTextures, allPuzzlesB, exitCodes.numOfPuzzlesLoaded, areaQueryBoxesB, exitCodes.numOfQueryBoxesLoaded, exitCodes.numOfInteractablesLoaded, allBoxesB, exitCodes.numOfOverlapBoxesLoaded, &gameplayElements, exitCodes.numOfDoorsLoaded, &si, &hMapFile, &pi, destructionLocations,sharedMemValA, &exitCodes, gametype);
+	EnduceTearDown(modelsB, exitCodes.numOfModelsLoaded, texturesB, numOfTextures, allPuzzlesB, exitCodes.numOfPuzzlesLoaded, areaQueryBoxesB, exitCodes.numOfQueryBoxesLoaded, exitCodes.numOfInteractablesLoaded, allBoxesB, exitCodes.numOfOverlapBoxesLoaded, &gameplayElements, exitCodes.numOfDoorsLoaded, &si, &hMapFile, &pi, destructionLocations,openSharedValues.mainSharedValues, &exitCodes, gametype);
     }
     
     DestroyLines(ray.linesToDraw);
@@ -329,15 +332,16 @@ KillProgram:
 
 void CallAllPolls(float dTime, modelInfo** models, QueryBox** areaBoxes, Interactable* interactedItem, OverlapBox** overlapBoxes, int numberOfModels, int numOfAreaQueryBoxes, SharedMemory* sharedMemory)
 {
+    bool gameA = gametype == EGT_A;
     if (gamemode == EGM_Normal)
     {
-        PollPlayer(dTime, &pcam, &player, &colPacket, models, numberOfModels);
+        PollPlayer(dTime, &pcam, &player, &colPacket, models, numberOfModels, gameA);
         PollPlayerSecondary(&player, &ray, areaBoxes, &gamemode, interactedItem, numOfAreaQueryBoxes, &hideObjects, dTime, gametype, &openSharedValues);
         PollOverlaps(overlapBoxes, &player);
     }
     else if (gamemode == EGM_Puzzle)
     {
-        PollPlayerPuzzle(&player, dTime, interactedItem, &gamemode, &openSharedValues, openSharedValues.playerIsSharingPuzzles);
+        PollPlayerPuzzle(&player, dTime, interactedItem, &gamemode, &openSharedValues, openSharedValues.mainSharedValues->sharingPuzzles, gametype);
     }
     else if (gamemode == EGM_Inactive)
     {

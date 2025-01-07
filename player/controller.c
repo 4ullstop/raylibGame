@@ -3,7 +3,7 @@
 #include <stdio.h>
 
 
-void PollPlayerInput(PlayerCam* pcam, double deltaTime, FPSPlayer* player, CollisionPacket* colPacket, modelInfo** models, int numOfModels)
+void PollPlayerInput(PlayerCam* pcam, double deltaTime, FPSPlayer* player, CollisionPacket* colPacket, modelInfo** models, int numOfModels, bool gameA)
 {
     /*
         This is the implementation of an accumulated velocity movement system
@@ -11,6 +11,7 @@ void PollPlayerInput(PlayerCam* pcam, double deltaTime, FPSPlayer* player, Colli
         system takes all of the inputs and inputs their velocities into one 
         vector that is used to direct the player for a new location
     */
+    
     float moveSpeed = 10.0f;
     Vector3 inputVelocity = {0.0f, 0.0f, 0.0f};
     bool keyPressed = false;
@@ -113,17 +114,20 @@ void PollPlayerSecondaryInputs(FPSPlayer* player, Raycast* interactRay, QueryBox
                     *mode = EGM_Puzzle;
 		    if (interactedItem->associatedPuzzle->sharedPuzzle == true)
 		    {
+			printf("interacted item is a shared puzzle\n");
 			if (gameType == EGT_A)
 			{
+			    printf("game type is game a setting shared values\n");
 			    openSharedValues->mainSharedValues->gameAInSharedPuzzle = true;
 			    openSharedValues->mainSharedValues->gameACurrPuzzleId = interactedItem->associatedPuzzle->sharedPuzzleId;
+			    printf("values edited in shared puzzle\n");
 			}
 			else
 			{
 			    openSharedValues->mainSharedValues->gameBInSharedPuzzle = true;
 			    openSharedValues->mainSharedValues->gameBCurrPuzzleId = interactedItem->associatedPuzzle->sharedPuzzleId;
 			}
-		        openSharedValues->playerIsSharingPuzzles = IsPlayerReadyToSharePuzzles(openSharedValues->mainSharedValues);
+		        openSharedValues->mainSharedValues->sharingPuzzles = IsPlayerReadyToSharePuzzles(openSharedValues->mainSharedValues);
 		    }
                 }
             }
@@ -168,7 +172,7 @@ void LerpPlayer(FPSPlayer* player, ButtonMaster* puzzle)
     }
 }
 
-void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode, OpenSharedValues* openSharedValues, bool isPlayerSharingPuzzle)
+void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode, OpenSharedValues* openSharedValues, bool isPlayerSharingPuzzle, enum Gametype gametype)
 {
     
     if (IsKeyPressed(KEY_E))
@@ -178,6 +182,19 @@ void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode, O
 	interactedItem = NULL;
 	return;
     }
+
+    if (IsKeyPressed(KEY_F))
+    {
+	if (gametype == EGT_A)
+	{
+	    SwitchToWindow("Sceneb");
+	}
+	else
+	{
+	    SwitchToWindow("Scenea");
+	}
+    }
+	
     if (interactedItem->associatedPuzzle->puzzleInputType == EPIT_Disabled) return;
     
     bool directionalKeyPressed = false;
@@ -188,7 +205,14 @@ void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode, O
 	if (isPlayerSharingPuzzle) openSharedValues->puzzleSharedValues->pressedButton = PB_Reset;
     }
 
-    
+    if (isPlayerSharingPuzzle == true)
+    {
+	if (gametype == EGT_B)
+	{
+	    PollConsumer(openSharedValues, interactedItem->associatedPuzzle);
+	   
+	}
+    }
     
     if (interactedItem->associatedPuzzle->puzzleInputType == EPIT_ResetOnly) return;
 

@@ -24,6 +24,7 @@ enum PressedButton
 typedef struct
 {
     Vector2Int sharedCursorLocation;
+    Vector2Int oldSharedCursorLocation;
     enum PressedButton pressedButton;
 } PuzzleSharedValues;
 #endif
@@ -47,7 +48,7 @@ typedef struct SharedMemory
     int gameACurrPuzzleId;
     int gameBCurrPuzzleId;
 
-    
+    bool sharingPuzzles;
 } SharedMemory;
 #endif
 

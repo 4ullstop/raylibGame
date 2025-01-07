@@ -56,4 +56,8 @@ void AddPlainButtonToSubmittedList(Button* buttonToAdd, PlainSubmittedButtons** 
 
 void RemoveHead(PlainSubmittedButtons** head, ButtonMaster* puzzle);
 
-void HandleCursorMovement(Button* currSelectedButton, Button* newButton, ButtonMaster* puzzle, OpenSharedValues* openSharedValues, bool isConsumer);
+void HandleCursorMovement(Button* currSelectedButton, Button* newButton, ButtonMaster* puzzle, OpenSharedValues* openSharedValues, bool isConsumer, bool isSharedPuzzle);
+
+void PollConsumer(OpenSharedValues* openSharedValues, ButtonMaster* puzzle);
+
+Button* FindCursoredButton(ButtonMaster* puzzle);

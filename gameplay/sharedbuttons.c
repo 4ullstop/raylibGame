@@ -191,12 +191,14 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
     if (i == master->highlightStartLoc.x && j == master->highlightStartLoc.y)
     {
         SwitchTextureOnPuzzleState(master, &master->childButtons[i][j], true);
+	master->cursoredButton = &master->childButtons[master->highlightStartLoc.x][master->highlightStartLoc.y];
     }
     else
     {
         SwitchTextureOnPuzzleState(master, &master->childButtons[i][j], false);
     }
-											       
+
+    
     
 }
 
@@ -330,6 +332,7 @@ void ConstructSinglePuzzle(int* lastPuzzleIndex, int columns, int rows, Vector3 
     if (lastPuzzleIndex == NULL || player == NULL)
     {
 	EditReturnCodeInfo(208, "PuzzleIndex/Player null upon puzzle construction", exitCode);
+	return;
     }
     ButtonMaster* puzzle = malloc(sizeof(ButtonMaster));
     if (puzzle == NULL)

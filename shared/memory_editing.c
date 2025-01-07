@@ -7,6 +7,7 @@ void InitSharedMemoryValues(SharedMemory* sharedMemory, int pairsOfSharedPuzzles
     //sharedMemory = (SharedMemory*)malloc(sizeof(SharedMemory*) * pairsOfSharedPuzzles);
 
     sharedMemory->gameClosing = false;
+    sharedMemory->sharingPuzzles = false;
 
     
 }
