@@ -139,10 +139,12 @@ void PollPlayerSecondaryInputs(FPSPlayer* player, Raycast* interactRay, QueryBox
 	if (gameType == EGT_A)
 	{
 	    SwitchToWindow("Sceneb");
+	    openSharedValues->mainSharedValues->ActiveWindowA = false;
 	}
 	else
 	{
 	    SwitchToWindow("Scenea");
+	    openSharedValues->mainSharedValues->ActiveWindowA = true;
 	}
 		
 	
@@ -188,10 +190,12 @@ void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode, O
 	if (gametype == EGT_A)
 	{
 	    SwitchToWindow("Sceneb");
+	    openSharedValues->mainSharedValues->ActiveWindowA = false;
 	}
 	else
 	{
 	    SwitchToWindow("Scenea");
+	    openSharedValues->mainSharedValues->ActiveWindowA = true;
 	}
     }
 	
@@ -207,10 +211,9 @@ void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode, O
 
     if (isPlayerSharingPuzzle == true)
     {
-	if (gametype == EGT_B)
+	if (IsPuzzleConsumer(interactedItem->associatedPuzzle, openSharedValues))
 	{
 	    PollConsumer(openSharedValues, interactedItem->associatedPuzzle);
-	   
 	}
     }
     

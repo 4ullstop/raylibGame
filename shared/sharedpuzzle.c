@@ -77,3 +77,29 @@ Button* HandleConsumerInput(ButtonMaster* puzzle, Button* button, OpenSharedValu
     button = &puzzle->childButtons[x][y];
     return &puzzle->childButtons[x][y];
 }
+
+bool IsPuzzleConsumer(ButtonMaster* puzzle, OpenSharedValues* openSharedValues)
+{
+    if (puzzle->gameAPuzzle == true)
+    {
+	if (openSharedValues->mainSharedValues->ActiveWindowA == true)
+	{
+	    return false;
+	}
+	else
+	{
+	    return true;
+	}
+    }
+    else
+    {
+	if (openSharedValues->mainSharedValues->ActiveWindowA == true)
+	{
+	    return true;
+	}
+	else
+	{
+	    return false;
+	}
+    }
+}

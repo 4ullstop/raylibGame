@@ -50,7 +50,15 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
     }
     bool checkForEdges = false;
 
-    bool isConsumer = !master->gameAPuzzle;
+    bool isConsumer = IsPuzzleConsumer(master, openSharedValues);
+    if (master->gameAPuzzle == true && isConsumer == true)
+    {
+	printf("is game a puzzle and is consumer\n");
+    }
+    else if (master->gameAPuzzle == true && isConsumer == false)
+    {
+	printf("is game a puzzle and is producer\n"); 
+    }
     
     switch (direction)
     {

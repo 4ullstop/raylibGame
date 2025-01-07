@@ -17,4 +17,4 @@ void HandleProducerInput(ButtonMaster* puzzle, Button* oldButton, Button* newBut
 
 Button* HandleConsumerInput(ButtonMaster* puzzle, Button* button, OpenSharedValues* openSharedValues);
     
-
+bool IsPuzzleConsumer(ButtonMaster* puzzle, OpenSharedValues* openSharedValues);
