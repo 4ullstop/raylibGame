@@ -51,14 +51,6 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
     bool checkForEdges = false;
 
     bool isConsumer = IsPuzzleConsumer(master, openSharedValues);
-    if (master->gameAPuzzle == true && isConsumer == true)
-    {
-	printf("is game a puzzle and is consumer\n");
-    }
-    else if (master->gameAPuzzle == true && isConsumer == false)
-    {
-	printf("is game a puzzle and is producer\n"); 
-    }
     
     switch (direction)
     {
@@ -95,18 +87,40 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
 	    HandleCursorMovement(currSelectedButton, currSelectedButton->nRight, master, openSharedValues, isConsumer, isPlayerSharingPuzzle);
             break;
         case ED_Enter:
-            ChangeSelection(currSelectedButton, master);
-            CheckForSolution(currSelectedButton, master, mode);
-            currSelectedButton = PushCursor(currSelectedButton, master);
-            master->cursoredButton = currSelectedButton;
+	    Button* oldButton = master->cursoredButton;
+	    master->cursoredButton = HandleCursorSelection(currSelectedButton, master, mode, isPlayerSharingPuzzle, isConsumer, openSharedValues);
             break;
         case ED_Reset:
+	    if (isPlayerSharingPuzzle == true)
+	    {
+		HandleProducerInput(master, currSelectedButton, NULL, openSharedValues, isConsumer);
+	    }
+
             ResetPuzzle(master, false);
             break;
          default:
             printf("error default case run on switching highlight");
             break;
     }
+}
+
+Button* HandleCursorSelection(Button* currSelectedButton, ButtonMaster* puzzle, enum Gamemode* gameMode, bool isSharedPuzzle, bool isConsumer, OpenSharedValues* openSharedValues)
+{
+    Button* oldButton = currSelectedButton;
+
+    printf("about to change selection\n");
+    ChangeSelection(currSelectedButton, puzzle);
+    printf("about to check for solution\n");
+    CheckForSolution(currSelectedButton, puzzle, gameMode);
+
+    printf("about to push cursor\n");
+    currSelectedButton = PushCursor(currSelectedButton, puzzle);
+    if (isSharedPuzzle == true)
+    {
+	printf("about to handle producer input\n");
+	HandleProducerInput(puzzle, oldButton, currSelectedButton, openSharedValues, isConsumer);
+    }
+    printf("cursor selection complete for producer\n");
 }
 
 void HandleCursorMovement(Button* currSelectedButton, Button* newButton, ButtonMaster* puzzle, OpenSharedValues* openSharedValues, bool isConsumer, bool isSharedPuzzle)
@@ -139,17 +153,42 @@ Button* FindCursoredButton(ButtonMaster* puzzle)
     }
 }
 
-void PollConsumer(OpenSharedValues* openSharedValues, ButtonMaster* puzzle)
+void PollConsumer(OpenSharedValues* openSharedValues, ButtonMaster* puzzle, enum Gamemode* mode)
 {
     if (openSharedValues->mainSharedValues->flag == 0) return;
 
     Button* cursoredButton = FindCursoredButton(puzzle);
+
+    enum Direction inputDirection = 0;
     
-    printf("curoredButtonAddress: %p\n", (void*) cursoredButton);
-    RemoveHighlight(cursoredButton);
-    cursoredButton = HandleConsumerInput(puzzle, cursoredButton, openSharedValues);
-    AddHighlight(cursoredButton);
-    puzzle->cursoredButton = cursoredButton;
+    if (openSharedValues->puzzleSharedValues->inputDirection > 0 && openSharedValues->puzzleSharedValues->inputDirection < 5)
+    {
+	inputDirection = ED_Direction;
+    }
+    else
+    {
+	inputDirection = openSharedValues->puzzleSharedValues->inputDirection;
+    }
+
+    switch(inputDirection)
+    {
+    case ED_Direction:
+	RemoveHighlight(cursoredButton);
+	cursoredButton = HandleConsumerInput(puzzle, cursoredButton, openSharedValues);
+	AddHighlight(cursoredButton);
+	break;
+    case ED_Enter:
+	ChangeSelection(cursoredButton, puzzle);
+	CheckForSolution(cursoredButton, puzzle, mode);
+	cursoredButton = HandleConsumerInput(puzzle, cursoredButton, openSharedValues);
+	break;
+    case ED_Reset:
+	ResetPuzzle(puzzle, false);
+	break;
+    default:
+	printf("ERROR DEFAULT RUN IN POLL CONSUMER SWITCH STATEMENT\n");
+    }
+    puzzle->cursoredButton = cursoredButton;    
     openSharedValues->mainSharedValues->flag = 0;
 }
 

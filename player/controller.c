@@ -202,49 +202,58 @@ void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode, O
     if (interactedItem->associatedPuzzle->puzzleInputType == EPIT_Disabled) return;
     
     bool directionalKeyPressed = false;
+
+    enum Direction inputDirection = 0;
     
     if (IsKeyPressed(KEY_R))
     {
+	inputDirection = ED_Reset;
+	openSharedValues->puzzleSharedValues->inputDirection = inputDirection;
         MoveCursor(ED_Reset, interactedItem, mode, openSharedValues, isPlayerSharingPuzzle);
-	if (isPlayerSharingPuzzle) openSharedValues->puzzleSharedValues->pressedButton = PB_Reset;
     }
 
     if (isPlayerSharingPuzzle == true)
     {
 	if (IsPuzzleConsumer(interactedItem->associatedPuzzle, openSharedValues))
 	{
-	    PollConsumer(openSharedValues, interactedItem->associatedPuzzle);
+	    PollConsumer(openSharedValues, interactedItem->associatedPuzzle, mode);
 	}
     }
     
     if (interactedItem->associatedPuzzle->puzzleInputType == EPIT_ResetOnly) return;
 
-    
+
     
     if (IsKeyPressed(KEY_LEFT))
     {
-        MoveCursor(ED_Left, interactedItem, mode, openSharedValues, isPlayerSharingPuzzle);
+	inputDirection = ED_Left;
         directionalKeyPressed = true;
     }
     if (IsKeyPressed(KEY_UP))
     {
-        MoveCursor(ED_Up, interactedItem, mode, openSharedValues, isPlayerSharingPuzzle);
+	inputDirection = ED_Up;
         directionalKeyPressed = true;
     }
     if (IsKeyPressed(KEY_RIGHT))
     {
-        MoveCursor(ED_Right, interactedItem, mode, openSharedValues, isPlayerSharingPuzzle);
+	inputDirection = ED_Right;
         directionalKeyPressed = true;
     }
     if (IsKeyPressed(KEY_DOWN))
     {
-        MoveCursor(ED_Down, interactedItem, mode, openSharedValues, isPlayerSharingPuzzle);
+	inputDirection = ED_Down;
         directionalKeyPressed = true;
     }
 
     if (IsKeyPressed(KEY_ENTER))
     {
-        MoveCursor(ED_Enter, interactedItem, mode, openSharedValues, isPlayerSharingPuzzle);
+	inputDirection = ED_Enter;
+    }
+
+    if (inputDirection > 0)
+    {
+	openSharedValues->puzzleSharedValues->inputDirection = inputDirection;
+	MoveCursor(inputDirection, interactedItem, mode, openSharedValues, isPlayerSharingPuzzle);
     }
 
     /*

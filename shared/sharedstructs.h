@@ -6,26 +6,14 @@
 #include "../initialization/corestructs.h"
 #endif
 
-#ifndef PRESSED_BUTTON
-#define PRESSED_BUTTON
-enum PressedButton 
-{
-    PB_Up,
-    PB_Down,
-    PB_Left,
-    PB_Right,
-    PB_Enter,
-    PB_Reset
-};
-#endif
-
 #ifndef PUZZLE_SHARED_VALUES
 #define PUZZLE_SHARED_VALUES
 typedef struct
 {
     Vector2Int sharedCursorLocation;
     Vector2Int oldSharedCursorLocation;
-    enum PressedButton pressedButton;
+    enum Direction inputDirection;
+    bool submitButtonPressed; 
 } PuzzleSharedValues;
 #endif
 

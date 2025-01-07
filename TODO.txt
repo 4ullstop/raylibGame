@@ -44,8 +44,6 @@ At some point, you need to start using Freedom units
 printf("The address of x is: %p\n", (void *)ptr);
 
 
-Kind of horrifically, things are not checked very well which leads to crashing when you are creating puzzles, this is probably a thing that should be fixed\
-
 Quality of life features to be added or reworked:
     - Rework the button solution sizes (some of them are too similiar to others making it difficult to discerne which is which)
 
@@ -57,16 +55,8 @@ Quality of life features to be added or reworked:
 Remake intro to moving around since the two actions are split in two different puzzles 
 Make it so you are taking the player's facing direction into affect when the player interacts
 
-IPC communication:
- - We are using shared memory for the game's inter-communication information
- - The main issue I see currently is figuring out how to have windows.h exist because raylib includes some but not all of it
-
-
 
 nmake /f Makefile OUTPUT=custom_name.exe 
-
-When it comes to the collision thing, check your timings for collision detection, you might need to call CollideAndSlide/CollideWIthWorld so that the player isn't ending
-up in the floor on game start if you change the size of the ellipsoid
 
 
 The rules of the puzzles:
@@ -92,8 +82,6 @@ Create a better way for players to understand when the puzzle is complete
 
 Redo gamea (Clean up intro, intro to cursor pushing directions)
 
-Shared memory and 2 games at once!
-
 Create some sort of way for players to identify the order in which they have pressed the buttons - whether the shade of the color changes or something else (change color == not colorblind ppl), or sounds getting lower/or higher
 
 Probably find a way to make it super obvious that you failed when you get stuck
@@ -101,10 +89,7 @@ Probably find a way to make it super obvious that you failed when you get stuck
 Figure out why the door is in sceneb and not scenea
 
 
-When you get Home:
 
-After you are done recreating all of the puzzles for gamea, go through and check to make sure you are freeing all of the memoory that needs to be freed, I fear that you are getting very high in numbers where
-this could start being a problem.
 
 You still need to decide how to tell players the amount of plain buttons that can be submitted until they start unsubmitting themselves and you also need to write the code for this bc rn the button is just set to 0 which
 is gonna cause problems.
@@ -113,17 +98,9 @@ is gonna cause problems.
 We are crashing somewhere sometimes
 
 
-Actually, before we start with the mutliple games, lets do some code refactoring and clean up
-
-Use void pointers when passing into the shared memory thingy
-
-
-Exit Codes:
- - We have a struct, if it returns anything other than 0,
 
 It might be best to find another way for game a puzzle solutions rather than the sizes of the buttons, something more easily comparable to game b (maybe even use the same symbols for the best solution)
 
-ERROR CHECKING - NOW!
 
 
  

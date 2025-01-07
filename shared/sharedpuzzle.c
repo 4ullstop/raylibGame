@@ -30,14 +30,6 @@ bool IsPlayerReadyToSharePuzzles(SharedMemory* mainSharedValues)
 	printf("you ahve interacted with a shared puzzle preapre to be sharing\n");
 	mainSharedValues->sharingPuzzles = true;
 	return true;
-	/*
-	if (mainSharedValues->gameACurrPuzzleId == mainSharedValues->gameBCurrPuzzleId)
-	{
-	    printf("you have interacted with a shared puzzle prepare to be sharing\n");
-	    mainSharedValues->sharingPuzzles = true;
-	    return true;
-	}
-	*/
     }
     return false;
 }
@@ -45,25 +37,20 @@ bool IsPlayerReadyToSharePuzzles(SharedMemory* mainSharedValues)
 //the function to move the cursor on the other screen if needed
 void HandleProducerInput(ButtonMaster* puzzle, Button* oldButton, Button* newButton, OpenSharedValues* openSharedValues, bool isConsumer)
 {
-    
     if (isConsumer == false)
     {
+	printf("about to consume input\n");
+	if (openSharedValues->puzzleSharedValues->inputDirection == ED_Reset)
+	{
+	    openSharedValues->mainSharedValues->flag = 1;
+	    printf("reset button was pressed\n");
+	    return;
+	}
+	
 	openSharedValues->puzzleSharedValues->sharedCursorLocation = newButton->buttonVectorLocation;
 	openSharedValues->puzzleSharedValues->oldSharedCursorLocation = oldButton->buttonVectorLocation;
 	printf("button location in A, x: %i, y: %i\n", newButton->buttonVectorLocation.x, newButton->buttonVectorLocation.y);
 	openSharedValues->mainSharedValues->flag = 1;
-    }
-    else
-    {
-	int x = openSharedValues->puzzleSharedValues->sharedCursorLocation.x;
-	int y = openSharedValues->puzzleSharedValues->sharedCursorLocation.y;
-	printf("new location x: %i, y: %i\n", x, y);
-	newButton = &puzzle->childButtons[x][y];
-
-	int oldX = openSharedValues->puzzleSharedValues->oldSharedCursorLocation.x;
-	int oldY = openSharedValues->puzzleSharedValues->oldSharedCursorLocation.y;
-	oldButton = &puzzle->childButtons[oldX][oldY];
-	printf("old location x: %i, y: %i\n", oldX, oldY);
     }
 }
 

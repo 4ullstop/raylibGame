@@ -58,6 +58,8 @@ void RemoveHead(PlainSubmittedButtons** head, ButtonMaster* puzzle);
 
 void HandleCursorMovement(Button* currSelectedButton, Button* newButton, ButtonMaster* puzzle, OpenSharedValues* openSharedValues, bool isConsumer, bool isSharedPuzzle);
 
-void PollConsumer(OpenSharedValues* openSharedValues, ButtonMaster* puzzle);
+void PollConsumer(OpenSharedValues* openSharedValues, ButtonMaster* puzzle, enum Gamemode* mode);
 
 Button* FindCursoredButton(ButtonMaster* puzzle);
+
+Button* HandleCursorSelection(Button* currSelectedButton, ButtonMaster* puzzle, enum Gamemode* gameMode, bool isSharedPuzzle, bool isConsumer, OpenSharedValues* openSharedValues);

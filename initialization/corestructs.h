@@ -74,12 +74,14 @@ enum Gametype
 #define E_DIRECTION
 enum Direction
 {
+    ED_NULL,
     ED_Up,
     ED_Down,
     ED_Left,
     ED_Right,
     ED_Enter,
-    ED_Reset
+    ED_Reset,
+    ED_Direction
 };
 #endif
 
