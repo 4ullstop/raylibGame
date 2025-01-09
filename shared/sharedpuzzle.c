@@ -39,11 +39,9 @@ void HandleProducerInput(ButtonMaster* puzzle, Button* oldButton, Button* newBut
 {
     if (isConsumer == false)
     {
-	printf("about to consume input\n");
 	if (openSharedValues->puzzleSharedValues->inputDirection == ED_Reset)
 	{
 	    openSharedValues->mainSharedValues->flag = 1;
-	    printf("reset button was pressed\n");
 	    return;
 	}
 	

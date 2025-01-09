@@ -86,7 +86,7 @@ void* FindWindowByTitle(const char* windowTitle)
     return hwnd;
 }
 
-bool SwitchToWindow(const char* windowTitle)
+bool SwitchToWindow(const char* windowTitle, float x, float y)
 {
     HWND hwnd = *(HWND*)(FindWindowByTitle(windowTitle));
 
@@ -94,6 +94,8 @@ bool SwitchToWindow(const char* windowTitle)
     {
 	return false;
     }
+
+    SetCursorPos(x, y);
 
     return SetForegroundWindow(hwnd);
 }
@@ -165,5 +167,9 @@ void DestroySharedMemory(PROCESS_INFORMATION* pi, HANDLE* hMapFile, void* shared
     CloseHandle(pi->hThread);
 }
 
-
+void RemoveWindowDropShadow(HWND* hwnd)
+{
+    SetWindowLong(*hwnd, GWL_EXSTYLE, GetWindowLong(*hwnd, GWL_EXSTYLE) & ~WS_EX_DLGMODALFRAME);
+    SetWindowPos(*hwnd, NULL, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
+}
  

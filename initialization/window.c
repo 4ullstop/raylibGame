@@ -1,6 +1,6 @@
 #include "window.h"
 #include <stdio.h>
-
+#include "processthreadsapi.h"
 
 void CreateWindow(const int screenWidth, const int screenHeight, const char* title)
 {

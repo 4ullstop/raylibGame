@@ -457,6 +457,8 @@ typedef struct ButtonMaster
     bool gameAPuzzle;
 
     int sharedPuzzleId;
+
+    Vector3 puzzleLerpOffset;
 } ButtonMaster;
 #endif
 

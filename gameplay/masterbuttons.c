@@ -173,13 +173,11 @@ void PollConsumer(OpenSharedValues* openSharedValues, ButtonMaster* puzzle, enum
     switch(inputDirection)
     {
     case ED_Direction:
-	printf("direction button pressed\n");
 	RemoveHighlight(cursoredButton);
 	cursoredButton = HandleConsumerInput(puzzle, cursoredButton, openSharedValues);
 	AddHighlight(cursoredButton);
 	break;
     case ED_Enter:
-	printf("enter button pressed\n");
 	ChangeSelection(cursoredButton, puzzle);
 	CheckForSolution(cursoredButton, puzzle, mode);
 	cursoredButton = PushCursor(cursoredButton, puzzle);

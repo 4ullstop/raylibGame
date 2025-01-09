@@ -11,7 +11,7 @@ void* SetupSharedMemory(HANDLE* hMapFile, size_t valueSize, char* mapFileName);
 
 void* FindWindowByTitle(const char* windowTitle);
 
-bool SwitchToWindow(const char* windowTitle);
+bool SwitchToWindow(const char* windowTitle, float x, float y);
 
 void* AttachChildProcessToMemory(HANDLE* hMapFileB, size_t valueSize, char* mapFileName);
 
@@ -20,3 +20,4 @@ void ReportEditedValue(HANDLE* inHandle);
 void DestroySharedMemory(PROCESS_INFORMATION* pi, HANDLE* hMapFile, void* sharedValue);
 
 void DestroyChildSharedMemory(HANDLE* hMapFileB, void* sharedValueB);
+

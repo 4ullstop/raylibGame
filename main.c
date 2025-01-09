@@ -381,14 +381,16 @@ void Draw(modelInfo** models, Raycast* ray, QueryBox** queryBoxes, UIElements** 
             }
         }
 
+	/*
+	int numToDraw = gamemode == EGT_A ? NUMBER_OF_PUZZLES_A : NUMBER_OF_PUZZLES_B;
         //DEBUG
-        // for (int i = 0; i < NUMBER_OF_PUZZLES_A; i++)
-        // {
+        for (int i = 0; i < numToDraw; i++)
+        {
         //     //printf("PuzzleNormal: %f, %f, %f\n", allPuzzles[i]->puzzleNormalDirection.x, allPuzzles[i]->puzzleNormalDirection.y, allPuzzles[i]->puzzleNormalDirection.z);
-        //     Vector3 end = Vector3Add(Vector3Scale(allPuzzles[i]->puzzleNormalDirection, 10.f), allPuzzles[i]->location);
-        //     DrawLine3D(Vector3Add(allPuzzles[i]->puzzleNormalDirection, allPuzzles[i]->location), end, RED);
-        //     DrawSphere(Vector3Add(allPuzzles[i]->puzzleNormalDirection, allPuzzles[i]->location), 0.1f, BLUE);
-        // }
+             Vector3 end = Vector3Add(Vector3Scale(allPuzzles[i]->puzzleNormalDirection, 10.f), allPuzzles[i]->location);
+             DrawLine3D(Vector3Add(allPuzzles[i]->puzzleNormalDirection, allPuzzles[i]->location), end, RED);
+             DrawSphere(Vector3Add(allPuzzles[i]->puzzleNormalDirection, allPuzzles[i]->location), 0.1f, BLUE);
+	     } */
         
         Drawline* line = ray->linesToDraw;
 

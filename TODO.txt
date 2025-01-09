@@ -101,6 +101,8 @@ We are crashing somewhere sometimes
 
 It might be best to find another way for game a puzzle solutions rather than the sizes of the buttons, something more easily comparable to game b (maybe even use the same symbols for the best solution)
 
+Move mouse cursor to middle of the window when f is pressed so that the mouse isn't somewhere else
 
+Move player to center of play in the puzzles instead of their actual center
 
- 
+Create ability to move windows with walls or something

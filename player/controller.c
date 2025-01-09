@@ -136,14 +136,15 @@ void PollPlayerSecondaryInputs(FPSPlayer* player, Raycast* interactRay, QueryBox
     if (IsKeyPressed(KEY_F))
     {
 
+	Vector2 windowPos = GetWindowPosition();
 	if (gameType == EGT_A)
 	{
-	    SwitchToWindow("Sceneb");
+	    SwitchToWindow("Sceneb", windowPos.x, windowPos.y);
 	    openSharedValues->mainSharedValues->ActiveWindowA = false;
 	}
 	else
 	{
-	    SwitchToWindow("Scenea");
+	    SwitchToWindow("Scenea", windowPos.x, windowPos.y);
 	    openSharedValues->mainSharedValues->ActiveWindowA = true;
 	}
 		
@@ -164,10 +165,12 @@ void LerpPlayer(FPSPlayer* player, ButtonMaster* puzzle)
         
         player->a = player->location;
         Vector3 normalStart = Vector3Add(puzzle->puzzleNormalDirection, puzzle->location);
-        Vector3 normalEnd = Vector3Add(puzzle->location, Vector3Scale(puzzle->puzzleNormalDirection, 2.0f));
+        Vector3 normalEnd = Vector3Add(Vector3Add(puzzle->location, puzzle->puzzleLerpOffset), Vector3Scale(puzzle->puzzleNormalDirection, 2.0f));
         player->b = normalEnd;
-        	
-	player->lookAtLoc = puzzle->location;
+
+	bool doesPuzzleHaveOffset = puzzle->puzzleLerpOffset.x != 0.0f || puzzle->puzzleLerpOffset.y != 0.0f || puzzle->puzzleLerpOffset.z != 0.0f;
+	
+	player->lookAtLoc = doesPuzzleHaveOffset ?  Vector3Add(puzzle->location, puzzle->puzzleLerpOffset) : puzzle->location;
 	player->lerpAmount = 0.0f;
 	
         player->shouldTickPlayer = true;
@@ -185,16 +188,18 @@ void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode, O
 	return;
     }
 
+    Vector2 windowPos = GetWindowPosition();
+    
     if (IsKeyPressed(KEY_F))
     {
 	if (gametype == EGT_A)
 	{
-	    SwitchToWindow("Sceneb");
+	    SwitchToWindow("Sceneb", windowPos.x, windowPos.y);
 	    openSharedValues->mainSharedValues->ActiveWindowA = false;
 	}
 	else
 	{
-	    SwitchToWindow("Scenea");
+	    SwitchToWindow("Scenea", windowPos.x, windowPos.y);
 	    openSharedValues->mainSharedValues->ActiveWindowA = true;
 	}
     }
