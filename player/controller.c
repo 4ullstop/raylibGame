@@ -175,6 +175,10 @@ void LerpPlayer(FPSPlayer* player, ButtonMaster* puzzle)
 	
         player->shouldTickPlayer = true;
 
+	if (doesPuzzleHaveOffset == true)
+	{
+
+	}
 	/*
 	if (doesPuzzleHaveOffset == true)
 	{

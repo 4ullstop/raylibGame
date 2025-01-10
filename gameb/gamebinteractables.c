@@ -7,6 +7,8 @@ void CreateGameBInteractables(Interactable** interactables, QueryBox** areaQuery
     int lastInteractableIndex = 0;
 
     exitCode->numOfLoadedItems = 0;
+
+    Vector3 nullOffset = (Vector3){0.0f, 0.0f, 0.0f};
     
     ConstructSingleInteractable(&lastInteractableIndex,
 				ITT_Puzzle,
@@ -19,6 +21,7 @@ void CreateGameBInteractables(Interactable** interactables, QueryBox** areaQuery
 				interactables,
 				areaQueryBoxes,
 				0,
+				nullOffset,
 				exitCode);
 
     ConstructSingleInteractable(&lastInteractableIndex,
@@ -32,20 +35,22 @@ void CreateGameBInteractables(Interactable** interactables, QueryBox** areaQuery
 				interactables,
 				areaQueryBoxes,
 				0,
+				nullOffset,
 				exitCode);
 
     ConstructSingleInteractable(&lastInteractableIndex,
-			      ITT_Puzzle,
-			      false,
-			      2.0f,
-			      2.0f,
-			      2.0f,
-			      allPuzzles[2],
-			      PuzzleInteract,
-			      interactables,
-			      areaQueryBoxes,
-			      0,
-			      exitCode);
+				ITT_Puzzle,
+				false,
+				2.0f,
+				2.0f,
+				2.0f,
+				allPuzzles[2],
+				PuzzleInteract,
+				interactables,
+				areaQueryBoxes,
+				0,
+				nullOffset,
+				exitCode);
 
     ConstructSingleInteractable(&lastInteractableIndex,
 				ITT_Puzzle,
@@ -58,6 +63,7 @@ void CreateGameBInteractables(Interactable** interactables, QueryBox** areaQuery
 				interactables,
 				areaQueryBoxes,
 				0,
+				nullOffset,
 				exitCode);
 
     ConstructSingleInteractable(&lastInteractableIndex,
@@ -71,6 +77,7 @@ void CreateGameBInteractables(Interactable** interactables, QueryBox** areaQuery
 				interactables,
 				areaQueryBoxes,
 				0,
+				nullOffset,
 				exitCode);
 
     ConstructSingleInteractable(&lastInteractableIndex,
@@ -84,6 +91,7 @@ void CreateGameBInteractables(Interactable** interactables, QueryBox** areaQuery
 				interactables,
 				areaQueryBoxes,
 				0,
+				nullOffset,
 				exitCode);
 
     ConstructSingleInteractable(&lastInteractableIndex,
@@ -97,6 +105,7 @@ void CreateGameBInteractables(Interactable** interactables, QueryBox** areaQuery
 				interactables,
 				areaQueryBoxes,
 				0,
+				nullOffset,
 				exitCode);
 
     ConstructSingleInteractable(&lastInteractableIndex,
@@ -110,5 +119,6 @@ void CreateGameBInteractables(Interactable** interactables, QueryBox** areaQuery
 				interactables,
 				areaQueryBoxes,
 				0,
+				(Vector3){0.5f, 0.0f, 0.0f},
 				exitCode);
 }

@@ -10,6 +10,7 @@ void PlayerCamSetup(PlayerCam* pcam)
     pcam->target = (Vector3){0.0f, 2.0f, 0.0f};
     pcam->up = (Vector3){0.0f, 1.0f, 0.0f};
     pcam->fov = 60.0f;
+    pcam->cameraPerspective = CMP_Perspective;
 }
 
 void StartMode3D(PlayerCam pcam)
@@ -22,10 +23,24 @@ void StartMode3D(PlayerCam pcam)
 
     float aspect = (float)800/(float)450;
 
-    double  top = RL_CULL_DISTANCE_NEAR*tan(pcam.fov*0.5*DEG2RAD);
-    double  right = top*aspect;
+    if (pcam.cameraPerspective == CMP_Perspective)
+    {
+	double  top = RL_CULL_DISTANCE_NEAR*tan(pcam.fov*0.5*DEG2RAD);
+	double  right = top*aspect;
+	rlFrustum(-right, right, -top, top, RL_CULL_DISTANCE_NEAR, RL_CULL_DISTANCE_FAR);	
+    }
+    else
+    {
+	double top = pcam.fov/2.0f;
+	double right = top*aspect;
 
-    rlFrustum(-right, right, -top, top, RL_CULL_DISTANCE_NEAR, RL_CULL_DISTANCE_FAR);
+	rlOrtho(-right, right, -top, top, RL_CULL_DISTANCE_NEAR, RL_CULL_DISTANCE_FAR);
+    }
+    
+
+    
+
+
 
     rlMatrixMode(RL_MODELVIEW);
     rlLoadIdentity();

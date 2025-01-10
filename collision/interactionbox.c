@@ -8,7 +8,7 @@ void CreateInteractables(Interactable** interactables, QueryBox** areaQueryBoxes
     
 }
 
-void ConstructInteractable(Interactable* interactable, Vector3 location, ColBox* box, float boxWidth, float boxHeight, float boxLength, ExitCode* exitCode)
+void ConstructInteractable(Interactable* interactable, Vector3 location, ColBox* box, float boxWidth, float boxHeight, float boxLength, Vector3 locOffset, ExitCode* exitCode)
 {
     if (interactable == NULL || box == NULL)
     {
@@ -16,7 +16,7 @@ void ConstructInteractable(Interactable* interactable, Vector3 location, ColBox*
 	return;
     }
     
-    interactable->Location = location;
+    interactable->Location = Vector3Add(location, locOffset);
     interactable->width = boxWidth;
     interactable->height = boxHeight;
     interactable->length = boxLength;
@@ -70,7 +70,7 @@ void PuzzleInteract(FPSPlayer* player, ColBox* box)
     }
 }
 
-void ConstructSingleInteractable(int* lastInteractableIndex, enum InteractableType puzzleType, bool showArrowKeyHint, float len, float width, float height, ButtonMaster* assignedPuzzle, void(*colBoxInteract)(FPSPlayer*, ColBox*), Interactable** interactables, QueryBox** areaQueryBox, int areaQueryBoxId, ExitCode* exitCode)
+void ConstructSingleInteractable(int* lastInteractableIndex, enum InteractableType puzzleType, bool showArrowKeyHint, float len, float width, float height, ButtonMaster* assignedPuzzle, void(*colBoxInteract)(FPSPlayer*, ColBox*), Interactable** interactables, QueryBox** areaQueryBox, int areaQueryBoxId, Vector3 locOffset, ExitCode* exitCode)
 {
     if (assignedPuzzle == NULL || lastInteractableIndex == NULL)
     {
@@ -95,10 +95,10 @@ void ConstructSingleInteractable(int* lastInteractableIndex, enum InteractableTy
     interactable->hasBeenUsed = false;
     interactable->id = *lastInteractableIndex;
     interactable->showsArrowKeyHint = showArrowKeyHint;
-    ConstructInteractable(interactable, assignedPuzzle->location, box, width, height, len, exitCode);
+    ConstructInteractable(interactable, assignedPuzzle->location, box, width, height, len, locOffset, exitCode);
     box->interact = colBoxInteract;
     interactable->associatedPuzzle = assignedPuzzle;
-    interactable->Location = assignedPuzzle->location;
+//    interactable->Location = assignedPuzzle->location;
     exitCode->numOfInteractablesLoaded = exitCode->numOfInteractablesLoaded + 1;
     
     interactables[*lastInteractableIndex] = interactable;

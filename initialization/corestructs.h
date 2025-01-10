@@ -128,6 +128,15 @@ enum PuzzleInputType
 };
 #endif
 
+#ifndef CAMERA_PERSPECTIVE
+#define CAMERA_PERSPECTIVE
+enum CameraPerspective
+{
+    CMP_Perspective,
+    CMP_Orthographic
+};
+#endif
+
 #ifndef CAMERA_STRUCT
 #define CAMERA_STRUCT
 typedef struct PlayerCam3D
@@ -136,6 +145,10 @@ typedef struct PlayerCam3D
     Vector3 target;
     Vector3 up;
     float fov;
+
+    enum CameraPerspective cameraPerspective;
+
+    float nearCullDist;
 } PlayerCam;
 #endif
 

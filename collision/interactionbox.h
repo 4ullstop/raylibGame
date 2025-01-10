@@ -7,7 +7,7 @@
 #include "../gameb/gamebqueryboxes.h" 
 #endif
 
-void ConstructInteractable(Interactable* interactable, Vector3 location, ColBox* box, float boxWidth, float boxHeight, float boxLength, ExitCode* exitCode);
+void ConstructInteractable(Interactable* interactable, Vector3 location, ColBox* box, float boxWidth, float boxHeight, float boxLength, Vector3 locOffset, ExitCode* exitCode);
 
 bool IsPointInInteractable(Interactable* interactable, Vector3 point);
 
@@ -19,5 +19,5 @@ void CreateInteractables(Interactable** interactables, QueryBox** areaQueryBoxes
 
 void NullifyColBoxValues(ColBox* box);
 
-void ConstructSingleInteractable(int* lastInteractableIndex, enum InteractableType puzzleType, bool showArrowKeyHint, float len, float width, float height, ButtonMaster* assignedPuzzle, void(*colBoxInteract)(FPSPlayer*, ColBox*), Interactable** interactables, QueryBox** areaQueryBox, int areaQueryBoxId, ExitCode* exitCode);
+void ConstructSingleInteractable(int* lastInteractableIndex, enum InteractableType puzzleType, bool showArrowKeyHint, float len, float width, float height, ButtonMaster* assignedPuzzle, void(*colBoxInteract)(FPSPlayer*, ColBox*), Interactable** interactables, QueryBox** areaQueryBox, int areaQueryBoxId, Vector3 locOffset, ExitCode* exitCode);
 
