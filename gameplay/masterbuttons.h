@@ -63,3 +63,5 @@ void PollConsumer(OpenSharedValues* openSharedValues, ButtonMaster* puzzle, enum
 Button* FindCursoredButton(ButtonMaster* puzzle);
 
 Button* HandleCursorSelection(Button* currSelectedButton, ButtonMaster* puzzle, enum Gamemode* gameMode, bool isSharedPuzzle, bool isConsumer, OpenSharedValues* openSharedValues);
+
+void SharedButtonNeighborDetermination(Button* leftCurrSelected, Button* rightCurrSelected, Button* aboveCurrSelected, Button* belowCurrSelected, Button* currSelectedButton, ButtonMaster* puzzle);

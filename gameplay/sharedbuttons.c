@@ -347,6 +347,7 @@ void ConstructSinglePuzzle(int* lastPuzzleIndex, int columns, int rows, Vector3 
     puzzle->columns = columns;
     puzzle->rows = rows;
     puzzle->sharedPuzzle = sharedPuzzle;
+    puzzle->isCursorOnScreen = true;
     puzzle->location = location;
     puzzle->originalAngle = 0.0f;
     puzzle->tempAngle = 0.0f;
@@ -376,6 +377,25 @@ void ConstructSinglePuzzle(int* lastPuzzleIndex, int columns, int rows, Vector3 
     puzzle->puzzleLerpOffset = puzzleLerpOffset;
     puzzle->puzzleNormalDirection = (Vector3){0};
     puzzle->associatedGameplayElements = malloc(sizeof(GameplayElements));
+
+    if (puzzle->sharedPuzzle == true)
+    {
+	if (puzzle->gameAPuzzle == true)
+	{
+	    if (puzzle->highlightStartLoc.x + 1 > rows / 2)
+	    {
+		puzzle->isCursorOnScreen = false;
+	    }
+	}
+	else
+	{
+	    if (puzzle->highlightStartLoc.x < rows / 2)
+	    {
+		puzzle->isCursorOnScreen = false;
+	    }
+	}
+    }
+    
     if (puzzle->associatedGameplayElements == NULL)
     {
 	EditReturnCodeInfo(201, "Failed to allocate memory for puzzle's associated gameplay elements\n", exitCode);

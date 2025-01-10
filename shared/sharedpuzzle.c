@@ -25,7 +25,7 @@ void InitSharedPuzzleGameB(HANDLE* puzzleHMapFile, OpenSharedValues* openSharedV
 
 bool IsPlayerReadyToSharePuzzles(SharedMemory* mainSharedValues)
 {
-    if (mainSharedValues->gameAInSharedPuzzle == true && mainSharedValues->gameBInSharedPuzzle)
+    if (mainSharedValues->gameAInSharedPuzzle == true && mainSharedValues->gameBInSharedPuzzle == true)
     {
 	printf("you ahve interacted with a shared puzzle preapre to be sharing\n");
 	mainSharedValues->sharingPuzzles = true;

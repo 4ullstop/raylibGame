@@ -479,6 +479,8 @@ typedef struct ButtonMaster
     float targetAngle;
     float tempAngle;
 
+    bool isCursorOnScreen;
+
 } ButtonMaster;
 #endif
 

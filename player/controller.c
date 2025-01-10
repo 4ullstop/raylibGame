@@ -245,6 +245,8 @@ void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode, O
     bool directionalKeyPressed = false;
 
     enum Direction inputDirection = 0;
+
+    
     
     if (IsKeyPressed(KEY_R))
     {
@@ -263,7 +265,7 @@ void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode, O
     
     if (interactedItem->associatedPuzzle->puzzleInputType == EPIT_ResetOnly) return;
 
-
+    if ((interactedItem->associatedPuzzle->sharedPuzzle == true && interactedItem->associatedPuzzle->isCursorOnScreen == false) && isPlayerSharingPuzzle == false) return;
     
     if (IsKeyPressed(KEY_LEFT))
     {

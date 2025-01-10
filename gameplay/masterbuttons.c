@@ -50,6 +50,40 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
     }
     bool checkForEdges = false;
 
+
+    Button* aboveCurrSelected = currSelectedButton->nAbove;
+    Button* belowCurrSelected = currSelectedButton->nBelow;
+    Button* leftCurrSelected = currSelectedButton->nLeft;
+    Button* rightCurrSelected = currSelectedButton->nRight;
+    
+    if (master->sharedPuzzle == true && isPlayerSharingPuzzle == false)
+    {
+	if (master->gameAPuzzle == true)
+	{
+	    printf("master->rows: %i, buttonVectorLocation: %i\n", master->rows / 2, currSelectedButton->buttonVectorLocation.x);
+	    if (currSelectedButton->buttonVectorLocation.x + 1 == (master->rows / 2))
+	    {
+		printf("swapping right button\n");
+		rightCurrSelected = &master->childButtons[0][currSelectedButton->buttonVectorLocation.y];
+	    }
+	    else if (currSelectedButton->buttonVectorLocation.x == 0)
+	    {
+		leftCurrSelected = &master->childButtons[(master->rows / 2) - 1][currSelectedButton->buttonVectorLocation.y];
+	    }
+	}
+	else
+	{
+	    if (currSelectedButton->buttonVectorLocation.x == master->rows)
+	    {
+		rightCurrSelected = &master->childButtons[(master->rows / 2) - 1][currSelectedButton->buttonVectorLocation.y];
+	    }
+	    else
+	    {
+		leftCurrSelected = &master->childButtons[master->rows - 1][currSelectedButton->buttonVectorLocation.y];
+	    }
+	}
+    }
+    
     bool isConsumer = IsPuzzleConsumer(master, openSharedValues);
     
     switch (direction)
@@ -60,7 +94,7 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
             {
                 return;
             }
-	    HandleCursorMovement(currSelectedButton, currSelectedButton->nAbove, master, openSharedValues, isConsumer, isPlayerSharingPuzzle);
+	    HandleCursorMovement(currSelectedButton, aboveCurrSelected, master, openSharedValues, isConsumer, isPlayerSharingPuzzle);
             break;
         case ED_Down:
             if (currSelectedButton->nBelow->buttonState == EBS_off) return;
@@ -68,7 +102,7 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
             {
                 return;
             }
-	    HandleCursorMovement(currSelectedButton, currSelectedButton->nBelow, master, openSharedValues, isConsumer, isPlayerSharingPuzzle);
+	    HandleCursorMovement(currSelectedButton, belowCurrSelected, master, openSharedValues, isConsumer, isPlayerSharingPuzzle);
             break;
         case ED_Left:
             if (currSelectedButton->nLeft->buttonState == EBS_off) return;
@@ -76,7 +110,7 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
             {
                 return;
             }
-	    HandleCursorMovement(currSelectedButton, currSelectedButton->nLeft, master, openSharedValues, isConsumer, isPlayerSharingPuzzle);
+	    HandleCursorMovement(currSelectedButton, leftCurrSelected, master, openSharedValues, isConsumer, isPlayerSharingPuzzle);
             break;
         case ED_Right:
             if (currSelectedButton->nRight->buttonState == EBS_off) return;
@@ -84,7 +118,7 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
             {
                 return;
             }
-	    HandleCursorMovement(currSelectedButton, currSelectedButton->nRight, master, openSharedValues, isConsumer, isPlayerSharingPuzzle);
+	    HandleCursorMovement(currSelectedButton, rightCurrSelected, master, openSharedValues, isConsumer, isPlayerSharingPuzzle);
             break;
         case ED_Enter:
 	    Button* oldButton = master->cursoredButton;
@@ -101,6 +135,32 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
          default:
             printf("error default case run on switching highlight");
             break;
+    }
+}
+
+void SharedButtonNeighborDetermination(Button* leftCurrSelected, Button* rightCurrSelected, Button* aboveCurrSelected, Button* belowCurrSelected, Button* currSelectedButton, ButtonMaster* puzzle)
+{
+    if (puzzle->gameAPuzzle == true)
+    {
+	if (currSelectedButton->buttonVectorLocation.x + 1 == (puzzle->rows / 2))
+	{
+	    rightCurrSelected = &puzzle->childButtons[0][currSelectedButton->buttonVectorLocation.y];
+	}
+	else if (currSelectedButton->buttonVectorLocation.x == 0)
+	{
+	    leftCurrSelected = &puzzle->childButtons[(puzzle->rows / 2) - 1][currSelectedButton->buttonVectorLocation.y];
+	}
+    }
+    else
+    {
+	if (currSelectedButton->buttonVectorLocation.x == puzzle->rows)
+	{
+	    rightCurrSelected = &puzzle->childButtons[(puzzle->rows / 2) - 1][currSelectedButton->buttonVectorLocation.y];
+	}
+	else
+	{
+	    leftCurrSelected = &puzzle->childButtons[puzzle->rows - 1][currSelectedButton->buttonVectorLocation.y];
+	}
     }
 }
 
