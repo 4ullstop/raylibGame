@@ -248,6 +248,7 @@ void AddHighlight(Button* button)
 
 void RotateButtonMaster(ButtonMaster* master, float angle, Vector3 axis)
 {
+    if (master->lerpRotPuzzle == false) master->originalAngle = angle;
     angle = angle * DEG2RAD;
     int centerR = floor((float)master->rows / 2.0);
     int centerC = floor((float)master->columns / 2.0);
@@ -264,6 +265,7 @@ void RotateButtonMaster(ButtonMaster* master, float angle, Vector3 axis)
             master->childButtons[i][j].location = newLocation;
             master->childButtons[i][j].model->modelLocation = master->childButtons[i][j].location; 
             master->childButtons[i][j].model->model.transform = MatrixRotateXYZ((Vector3){axis.x * angle, axis.y * angle, axis.z * angle});
+//	    master->childButtons[i][j].model->model.transform = MatrixRotate(axis, angle);
         }
     }
 }
@@ -346,6 +348,9 @@ void ConstructSinglePuzzle(int* lastPuzzleIndex, int columns, int rows, Vector3 
     puzzle->rows = rows;
     puzzle->sharedPuzzle = sharedPuzzle;
     puzzle->location = location;
+    puzzle->originalAngle = 0.0f;
+    puzzle->tempAngle = 0.0f;
+    puzzle->lerpRotPuzzle = false;
     puzzle->puzzleToPowerOn = NULL;
     puzzle->buttonSpread = buttonSpread == 0.0f ? 0.5 : buttonSpread;
     puzzle->hasBoxAssigned = false;

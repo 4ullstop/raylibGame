@@ -274,7 +274,7 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
     ConstructSinglePuzzle(&lastPuzzleIndex,
 			  3,
 			  6,
-			  (Vector3){0.0f, 1.0f, 0.0f},
+			  (Vector3){0.0f, 1.2f, 0.0f},
 			  player,
 			  Puzzle_15,
 			  false,
@@ -286,7 +286,7 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
 			  0.0f,
 			  true,
 			  true,
-			  (Vector3){-2.2f, 0.35f, 0.0f},
+			  (Vector3){-1.7f, 0.2f, -0.6f},
 			  exitCode);
     
     for (int i = 0; i < NUMBER_OF_PUZZLES_A; i++)

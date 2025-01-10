@@ -146,7 +146,7 @@ void ConstructGameBPuzzles(ButtonMaster** gameBPuzzles, Texture2D** allTextures,
     ConstructSinglePuzzle(&lastPuzzleIndex,
 			  3,
 			  6,
-			  (Vector3){-5.0f, 1.0f, -3.0f},
+			  (Vector3){-5.0f, 1.2f, -3.0f},
 			  player,
 			  Puzzle_08B,
 			  false,
@@ -158,7 +158,7 @@ void ConstructGameBPuzzles(ButtonMaster** gameBPuzzles, Texture2D** allTextures,
 			  0.0f,
 			  true,
 			  false,
-			  (Vector3){1.75f, 0.35f, 0.0f},
+			  (Vector3){1.1f, 0.2f, -0.6f},
 			  exitCode);
     
     exitCode->numOfLoadedItems = 0;

@@ -459,6 +459,13 @@ typedef struct ButtonMaster
     int sharedPuzzleId;
 
     Vector3 puzzleLerpOffset;
+
+    bool lerpRotPuzzle;
+
+    float originalAngle;
+    float targetAngle;
+    float tempAngle;
+
 } ButtonMaster;
 #endif
 

@@ -166,10 +166,4 @@ void DestroySharedMemory(PROCESS_INFORMATION* pi, HANDLE* hMapFile, void* shared
     CloseHandle(pi->hProcess);
     CloseHandle(pi->hThread);
 }
-
-void RemoveWindowDropShadow(HWND* hwnd)
-{
-    SetWindowLong(*hwnd, GWL_EXSTYLE, GetWindowLong(*hwnd, GWL_EXSTYLE) & ~WS_EX_DLGMODALFRAME);
-    SetWindowPos(*hwnd, NULL, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED);
-}
  

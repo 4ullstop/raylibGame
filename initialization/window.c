@@ -36,22 +36,3 @@ void SetWindowLocationForGameType(enum Gametype gametype)
     printf("midpointX: %i, midpointY: %i\n", midpointX, midpointY);
     printf("locX: %i, locY: %i\n", locX, locY);
 }
-
-/*
-HWND FindWindowByTitle(const char* windowTitle)
-{
-    return FindWindow(NULL, windowTitle);
-}
-
-bool SwitchToWindow(const char* windowTitle)
-{
-    HWND hwnd = FindWindowByTitle(windowTitle);
-
-    if (hwnd == NULL)
-    {
-	return false;
-    }
-
-    return SetForegroundWindow(hwnd);
-}
-*/

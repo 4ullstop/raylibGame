@@ -174,17 +174,49 @@ void LerpPlayer(FPSPlayer* player, ButtonMaster* puzzle)
 	player->lerpAmount = 0.0f;
 	
         player->shouldTickPlayer = true;
+
+	/*
+	if (doesPuzzleHaveOffset == true)
+	{
+	    Vector3 targetVector = Vector3Add(puzzle->location, player->location);
+	    targetVector = Vector3Normalize(targetVector);
+	    Vector3 puzzleForward = Vector3Normalize(puzzle->puzzleNormalDirection);
+	    puzzle->targetAngle = acos(Vector3DotProduct(puzzleForward, targetVector));
+	    puzzle->lerpRotPuzzle = true;
+	    printf("should be rotating puzzle\n");
+	    }*/
     }
 }
 
 void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode, OpenSharedValues* openSharedValues, bool isPlayerSharingPuzzle, enum Gametype gametype)
 {
+
+    if (interactedItem->associatedPuzzle->lerpRotPuzzle == true)
+    {
+	printf("here\n");
+	if (interactedItem->associatedPuzzle->tempAngle == 0.0f)
+	{
+	    interactedItem->associatedPuzzle->tempAngle = interactedItem->associatedPuzzle->originalAngle + 0.1f;
+	}
+	else
+	{
+	    RotateButtonMaster(interactedItem->associatedPuzzle, interactedItem->associatedPuzzle->tempAngle, (Vector3){0.0f, 1.0f, 0.0f});
+	    interactedItem->associatedPuzzle->tempAngle = interactedItem->associatedPuzzle->tempAngle + 0.1f;
+	    printf("tempangle: %F\n", interactedItem->associatedPuzzle->tempAngle);
+	    if (interactedItem->associatedPuzzle->tempAngle >= interactedItem->associatedPuzzle->targetAngle)
+	    {
+		interactedItem->associatedPuzzle->lerpRotPuzzle = false;
+		interactedItem->associatedPuzzle->tempAngle = 0.0f;
+	    }
+	}
+    }
     
     if (IsKeyPressed(KEY_E))
     {
 	*mode = EGM_Normal;
 	interactedItem->associatedPuzzle = NULL;
 	interactedItem = NULL;
+	//return the puzzle facing back to normal
 	return;
     }
 
