@@ -14,7 +14,7 @@ void CreateModelsForGameA(modelInfo** models, int* lastModelIndex, Texture2D** a
     }
     floor->collisionDisabled = false;
     floor->modelVisible = true;
-    floor->model = LoadModel("D:/CFiles/FirstGame/models/obj/floor_02.obj");
+    floor->model = LoadModel("D:/CFiles/FirstGame/models/obj/ground.obj");
     floor->texture = *allTextures[0];
     floor->modelLocation = (Vector3){0.0f, 0.0f, 0.0f};
     floor->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = floor->texture;
@@ -22,19 +22,36 @@ void CreateModelsForGameA(modelInfo** models, int* lastModelIndex, Texture2D** a
     *lastModelIndex = *lastModelIndex + 1;
     exitCode->numOfModelsLoaded = exitCode->numOfModelsLoaded + 1;
     
-    modelInfo* wall_01 = malloc(sizeof(modelInfo));
-    if (wall_01 == NULL)
+
+    modelInfo* dock = malloc(sizeof(modelInfo));
+    if (dock == NULL)
     {
-	EditReturnCodeInfo(400, "Failed to allocate memory for model\n", exitCode);
+	EditReturnCodeInfo(400, "Failed to allocate memory for model", exitCode);
 	return;
     }
-    wall_01->collisionDisabled = false;
-    wall_01->modelVisible = true;
-    wall_01->model = LoadModel("D:/CFiles/FirstGame/models/obj/level_01.obj");
-    wall_01->texture = *allTextures[1];
-    wall_01->modelLocation = (Vector3){0.0f, 0.0f, -15.0f};
-    wall_01->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = wall_01->texture;
-    models[*lastModelIndex] = wall_01;
+    dock->collisionDisabled = false;
+    dock->modelVisible = true;
+    dock->model = LoadModel("D:/CFiles/FirstGame/models/obj/dock_01.obj");
+    dock->texture = *allTextures[9];
+    dock->modelLocation = (Vector3){0.0f, 0.0f, 0.0f};
+    dock->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = dock->texture;
+    models[*lastModelIndex] = dock;
+    *lastModelIndex = *lastModelIndex + 1;
+    exitCode->numOfModelsLoaded = exitCode->numOfModelsLoaded + 1;
+
+    modelInfo* dock_02 = malloc(sizeof(modelInfo));
+    if (dock_02 == NULL)
+    {
+	EditReturnCodeInfo(400, "Failed to allocated memory for model", exitCode);
+	return;
+    }
+    dock_02->collisionDisabled = false;
+    dock_02->modelVisible = true;
+    dock_02->model = LoadModel("D:/CFiles/FirstGame/models/obj/dock_02.obj");
+    dock_02->texture = *allTextures[9];
+    dock_02->modelLocation = (Vector3){0.0f, 0.0f, 0.0f};
+    dock_02->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = dock_02->texture;
+    models[*lastModelIndex] = dock_02;
     *lastModelIndex = *lastModelIndex + 1;
     exitCode->numOfModelsLoaded = exitCode->numOfModelsLoaded + 1;
 
