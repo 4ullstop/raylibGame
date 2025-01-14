@@ -40,3 +40,5 @@ void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode, O
 void PollDebugInputs(bool* hideHideableObjects);
 
 void LerpPlayer(FPSPlayer* player, ButtonMaster* puzzle);
+
+void IsButtonCursorOnScreen(ButtonMaster* puzzle);

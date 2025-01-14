@@ -7,6 +7,8 @@
 void CreateWindow(const int screenWidth, const int screenHeight, const char* title);
 
 void SetWindowLocationForGameType(enum Gametype gametype);
+
+void MoveWindowFromPuzzle(int units, bool leftRight);
 /*
 
 HWND FindWindowByTitle(const char* windowTitle);

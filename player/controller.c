@@ -220,6 +220,15 @@ void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode, O
 	*mode = EGM_Normal;
 	interactedItem->associatedPuzzle = NULL;
 	interactedItem = NULL;
+	if (gametype == EGT_A)
+	{
+	    openSharedValues->mainSharedValues->gameAInSharedPuzzle = false;
+	}
+	else
+	{
+	    openSharedValues->mainSharedValues->gameBInSharedPuzzle = false;
+	}
+	openSharedValues->mainSharedValues->sharingPuzzles = false;
 	//return the puzzle facing back to normal
 	return;
     }
@@ -266,6 +275,8 @@ void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode, O
     if (interactedItem->associatedPuzzle->puzzleInputType == EPIT_ResetOnly) return;
 
     if ((interactedItem->associatedPuzzle->sharedPuzzle == true && interactedItem->associatedPuzzle->isCursorOnScreen == false) && isPlayerSharingPuzzle == false) return;
+
+    IsButtonCursorOnScreen(interactedItem->associatedPuzzle);
     
     if (IsKeyPressed(KEY_LEFT))
     {
@@ -316,6 +327,32 @@ void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode, O
             interactedItem->showsArrowKeyHint = false;
         }
         interactedItem->associatedPuzzle->shouldBlinkCursor = true;
+    }
+}
+
+void IsButtonCursorOnScreen(ButtonMaster* puzzle)
+{
+    if (puzzle->gameAPuzzle == true)
+    {
+	if (puzzle->cursoredButton->buttonVectorLocation.x + 1 < puzzle->rows / 2)
+	{
+	    puzzle->isCursorOnScreen = true;
+	}
+	else
+	{
+	    puzzle->isCursorOnScreen = false;
+	}
+    }
+    else
+    {
+	if (puzzle->cursoredButton->buttonVectorLocation.x >= (puzzle->rows / 2))
+	{
+	    puzzle->isCursorOnScreen = true;
+	}
+	else
+	{
+	    puzzle->isCursorOnScreen = false;
+	}
     }
 }
 

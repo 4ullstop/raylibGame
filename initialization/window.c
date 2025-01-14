@@ -36,3 +36,23 @@ void SetWindowLocationForGameType(enum Gametype gametype)
     printf("midpointX: %i, midpointY: %i\n", midpointX, midpointY);
     printf("locX: %i, locY: %i\n", locX, locY);
 }
+
+void MoveWindowFromPuzzle(int units, bool leftRight)
+{
+    Vector2 windowLoc = GetWindowPosition();
+
+    
+    
+    if (leftRight == true)
+    {
+	windowLoc.x = windowLoc.x + units;
+	printf("window loc x: %f\n", windowLoc.x);
+    }
+    else
+    {
+	windowLoc.y = windowLoc.y + units;
+	printf("window loc y: %f\n", windowLoc.y);
+    }
+    SetWindowPosition((int)windowLoc.x, (int)windowLoc.y);
+}
+

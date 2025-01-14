@@ -289,12 +289,22 @@ typedef struct ToggleRule
 } ToggleRule;
 #endif
 
+#ifndef MOVE_RULE
+#define MOVE_RULE
+typedef struct MoveRule
+{
+    enum Direction direction;
+    int movementUnits;
+} MoveRule;
+#endif
+
 #ifndef BUTTON_RULES
 #define BUTTON_RULES
 typedef struct ButtonRules
 {
     ToggleRule* toggleRule;
-
+    MoveRule* moveRule;
+    
 } ButtonRules;
 #endif
 

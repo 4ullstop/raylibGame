@@ -10,6 +10,7 @@ void AssignToggleAction(Button* button, enum TextureCoordinateLocations textureL
     button->buttonRules->toggleRule = malloc(sizeof(ToggleRule));
     button->buttonRules->toggleRule->puzzleOODirection = FindDirectionFromCoordLoc(textureLocations);
     button->buttonRules->toggleRule->hasBeenToggled = false;
+    button->buttonRules->moveRule = NULL;
     button->ButtonSelected = EnactToggle;
 }
 

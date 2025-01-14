@@ -357,6 +357,8 @@ void AssignSpecialTexturesGameA(ButtonMaster** allPuzzles, Texture2D** allTextur
     AssignButtonSpecialTextureAndAction(&allPuzzles[7]->childButtons[3][0], TCL_OFF);
     AssignButtonSpecialTextureAndAction(&allPuzzles[7]->childButtons[4][2], TCL_OFF);
     AssignButtonSpecialTextureAndAction(&allPuzzles[7]->childButtons[2][2], TCL_OFF);
+
+    AssignButtonSpecialTextureAndAction(&allPuzzles[8]->childButtons[1][1], TCL_Move);
     
     AssignButtonSpecialTextureAndAction(&allPuzzles[9]->childButtons[0][1], TCL_OFF);
     AssignButtonSpecialTextureAndAction(&allPuzzles[9]->childButtons[0][2], TCL_OFF);

@@ -1,4 +1,5 @@
 #include "sharedbuttons.h"
+#include "puzzles/movepuzzle.h"
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -484,6 +485,10 @@ void AssignButtonSpecialTextureAndAction(Button* button, enum TextureCoordinateL
 	button->shouldStaySubmitted = true;
     }
     AssignToggleAction(button, textureLocations);
+    if (textureLocations == TCL_Move)
+    {
+	AssignMoveAction(button, textureLocations);
+    }
 }
 
 void AssignSolutionsTextures(ButtonMaster* puzzle)

@@ -1,5 +1,6 @@
 #include "masterbuttons.h"
 #include "../shared/sharedpuzzle.h"
+#include "puzzles/movepuzzle.h"
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -58,33 +59,15 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
     
     if (master->sharedPuzzle == true && isPlayerSharingPuzzle == false)
     {
-	if (master->gameAPuzzle == true)
-	{
-	    printf("master->rows: %i, buttonVectorLocation: %i\n", master->rows / 2, currSelectedButton->buttonVectorLocation.x);
-	    if (currSelectedButton->buttonVectorLocation.x + 1 == (master->rows / 2))
-	    {
-		printf("swapping right button\n");
-		rightCurrSelected = &master->childButtons[0][currSelectedButton->buttonVectorLocation.y];
-	    }
-	    else if (currSelectedButton->buttonVectorLocation.x == 0)
-	    {
-		leftCurrSelected = &master->childButtons[(master->rows / 2) - 1][currSelectedButton->buttonVectorLocation.y];
-	    }
-	}
-	else
-	{
-	    if (currSelectedButton->buttonVectorLocation.x == master->rows)
-	    {
-		rightCurrSelected = &master->childButtons[(master->rows / 2) - 1][currSelectedButton->buttonVectorLocation.y];
-	    }
-	    else
-	    {
-		leftCurrSelected = &master->childButtons[master->rows - 1][currSelectedButton->buttonVectorLocation.y];
-	    }
-	}
+	SharedButtonNeighborDetermination(&leftCurrSelected, &rightCurrSelected, &aboveCurrSelected, &belowCurrSelected, currSelectedButton, master);
     }
     
     bool isConsumer = IsPuzzleConsumer(master, openSharedValues);
+
+    if (currSelectedButton->buttonRules != NULL && currSelectedButton->buttonRules->moveRule != NULL)
+    {
+	DetermineWindowMovement(direction, currSelectedButton);
+    }
     
     switch (direction)
     {
@@ -138,28 +121,29 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
     }
 }
 
-void SharedButtonNeighborDetermination(Button* leftCurrSelected, Button* rightCurrSelected, Button* aboveCurrSelected, Button* belowCurrSelected, Button* currSelectedButton, ButtonMaster* puzzle)
+void SharedButtonNeighborDetermination(Button** leftCurrSelected, Button** rightCurrSelected, Button** aboveCurrSelected, Button** belowCurrSelected, Button* currSelectedButton, ButtonMaster* puzzle)
 {
     if (puzzle->gameAPuzzle == true)
     {
 	if (currSelectedButton->buttonVectorLocation.x + 1 == (puzzle->rows / 2))
 	{
-	    rightCurrSelected = &puzzle->childButtons[0][currSelectedButton->buttonVectorLocation.y];
+	    *rightCurrSelected = &puzzle->childButtons[0][currSelectedButton->buttonVectorLocation.y];
 	}
 	else if (currSelectedButton->buttonVectorLocation.x == 0)
 	{
-	    leftCurrSelected = &puzzle->childButtons[(puzzle->rows / 2) - 1][currSelectedButton->buttonVectorLocation.y];
+	    *leftCurrSelected = &puzzle->childButtons[(puzzle->rows / 2) - 1][currSelectedButton->buttonVectorLocation.y];
 	}
     }
     else
     {
-	if (currSelectedButton->buttonVectorLocation.x == puzzle->rows)
+	printf("button location: %i\n", currSelectedButton->buttonVectorLocation.x);
+	if (currSelectedButton->buttonVectorLocation.x + 1 == puzzle->rows)
 	{
-	    rightCurrSelected = &puzzle->childButtons[(puzzle->rows / 2) - 1][currSelectedButton->buttonVectorLocation.y];
+	    *rightCurrSelected = &puzzle->childButtons[(puzzle->rows / 2)][currSelectedButton->buttonVectorLocation.y];
 	}
-	else
+	else if (currSelectedButton->buttonVectorLocation.x == (puzzle->rows / 2))
 	{
-	    leftCurrSelected = &puzzle->childButtons[puzzle->rows - 1][currSelectedButton->buttonVectorLocation.y];
+	    *leftCurrSelected = &puzzle->childButtons[puzzle->rows - 1][currSelectedButton->buttonVectorLocation.y];
 	}
     }
 }
