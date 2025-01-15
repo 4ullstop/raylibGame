@@ -235,7 +235,7 @@ int main(int argc, char* argv[])
 	if (CheckForErrors(&exitCodes, &destructionLocations)) goto KillProgram; 
     }
 
-    colPacket.eRadius = (Vector3){1.0f, 4.0f, 1.0f};
+    colPacket.eRadius = (Vector3){1.0f, 4.4f, 1.0f};
 
     if (gametype == EGT_A)
     {

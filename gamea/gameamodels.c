@@ -33,7 +33,7 @@ void CreateModelsForGameA(modelInfo** models, int* lastModelIndex, Texture2D** a
     dock->modelVisible = true;
     dock->model = LoadModel("D:/CFiles/FirstGame/models/obj/dock_01.obj");
     dock->texture = *allTextures[9];
-    dock->modelLocation = (Vector3){0.0f, 0.0f, 0.0f};
+    dock->modelLocation = (Vector3){-2.7f, 2.0f, 0.0f};
     dock->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = dock->texture;
     models[*lastModelIndex] = dock;
     *lastModelIndex = *lastModelIndex + 1;
@@ -49,11 +49,27 @@ void CreateModelsForGameA(modelInfo** models, int* lastModelIndex, Texture2D** a
     dock_02->modelVisible = true;
     dock_02->model = LoadModel("D:/CFiles/FirstGame/models/obj/dock_02.obj");
     dock_02->texture = *allTextures[9];
-    dock_02->modelLocation = (Vector3){0.0f, 0.0f, 0.0f};
+    dock_02->modelLocation = (Vector3){0.0f, 2.0f, 0.0f};
     dock_02->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = dock_02->texture;
     models[*lastModelIndex] = dock_02;
     *lastModelIndex = *lastModelIndex + 1;
     exitCode->numOfModelsLoaded = exitCode->numOfModelsLoaded + 1;
 
+    modelInfo* scale = malloc(sizeof(modelInfo));
+    if (scale == NULL)
+    {
+	EditReturnCodeInfo(400, "Failed to allocate memory for model", exitCode);
+	return;
+    }
+    scale->collisionDisabled = false;
+    scale->modelVisible = true;
+    scale->model = LoadModel("D:/CFiles/FirstGame/models/obj/scaleref.obj");
+    scale->texture = *allTextures[9];
+    scale->modelLocation = (Vector3) {0.0f, 0.0f, 0.0f};
+    scale->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = scale->texture;
+    models[*lastModelIndex] = scale;
+    *lastModelIndex = *lastModelIndex + 1;
+    exitCode->numOfModelsLoaded = exitCode->numOfModelsLoaded + 1;
+    
     //
 }

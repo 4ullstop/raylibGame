@@ -443,9 +443,12 @@ void InputCamPitch(PlayerCam* pcam, float angle, bool lockView, bool rotateUp)
 void CollideAndSlide(CollisionPacket* colPacket, FPSPlayer* player, double deltaTime, modelInfo** models, int numberOfModels)
 {
     //colPacket->R3Position = player->location;
-    colPacket->R3Position = colPacket->eRadius.y > 1.0f ?
-	(Vector3){player->location.x, colPacket->eRadius.y + player->location.y, player->location.z} :
-	player->location;
+//    colPacket->R3Position = colPacket->eRadius.y > 1.0f ?
+//	(Vector3){player->location.x, colPacket->eRadius.y + player->location.y, player->location.z} :
+//	player->location;
+    
+    // colPacket->R3Position = player->location;
+    colPacket->R3Position = player->location;
     colPacket->R3Velocity = player->velocity;
 
     Vector3 eSpacePosition = Vector3Divide(colPacket->R3Position, colPacket->eRadius);
@@ -454,19 +457,21 @@ void CollideAndSlide(CollisionPacket* colPacket, FPSPlayer* player, double delta
     colPacket->collisionRecursionDepth = 0;
 
     Vector3 finalPosition = CollideWithWorld(colPacket, eSpacePosition, eSpaceVelocity, models, numberOfModels);
-    player->location = finalPosition;
+    //player->location = finalPosition;
 
     Vector3 gravity = (Vector3){0.0, -9.81 * deltaTime, 0.0};
 
     //Gravity 
-    //colPacket->R3Position = Vector3Multiply(finalPosition, colPacket->eRadius);
+    colPacket->R3Position = Vector3Multiply(finalPosition, colPacket->eRadius);
     colPacket->R3Velocity = gravity;
     
     eSpaceVelocity = Vector3Divide(gravity, colPacket->eRadius);
 
     colPacket->collisionRecursionDepth = 0;
 
-    finalPosition = CollideWithWorld(colPacket, Vector3Divide(player->location, colPacket->eRadius), eSpaceVelocity, models, numberOfModels);
+    // finalPosition = CollideWithWorld(colPacket, Vector3Divide(player->location, colPacket->eRadius), eSpaceVelocity, models, numberOfModels);
+
+    finalPosition = CollideWithWorld(colPacket, finalPosition, eSpaceVelocity, models, numberOfModels);
 
     //converting back to r3
     finalPosition = Vector3Multiply(finalPosition, colPacket->eRadius);
