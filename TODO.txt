@@ -110,3 +110,5 @@ Move player to center of play in the puzzles instead of their actual center
  - Meh, I can't figure this out enough, it doesn't really have to do with the rotation of the puzzle as it does player perspective, switching to orthographic or maybe even switching the FOV may help, but I haven't really tried these options yet
 
 
+What I can tell you is that the player's height is changing too drastically based on the y location. But I can't tell you why that's happening
+ - I think somewhere in your collision step you are adding something that shouldn't be added to

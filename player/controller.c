@@ -11,6 +11,8 @@ void PollPlayerInput(PlayerCam* pcam, double deltaTime, FPSPlayer* player, Colli
         system takes all of the inputs and inputs their velocities into one 
         vector that is used to direct the player for a new location
     */
+
+    
     
     float moveSpeed = 10.0f;
     Vector3 inputVelocity = {0.0f, 0.0f, 0.0f};
@@ -64,9 +66,25 @@ void PollPlayerInput(PlayerCam* pcam, double deltaTime, FPSPlayer* player, Colli
 
     //Apply the accumulated velocity to the player's current velocity
     player->velocity = inputVelocity;
-    
-    CollideAndSlide(colPacket, player, deltaTime, models, numOfModels);
 
+    /*
+    if (gameA == true)
+    {
+	printf("radius, %f, %f, %f\n", player->attachedCam->position.x, player->attachedCam->position.y, player->attachedCam->position.z);
+	printf("player, %f, %f, %f\n", player->location.x, player->location.y, player->location.z);
+	printf("eRadius, %f, %f, %f\n", colPacket->eRadius.x, colPacket->eRadius.y, colPacket->eRadius.z);
+	}*/
+    
+    CollideAndSlide(colPacket, player, deltaTime, models, numOfModels); 
+
+    /*
+    if (gameA == true)
+    {
+	printf("radius, %f, %f, %f\n", player->attachedCam->position.x, player->attachedCam->position.y, player->attachedCam->position.z);
+	printf("player, %f, %f, %f\n", player->location.x, player->location.y, player->location.z);
+	}*/
+
+    
     CalculatePlayerVelocity(player, deltaTime);
 }
 
@@ -447,13 +465,13 @@ void CollideAndSlide(CollisionPacket* colPacket, FPSPlayer* player, double delta
 //	(Vector3){player->location.x, colPacket->eRadius.y + player->location.y, player->location.z} :
 //	player->location;
     
-    // colPacket->R3Position = player->location;
-    colPacket->R3Position = player->location;
+    //colPacket->R3Position = player->location;
+    colPacket->R3Position = player->attachedCam->position;
     colPacket->R3Velocity = player->velocity;
 
     Vector3 eSpacePosition = Vector3Divide(colPacket->R3Position, colPacket->eRadius);
     Vector3 eSpaceVelocity = Vector3Divide(colPacket->R3Velocity, colPacket->eRadius);
-
+       
     colPacket->collisionRecursionDepth = 0;
 
     Vector3 finalPosition = CollideWithWorld(colPacket, eSpacePosition, eSpaceVelocity, models, numberOfModels);
@@ -477,6 +495,7 @@ void CollideAndSlide(CollisionPacket* colPacket, FPSPlayer* player, double delta
     finalPosition = Vector3Multiply(finalPosition, colPacket->eRadius);
 
     player->location = finalPosition;
+    
     player->attachedCam->position = player->location;
 
     player->attachedCam->target = Vector3Add(player->attachedCam->target, player->velocity);

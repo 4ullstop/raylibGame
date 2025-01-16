@@ -72,4 +72,52 @@ void CreateModelsForGameA(modelInfo** models, int* lastModelIndex, Texture2D** a
     exitCode->numOfModelsLoaded = exitCode->numOfModelsLoaded + 1;
     
     //
+
+    modelInfo* lighthouse = malloc(sizeof(modelInfo));
+    if (lighthouse == NULL)
+    {
+	EditReturnCodeInfo(400, "Failed to allocate memory for model", exitCode);
+	return;
+    }
+    lighthouse->collisionDisabled = false;
+    lighthouse->modelVisible = true;
+    lighthouse->model = LoadModel("D:/CFiles/FirstGame/models/obj/lighthouse.obj");
+    lighthouse->texture = *allTextures[9];
+    lighthouse->modelLocation = (Vector3){4.0f, 0.0f, -20.0f};
+    lighthouse->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = lighthouse->texture;
+    models[*lastModelIndex] = lighthouse;
+    *lastModelIndex = *lastModelIndex + 1;
+    exitCode->numOfModelsLoaded = exitCode->numOfModelsLoaded + 1;
+
+    modelInfo* stairs = malloc(sizeof(modelInfo));
+    if (stairs == NULL)
+    {
+	EditReturnCodeInfo(400, "Failed to allocate memory for model", exitCode);
+	return;
+    }
+    stairs->collisionDisabled = false;
+    stairs->modelVisible = true;
+    stairs->model = LoadModel("D:/CFiles/FirstGame/models/obj/lighthouseStairs.obj");
+    stairs->texture = *allTextures[0];
+    stairs->modelLocation = (Vector3){4.0f, 0.0f, -20.0f};
+    stairs->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = stairs->texture;
+    models[*lastModelIndex] = stairs;
+    *lastModelIndex = *lastModelIndex + 1;
+    exitCode->numOfModelsLoaded = exitCode->numOfModelsLoaded + 1;
+
+    modelInfo* bugTester = malloc(sizeof(modelInfo));
+    if (bugTester == NULL)
+    {
+	EditReturnCodeInfo(400, "Failed to allocate memory for model", exitCode);
+	return;
+    }
+    bugTester->collisionDisabled = false;
+    bugTester->modelVisible = true;
+    bugTester->model = LoadModel("D:/CFiles/FirstGame/models/obj/bugTester.obj");
+    bugTester->texture = *allTextures[9];
+    bugTester->modelLocation = (Vector3){0.0f, 0.0f, 0.0f};
+    bugTester->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = bugTester->texture;
+    models[*lastModelIndex] = bugTester;
+    *lastModelIndex = *lastModelIndex + 1;
+    exitCode->numOfModelsLoaded = exitCode->numOfModelsLoaded + 1;
 }
