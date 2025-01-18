@@ -65,7 +65,7 @@ void CreateModelsForGameA(modelInfo** models, int* lastModelIndex, Texture2D** a
     scale->modelVisible = true;
     scale->model = LoadModel("D:/CFiles/FirstGame/models/obj/scaleref.obj");
     scale->texture = *allTextures[9];
-    scale->modelLocation = (Vector3) {0.0f, 0.0f, 0.0f};
+    scale->modelLocation = (Vector3) {0.0f, 0.0f, 5.0f};
     scale->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = scale->texture;
     models[*lastModelIndex] = scale;
     *lastModelIndex = *lastModelIndex + 1;
@@ -83,7 +83,7 @@ void CreateModelsForGameA(modelInfo** models, int* lastModelIndex, Texture2D** a
     lighthouse->modelVisible = true;
     lighthouse->model = LoadModel("D:/CFiles/FirstGame/models/obj/lighthouse.obj");
     lighthouse->texture = *allTextures[9];
-    lighthouse->modelLocation = (Vector3){4.0f, 0.0f, -20.0f};
+    lighthouse->modelLocation = (Vector3){4.0f, 0.2f, -20.0f};
     lighthouse->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = lighthouse->texture;
     models[*lastModelIndex] = lighthouse;
     *lastModelIndex = *lastModelIndex + 1;

@@ -465,8 +465,8 @@ void CollideAndSlide(CollisionPacket* colPacket, FPSPlayer* player, double delta
 //	(Vector3){player->location.x, colPacket->eRadius.y + player->location.y, player->location.z} :
 //	player->location;
     
-    //colPacket->R3Position = player->location;
-    colPacket->R3Position = player->attachedCam->position;
+    colPacket->R3Position = player->location;
+    // colPacket->R3Position = player->attachedCam->position;
     colPacket->R3Velocity = player->velocity;
 
     Vector3 eSpacePosition = Vector3Divide(colPacket->R3Position, colPacket->eRadius);
@@ -477,6 +477,8 @@ void CollideAndSlide(CollisionPacket* colPacket, FPSPlayer* player, double delta
     Vector3 finalPosition = CollideWithWorld(colPacket, eSpacePosition, eSpaceVelocity, models, numberOfModels);
     //player->location = finalPosition;
 
+ 
+    
     Vector3 gravity = (Vector3){0.0, -9.81 * deltaTime, 0.0};
 
     //Gravity 
@@ -491,13 +493,20 @@ void CollideAndSlide(CollisionPacket* colPacket, FPSPlayer* player, double delta
 
     finalPosition = CollideWithWorld(colPacket, finalPosition, eSpaceVelocity, models, numberOfModels);
 
-    //converting back to r3
+ 
+
     finalPosition = Vector3Multiply(finalPosition, colPacket->eRadius);
 
-    player->location = finalPosition;
     
-    player->attachedCam->position = player->location;
+    player->location = finalPosition;
 
+/*
+    player->attachedCam->position.x = finalPosition.x;
+    player->attachedCam->position.y = finalPosition.y + 1.2f;
+    player->attachedCam->position.z = finalPosition.z;
+*/
+
+    player->attachedCam->position = player->location;
     player->attachedCam->target = Vector3Add(player->attachedCam->target, player->velocity);
 }
 
@@ -523,7 +532,8 @@ Vector3 CollideWithWorld(CollisionPacket* colPacket, Vector3 pos, Vector3 vel, m
     for (int i = 0; i < numberOfModels; i++)
     {
         if (models[i]->collisionDisabled == true) continue;
-        PollCollision(colPacket, models[i]->model.meshes, models[i]->modelLocation);
+	Vector3 modelLocation = Vector3Divide(models[i]->modelLocation, colPacket->eRadius);
+        PollCollision(colPacket, models[i]->model.meshes, modelLocation);
     }
 
     //if no collision move along the velocity
@@ -550,10 +560,11 @@ Vector3 CollideWithWorld(CollisionPacket* colPacket, Vector3 pos, Vector3 vel, m
     {
         Vector3 v = vel;
         v = Vector3Scale(Vector3Normalize(v), colPacket->nearestDistance - veryCloseDistance);
+
         newBasePoint = Vector3Add(colPacket->basePoint, v);
 
         /*
-            Adjust the polygon intersetion point so sliding the plane
+z            Adjust the polygon intersetion point so sliding the plane
             will be unaffected by the fact that we move slightly less
             than collision tells us
         */
@@ -561,10 +572,12 @@ Vector3 CollideWithWorld(CollisionPacket* colPacket, Vector3 pos, Vector3 vel, m
         colPacket->intersectionPoint = Vector3Subtract(colPacket->intersectionPoint, Vector3Scale(v, veryCloseDistance));
     }
 
+    
     Vector3 slidePlaneOrigin = colPacket->intersectionPoint;
-    Vector3 slidePlaneNormal = Vector3Normalize(Vector3Subtract(newBasePoint, colPacket->intersectionPoint));
+    Vector3 slidePlaneNormal = Vector3Subtract(newBasePoint, colPacket->intersectionPoint);
+    slidePlaneNormal = Vector3Normalize(slidePlaneNormal);
 
-
+    
     CPlane slidingPlane = {0};
     ConstructCPlane(&slidingPlane, slidePlaneOrigin, slidePlaneNormal);
 
@@ -577,6 +590,11 @@ Vector3 CollideWithWorld(CollisionPacket* colPacket, Vector3 pos, Vector3 vel, m
 
     if (Vector3Length(newVelocityVector) < veryCloseDistance)
     {
+	if (numberOfModels == NUMBER_OF_MODELS_A)
+	{
+	    printf("newBasePoint: %f, %f, %f\n", newBasePoint.x, newBasePoint.y, newBasePoint.z);
+	}
+
         return newBasePoint;
     }
 

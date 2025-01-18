@@ -112,3 +112,5 @@ Move player to center of play in the puzzles instead of their actual center
 
 What I can tell you is that the player's height is changing too drastically based on the y location. But I can't tell you why that's happening
  - I think somewhere in your collision step you are adding something that shouldn't be added to
+ - Something is being added to the final position value and ONLY to the Y value which is making us grow taller
+   - When I compared the returned value from the CollideWithWorld function, its y value seemed correct but it compared to the finalPosition.y was not correct

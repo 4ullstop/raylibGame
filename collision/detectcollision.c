@@ -42,7 +42,11 @@ void PollCollision(CollisionPacket* collPacket, Mesh* mesh, Vector3 modelLocatio
             vertex0 = Vector3Add(vertex0, modelLocation);
             vertex1 = Vector3Add(vertex1, modelLocation);
             vertex2 = Vector3Add(vertex2, modelLocation);
-            
+
+	    vertex0 = Vector3Divide(vertex0, collPacket->eRadius);
+	    vertex1 = Vector3Divide(vertex1, collPacket->eRadius);
+	    vertex2 = Vector3Divide(vertex2, collPacket->eRadius);
+	    
             CheckTriangle(collPacket, vertex0, vertex1, vertex2);
         }
     }
@@ -58,7 +62,12 @@ void PollCollision(CollisionPacket* collPacket, Mesh* mesh, Vector3 modelLocatio
             vertex0 = Vector3Add(vertex0, modelLocation);
             vertex1 = Vector3Add(vertex1, modelLocation);
             vertex2 = Vector3Add(vertex2, modelLocation);
-            
+
+	    
+	    vertex0 = Vector3Divide(vertex0, collPacket->eRadius);
+	    vertex1 = Vector3Divide(vertex1, collPacket->eRadius);
+	    vertex2 = Vector3Divide(vertex2, collPacket->eRadius);
+	    
             CheckTriangle(collPacket, vertex0, vertex1, vertex2);
         }
     }

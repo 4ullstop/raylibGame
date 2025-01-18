@@ -235,7 +235,7 @@ int main(int argc, char* argv[])
 	if (CheckForErrors(&exitCodes, &destructionLocations)) goto KillProgram; 
     }
 
-    colPacket.eRadius = (Vector3){1.0f, 2.3f, 1.0f};
+    colPacket.eRadius = (Vector3){1.0f, 2.0f, 1.0f};
 
     if (gametype == EGT_A)
     {
@@ -368,7 +368,7 @@ void Draw(modelInfo** models, Raycast* ray, QueryBox** queryBoxes, UIElements** 
         //draw here
         DrawAllModels(models, numberOfModels);
 
-	DrawPlayerCollisionCapsule(player.location);
+	//DrawPlayerCollisionCapsule(player.location);
         
         if (hideObjects == false)
         {
