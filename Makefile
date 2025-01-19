@@ -40,7 +40,8 @@ SRC = main.c \
 	  destruction\destroyobjects.c \
 	  shared\threading.c \
 	  shared\sharedpuzzle.c \
-	  gameplay\puzzles\movepuzzle.c
+	  gameplay\puzzles\movepuzzle.c \
+	  models\src\modelinit.c
 OBJ = intermediate\main.o \
       intermediate\window.o \
       intermediate\camera.o \
@@ -82,7 +83,8 @@ OBJ = intermediate\main.o \
 	  intermediate\destroyobjects.o \
 	  intermediate\threading.o \
 	  intermediate\sharedpuzzle.o \
-	  intermediate\movepuzzle.o
+	  intermediate\movepuzzle.o \
+	  intermediate\modelinit.o
 !IFNDEF OUTPUT
 OUTPUT = scenea.exe
 !ENDIF
@@ -227,6 +229,9 @@ intermediate\sharedpuzzle.o: shared\sharedpuzzle.c intermediate
 
 intermediate\movepuzzle.o: gameplay\puzzles\movepuzzle.c intermediate
 	$(CC) $(CFLAGS) -c gameplay\puzzles\movepuzzle.c -o intermediate\movepuzzle.o $(INCLUDE)
+
+intermediate\modelinit.o: models\src\modelinit.c intermediate
+	$(CC) $(CFLAGS) -c models\src\modelinit.c -o intermediate\modelinit.o $(INCLUDE)
 
 # Clean rule to delete
 clean:

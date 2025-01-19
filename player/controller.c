@@ -460,13 +460,8 @@ void InputCamPitch(PlayerCam* pcam, float angle, bool lockView, bool rotateUp)
 
 void CollideAndSlide(CollisionPacket* colPacket, FPSPlayer* player, double deltaTime, modelInfo** models, int numberOfModels)
 {
-    //colPacket->R3Position = player->location;
-//    colPacket->R3Position = colPacket->eRadius.y > 1.0f ?
-//	(Vector3){player->location.x, colPacket->eRadius.y + player->location.y, player->location.z} :
-//	player->location;
-    
     colPacket->R3Position = player->location;
-    // colPacket->R3Position = player->attachedCam->position;
+
     colPacket->R3Velocity = player->velocity;
 
     Vector3 eSpacePosition = Vector3Divide(colPacket->R3Position, colPacket->eRadius);
@@ -475,8 +470,6 @@ void CollideAndSlide(CollisionPacket* colPacket, FPSPlayer* player, double delta
     colPacket->collisionRecursionDepth = 0;
 
     Vector3 finalPosition = CollideWithWorld(colPacket, eSpacePosition, eSpaceVelocity, models, numberOfModels);
-    //player->location = finalPosition;
-
  
     
     Vector3 gravity = (Vector3){0.0, -9.81 * deltaTime, 0.0};
@@ -489,8 +482,6 @@ void CollideAndSlide(CollisionPacket* colPacket, FPSPlayer* player, double delta
 
     colPacket->collisionRecursionDepth = 0;
 
-    // finalPosition = CollideWithWorld(colPacket, Vector3Divide(player->location, colPacket->eRadius), eSpaceVelocity, models, numberOfModels);
-
     finalPosition = CollideWithWorld(colPacket, finalPosition, eSpaceVelocity, models, numberOfModels);
 
  
@@ -499,12 +490,6 @@ void CollideAndSlide(CollisionPacket* colPacket, FPSPlayer* player, double delta
 
     
     player->location = finalPosition;
-
-/*
-    player->attachedCam->position.x = finalPosition.x;
-    player->attachedCam->position.y = finalPosition.y + 1.2f;
-    player->attachedCam->position.z = finalPosition.z;
-*/
 
     player->attachedCam->position = player->location;
     player->attachedCam->target = Vector3Add(player->attachedCam->target, player->velocity);
@@ -590,11 +575,6 @@ z            Adjust the polygon intersetion point so sliding the plane
 
     if (Vector3Length(newVelocityVector) < veryCloseDistance)
     {
-	if (numberOfModels == NUMBER_OF_MODELS_A)
-	{
-	    printf("newBasePoint: %f, %f, %f\n", newBasePoint.x, newBasePoint.y, newBasePoint.z);
-	}
-
         return newBasePoint;
     }
 
