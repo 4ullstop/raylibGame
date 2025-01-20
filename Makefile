@@ -41,7 +41,11 @@ SRC = main.c \
 	  shared\threading.c \
 	  shared\sharedpuzzle.c \
 	  gameplay\puzzles\movepuzzle.c \
-	  models\src\modelinit.c
+	  models\src\modelinit.c \
+	  gamea\gameagameplayelements.c \
+	  gameb\gamebgameplayelements.c \
+	  gamea\gameadoors.c \
+	  gameb\gamebdoors.c
 OBJ = intermediate\main.o \
       intermediate\window.o \
       intermediate\camera.o \
@@ -84,7 +88,11 @@ OBJ = intermediate\main.o \
 	  intermediate\threading.o \
 	  intermediate\sharedpuzzle.o \
 	  intermediate\movepuzzle.o \
-	  intermediate\modelinit.o
+	  intermediate\modelinit.o \
+	  intermediate\gameagameplayelements.o \
+	  intermediate\gamebgameplayelements.o \
+	  intermediate\gameadoors.o \
+	  intermediate\gamebdoors.o
 !IFNDEF OUTPUT
 OUTPUT = scenea.exe
 !ENDIF
@@ -232,6 +240,19 @@ intermediate\movepuzzle.o: gameplay\puzzles\movepuzzle.c intermediate
 
 intermediate\modelinit.o: models\src\modelinit.c intermediate
 	$(CC) $(CFLAGS) -c models\src\modelinit.c -o intermediate\modelinit.o $(INCLUDE)
+
+intermediate\gameagameplayelements.o: gamea\gameagameplayelements.c intermediate
+	$(CC) $(CFLAGS) -c gamea\gameagameplayelements.c -o intermediate\gameagameplayelements.o $(INCLUDE)
+
+intermediate\gamebgameplayelements.o: gameb\gamebgameplayelements.c intermediate
+	$(CC) $(CFLAGS) -c gameb\gamebgameplayelements.c -o intermediate\gamebgameplayelements.o $(INCLUDE)
+
+intermediate\gameadoors.o: gamea\gameadoors.c intermediate
+	$(CC) $(CFLAGS) -c gamea\gameadoors.c -o intermediate\gameadoors.o $(INCLUDE)
+
+intermediate\gamebdoors.o: gameb\gamebdoors.c intermediate
+	$(CC) $(CFLAGS) -c gameb\gamebdoors.c -o intermediate\gamebdoors.o $(INCLUDE)
+
 
 # Clean rule to delete
 clean:

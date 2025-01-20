@@ -16,8 +16,8 @@
     The current size of this array is : 48
     The current size of AssociatedDoors in GameplayElements is: 48
 */
-#define NUMBER_OF_MODELS_A 204//45
-#define NUMBER_OF_MODELS_B 102 //24
+#define NUMBER_OF_MODELS_A 205//45
+#define NUMBER_OF_MODELS_B 101 //24
 
 #define NUMBER_OF_TEXTURES_A 11 //this will always be one more than what is in the file
 #define NUMBER_OF_TEXTURES_B 9
@@ -33,7 +33,7 @@
 #define NUMBER_OF_OVERLAP_BOXES_A 1
 #define NUMBER_OF_OVERLAP_BOXES_B 1
 
-#define NUMBER_OF_DOORS_A 1
+#define NUMBER_OF_DOORS_A 2
 #define NUMBER_OF_DOORS_B 0
 
 #ifndef E_BUTTON_SIZES
@@ -215,6 +215,16 @@ typedef struct modelInfo
 } modelInfo;
 #endif
 
+#ifndef DOOR_TYPE
+#define DOOR_TYPE
+enum DoorType
+{
+    DT_NULL,
+    DT_Vertical,
+    DT_Hinged
+};
+#endif
+
 #ifndef DOOR_ENTITY
 #define DOOR_ENTITY
 typedef struct Door
@@ -223,10 +233,16 @@ typedef struct Door
     Vector3 location;
     int id;
 
+    enum DoorType doorType;
+
     Vector3 openPosition;
     Vector3 closedPosition;
     float speed;
     bool isLowering;
+
+    Vector3 hingeOffset;
+    float desiredAngle;
+    float currAngle;
 } Door;
 #endif
 

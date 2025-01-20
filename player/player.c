@@ -6,7 +6,7 @@
 void PlayerSetup(FPSPlayer* player, PlayerCam* cam, UIElements** hud, enum Gamemode* mode)
 {
     //player->location = (Vector3){0.0, 5.0, -21.0};
-    player->location = (Vector3){0.0, 15.0, 4.0};
+    player->location = (Vector3){0.0, 20.0, 4.0};
     player->currPos = player->location;
     player->lastPos = player->location;
     player->velocity = (Vector3){0.0f, 0.0f, 0.0f};

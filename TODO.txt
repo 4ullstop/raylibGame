@@ -108,3 +108,8 @@ Move mouse cursor to middle of the window when f is pressed so that the mouse is
 Move player to center of play in the puzzles instead of their actual center
  - You may need to also rotate the puzzles themselves bc of the way 3D works, you get a side view of the buttons rather than a full front view
  - Meh, I can't figure this out enough, it doesn't really have to do with the rotation of the puzzle as it does player perspective, switching to orthographic or maybe even switching the FOV may help, but I haven't really tried these options yet
+
+
+When creating a hinged door, establish an xyz offset for the door to hinge on
+
+Separate the construction of doors between the two different games
