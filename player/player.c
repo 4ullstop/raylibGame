@@ -25,8 +25,11 @@ void PollPlayer(float deltaTime, PlayerCam* pcam, FPSPlayer* player, CollisionPa
     PollPlayerInput(pcam, deltaTime, player, colPacket, models, numOfModels, gameA);
     DetectPlayerLookInput(pcam);
 
-    
-    //printf("%f, %f, %f\n", pcam->position.x, pcam->position.y, pcam->position.z);
+    if (gameA == true)
+    {
+//	printf("%f, %f, %f\n", pcam->position.x, pcam->position.y, pcam->position.z);
+    }
+
 }
 
 void PollPlayerSecondary(FPSPlayer* player, Raycast* interactRay, QueryBox** areaBoxes, enum Gamemode* mode, Interactable* interactedItem, int numOfAreaQueryBoxes, bool* hideHideableObjects, float deltaTime, enum Gametype gameType, OpenSharedValues* openSharedValues)

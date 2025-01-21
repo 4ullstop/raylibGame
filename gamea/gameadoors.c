@@ -20,7 +20,7 @@ void ConstructGameADoors(modelInfo** dynamicModels, Texture2D** gameATextures, i
 			lastModelIndex,
 			allDoors,
 			exitCode,
-			(Vector3){0.0f, 0.0f, 0.0f},
+			(Vector3){6.5f, -0.4f, -36.85f},
 			DT_Hinged,
 			"D:/CFiles/FirstGame/models/obj/gate.obj",
 			9,

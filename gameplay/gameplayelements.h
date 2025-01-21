@@ -6,5 +6,5 @@
 
 void PollAllGameplayElements(Door** allDoors, double deltaTime, int numOfDoors);
 
-void ConstructGameplayElements(modelInfo** models, int* lastModelIndex, Texture2D** allTextures, int numOfDoors, GameplayElements* gameplayElements, Door** allDoors, ExitCode* exitCode);
+void ConstructGameplayElements(modelInfo** models, int* lastModelIndex, Texture2D** allTextures, int numOfDoors, GameplayElements* gameplayElements, Door** allDoors, ExitCode* exitCode, enum Gametype gametype);
 

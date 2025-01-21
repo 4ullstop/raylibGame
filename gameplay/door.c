@@ -3,60 +3,6 @@
 #include <stdio.h>
 #include "../externmath/externmath.h"
 
-void ConstructDoors(modelInfo** dynamicModels, Texture2D** gameTextures, int* lastModelIndex, Door** allDoors, ExitCode* exitCode)
-{
-    Door* door_01 = malloc(sizeof(Door));
-    if (door_01 == NULL)
-    {
-	EditReturnCodeInfo(100, "Failed to allocated memory for Door\n", exitCode);
-	return;
-    }
-    door_01->doorModel.collisionDisabled = false;
-    door_01->id = 1;
-    door_01->location = (Vector3){0.0f, 0.0f, -13.8f};
-    door_01->doorModel.modelLocation = door_01->location;
-    door_01->doorType = DT_Vertical;
-    door_01->openPosition = (Vector3){door_01->location.x, door_01->location.y - 3.0f, door_01->location.z};
-    door_01->closedPosition = door_01->location;
-    door_01->speed = 1.0f;
-    door_01->isLowering = false;
-    door_01->doorModel.model = LoadModel("D:/CFiles/FirstGame/models/obj/door.obj");
-    exitCode->numOfModelsLoaded = exitCode->numOfModelsLoaded + 1;
-    door_01->doorModel.texture = *gameTextures[2];
-    door_01->doorModel.model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = door_01->doorModel.texture;
-    dynamicModels[*lastModelIndex] = &door_01->doorModel;
-    *lastModelIndex = *lastModelIndex + 1;
-    allDoors[0] = door_01;
-    exitCode->numOfDoorsLoaded = exitCode->numOfDoorsLoaded + 1;
-
-    Door* gate = malloc(sizeof(Door));
-    if (gate == NULL)
-    {
-	EditReturnCodeInfo(100, "Failed to allocate memory for Door\n", exitCode);
-	return;
-    }
-    gate->doorModel.collisionDisabled = false;
-    gate->id = 2;
-    gate->location = (Vector3){0.0f, 0.0f, 0.0f};
-    gate->doorModel.modelLocation = gate->location;
-    gate->doorType = DT_Hinged;
-    gate->hingeOffset = Vector3Subtract(gate->location, (Vector3){1.0f, 0.0f, 0.0f});
-    gate->desiredAngle = -90.0f;
-    gate->currAngle = 0.0f;
-    exitCode->numOfModelsLoaded = exitCode->numOfModelsLoaded + 1;
-    gate->doorModel.texture = *gameTextures[9];
-    gate->doorModel.model = LoadModel("D:/CFiles/FirstGame/models/obj/gate.obj");
-    gate->doorModel.model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = gate->doorModel.texture;
-    dynamicModels[*lastModelIndex] = &gate->doorModel;
-    *lastModelIndex = *lastModelIndex + 1;
-    allDoors[1] = gate;
-    exitCode->numOfDoorsLoaded = exitCode->numOfDoorsLoaded + 1;
-    
-    printf("doors constructed\n");
-    printf("door on construct %p \n", (void*)&door_01);
-    printf("alldoors on construct %p \n", (void*)&allDoors[0]);
-}
-
 void ConstructSingleDoor(modelInfo** dynamicModels, Texture2D** gameTextures, int* lastModelIndex, Door** allDoors, ExitCode* exitCode, Vector3 doorLocation, enum DoorType doorType, char* modelFileLocation, int textureIndex, float destVal, float hingeOffset)
 {
     Door* door = malloc(sizeof(Door));
@@ -66,6 +12,7 @@ void ConstructSingleDoor(modelInfo** dynamicModels, Texture2D** gameTextures, in
 	return;
     }
     door->doorModel.collisionDisabled = false;
+    door->doorModel.modelVisible = true;
     door->id = *lastModelIndex;
     door->location = doorLocation;
     door->doorType = doorType;
@@ -77,7 +24,9 @@ void ConstructSingleDoor(modelInfo** dynamicModels, Texture2D** gameTextures, in
     door->doorModel.texture = *gameTextures[textureIndex];
     door->doorModel.model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = door->doorModel.texture;
     CustomDoorParameters(door, doorType, destVal, hingeOffset);
+    dynamicModels[*lastModelIndex] = &door->doorModel;
     *lastModelIndex = *lastModelIndex + 1;
+    
     allDoors[exitCode->numOfDoorsLoaded] = door;
     exitCode->numOfDoorsLoaded = exitCode->numOfDoorsLoaded + 1;
 }
@@ -95,6 +44,8 @@ void CustomDoorParameters(Door* door, enum DoorType doorType, float value, float
 	door->desiredAngle = value;
 	door->currAngle = 0.0f;
 	break;
+    default:
+	printf("ERROR DEFAULT RUN CUSTOMDOORPARAMETERS\n");
     }
 }
 

@@ -18,7 +18,6 @@ void CreateModelsForGameA(modelInfo** models, int* lastModelIndex, Texture2D** a
 		      (Vector3){0.0f, 0.0f, 0.0f},
 		      0);
     
-    
     CreateSingleModel(models,
 		      lastModelIndex,
 		      allTextures,
@@ -69,9 +68,6 @@ void CreateModelsForGameA(modelInfo** models, int* lastModelIndex, Texture2D** a
 		      (Vector3){10.0f, 0.0f, 15.0f},
 		      0);   
 
-    
-
-
     CreateSingleModel(models,
 		      lastModelIndex,
 		      allTextures,
@@ -79,7 +75,7 @@ void CreateModelsForGameA(modelInfo** models, int* lastModelIndex, Texture2D** a
 		      "D:/CFiles/FirstGame/models/obj/boat.obj",
 		      false,
 		      true,
-		      (Vector3){0.0f, 2.5f, 0.0f},
+		      (Vector3){0.0f, 2.8f, 0.0f},
 		      9);   
     
     CreateSingleModel(models,
