@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include "../externmath/externmath.h"
 
-void ConstructSingleDoor(modelInfo** dynamicModels, Texture2D** gameTextures, int* lastModelIndex, Door** allDoors, ExitCode* exitCode, Vector3 doorLocation, enum DoorType doorType, char* modelFileLocation, int textureIndex, float destVal, float hingeOffset)
+void ConstructSingleDoor(modelInfo** dynamicModels, Texture2D** gameTextures, int* lastModelIndex, Door** allDoors, ExitCode* exitCode, Vector3 doorLocation, enum DoorType doorType, char* modelFileLocation, int textureIndex, float destVal, float hingeOffset, int* lastDoorIndex)
 {
     Door* door = malloc(sizeof(Door));
     if (door == NULL)
@@ -27,7 +27,8 @@ void ConstructSingleDoor(modelInfo** dynamicModels, Texture2D** gameTextures, in
     dynamicModels[*lastModelIndex] = &door->doorModel;
     *lastModelIndex = *lastModelIndex + 1;
     
-    allDoors[exitCode->numOfDoorsLoaded] = door;
+    allDoors[*lastDoorIndex] = door;
+    *lastDoorIndex = *lastDoorIndex + 1;
     exitCode->numOfDoorsLoaded = exitCode->numOfDoorsLoaded + 1;
 }
 
@@ -55,7 +56,15 @@ void PollDoors(Door** allDoors, double deltaTime, int numOfDoors)
     {
         if (allDoors[i]->isLowering == true)
         {
-            LowerDoor(allDoors[i], deltaTime);
+	    if (allDoors[i]->doorType == DT_Vertical)
+	    {
+		LowerDoor(allDoors[i], deltaTime);
+	    }
+	    else
+	    {
+		SwingDoor(allDoors[i], deltaTime);
+	    }
+	    
         }
     }
 }
@@ -83,13 +92,13 @@ void SwingDoor(Door* door, double deltaTime)
 {
     if (door->isLowering == true)
     {
-	if (!(door->desiredAngle == door->currAngle))
+	float angleR = (int)(door->currAngle * 100 + .5);
+	angleR /= 100;
+	if (!( 1.4f == angleR))
 	{
 	    door->currAngle = door->currAngle + (0.5 * deltaTime);
-	    Vector3 newLocation = RotateAroundPoint(door->location, door->hingeOffset, door->currAngle, (Vector3){0.0f, 1.0f, 0.0f});
-	    door->doorModel.modelLocation = newLocation;
-	    door->location = newLocation;
-	    door->doorModel.model.transform = MatrixRotateXYZ((Vector3){0.0f, 1.0f, 0.0f});
+	    door->doorModel.modelLocation = door->location;
+      	    door->doorModel.model.transform = MatrixRotateXYZ((Vector3){0.0f, 1.0f * door->currAngle, 0.0f});
 	}
 	else
 	{

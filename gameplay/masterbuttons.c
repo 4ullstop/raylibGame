@@ -164,6 +164,8 @@ Button* HandleCursorSelection(Button* currSelectedButton, ButtonMaster* puzzle, 
 	printf("about to handle producer input\n");
 	HandleProducerInput(puzzle, oldButton, currSelectedButton, openSharedValues, isConsumer);
     }
+
+    
     printf("cursor selection complete for producer\n");
 }
 
@@ -697,6 +699,7 @@ bool BlinkError(Button* button, TickNode* tickNode)
 
 void PuzzleCompleted(ButtonMaster* puzzle)
 {
+    puzzle->OnPuzzleSolved(puzzle);
     for (int i = 0; i < puzzle->numberOfSolutions; i++)
     {
 	puzzle->solutionButtons[i]->model->texture = puzzle->solutionButtons[i]->buttonTextures->completed;

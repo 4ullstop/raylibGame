@@ -20,7 +20,7 @@ void CreateAllButtons(ButtonMaster* master, modelInfo** dynamicModels, int* last
 	EditReturnCodeInfo(202, "Failed to allocate memory for childbuttons\n", exitCode);
 	return;
     }
-    master->OnPuzzleSolved = OnPuzzleCompleted;
+    
     Vector3 location = master->location;
     int r = master->rows;
     int c = master->columns;
@@ -273,7 +273,9 @@ void RotateButtonMaster(ButtonMaster* master, float angle, Vector3 axis)
 
 void OnPuzzleCompleted(ButtonMaster* master)
 {
+    printf("\n");
     printf("puzzle complete\n");
+    printf("\n");
     if (master->id == 1)
     {
         master->player->playerHUD[2]->hidden = true;
@@ -330,7 +332,7 @@ void InactGameplayElement(GameplayElements* gameplayElement)
     printf("gameplay element enacted\n");
 }
 
-void ConstructSinglePuzzle(int* lastPuzzleIndex, int columns, int rows, Vector3 location, FPSPlayer* player, void(*puzzleLocConstruct)(ButtonMaster*), bool hasGameplayElements, GameplayElements* gameplayElements, ButtonMaster** gameAPuzzles, Vector2Int highlightStart, bool hasHighlightStartLoc, enum PuzzleState puzzleState, float buttonSpread, bool sharedPuzzle, bool gameA, Vector3 puzzleLerpOffset, ExitCode* exitCode)
+void ConstructSinglePuzzle(int* lastPuzzleIndex, int columns, int rows, Vector3 location, FPSPlayer* player, void(*puzzleLocConstruct)(ButtonMaster*), bool hasGameplayElements, GameplayElements* gameplayElements, int gameplayElementIndex, ButtonMaster** gameAPuzzles, Vector2Int highlightStart, bool hasHighlightStartLoc, enum PuzzleState puzzleState, float buttonSpread, bool sharedPuzzle, bool gameA, Vector3 puzzleLerpOffset, ExitCode* exitCode)
 {
     if (lastPuzzleIndex == NULL || player == NULL)
     {
@@ -375,6 +377,7 @@ void ConstructSinglePuzzle(int* lastPuzzleIndex, int columns, int rows, Vector3 
     puzzle->numOfPlainSubmittedButtons = 0;
     puzzle->sharedReach = NULL;
     puzzle->plainSubmittedButtonsMax = columns - 1;
+    puzzle->OnPuzzleSolved = OnPuzzleCompleted;
     puzzle->puzzleLerpOffset = puzzleLerpOffset;
     puzzle->puzzleNormalDirection = (Vector3){0};
     puzzle->associatedGameplayElements = malloc(sizeof(GameplayElements));
@@ -387,7 +390,7 @@ void ConstructSinglePuzzle(int* lastPuzzleIndex, int columns, int rows, Vector3 
 	    {
 		puzzle->isCursorOnScreen = false;
 	    }
-	}
+	} 
 	else
 	{
 	    if (puzzle->highlightStartLoc.x < rows / 2)
@@ -403,7 +406,7 @@ void ConstructSinglePuzzle(int* lastPuzzleIndex, int columns, int rows, Vector3 
     }
     if (hasGameplayElements == true)
     {
-        AssignGameplayElementsToPuzzles(puzzle, gameplayElements->doors[0]);
+        AssignGameplayElementsToPuzzles(puzzle, gameplayElements->doors[gameplayElementIndex]);
     }
     else
     {
