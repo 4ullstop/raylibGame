@@ -103,7 +103,38 @@ void SwingDoor(Door* door, double deltaTime)
 	else
 	{
 	    door->isLowering = false;
+	    UpdateSwingCollision(&door->doorModel, door);
 	}
     }
 }
 
+void UpdateSwingCollision(modelInfo* model, Door* door)
+{
+    for (int i = 0; i < model->model.meshes[0].vertexCount; i++)
+    {
+	int index = i * 3;
+	printf("transforming vertex\n");
+	Vector3 vertex = GetModelVertex(&model->model, index);
+	printf("vertex before: %f, %f, %f\n", vertex.x, vertex.y, vertex.z);
+	Vector3 newVertex = Vector3Transform(vertex, model->model.transform);
+	EditModelVertex(newVertex, &model->model, index);
+	printf("vertex after : %f, %f, %f\n", newVertex.x, newVertex.y, newVertex.z);
+    }
+}
+
+Vector3 GetModelVertex(Model* model, int i)
+{
+    float v1 = model->meshes[0].vertices[i];
+    float v2 = model->meshes[0].vertices[i + 1];
+    float v3 = model->meshes[0].vertices[i + 2];
+
+    return (Vector3){v1, v2, v3};
+}
+
+void EditModelVertex(Vector3 newVertex, Model* model, int i)
+{
+    model->meshes[0].vertices[i] = newVertex.x;
+    model->meshes[0].vertices[i + 1] = newVertex.y;
+    model->meshes[0].vertices[i + 2] = newVertex.z;
+}
+		     

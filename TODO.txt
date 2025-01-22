@@ -113,3 +113,9 @@ Move player to center of play in the puzzles instead of their actual center
 When creating a hinged door, establish an xyz offset for the door to hinge on
 
 Separate the construction of doors between the two different games
+
+
+There are a lot of things you could do to improve the collision detection system/optimize it (this is a thing that will need to happen much later down the road)
+ - First of all, rather than using the meshes themselves to detect collision, you need to make bounding boxes that will make the collision detection use much simpler and easier to run through the detection cycle
+ - Then you need to look into Quadtrees or grids to help divide up the world for the collision detection routines based on the player's location - you need to do more research about these
+ - I was also thinking you might be able to cache the collision somewhere so that the routine doesn't need to collect all of the data from the mesh everytime the routine is called

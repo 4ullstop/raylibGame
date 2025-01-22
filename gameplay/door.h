@@ -13,3 +13,9 @@ void ConstructSingleDoor(modelInfo** dynamicModels, Texture2D** gameTextures, in
 void CustomDoorParameters(Door* door, enum DoorType doorType, float value, float hingeOffset);
 
 void SwingDoor(Door* door, double deltaTime);
+
+void UpdateSwingCollision(modelInfo* model, Door* door);
+
+Vector3 GetModelVertex(Model* model, int i);
+
+void EditModelVertex(Vector3 newVertex, Model* model, int i);
