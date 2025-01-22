@@ -16,7 +16,7 @@ void CreateModelsForGameA(modelInfo** models, int* lastModelIndex, Texture2D** a
 		      false,
 		      true,
 		      (Vector3){0.0f, 0.0f, 0.0f},
-		      0);
+		      11);
     
     CreateSingleModel(models,
 		      lastModelIndex,
@@ -86,6 +86,16 @@ void CreateModelsForGameA(modelInfo** models, int* lastModelIndex, Texture2D** a
 		      false,
 		      true,
 		      (Vector3){0.0f, 0.0f, 0.0f},
-		      10);   
+		      10);
+
+    CreateSingleModel(models,
+		      lastModelIndex,
+		      allTextures,
+		      exitCode,
+		      "D:/CFiles/FirstGame/models/obj/fence.obj",
+		      true,
+		      true,
+		      (Vector3){0.0f, 0.0f, 0.0f},
+		      9);
 
 }
