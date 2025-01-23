@@ -45,7 +45,10 @@ SRC = main.c \
 	  gamea\gameagameplayelements.c \
 	  gameb\gamebgameplayelements.c \
 	  gamea\gameadoors.c \
-	  gameb\gamebdoors.c
+	  gameb\gamebdoors.c \
+	  gameplay\switchbox.c \
+	  gamea\gameaswitchboxes.c \
+	  gameb\gamebswitchboxes.c
 OBJ = intermediate\main.o \
       intermediate\window.o \
       intermediate\camera.o \
@@ -92,7 +95,10 @@ OBJ = intermediate\main.o \
 	  intermediate\gameagameplayelements.o \
 	  intermediate\gamebgameplayelements.o \
 	  intermediate\gameadoors.o \
-	  intermediate\gamebdoors.o
+	  intermediate\gamebdoors.o \
+	  intermediate\switchbox.o \
+	  intermediate\gameaswitchboxes.o \
+	  intermediate\gamebswitchboxes.o
 !IFNDEF OUTPUT
 OUTPUT = scenea.exe
 !ENDIF
@@ -253,6 +259,14 @@ intermediate\gameadoors.o: gamea\gameadoors.c intermediate
 intermediate\gamebdoors.o: gameb\gamebdoors.c intermediate
 	$(CC) $(CFLAGS) -c gameb\gamebdoors.c -o intermediate\gamebdoors.o $(INCLUDE)
 
+intermediate\switchbox.o: gameplay\switchbox.c intermediate
+	$(CC) $(CFLAGS) -c gameplay\switchbox.c -o intermediate\switchbox.o $(INCLUDE)
+
+intermediate\gameaswitchboxes.o: gamea\gameaswitchboxes.c intermediate
+	$(CC) $(CFLAGS) -c gamea\gameaswitchboxes.c -o intermediate\gameaswitchboxes.o $(INCLUDE)
+
+intermediate\gamebswitchboxes.o: gameb\gamebswitchboxes.c intermediate
+	$(CC) $(CFLAGS) -c gameb\gamebswitchboxes.c -o intermediate\gamebswitchboxes.o $(INCLUDE)
 
 # Clean rule to delete
 clean:

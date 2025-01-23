@@ -69,7 +69,7 @@ void PollDoors(Door** allDoors, double deltaTime, int numOfDoors)
     }
 }
 
-void LowerDoor(Door* door, double deltaTime)
+void LowerDoor(Door* door, double deltaTime) 
 {
     if (door->isLowering == true)
     {

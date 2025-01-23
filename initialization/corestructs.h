@@ -246,15 +246,43 @@ typedef struct Door
 } Door;
 #endif
 
+#ifndef SWITCH_BOX
+#define SWITCH_BOX
+typedef struct SwitchBox
+{
+    int numOfSwitches;
+    bool* allSwitches;
+
+    int lastSwitchId;
+
+    Door* referenceDoor;
+} SwitchBox;
+#endif
+
+#ifndef GAMEPLAY_ELEMENT_TYPE
+#define GAMEPLAY_ELEMENT_TYPE
+enum GameplayElementType
+{
+    GET_NULL,
+    GET_Door,
+    GET_SwitchBox
+};
+#endif
+
 #ifndef GAMPLAY_ELEMENTS
 #define GAMPLAY_ELEMENTS
 typedef struct GameplayElements
 {
+    enum GameplayElementType gameplayElementType;
+    
     Door* doors[48];
     int numOfDoors;
 
     Door* associatedDoor;
+    SwitchBox* switchBox;
 
+    int switchId;
+    
 } GameplayElements;
 #endif
 
@@ -507,6 +535,7 @@ typedef struct ButtonMaster
 
     bool isCursorOnScreen;
 
+    int switchId;
 } ButtonMaster;
 #endif
 

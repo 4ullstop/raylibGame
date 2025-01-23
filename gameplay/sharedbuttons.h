@@ -17,11 +17,11 @@ void RotateButtonMaster(ButtonMaster* master, float angle, Vector3 axis);
 
 void OnPuzzleCompleted(ButtonMaster* master);
 
-void AssignGameplayElementsToPuzzles(ButtonMaster* puzzle, Door* door);
+void AssignGameplayElementsToPuzzles(ButtonMaster* puzzle, GameplayElements* gameplayElements, enum GameplayElementType gameplayElementType, int gameplayElementIndex);
 
 void InactGameplayElement(GameplayElements* gameplayElement);
 
-void ConstructSinglePuzzle(int* lastPuzzleIndex, int columns, int rows, Vector3 location, FPSPlayer* player, void(*puzzleLocConstruct)(ButtonMaster*), bool hasGameplayElements, GameplayElements* gameplayElements, int gameplayElementIndex, ButtonMaster** gameAPuzzles, Vector2Int highlightStart, bool hasHighlightStartLoc, enum PuzzleState puzzleState, float buttonSpread, bool sharedPuzzle, bool gameA, Vector3 puzzleLerpOffset, ExitCode* exitCode);
+void ConstructSinglePuzzle(int* lastPuzzleIndex, int columns, int rows, Vector3 location, FPSPlayer* player, void(*puzzleLocConstruct)(ButtonMaster*), enum GameplayElementType gameplayElementType, GameplayElements* gameplayElements, int gameplayElementIndex, ButtonMaster** gameAPuzzles, Vector2Int highlightStart, bool hasHighlightStartLoc, enum PuzzleState puzzleState, float buttonSpread, bool sharedPuzzle, bool gameA, Vector3 puzzleLerpOffset, ExitCode* exitCode);
 
 void EnactButton(Button* button);
 

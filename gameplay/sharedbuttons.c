@@ -303,9 +303,31 @@ void PowerOnPuzzle(ButtonMaster* puzzle)
     }
 }
 
-void AssignGameplayElementsToPuzzles(ButtonMaster* puzzle, Door* door)
+void AssignGameplayElementsToPuzzles(ButtonMaster* puzzle, GameplayElements* gameplayElements, enum GameplayElementType gameplayElementType, int gameplayElementIndex)
 {
+    switch (gameplayElementType)
+    {
+    case GET_NULL:
+	puzzle->associatedGameplayElements = NULL;
+	printf("should be null\n");
+	break;
+    case GET_Door:
+	puzzle->associatedGameplayElements->associatedDoor = gameplayElements->doors[gameplayElementIndex];
+	puzzle->associatedGameplayElements->switchBox = NULL;
+	printf("assigning door as gameplayElement\n");
+	break;
+    case GET_SwitchBox:
+	puzzle->associatedGameplayElements->associatedDoor = NULL;
+	puzzle->associatedGameplayElements->switchBox = &gameplayElements->switchBox[gameplayElementIndex];
+	puzzle->associatedGameplayElements->switchId = puzzle->associatedGameplayElements->switchBox[gameplayElementIndex].lastSwitchId;
+	puzzle->associatedGameplayElements->switchBox[gameplayElementIndex].lastSwitchId = puzzle->associatedGameplayElements->switchBox[gameplayElementIndex].lastSwitchId + 1;
+	printf("assigned switchBox as gamepalyElement\n");
+	break;
+    default:
+	printf("ERROR DEFUALT RUN IN ASSIGNATION OF GAMEPLAY ELEMENTS\n");
+    }
 
+/*    
     if (door != NULL)
     {
         printf("the door is not null\n");
@@ -318,7 +340,7 @@ void AssignGameplayElementsToPuzzles(ButtonMaster* puzzle, Door* door)
         printf("should be null\n");
         puzzle->associatedGameplayElements = NULL;
     }
-    
+*/    
 }
 
 void InactGameplayElement(GameplayElements* gameplayElement)
@@ -332,7 +354,7 @@ void InactGameplayElement(GameplayElements* gameplayElement)
     printf("gameplay element enacted\n");
 }
 
-void ConstructSinglePuzzle(int* lastPuzzleIndex, int columns, int rows, Vector3 location, FPSPlayer* player, void(*puzzleLocConstruct)(ButtonMaster*), bool hasGameplayElements, GameplayElements* gameplayElements, int gameplayElementIndex, ButtonMaster** gameAPuzzles, Vector2Int highlightStart, bool hasHighlightStartLoc, enum PuzzleState puzzleState, float buttonSpread, bool sharedPuzzle, bool gameA, Vector3 puzzleLerpOffset, ExitCode* exitCode)
+void ConstructSinglePuzzle(int* lastPuzzleIndex, int columns, int rows, Vector3 location, FPSPlayer* player, void(*puzzleLocConstruct)(ButtonMaster*), enum GameplayElementType gameplayElementType, GameplayElements* gameplayElements, int gameplayElementIndex, ButtonMaster** gameAPuzzles, Vector2Int highlightStart, bool hasHighlightStartLoc, enum PuzzleState puzzleState, float buttonSpread, bool sharedPuzzle, bool gameA, Vector3 puzzleLerpOffset, ExitCode* exitCode)
 {
     if (lastPuzzleIndex == NULL || player == NULL)
     {
@@ -404,6 +426,10 @@ void ConstructSinglePuzzle(int* lastPuzzleIndex, int columns, int rows, Vector3 
     {
 	EditReturnCodeInfo(201, "Failed to allocate memory for puzzle's associated gameplay elements\n", exitCode);
     }
+
+    AssignGameplayElementsToPuzzles(puzzle, gameplayElements, gameplayElementType, gameplayElementIndex);
+
+/*
     if (hasGameplayElements == true)
     {
         AssignGameplayElementsToPuzzles(puzzle, gameplayElements->doors[gameplayElementIndex]);
@@ -412,6 +438,8 @@ void ConstructSinglePuzzle(int* lastPuzzleIndex, int columns, int rows, Vector3 
     {
         AssignGameplayElementsToPuzzles(puzzle, NULL);
     }
+*/
+    
     gameAPuzzles[*lastPuzzleIndex] = puzzle;
     *lastPuzzleIndex = *lastPuzzleIndex + 1;
 
