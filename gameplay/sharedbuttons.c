@@ -319,8 +319,8 @@ void AssignGameplayElementsToPuzzles(ButtonMaster* puzzle, GameplayElements* gam
     case GET_SwitchBox:
 	puzzle->associatedGameplayElements->associatedDoor = NULL;
 	puzzle->associatedGameplayElements->switchBox = &gameplayElements->switchBox[gameplayElementIndex];
-	puzzle->associatedGameplayElements->switchId = puzzle->associatedGameplayElements->switchBox[gameplayElementIndex].lastSwitchId;
-	puzzle->associatedGameplayElements->switchBox[gameplayElementIndex].lastSwitchId = puzzle->associatedGameplayElements->switchBox[gameplayElementIndex].lastSwitchId + 1;
+	puzzle->associatedGameplayElements->switchId = puzzle->associatedGameplayElements->switchBox[gameplayElementIndex]->lastSwitchId;
+	puzzle->associatedGameplayElements->switchBox[gameplayElementIndex]->lastSwitchId = puzzle->associatedGameplayElements->switchBox[gameplayElementIndex]->lastSwitchId + 1;
 	printf("assigned switchBox as gamepalyElement\n");
 	break;
     default:
