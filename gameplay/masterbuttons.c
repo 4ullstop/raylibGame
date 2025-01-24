@@ -33,9 +33,10 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
     {
         for (int j = 0; j < master->columns; j++)
         {
+	    
             if (master->childButtons[i][j].highlighted == true)
             {
-                currSelectedButton = &master->childButtons[i][j];
+		currSelectedButton = &master->childButtons[i][j];
                 found = true;
                 break;
             }
@@ -106,6 +107,7 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
         case ED_Enter:
 	    Button* oldButton = master->cursoredButton;
 	    master->cursoredButton = HandleCursorSelection(currSelectedButton, master, mode, isPlayerSharingPuzzle, isConsumer, openSharedValues);
+	    printf("enter action complete\n");
             break;
         case ED_Reset:
 	    if (isPlayerSharingPuzzle == true)

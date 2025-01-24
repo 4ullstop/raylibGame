@@ -212,10 +212,19 @@ void LerpPlayer(FPSPlayer* player, ButtonMaster* puzzle)
 
 void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode, OpenSharedValues* openSharedValues, bool isPlayerSharingPuzzle, enum Gametype gametype)
 {
-
+    if (interactedItem == NULL)
+    {
+	printf("interacted item is null\n");
+	return;
+    }
+    
+    if (interactedItem->associatedPuzzle == NULL)
+    {
+	printf("the associated puzzle is null\n");
+	return;
+    }
     if (interactedItem->associatedPuzzle->lerpRotPuzzle == true)
     {
-	printf("here\n");
 	if (interactedItem->associatedPuzzle->tempAngle == 0.0f)
 	{
 	    interactedItem->associatedPuzzle->tempAngle = interactedItem->associatedPuzzle->originalAngle + 0.1f;
@@ -282,8 +291,10 @@ void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode, O
         MoveCursor(ED_Reset, interactedItem, mode, openSharedValues, isPlayerSharingPuzzle);
     }
 
+    
     if (isPlayerSharingPuzzle == true)
     {
+	printf("polling consumer even though we should not be sharing puzzles\n");
 	if (IsPuzzleConsumer(interactedItem->associatedPuzzle, openSharedValues))
 	{
 	    PollConsumer(openSharedValues, interactedItem->associatedPuzzle, mode);
@@ -294,7 +305,11 @@ void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode, O
 
     if ((interactedItem->associatedPuzzle->sharedPuzzle == true && interactedItem->associatedPuzzle->isCursorOnScreen == false) && isPlayerSharingPuzzle == false) return;
 
-    IsButtonCursorOnScreen(interactedItem->associatedPuzzle);
+    if (isPlayerSharingPuzzle == true)
+    {
+	IsButtonCursorOnScreen(interactedItem->associatedPuzzle);
+    }
+
     
     if (IsKeyPressed(KEY_LEFT))
     {
@@ -336,16 +351,19 @@ void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode, O
         interactedItem = NULL;
     }
     */
-
+   
     if (directionalKeyPressed == true)
     {
-        if (interactedItem->showsArrowKeyHint == true && interactedItem->id == 2)
+	printf("here\n");
+	if (interactedItem->showsArrowKeyHint == true && interactedItem->id == 2)
         {
             interactedItem->associatedPuzzle->player->playerHUD[3]->hidden = true;
             interactedItem->showsArrowKeyHint = false;
         }
         interactedItem->associatedPuzzle->shouldBlinkCursor = true;
+	printf("direcitonal determination compelte\n");
     }
+   
 }
 
 void IsButtonCursorOnScreen(ButtonMaster* puzzle)

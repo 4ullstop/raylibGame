@@ -216,4 +216,18 @@ void CreateGameAInteractables(Interactable** interactables, QueryBox** areaQuery
 				0,
 				(Vector3){-1.0f, 0.0f, 0.0f},
 				exitCode);
+
+    ConstructSingleInteractable(&lastInteractableIndex,
+				ITT_Puzzle,
+				false,
+				2.0f,
+				2.0f,
+				2.0f,
+				allPuzzles[15],
+				PuzzleInteract,
+				interactables,
+				areaQueryBoxes,
+				0,
+				nullOffset,
+				exitCode);
 }
