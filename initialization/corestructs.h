@@ -541,6 +541,7 @@ typedef struct ButtonMaster
     bool isCursorOnScreen;
 
     int switchId;
+    int gameplayElementIndex;
 } ButtonMaster;
 #endif
 

@@ -1,3 +1,4 @@
+#pragma once
 #ifndef RAYLIB_CAMERA_HEADER
 #include "C:\raylib\raylib\src\raylib.h"
 #include "C:\raylib\raylib\src\raymath.h"

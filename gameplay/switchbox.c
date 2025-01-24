@@ -32,6 +32,7 @@ void QuerySwitchBox(SwitchBox** switchBox, int switchBoxId, int activatedId)
     switchBox[switchBoxId]->allSwitches[activatedId] = true;
     for (int i = 0; i < switchBox[switchBoxId]->numOfSwitches; i++)
     {
+	printf("switch %i powered on\n", i);
 	if (switchBox[switchBoxId]->allSwitches[i] == false)
 	{
 	    return;

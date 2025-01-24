@@ -1,3 +1,4 @@
+#pragma once
 #ifndef PLAYER_HEADER
 #define PLAYER_HEADER
 #include "C:\raylib\raylib\src\raylib.h"

@@ -1,6 +1,5 @@
 #include "sharedbuttons.h"
 #include "puzzles/movepuzzle.h"
-#include "switchbox.c"
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -281,7 +280,7 @@ void OnPuzzleCompleted(ButtonMaster* master)
     {
         master->player->playerHUD[2]->hidden = true;
     }
-    InactGameplayElement(master->associatedGameplayElements);
+    EnactGameplayElement(master->associatedGameplayElements, master->gameplayElementIndex, master->switchId);
 
     if (master->puzzleToPowerOn != NULL)
     {
@@ -320,7 +319,7 @@ void AssignGameplayElementsToPuzzles(ButtonMaster* puzzle, GameplayElements* gam
     case GET_SwitchBox:
 	puzzle->associatedGameplayElements->associatedDoor = NULL;
 	puzzle->associatedGameplayElements->switchBox = &gameplayElements->switchBox[gameplayElementIndex];
-	puzzle->associatedGameplayElements->switchId = puzzle->associatedGameplayElements->switchBox[gameplayElementIndex]->lastSwitchId;
+	puzzle->switchId = puzzle->associatedGameplayElements->switchBox[gameplayElementIndex]->lastSwitchId;
 	puzzle->associatedGameplayElements->switchBox[gameplayElementIndex]->lastSwitchId = puzzle->associatedGameplayElements->switchBox[gameplayElementIndex]->lastSwitchId + 1;
 	printf("assigned switchBox as gamepalyElement\n");
 	break;
@@ -329,7 +328,7 @@ void AssignGameplayElementsToPuzzles(ButtonMaster* puzzle, GameplayElements* gam
     }
 }
 
-void InactGameplayElement(GameplayElements* gameplayElement)
+void EnactGameplayElement(GameplayElements* gameplayElement, int gameplayElementIndex, int switchId)
 {
     printf("enacting gameplay element\n");
     if (gameplayElement != NULL && gameplayElement->associatedDoor != NULL)
@@ -343,7 +342,11 @@ void InactGameplayElement(GameplayElements* gameplayElement)
 	    gameplayElement->associatedDoor->isLowering = true;
 	    break;
 	case GET_SwitchBox:
-	    QuerySwitchBox
+	    QuerySwitchBox(gameplayElement->switchBox, gameplayElementIndex, switchId);
+	    break;
+	default:
+	    printf("ERROR DEFAULT RUN IN ENACTGAMEPLAYELEMENT\n");
+	    break;
 	}
     }
     printf("gameplay element enacted\n");
@@ -393,6 +396,7 @@ void ConstructSinglePuzzle(int* lastPuzzleIndex, int columns, int rows, Vector3 
     puzzle->plainSubmittedButtons = NULL;
     puzzle->numOfPlainSubmittedButtons = 0;
     puzzle->sharedReach = NULL;
+    puzzle->gameplayElementIndex = gameplayElementIndex;
     puzzle->plainSubmittedButtonsMax = columns - 1;
     puzzle->OnPuzzleSolved = OnPuzzleCompleted;
     puzzle->puzzleLerpOffset = puzzleLerpOffset;

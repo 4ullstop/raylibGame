@@ -1,3 +1,4 @@
+#pragma once
 #ifndef CONTROLLER_HEADER
 #define CONTROLLER_HEADER
 #include "C:\raylib\raylib\src\raylib.h"

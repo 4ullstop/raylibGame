@@ -133,7 +133,7 @@ int main(int argc, char* argv[])
     {
         numOfModels = NUMBER_OF_MODELS_B;
         numOfTextures = NUMBER_OF_TEXTURES_B;
-	gameplayElements.numOfSwitches = 0;
+	gameplayElements.numOfSwitchBoxes = 0;
 	exitCodes.gameVersion = "B";
     }
 
