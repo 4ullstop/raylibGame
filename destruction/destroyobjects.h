@@ -35,6 +35,9 @@ void DestructAllGameplayElements(GameplayElements* gameplayElements, int numOfDo
 
 void DestructAllDoors(Door* allDoors[], int numOfDoors);
 
+void DestroySwitchBoxes(GameplayElements* gameplayElements);
+
+void DestroySwitches(SwitchBox* switchBox);
 
 
 

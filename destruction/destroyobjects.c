@@ -198,6 +198,30 @@ void DestroyOverlapBoxes(OverlapBox** allBoxes, int numOfOverlapBoxes)
 void DestructAllGameplayElements(GameplayElements* gameplayElements, int numOfDoors)
 {
 //    DestructAllDoors(gameplayElements->doors, numOfDoors);
+    DestroySwitchBoxes(gameplayElements);
+}
+
+void DestroySwitchBoxes(GameplayElements* gameplayElements)
+{
+    int switchBoxNum = gameplayElements->numOfSwitchBoxes;
+    for (int i = 0; i < switchBoxNum; i++)
+    {
+	DestroySwitches(gameplayElements->switchBox[i]);
+	free(gameplayElements->switchBox[i]);
+	gameplayElements->switchBox[i] = NULL;
+    }
+    free(gameplayElements->switchBox);
+    gameplayElements->switchBox = NULL;
+}
+
+void DestroySwitches(SwitchBox* switchBox)
+{
+    int switchNum = switchBox->numOfSwitches;
+    for (int i = 0; i < switchNum; i++)
+    {
+	free(switchBox->allSwitches);
+	switchBox->allSwitches++;
+    }
 }
 
 void DestructAllDoors(Door* allDoors[], int numOfDoors)

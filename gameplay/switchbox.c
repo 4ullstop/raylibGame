@@ -4,23 +4,26 @@
 
 void ConstructSingleSwitchBox(GameplayElements* gameplayElements, ExitCode* exitCode, int numOfSwitches, int* lastSwitchBox, Door* referenceDoor)
 {
-    printf("constructing switchbox\n");
+    gameplayElements->switchBox[*lastSwitchBox] = malloc(sizeof(SwitchBox));
+    if (gameplayElements->switchBox[*lastSwitchBox] == NULL)
+    {
+	EditReturnCodeInfo(400, "Failed to allocate memory for switchBox", exitCode);
+	return;
+    }
     gameplayElements->switchBox[*lastSwitchBox]->allSwitches = malloc(sizeof(bool) * numOfSwitches);
     if (gameplayElements->switchBox[*lastSwitchBox]->allSwitches == NULL)
     {
 	EditReturnCodeInfo(400, "Failed to allocate memory for switchbox", exitCode);
+	return;
     }
     gameplayElements->switchBox[*lastSwitchBox]->numOfSwitches = numOfSwitches;
     gameplayElements->switchBox[*lastSwitchBox]->lastSwitchId = 0;
-    printf("about to construct reference door\n");
     gameplayElements->switchBox[*lastSwitchBox]->referenceDoor = referenceDoor;
    
     for (int i = 0; i < numOfSwitches; i++)
     {
-	printf("rolling through switches\n");
 	gameplayElements->switchBox[*lastSwitchBox]->allSwitches[i] = false;
     }
-    printf("switchbox constructed\n");
     *lastSwitchBox = *lastSwitchBox + 1;
 }
 

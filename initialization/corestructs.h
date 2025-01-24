@@ -284,6 +284,8 @@ typedef struct GameplayElements
     Door* associatedDoor;
     SwitchBox** switchBox;
 
+    int numOfSwitchBoxes;
+    
     int switchId;
     
 } GameplayElements;
