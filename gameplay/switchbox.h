@@ -8,8 +8,4 @@ void ConstructSingleSwitchBox(GameplayElements* gameplayElements, ExitCode* exit
 
 void QuerySwitchBox(SwitchBox** switchBox, int switchBoxId, int activatedId);
 
-void DestroySwitchBoxes(GameplayElements* gameplayElements);
-
-void DestroySwitches(SwitchBox* switchBox);
-
 

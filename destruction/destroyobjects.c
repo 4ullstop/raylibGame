@@ -203,10 +203,13 @@ void DestructAllGameplayElements(GameplayElements* gameplayElements, int numOfDo
 
 void DestroySwitchBoxes(GameplayElements* gameplayElements)
 {
+    printf("destroying boxes\n");
     int switchBoxNum = gameplayElements->numOfSwitchBoxes;
     for (int i = 0; i < switchBoxNum; i++)
     {
+	printf("running through switchbox destruction %i\n", i);
 	DestroySwitches(gameplayElements->switchBox[i]);
+	printf("switch destroyed\n");
 	free(gameplayElements->switchBox[i]);
 	gameplayElements->switchBox[i] = NULL;
     }
@@ -216,12 +219,8 @@ void DestroySwitchBoxes(GameplayElements* gameplayElements)
 
 void DestroySwitches(SwitchBox* switchBox)
 {
-    int switchNum = switchBox->numOfSwitches;
-    for (int i = 0; i < switchNum; i++)
-    {
-	free(switchBox->allSwitches);
-	switchBox->allSwitches++;
-    }
+    free(switchBox->allSwitches);
+    switchBox->allSwitches = NULL;
 }
 
 void DestructAllDoors(Door* allDoors[], int numOfDoors)

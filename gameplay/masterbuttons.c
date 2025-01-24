@@ -416,6 +416,7 @@ void CheckForSolution(Button* button, ButtonMaster* puzzle, enum Gamemode* mode)
 	    answerFound = true;
 	    PuzzleCompleted(puzzle);
 	    puzzle->puzzleInputType = EPIT_ResetOnly;
+	    return; //this is new lets see what this will do
       	}
 	else
 	{

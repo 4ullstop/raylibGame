@@ -1,5 +1,6 @@
 #include "sharedbuttons.h"
 #include "puzzles/movepuzzle.h"
+#include "switchbox.c"
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -326,21 +327,6 @@ void AssignGameplayElementsToPuzzles(ButtonMaster* puzzle, GameplayElements* gam
     default:
 	printf("ERROR DEFUALT RUN IN ASSIGNATION OF GAMEPLAY ELEMENTS\n");
     }
-
-/*    
-    if (door != NULL)
-    {
-        printf("the door is not null\n");
-        puzzle->associatedGameplayElements->associatedDoor = door;
-        printf("doors[0]: %p\n", (void*)&door);
-        printf("ptr val in puzzle: %p\n", &puzzle->associatedGameplayElements->associatedDoor);
-    }
-    else
-    {
-        printf("should be null\n");
-        puzzle->associatedGameplayElements = NULL;
-    }
-*/    
 }
 
 void InactGameplayElement(GameplayElements* gameplayElement)
@@ -348,8 +334,17 @@ void InactGameplayElement(GameplayElements* gameplayElement)
     printf("enacting gameplay element\n");
     if (gameplayElement != NULL && gameplayElement->associatedDoor != NULL)
     {
-        printf("something is not null when it should be\n");
-        gameplayElement->associatedDoor->isLowering = true;
+	switch (gameplayElement->gameplayElementType)
+	{
+	case GET_NULL:
+	    printf("Value not set in gameplayElementType\n");
+	    break;
+	case GET_Door:
+	    gameplayElement->associatedDoor->isLowering = true;
+	    break;
+	case GET_SwitchBox:
+	    QuerySwitchBox
+	}
     }
     printf("gameplay element enacted\n");
 }

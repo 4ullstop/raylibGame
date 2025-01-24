@@ -116,7 +116,8 @@ int main(int argc, char* argv[])
     SwitchBox* switchBoxesA[NUMBER_OF_SWITCH_BOXES_A];
     SwitchBox* switchBoxesB[NUMBER_OF_SWITCH_BOXES_B];
     
-    gameplayElements.switchBox = malloc(sizeof(SwitchBox*));    
+    gameplayElements.switchBox = malloc(sizeof(SwitchBox*));
+    
     //put the creation of gameplay elements here
     int lastModelIndex = 0;
     int numOfModels = 0;
@@ -125,14 +126,14 @@ int main(int argc, char* argv[])
     {
         numOfModels = NUMBER_OF_MODELS_A;
         numOfTextures = NUMBER_OF_TEXTURES_A;
-
+	gameplayElements.numOfSwitchBoxes = 1;
 	exitCodes.gameVersion = "A";
     }
     else
     {
         numOfModels = NUMBER_OF_MODELS_B;
         numOfTextures = NUMBER_OF_TEXTURES_B;
-
+	gameplayElements.numOfSwitches = 0;
 	exitCodes.gameVersion = "B";
     }
 
