@@ -125,3 +125,5 @@ Breaking from the open world convetion a little bit
  - Maybe have the window close automatically depending on which context they are in and how far away from the puzzle they activated they are
 
 15 0 4
+
+8.8 4.1

@@ -70,11 +70,11 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
 			  true,
 			  nullLerpLoc,
 			  exitCode);
-
+    //First direction
     ConstructSinglePuzzle(&lastPuzzleIndex,
 			  3,
 			  3,
-			  (Vector3){-12.0f, 1.0f, -5.0f},
+			  (Vector3){1.8f, 5.8f, 7.72f},
 			  player,
 			  Puzzle_04,
 			  GET_NULL,
@@ -110,11 +110,11 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
 			  nullLerpLoc,
 			  exitCode);
 
-
+    //Second direction
     ConstructSinglePuzzle(&lastPuzzleIndex,
 			  3,
 			  5,
-			  (Vector3){-18.0f, 1.0f, -5.0f},
+			  (Vector3){-0.9f, 5.8f, 14.9f},
 			  player,
 			  Puzzle_06,
 			  GET_NULL,
@@ -150,10 +150,11 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
 			  nullLerpLoc,
 			  exitCode);
 
+    //Direction
     ConstructSinglePuzzle(&lastPuzzleIndex,
 			  3,
 			  5,
-			  (Vector3){-21.0f, 1.0f, -5.0f},
+			  (Vector3){2.5f, 5.8f, 22.8f},
 			  player,
 			  Puzzle_08,
 			  GET_NULL,
@@ -193,7 +194,7 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
     ConstructSinglePuzzle(&lastPuzzleIndex,
 			  4,
 			  5,
-			  (Vector3){-18.0f, 1.0f, 0.0f},
+			  (Vector3){10.0f, 5.8f, 26.0f},
 			  player,
 			  Puzzle_10,
 			  GET_NULL,
@@ -208,11 +209,11 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
 			  true,
 			  nullLerpLoc,
 			  exitCode);
-
+    //Direction down
     ConstructSinglePuzzle(&lastPuzzleIndex,
 			  3,
 			  4,
-			  (Vector3){-15.0f, 1.0f, -10.0f},
+			  (Vector3){18.5f, 5.8f, 22.1f},
 			  player,
 			  Puzzle_11,
 			  GET_NULL,
@@ -228,10 +229,11 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
 			  nullLerpLoc,
 			  exitCode);
 
+    //Direction down left
     ConstructSinglePuzzle(&lastPuzzleIndex,
 			  5,
 			  4,
-			  (Vector3){-12.0f, 1.0f, -10.0f},
+			  (Vector3){21.0f, 5.8f, 14.3f},
 			  player,
 			  Puzzle_12,
 			  GET_NULL,
@@ -250,7 +252,7 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
     ConstructSinglePuzzle(&lastPuzzleIndex,
 			  3,
 			  5,
-			  (Vector3){-18.0f, 1.0f, -10.0f},
+			  (Vector3){17.1f, 5.8f, 6.7f},
 			  player,
 			  Puzzle_13,
 			  GET_NULL,
@@ -269,7 +271,7 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
     ConstructSinglePuzzle(&lastPuzzleIndex,
 			  5,
 			  6,
-			  (Vector3){-21.0f, 1.0f, -10.0f},
+			  (Vector3){8.8f, 5.8f, 4.1f},
 			  player,
 			  Puzzle_14,
 			  GET_NULL,
@@ -331,8 +333,14 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
 
     RotateButtonMaster(gameAPuzzles[1], -90.0f, (Vector3){0.0f, 1.0f, 0.0f});
     RotateButtonMaster(gameAPuzzles[2], -90.0f, (Vector3){0.0f, 1.0f, 0.0f});
+    RotateButtonMaster(gameAPuzzles[3], 45.0f, (Vector3){0.0f, 1.0f, 0.0f});
+    RotateButtonMaster(gameAPuzzles[5], 90.0f, (Vector3){0.0f, 1.0f, 0.0f});
     RotateButtonMaster(gameAPuzzles[6], 90.f, (Vector3){0.0f, 1.0f, 0.0f});
-
+    RotateButtonMaster(gameAPuzzles[7], 135.0f, (Vector3){0.0f, 1.0f, 0.0f});
+    RotateButtonMaster(gameAPuzzles[9], 180.0f, (Vector3){0.0f, 1.0f, 0.0f});
+    RotateButtonMaster(gameAPuzzles[10], 225.f, (Vector3){0.0f, 1.0f, 0.0f});
+    RotateButtonMaster(gameAPuzzles[11], 270.f, (Vector3){0.0f, 1.0f, 0.0f});
+    RotateButtonMaster(gameAPuzzles[12], 315.f, (Vector3){0.0f, 1.0f, 0.0f});
     AssignAllPuzzlesNormals(gameAPuzzles, NUMBER_OF_PUZZLES_A);
     /*
         After the initialziation of our buttons, we want to perscribe special textures to them if they so require
