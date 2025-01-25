@@ -127,6 +127,7 @@ int main(int argc, char* argv[])
         numOfModels = NUMBER_OF_MODELS_A;
         numOfTextures = NUMBER_OF_TEXTURES_A;
 	gameplayElements.numOfSwitchBoxes = 1;
+	gameplayElements.doors = (Door**)malloc(sizeof(Door*) * NUMBER_OF_DOORS_A);
 	exitCodes.gameVersion = "A";
     }
     else
@@ -134,6 +135,7 @@ int main(int argc, char* argv[])
         numOfModels = NUMBER_OF_MODELS_B;
         numOfTextures = NUMBER_OF_TEXTURES_B;
 	gameplayElements.numOfSwitchBoxes = 0;
+	gameplayElements.doors = malloc(sizeof(Door*) * NUMBER_OF_DOORS_B);
 	exitCodes.gameVersion = "B";
     }
 
@@ -156,7 +158,7 @@ int main(int argc, char* argv[])
         LoadAllTextures(texturesA, gametype, &exitCodes);
 	if (CheckForErrors(&exitCodes, &destructionLocations)) goto KillProgram; 
 
-        ConstructGameplayElements(modelsA, &lastModelIndex, texturesA, NUMBER_OF_DOORS_A, &gameplayElements, allDoorsA, &exitCodes, gametype);
+        ConstructGameplayElements(modelsA, &lastModelIndex, texturesA, NUMBER_OF_DOORS_A, &gameplayElements, gameplayElements.doors, &exitCodes, gametype);
 	if (CheckForErrors(&exitCodes, &destructionLocations)) goto KillProgram; 
         ConstructPuzzles(allPuzzlesA, modelsA, &lastModelIndex, gametype, &player, &gameplayElements, texturesA, openSharedValues.mainSharedValues, &exitCodes);
 	if (CheckForErrors(&exitCodes, &destructionLocations)) goto KillProgram; 
@@ -287,7 +289,7 @@ int main(int argc, char* argv[])
         if (gametype == EGT_A)
         {
             CallAllPolls(deltaTime, modelsA, areaQueryBoxesA, &interactedItem, allBoxesA, numOfModels, numOfQueryBoxes, openSharedValues.mainSharedValues);
-            PollAllGameplayElements(allDoorsA, deltaTime, numOfDoors);
+            PollAllGameplayElements(gameplayElements.doors, deltaTime, numOfDoors);
             Draw(modelsA, &ray, areaQueryBoxesA, ui, allBoxesA, numOfModels, numOfQueryBoxes, numOfInteractables, allPuzzlesA);
         }
         else
@@ -374,7 +376,7 @@ void Draw(modelInfo** models, Raycast* ray, QueryBox** queryBoxes, UIElements** 
         //draw here
         DrawAllModels(models, numberOfModels);
 
-	//DrawPlayerCollisionCapsule(player.location);
+//	DrawPlayerCollisionCapsule(player.location);
         
         if (hideObjects == false)
         {

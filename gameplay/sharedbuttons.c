@@ -280,7 +280,7 @@ void OnPuzzleCompleted(ButtonMaster* master)
     {
         master->player->playerHUD[2]->hidden = true;
     }
-    EnactGameplayElement(master->associatedGameplayElements, master->gameplayElementIndex, master->switchId);
+    EnactGameplayElement(master->associatedGameplayElements, master->gameplayElementIndex, master->switchId, master->gameplayElementType);
 
     if (master->puzzleToPowerOn != NULL)
     {
@@ -305,6 +305,7 @@ void PowerOnPuzzle(ButtonMaster* puzzle)
 
 void AssignGameplayElementsToPuzzles(ButtonMaster* puzzle, GameplayElements* gameplayElements, enum GameplayElementType gameplayElementType, int gameplayElementIndex)
 {
+    puzzle->gameplayElementType = gameplayElementType;
     switch (gameplayElementType)
     {
     case GET_NULL:
@@ -328,12 +329,12 @@ void AssignGameplayElementsToPuzzles(ButtonMaster* puzzle, GameplayElements* gam
     }
 }
 
-void EnactGameplayElement(GameplayElements* gameplayElement, int gameplayElementIndex, int switchId)
+void EnactGameplayElement(GameplayElements* gameplayElement, int gameplayElementIndex, int switchId, enum GameplayElementType gameplayElementType)
 {
     printf("enacting gameplay element\n");
-    if (gameplayElement != NULL && gameplayElement->associatedDoor != NULL)
+    if (gameplayElement != NULL)
     {
-	switch (gameplayElement->gameplayElementType)
+	switch (gameplayElementType)
 	{
 	case GET_NULL:
 	    printf("Value not set in gameplayElementType\n");
@@ -342,6 +343,7 @@ void EnactGameplayElement(GameplayElements* gameplayElement, int gameplayElement
 	    gameplayElement->associatedDoor->isLowering = true;
 	    break;
 	case GET_SwitchBox:
+	    printf("checking switch box\n");
 	    QuerySwitchBox(gameplayElement->switchBox, gameplayElementIndex, switchId);
 	    break;
 	default:

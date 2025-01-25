@@ -38,5 +38,11 @@ void QuerySwitchBox(SwitchBox** switchBox, int switchBoxId, int activatedId)
 	    return;
 	}
     }
+    if (switchBox[switchBoxId] == NULL || switchBox[switchBoxId]->referenceDoor == NULL)
+    {
+	printf("something is null here\n");
+	return;
+    }
+	
     switchBox[switchBoxId]->referenceDoor->isLowering = true;
 }

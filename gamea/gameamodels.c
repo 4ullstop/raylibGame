@@ -55,8 +55,8 @@ void CreateModelsForGameA(modelInfo** models, int* lastModelIndex, Texture2D** a
 		      "D:/CFiles/FirstGame/models/obj/lighthouse.obj",
 		      false,
 		      true,
-		      (Vector3){10.0f, 0.1f, 15.0f},
-		      9);   
+		      (Vector3){10.0f, -0.3f, 15.0f},
+		      12);   
 
     CreateSingleModel(models,
 		      lastModelIndex,

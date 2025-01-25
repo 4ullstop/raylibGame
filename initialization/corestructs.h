@@ -16,10 +16,10 @@
     The current size of this array is : 48
     The current size of AssociatedDoors in GameplayElements is: 48
 */
-#define NUMBER_OF_MODELS_A 216//45
+#define NUMBER_OF_MODELS_A 217//45
 #define NUMBER_OF_MODELS_B 101 //24
 
-#define NUMBER_OF_TEXTURES_A 12 //this will always be one more than what is in the file
+#define NUMBER_OF_TEXTURES_A 13 //this will always be one more than what is in the file
 #define NUMBER_OF_TEXTURES_B 9
 
 #define NUMBER_OF_INTERACTABLES_A 16 //9
@@ -34,7 +34,7 @@
 #define NUMBER_OF_OVERLAP_BOXES_A 1
 #define NUMBER_OF_OVERLAP_BOXES_B 1
 
-#define NUMBER_OF_DOORS_A 3
+#define NUMBER_OF_DOORS_A 4
 #define NUMBER_OF_DOORS_B 0
 
 #define NUMBER_OF_SWITCH_BOXES_A 1
@@ -279,7 +279,7 @@ typedef struct GameplayElements
 {
     enum GameplayElementType gameplayElementType;
     
-    Door* doors[48];
+    Door** doors;
     int numOfDoors;
 
     Door* associatedDoor;
@@ -543,6 +543,8 @@ typedef struct ButtonMaster
 
     int switchId;
     int gameplayElementIndex;
+
+    enum GameplayElementType gameplayElementType;
 } ButtonMaster;
 #endif
 
@@ -569,6 +571,7 @@ typedef struct ColBox
     int randDirectionSize;
 
     int id;
+
 
 } ColBox;
 #endif

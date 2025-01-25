@@ -110,8 +110,6 @@ Move player to center of play in the puzzles instead of their actual center
  - Meh, I can't figure this out enough, it doesn't really have to do with the rotation of the puzzle as it does player perspective, switching to orthographic or maybe even switching the FOV may help, but I haven't really tried these options yet
 
 
-When creating a hinged door, establish an xyz offset for the door to hinge on
-
 Separate the construction of doors between the two different games
 
 
@@ -124,4 +122,6 @@ There are a lot of things you could do to improve the collision detection system
 Breaking from the open world convetion a little bit
  - When the player has one side at a location and turns on the other window, the other window should be teleported to the location that bears the same puzzles as the other window
  - Maybe keep track of the player's location if and when they run away from a certain puzzle
- - Maybe have the window close automatically depending on which context they are in and how far away from the puzzle they activated they are 
+ - Maybe have the window close automatically depending on which context they are in and how far away from the puzzle they activated they are
+
+15 0 4

@@ -8,7 +8,7 @@ void PollAllGameplayElements(Door** allDoors, double deltaTime, int numOfDoors)
     PollDoors(allDoors, deltaTime, numOfDoors);
 }
 
-void ConstructGameplayElements(modelInfo** models, int* lastModelIndex, Texture2D** allTextures, int numOfDoors, GameplayElements* gameplayElements, Door* allDoors[], ExitCode* exitCode, enum Gametype gametype)
+void ConstructGameplayElements(modelInfo** models, int* lastModelIndex, Texture2D** allTextures, int numOfDoors, GameplayElements* gameplayElements, Door** allDoors, ExitCode* exitCode, enum Gametype gametype)
 {
     if (gameplayElements == NULL)
     {
@@ -26,6 +26,7 @@ void ConstructGameplayElements(modelInfo** models, int* lastModelIndex, Texture2
 	gameplayElements->numOfDoors = numOfDoors;	
     }
 
+    /*
     for (int i = 0; i < gameplayElements->numOfDoors; i++)
     {
         printf("Gameplay elements door: %p\n", (void*)&allDoors[i]);
@@ -34,4 +35,5 @@ void ConstructGameplayElements(modelInfo** models, int* lastModelIndex, Texture2
         printf("Gameplay elements door: %p\n", (void*)&gameplayElements->doors[i]);
         printf("\n");
     }
+    */
 }

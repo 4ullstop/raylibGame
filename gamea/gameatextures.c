@@ -14,7 +14,8 @@ void RetrieveGameATextureFiles(char** textureFiles)
     "D:/CFiles/FirstGame/models/obj/Button_Mats/buttonTextureAtlas_completed_02.png", //8
     "D:/CFiles/FirstGame/models/obj/dock.png", //9
     "D:/CFiles/FirstGame/models/obj/water.png", //10
-    "D:/CFiles/FirstGame/models/obj/ground.png"
+    "D:/CFiles/FirstGame/models/obj/ground.png", //11
+    "D:/CFiles/FirstGame/models/obj/lighthouseuv.png" //12
     };
 
     LoopThroughFiles(textureFiles, gameATextures);
