@@ -92,10 +92,13 @@ void SwingDoor(Door* door, double deltaTime)
 {
     if (door->isLowering == true)
     {
-	float angleR = (int)(door->currAngle * 100 + .5);
-	angleR /= 100;
-	if (!( 1.4f == angleR))
+	float angleR = (int)(door->currAngle * 10 + .5);
+	angleR /= 10;
+	float goalAngle = (int)((90.0f * DEG2RAD) * 10 + .5);
+	goalAngle /= 10;
+	if (!(goalAngle == angleR))
 	{
+	    printf("DegToRad 90: %f, angleR: %f\n", goalAngle, angleR);
 	    door->currAngle = door->currAngle + (0.5 * deltaTime);
 	    door->doorModel.modelLocation = door->location;
       	    door->doorModel.model.transform = MatrixRotateXYZ((Vector3){0.0f, 1.0f * door->currAngle, 0.0f});

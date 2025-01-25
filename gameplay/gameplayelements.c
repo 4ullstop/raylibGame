@@ -25,15 +25,4 @@ void ConstructGameplayElements(modelInfo** models, int* lastModelIndex, Texture2
 	ConstructGameBGameplayElements(models, lastModelIndex, allTextures, numOfDoors, gameplayElements, allDoors, exitCode);
 	gameplayElements->numOfDoors = numOfDoors;	
     }
-
-    /*
-    for (int i = 0; i < gameplayElements->numOfDoors; i++)
-    {
-        printf("Gameplay elements door: %p\n", (void*)&allDoors[i]);
-        printf("\n");
-        gameplayElements->doors[i] = allDoors[i];
-        printf("Gameplay elements door: %p\n", (void*)&gameplayElements->doors[i]);
-        printf("\n");
-    }
-    */
 }
