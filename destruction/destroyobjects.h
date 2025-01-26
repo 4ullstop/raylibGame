@@ -33,7 +33,7 @@ void DestroyOverlapBoxes(OverlapBox** allBoxes, int numOfOverlapBoxes);
 
 void DestructAllGameplayElements(GameplayElements* gameplayElements, int numOfDoors);
 
-void DestructAllDoors(Door* allDoors[], int numOfDoors);
+void DestructAllDoors(Door** allDoors, int numOfDoors);
 
 void DestroySwitchBoxes(GameplayElements* gameplayElements);
 

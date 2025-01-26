@@ -223,15 +223,12 @@ void DestroySwitches(SwitchBox* switchBox)
     switchBox->allSwitches = NULL;
 }
 
-void DestructAllDoors(Door* allDoors[], int numOfDoors)
+void DestructAllDoors(Door** allDoors, int numOfDoors)
 {
-    printf("alldoors %p\n", (void*)&allDoors[0]);
-    printf("num of doors %i\n", numOfDoors);
-    if (allDoors[0] != NULL)
+    for (int i = 0; i < numOfDoors; i++)
     {
-	free(allDoors[0]);
-	allDoors[0] = NULL;
+	free(allDoors[i]);
+	allDoors[i] = NULL;
     }
-    
-    printf("Door destruct complete\n");
+    free(allDoors); 
 }

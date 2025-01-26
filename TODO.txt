@@ -110,8 +110,6 @@ Move player to center of play in the puzzles instead of their actual center
  - Meh, I can't figure this out enough, it doesn't really have to do with the rotation of the puzzle as it does player perspective, switching to orthographic or maybe even switching the FOV may help, but I haven't really tried these options yet
 
 
-Separate the construction of doors between the two different games
-
 
 There are a lot of things you could do to improve the collision detection system/optimize it (this is a thing that will need to happen much later down the road)
  - First of all, rather than using the meshes themselves to detect collision, you need to make bounding boxes that will make the collision detection use much simpler and easier to run through the detection cycle
@@ -124,6 +122,28 @@ Breaking from the open world convetion a little bit
  - Maybe keep track of the player's location if and when they run away from a certain puzzle
  - Maybe have the window close automatically depending on which context they are in and how far away from the puzzle they activated they are
 
-15 0 4
 
-8.8 4.1
+What I need to do to be complete for the section that I am working on now:
+ - Create collision for the back fence
+ - Create the visual indicator of the connection between the puzzles and the other elements/other puzzles
+ - Create a visual inidicator for the switch box
+ - Place the remaining puzzles in a good place (might involve filling out the level with some models)
+ - Most importantly, create the ability to power on the other windows via button in the puzzle
+
+
+Things that could be redone to make them better:
+ - Make the assigning of special textures a little more easy to handle
+ - Figure out what is up with the collision in the stairs in the lighthouse
+ - Fix the UI bc a lot of it doesn't line up with what it used to
+
+Ideas about game b now:
+ - Gameb will entirely be the introduction to the connection between the two windows
+ - 
+
+Things for game b to start:
+ - You'll have to design the starting area for gamea as well as gameb
+ - Design the shared puzzles to be implemented
+
+
+Something that could be much better about the design is the fact that I'm still not teaching the basics very well
+ 
