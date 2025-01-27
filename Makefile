@@ -48,7 +48,8 @@ SRC = main.c \
 	  gameb\gamebdoors.c \
 	  gameplay\switchbox.c \
 	  gamea\gameaswitchboxes.c \
-	  gameb\gamebswitchboxes.c
+	  gameb\gamebswitchboxes.c \
+	  gameplay\puzzles\poweronpuzzle.c
 OBJ = intermediate\main.o \
       intermediate\window.o \
       intermediate\camera.o \
@@ -98,7 +99,8 @@ OBJ = intermediate\main.o \
 	  intermediate\gamebdoors.o \
 	  intermediate\switchbox.o \
 	  intermediate\gameaswitchboxes.o \
-	  intermediate\gamebswitchboxes.o
+	  intermediate\gamebswitchboxes.o \
+	  intermediate\poweronpuzzle.o
 !IFNDEF OUTPUT
 OUTPUT = scenea.exe
 !ENDIF
@@ -267,6 +269,9 @@ intermediate\gameaswitchboxes.o: gamea\gameaswitchboxes.c intermediate
 
 intermediate\gamebswitchboxes.o: gameb\gamebswitchboxes.c intermediate
 	$(CC) $(CFLAGS) -c gameb\gamebswitchboxes.c -o intermediate\gamebswitchboxes.o $(INCLUDE)
+
+intermediate\poweronpuzzle.o: gameplay\puzzles\poweronpuzzle.c intermediate
+	$(CC) $(CFLAGS) -c gameplay\puzzles\poweronpuzzle.c -o intermediate\poweronpuzzle.o $(INCLUDE)
 
 # Clean rule to delete
 clean:

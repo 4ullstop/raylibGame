@@ -4,6 +4,7 @@
 #ifndef SHARED_MEM_HEADER
 #define SHARED_MEM_HEADER
 #include "../initialization/corestructs.h"
+#include "processthreadsapi.h"
 #endif
 
 #ifndef PUZZLE_SHARED_VALUES
@@ -49,5 +50,12 @@ typedef struct OpenSharedValues
     PuzzleSharedValues* puzzleSharedValues;
 
     bool playerIsSharingPuzzles;
+
+    STARTUPINFO* si;
+    PROCESS_INFORMATION* pi;
+    HANDLE* hMapFile;
+    HANDLE* eventHandle;
+    HANDLE* puzzleHandle;
+    
 } OpenSharedValues;
 #endif

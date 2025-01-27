@@ -124,7 +124,6 @@ Breaking from the open world convetion a little bit
 
 
 What I need to do to be complete for the section that I am working on now:
- - Create collision for the back fence
  - Create the visual indicator of the connection between the puzzles and the other elements/other puzzles
  - Create a visual inidicator for the switch box
  - Place the remaining puzzles in a good place (might involve filling out the level with some models)

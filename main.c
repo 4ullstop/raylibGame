@@ -64,6 +64,12 @@ int main(int argc, char* argv[])
     sharedMemValA->sharedValTesting = 23;
     
 
+    openSharedValues.si = &si;
+    openSharedValues.pi = &pi;
+    openSharedValues.hMapFile = &hMapFile;
+    openSharedValues.eventHandle = &eventHandle;
+    openSharedValues.puzzleHandle = &puzzleHandle;
+    
     hideObjects = false;
     printf("%i\n", argc);
     if (argc > 1) gametype = EGT_B;

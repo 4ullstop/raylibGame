@@ -98,4 +98,14 @@ void CreateModelsForGameA(modelInfo** models, int* lastModelIndex, Texture2D** a
 		      (Vector3){0.0f, 0.0f, 0.0f},
 		      9);
 
+    CreateSingleModel(models,
+		      lastModelIndex,
+		      allTextures,
+		      exitCode,
+		      "D:/CFiles/FirstGame/models/obj/fencecollision.obj",
+		      false,
+		      false,
+		      (Vector3){0.0f, 0.0f, 0.0f},
+		      0);
+
 }
