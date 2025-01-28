@@ -21,7 +21,7 @@ void RemoveHighlight(Button* button);
 
 void ChangeSelection(Button* button, ButtonMaster* puzzle, OpenSharedValues* openSharedValues, enum Gametype gametype, ExitCode* exitCode);
 
-void CheckForSolution(Button* button, ButtonMaster* master, enum Gamemode* mode);
+bool CheckForSolution(Button* button, ButtonMaster* master, enum Gamemode* mode);
 
 void RotateButtonMaster(ButtonMaster* master, float angle, Vector3 axis);
 

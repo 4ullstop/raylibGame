@@ -16,7 +16,7 @@
     The current size of this array is : 48
     The current size of AssociatedDoors in GameplayElements is: 48
 */
-#define NUMBER_OF_MODELS_A 220//45
+#define NUMBER_OF_MODELS_A 219//45
 #define NUMBER_OF_MODELS_B 101 //24
 
 #define NUMBER_OF_TEXTURES_A 13 //this will always be one more than what is in the file

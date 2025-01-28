@@ -158,7 +158,10 @@ Button* HandleCursorSelection(Button* currSelectedButton, ButtonMaster* puzzle, 
     printf("about to change selection\n");
     ChangeSelection(currSelectedButton, puzzle, openSharedValues, gametype, exitCode);
     printf("about to check for solution\n");
-    CheckForSolution(currSelectedButton, puzzle, gameMode);
+    if (CheckForSolution(currSelectedButton, puzzle, gameMode) == true)
+    {
+	return NULL;
+    }
 
     printf("about to push cursor\n");
     currSelectedButton = PushCursor(currSelectedButton, puzzle);
@@ -404,7 +407,7 @@ void UnsubmitButton(Button* button, ButtonMaster* puzzle, bool isFromAuto)
     AddHighlight(button);
 }
 
-void CheckForSolution(Button* button, ButtonMaster* puzzle, enum Gamemode* mode)
+bool CheckForSolution(Button* button, ButtonMaster* puzzle, enum Gamemode* mode)
 {
     bool answerFound = false;
     if (puzzle->numberOfSolutions == puzzle->numOfSolved)
@@ -446,7 +449,7 @@ void CheckForSolution(Button* button, ButtonMaster* puzzle, enum Gamemode* mode)
 	    answerFound = true;
 	    PuzzleCompleted(puzzle);
 	    puzzle->puzzleInputType = EPIT_ResetOnly;
-	    return; //this is new lets see what this will do
+	    return true; //this is new lets see what this will do
       	}
 	else
 	{
@@ -454,6 +457,7 @@ void CheckForSolution(Button* button, ButtonMaster* puzzle, enum Gamemode* mode)
 	    printf("These are the right buttons input in the incorrect order\n");
 	    
 	    ResetPuzzle(puzzle, true);
+	    return false;
 	}
     }
     else
@@ -462,6 +466,7 @@ void CheckForSolution(Button* button, ButtonMaster* puzzle, enum Gamemode* mode)
 	{
 	    printf("You have selected all of the present buttons, try again\n");
 	    ResetPuzzle(puzzle, true);
+	    return false;
 	}
     }
 }
