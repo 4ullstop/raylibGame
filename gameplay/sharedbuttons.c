@@ -146,6 +146,7 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
     master->childButtons[i][j].isAboveEdge = false;
     master->childButtons[i][j].isLeftEdge = false;
     master->childButtons[i][j].isRightEdge = false;
+    master->childButtons[i][j].sharedWindowOpened = false;
     master->childButtons[i][j].id = rand();
     dynamicModels[*lastModelIndex] = master->childButtons[i][j].model;
     *lastModelIndex = *lastModelIndex + 1;
@@ -499,28 +500,39 @@ void AssignButtonSpecialTextureAndAction(Button* button, enum TextureCoordinateL
     if (textureLocations != TCL_OFF || textureLocations != TCL_SUB)
     {
         UpdateShaderForButtonAtlas(button, textureLocations);
+	if (textureLocations == TCL_Window)
+	{
+	    printf("\n");
+	    printf("shader updated for window button\n");
+	    printf("\n");
+	}
     }
 
-    if (textureLocations == TCL_OFF)
+    switch(textureLocations)
     {
+    case TCL_OFF:
 	button->buttonState = EBS_off;
 	button->model->texture = button->buttonTextures->off;
 	button->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = button->model->texture;
 	button->shouldStayPoweredOff = true;
-    }
-
-    if (textureLocations == TCL_SUB)
-    {
+	break;
+    case TCL_SUB:
 	button->buttonState = EBS_selected;
 	button->model->texture = button->buttonTextures->selected;
 	button->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = button->model->texture;
 	button->shouldStaySubmitted = true;
-    }
-    AssignToggleAction(button, textureLocations);
-    if (textureLocations == TCL_Move)
-    {
+	break;
+    case TCL_Move:
 	AssignMoveAction(button, textureLocations);
+	break;
+    case TCL_Window:
+	button->puzzleType = EPT_WindowPower;
+	break;
+    default:
+	break;
     }
+    
+    AssignToggleAction(button, textureLocations);
 }
 
 void AssignSolutionsTextures(ButtonMaster* puzzle)

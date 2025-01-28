@@ -43,6 +43,8 @@ void Puzzle_15(ButtonMaster* puzzle);
 
 void Puzzle_16(ButtonMaster* puzzle);
 
+void Puzzle_17(ButtonMaster* puzzle);
+
 void AssignSpecialTexturesGameA(ButtonMaster** allPuzzles, Texture2D** allTextures);
 
 void AddGameAPuzzlesToSharedMemory(ButtonMaster** allPuzzles, SharedMemory* sharedMemory);

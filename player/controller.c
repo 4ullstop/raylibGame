@@ -126,11 +126,15 @@ void PollPlayerSecondaryInputs(FPSPlayer* player, Raycast* interactRay, QueryBox
                     printf("closestbox id: %i\n", interactRay->closestBox->id);
 
                     interactRay->closestBox->interact(player, interactRay->closestBox);
+		    printf("here 1\n");
                     *interactedItem = *areaBoxes[i]->associatedInteractables[interactRay->associatedIndex];
+		    printf("here 2\n");
                     interactedItem->associatedPuzzle->shouldReadTick = true;
+		    printf("here 3\n");
                     LerpPlayer(player, interactedItem->associatedPuzzle);
+		    printf("here 4\n");
                     *mode = EGM_Puzzle;
-		    if (interactedItem->associatedPuzzle->sharedPuzzle == true)
+		    if (openSharedValues->mainSharedValues != NULL && interactedItem->associatedPuzzle->sharedPuzzle == true)
 		    {
 			printf("interacted item is a shared puzzle\n");
 			if (gameType == EGT_A)
@@ -147,13 +151,14 @@ void PollPlayerSecondaryInputs(FPSPlayer* player, Raycast* interactRay, QueryBox
 			}
 		        openSharedValues->mainSharedValues->sharingPuzzles = IsPlayerReadyToSharePuzzles(openSharedValues->mainSharedValues);
 		    }
+		    printf("here 5\n");
                 }
             }
         }
     }
     if (IsKeyPressed(KEY_F))
     {
-
+	if (openSharedValues->mainSharedValues == NULL) return;
 	Vector2 windowPos = GetWindowPosition();
 	if (gameType == EGT_A)
 	{
@@ -210,8 +215,9 @@ void LerpPlayer(FPSPlayer* player, ButtonMaster* puzzle)
     }
 }
 
-void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode, OpenSharedValues* openSharedValues, bool isPlayerSharingPuzzle, enum Gametype gametype)
+void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode, OpenSharedValues* openSharedValues, bool isPlayerSharingPuzzle, enum Gametype gametype, ExitCode* exitCode)
 {
+    printf("polling inputs\n");
     if (interactedItem == NULL)
     {
 	printf("interacted item is null\n");
@@ -247,6 +253,7 @@ void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode, O
 	*mode = EGM_Normal;
 	interactedItem->associatedPuzzle = NULL;
 	interactedItem = NULL;
+	if (openSharedValues->mainSharedValues == NULL) return;
 	if (gametype == EGT_A)
 	{
 	    openSharedValues->mainSharedValues->gameAInSharedPuzzle = false;
@@ -264,6 +271,7 @@ void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode, O
     
     if (IsKeyPressed(KEY_F))
     {
+	if (openSharedValues->mainSharedValues == NULL) return;
 	if (gametype == EGT_A)
 	{
 	    SwitchToWindow("Sceneb", windowPos.x, windowPos.y);
@@ -288,7 +296,7 @@ void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode, O
     {
 	inputDirection = ED_Reset;
 	openSharedValues->puzzleSharedValues->inputDirection = inputDirection;
-        MoveCursor(ED_Reset, interactedItem, mode, openSharedValues, isPlayerSharingPuzzle);
+        MoveCursor(ED_Reset, interactedItem, mode, openSharedValues, isPlayerSharingPuzzle, gametype, exitCode);
     }
 
     
@@ -339,8 +347,12 @@ void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode, O
 
     if (inputDirection > 0)
     {
-	openSharedValues->puzzleSharedValues->inputDirection = inputDirection;
-	MoveCursor(inputDirection, interactedItem, mode, openSharedValues, isPlayerSharingPuzzle);
+	if (openSharedValues->puzzleSharedValues != NULL)
+	{
+	    openSharedValues->puzzleSharedValues->inputDirection = inputDirection;
+	}
+
+	MoveCursor(inputDirection, interactedItem, mode, openSharedValues, isPlayerSharingPuzzle, gametype, exitCode);
     }
 
     /*

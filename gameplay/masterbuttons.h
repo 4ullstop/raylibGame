@@ -15,11 +15,11 @@
 
 void ConstructPuzzles(ButtonMaster** allPuzzles, modelInfo** dynamicModels, int* lastModelIndex, enum Gametype gametype, FPSPlayer* player, GameplayElements* gameplayElements, Texture2D** allTextures, SharedMemory* sharedMemory, ExitCode* exitCode);
 
-void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gamemode* mode, OpenSharedValues* openSharedValues, bool isPlayerSharingPuzzle);
+void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gamemode* mode, OpenSharedValues* openSharedValues, bool isPlayerSharingPuzzle, enum Gametype gametype, ExitCode* exitCode);
 
 void RemoveHighlight(Button* button);
 
-void ChangeSelection(Button* button, ButtonMaster* puzzle);
+void ChangeSelection(Button* button, ButtonMaster* puzzle, OpenSharedValues* openSharedValues, enum Gametype gametype, ExitCode* exitCode);
 
 void CheckForSolution(Button* button, ButtonMaster* master, enum Gamemode* mode);
 
@@ -49,7 +49,7 @@ bool PushedCheckForEdges(Button* button);
 
 void PuzzleCompleted(ButtonMaster* puzzle);
 
-bool SubmitButton(Button* button, ButtonMaster* puzzle);
+bool SubmitButton(Button* button, ButtonMaster* puzzle, OpenSharedValues* openSharedValues, enum Gametype gametype, ExitCode* exitCode);
 
 void UnsubmitButton(Button* button, ButtonMaster* puzzle, bool isFromAuto);
 
@@ -63,6 +63,6 @@ void PollConsumer(OpenSharedValues* openSharedValues, ButtonMaster* puzzle, enum
 
 Button* FindCursoredButton(ButtonMaster* puzzle);
 
-Button* HandleCursorSelection(Button* currSelectedButton, ButtonMaster* puzzle, enum Gamemode* gameMode, bool isSharedPuzzle, bool isConsumer, OpenSharedValues* openSharedValues);
+Button* HandleCursorSelection(Button* currSelectedButton, ButtonMaster* puzzle, enum Gamemode* gameMode, bool isSharedPuzzle, bool isConsumer, OpenSharedValues* openSharedValues, enum Gametype gametype, ExitCode* exitCode);
 
 void SharedButtonNeighborDetermination(Button** leftCurrSelected, Button** rightCurrSelected, Button** aboveCurrSelected, Button** belowCurrSelected, Button* currSelectedButton, ButtonMaster* puzzle);

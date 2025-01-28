@@ -324,6 +324,25 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
 			  true,
 			  nullLerpLoc,
 			  exitCode);
+
+    ConstructSinglePuzzle(&lastPuzzleIndex,
+			  1,
+			  1,
+			  (Vector3){1.0f, 1.0f, 1.0f},
+			  player,
+			  Puzzle_17,
+			  GET_NULL,
+			  gameplayElements,
+			  0,
+			  gameAPuzzles,
+			  (Vector2Int){0, 0},
+			  true,
+			  EPS_active,
+			  0.0f,
+			  false,
+			  true,
+			  nullLerpLoc,
+			  exitCode);
     
     for (int i = 0; i < NUMBER_OF_PUZZLES_A; i++)
     {
@@ -467,6 +486,8 @@ void AssignSpecialTexturesGameA(ButtonMaster** allPuzzles, Texture2D** allTextur
     AssignButtonSpecialTextureAndAction(&allPuzzles[15]->childButtons[1][0], TCL_OFF);
     AssignButtonSpecialTextureAndAction(&allPuzzles[15]->childButtons[1][1], TCL_OFF);
     AssignButtonSpecialTextureAndAction(&allPuzzles[15]->childButtons[1][2], TCL_OFF);
+
+    AssignButtonSpecialTextureAndAction(&allPuzzles[16]->childButtons[0][0], TCL_Window);
     
     AssignSolutionsTextures(allPuzzles[0]);
     AssignSolutionsTextures(allPuzzles[2]);
@@ -482,6 +503,7 @@ void AssignSpecialTexturesGameA(ButtonMaster** allPuzzles, Texture2D** allTextur
     AssignSolutionsTextures(allPuzzles[12]);
     AssignSolutionsTextures(allPuzzles[13]);
     AssignSolutionsTextures(allPuzzles[14]);
+    AssignSolutionsTextures(allPuzzles[15]);
     AssignSolutionsTextures(allPuzzles[15]);
 }
 
@@ -783,3 +805,16 @@ void Puzzle_16(ButtonMaster* puzzle)
     puzzle->textureSizes[0] = EBTS_01;
     puzzle->textureSizes[1] = EBTS_05;
 }
+
+void Puzzle_17(ButtonMaster* puzzle)
+{
+    int numOfSolutions = 1;
+    puzzle->numberOfSolutions = numOfSolutions;
+    puzzle->solutionLocations = malloc(sizeof(Vector2Int) * numOfSolutions);
+    puzzle->solutionButtons = malloc(sizeof(Button) * puzzle->numberOfSolutions);
+    puzzle->solutionLocations[0] = (Vector2Int){0, 0};
+
+    puzzle->textureSizes = malloc(sizeof(enum ButtonTextureSizes) * puzzle->numberOfSolutions);
+    puzzle->textureSizes[0] = EBTS_01;
+}
+	       

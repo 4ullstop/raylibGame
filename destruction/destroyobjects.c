@@ -31,7 +31,8 @@ void EnduceTearDown(modelInfo** models, int numOfModels, Texture2D** allTextures
     DestroyOverlapBoxes(allOverlapBoxes, numOfOverlapBoxes);
     if (destructionLocations == DL_OverlapBoxes && exitCode->gameLoaded == false) return;
 
-    //destroy shared memory
+    //destroy shared memor
+    if (sharedMemVal == NULL) return;
     if (gametype == EGT_A)
     {
 	DestroySharedMemory(pi, hMapFile, sharedMemVal); 

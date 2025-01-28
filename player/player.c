@@ -43,9 +43,9 @@ void DrawPlayerCollisionCapsule(Vector3 location)
     DrawCapsuleWires((Vector3){location.x, location.y + 1.0f, location.z}, (Vector3){location.x, location.y - 1.0f, location.z}, 1.0f, 8, 8, VIOLET);
 }
 
-void PollPlayerPuzzle(FPSPlayer* player, float deltaTime, Interactable* interactedItem, enum Gamemode* mode, OpenSharedValues* openSharedValues, bool isPlayerSharingPuzzles, enum Gametype gametype)
+void PollPlayerPuzzle(FPSPlayer* player, float deltaTime, Interactable* interactedItem, enum Gamemode* mode, OpenSharedValues* openSharedValues, bool isPlayerSharingPuzzles, enum Gametype gametype, ExitCode* exitCode)
 {
-    PollPlayerPuzzleInputs(interactedItem, mode, openSharedValues, isPlayerSharingPuzzles, gametype);
+    PollPlayerPuzzleInputs(interactedItem, mode, openSharedValues, isPlayerSharingPuzzles, gametype, exitCode);
 
     if (player->shouldTickPlayer == true)
     {

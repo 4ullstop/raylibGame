@@ -69,6 +69,7 @@ int main(int argc, char* argv[])
     openSharedValues.hMapFile = &hMapFile;
     openSharedValues.eventHandle = &eventHandle;
     openSharedValues.puzzleHandle = &puzzleHandle;
+    openSharedValues.mainSharedValues = NULL;
     
     hideObjects = false;
     printf("%i\n", argc);
@@ -250,7 +251,7 @@ int main(int argc, char* argv[])
     }
 
     colPacket.eRadius = (Vector3){1.0f, 2.0f, 1.0f};
-
+/*
     if (gametype == EGT_A)
     {
 	openSharedValues.mainSharedValues  = (SharedMemory *)SetupSharedMemoryAndCreateProcess(&si, &pi, &hMapFile, sizeof(SharedMemory), &eventHandle, "sceneb");
@@ -267,7 +268,7 @@ int main(int argc, char* argv[])
 	printf("shared value for game b created\n");
 
     }
-
+*/
     SetWindowLocationForGameType(gametype);
 
     exitCodes.gameLoaded = true;
@@ -294,18 +295,18 @@ int main(int argc, char* argv[])
 
         if (gametype == EGT_A)
         {
-            CallAllPolls(deltaTime, modelsA, areaQueryBoxesA, &interactedItem, allBoxesA, numOfModels, numOfQueryBoxes, openSharedValues.mainSharedValues);
+            CallAllPolls(deltaTime, modelsA, areaQueryBoxesA, &interactedItem, allBoxesA, numOfModels, numOfQueryBoxes, &exitCodes);
             PollAllGameplayElements(gameplayElements.doors, deltaTime, numOfDoors);
             Draw(modelsA, &ray, areaQueryBoxesA, ui, allBoxesA, numOfModels, numOfQueryBoxes, numOfInteractables, allPuzzlesA);
         }
         else
         {
-            CallAllPolls(deltaTime, modelsB, areaQueryBoxesB, &interactedItem, allBoxesB, numOfModels, numOfQueryBoxes, openSharedValues.mainSharedValues);
+            CallAllPolls(deltaTime, modelsB, areaQueryBoxesB, &interactedItem, allBoxesB, numOfModels, numOfQueryBoxes, &exitCodes);
             PollAllGameplayElements(allDoorsB, deltaTime, numOfDoors);
             Draw(modelsB, &ray, areaQueryBoxesB, ui, allBoxesB, numOfModels, numOfQueryBoxes, numOfInteractables, allPuzzlesB);
         }
 
-	if (openSharedValues.mainSharedValues->gameClosing == true)
+	if (openSharedValues.mainSharedValues != NULL && openSharedValues.mainSharedValues->gameClosing == true)
 	{
 	    printf("closing the game");
 	    goto KillProgram;
@@ -322,7 +323,7 @@ int main(int argc, char* argv[])
 KillProgram:
 
     
-    if (openSharedValues.mainSharedValues->gameClosing == false)
+    if (openSharedValues.mainSharedValues != NULL && openSharedValues.mainSharedValues->gameClosing == false)
     {
 	openSharedValues.mainSharedValues->gameClosing = true;
     }
@@ -344,7 +345,7 @@ KillProgram:
     return 0;
 }
 
-void CallAllPolls(float dTime, modelInfo** models, QueryBox** areaBoxes, Interactable* interactedItem, OverlapBox** overlapBoxes, int numberOfModels, int numOfAreaQueryBoxes, SharedMemory* sharedMemory)
+void CallAllPolls(float dTime, modelInfo** models, QueryBox** areaBoxes, Interactable* interactedItem, OverlapBox** overlapBoxes, int numberOfModels, int numOfAreaQueryBoxes, ExitCode* exitCode)
 {
     bool gameA = gametype == EGT_A;
     if (gamemode == EGM_Normal)
@@ -355,7 +356,7 @@ void CallAllPolls(float dTime, modelInfo** models, QueryBox** areaBoxes, Interac
     }
     else if (gamemode == EGM_Puzzle)
     {
-        PollPlayerPuzzle(&player, dTime, interactedItem, &gamemode, &openSharedValues, openSharedValues.mainSharedValues->sharingPuzzles, gametype);
+        PollPlayerPuzzle(&player, dTime, interactedItem, &gamemode, &openSharedValues, openSharedValues.mainSharedValues->sharingPuzzles, gametype, exitCode);
     }
     else if (gamemode == EGM_Inactive)
     {
@@ -368,7 +369,7 @@ void CallAllPolls(float dTime, modelInfo** models, QueryBox** areaBoxes, Interac
             PollPuzzles(interactedItem->associatedPuzzle, &interactedItemTickNode);
         }
     }
-    
+//    
 }
 
 void Draw(modelInfo** models, Raycast* ray, QueryBox** queryBoxes, UIElements** ui, OverlapBox** overlapQueryList, int numberOfModels, int numberOfQueryBoxes, int numberOfInteractables, ButtonMaster** allPuzzles)

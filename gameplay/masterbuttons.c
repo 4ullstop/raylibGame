@@ -1,6 +1,7 @@
 #include "masterbuttons.h"
 #include "../shared/sharedpuzzle.h"
 #include "puzzles/movepuzzle.h"
+#include "puzzles/poweronpuzzle.h"
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -18,7 +19,7 @@ void ConstructPuzzles(ButtonMaster** allPuzzles, modelInfo** dynamicModels, int*
     }
 }
 
-void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gamemode* mode, OpenSharedValues* openSharedValues, bool isPlayerSharingPuzzle)
+void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gamemode* mode, OpenSharedValues* openSharedValues, bool isPlayerSharingPuzzle, enum Gametype gametype, ExitCode* exitCode)
 {
     printf("moving cursor\n");
     ButtonMaster* master = interactedItem->associatedPuzzle;
@@ -106,7 +107,7 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
             break;
         case ED_Enter:
 	    Button* oldButton = master->cursoredButton;
-	    master->cursoredButton = HandleCursorSelection(currSelectedButton, master, mode, isPlayerSharingPuzzle, isConsumer, openSharedValues);
+	    master->cursoredButton = HandleCursorSelection(currSelectedButton, master, mode, isPlayerSharingPuzzle, isConsumer, openSharedValues, gametype, exitCode);
 	    printf("enter action complete\n");
             break;
         case ED_Reset:
@@ -146,16 +147,16 @@ void SharedButtonNeighborDetermination(Button** leftCurrSelected, Button** right
 	else if (currSelectedButton->buttonVectorLocation.x == (puzzle->rows / 2))
 	{
 	    *leftCurrSelected = &puzzle->childButtons[puzzle->rows - 1][currSelectedButton->buttonVectorLocation.y];
-	}
+ 	}
     }
 }
 
-Button* HandleCursorSelection(Button* currSelectedButton, ButtonMaster* puzzle, enum Gamemode* gameMode, bool isSharedPuzzle, bool isConsumer, OpenSharedValues* openSharedValues)
+Button* HandleCursorSelection(Button* currSelectedButton, ButtonMaster* puzzle, enum Gamemode* gameMode, bool isSharedPuzzle, bool isConsumer, OpenSharedValues* openSharedValues, enum Gametype gametype, ExitCode* exitCode)
 {
     Button* oldButton = currSelectedButton;
 
     printf("about to change selection\n");
-    ChangeSelection(currSelectedButton, puzzle);
+    ChangeSelection(currSelectedButton, puzzle, openSharedValues, gametype, exitCode);
     printf("about to check for solution\n");
     CheckForSolution(currSelectedButton, puzzle, gameMode);
 
@@ -226,7 +227,7 @@ void PollConsumer(OpenSharedValues* openSharedValues, ButtonMaster* puzzle, enum
 	AddHighlight(cursoredButton);
 	break;
     case ED_Enter:
-	ChangeSelection(cursoredButton, puzzle);
+	ChangeSelection(cursoredButton, puzzle, NULL, EGT_NULL, NULL);
 	CheckForSolution(cursoredButton, puzzle, mode);
 	cursoredButton = PushCursor(cursoredButton, puzzle);
 	break;
@@ -319,11 +320,11 @@ void RemoveHighlight(Button* button)
     }
 }
 
-void ChangeSelection(Button* button, ButtonMaster* puzzle)
+void ChangeSelection(Button* button, ButtonMaster* puzzle, OpenSharedValues* openSharedValues, enum Gametype gametype, ExitCode* exitCode)
 {
     if (!button->submitted)
     {
-	bool solutionButton = SubmitButton(button, puzzle);
+	bool solutionButton = SubmitButton(button, puzzle, openSharedValues, gametype, exitCode);
 	if (solutionButton == false)
 	{
 	    AddPlainButtonToSubmittedList(button, &puzzle->plainSubmittedButtons, puzzle);
@@ -335,14 +336,33 @@ void ChangeSelection(Button* button, ButtonMaster* puzzle)
     }
 }
 
-bool SubmitButton(Button* button, ButtonMaster* puzzle)
+bool SubmitButton(Button* button, ButtonMaster* puzzle, OpenSharedValues* openSharedValues, enum Gametype gametype, ExitCode* exitCode)
 {
     button->model->texture = button->buttonTextures->selected;
     button->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = button->model->texture;
     button->submitted = true;
-    if (button->ButtonSelected != NULL)
+    if (button->ButtonSelected != NULL && gametype != EGT_NULL)
     {
-	button->ButtonSelected(button);
+	//Somehow, I need to pass in the OpenSharedValues, exitcode and gametype here
+	switch(button->puzzleType)
+	{
+	case EPT_Free:
+	    button->ButtonSelected(button);
+	    break;
+	case EPT_OnOff:
+	    button->ButtonSelected(button);
+	    break;
+	case EPT_WindowPower:
+	    if (button->sharedWindowOpened == false)
+	    {
+		OpenSecondGame(openSharedValues, exitCode, gametype);
+		button->sharedWindowOpened = true;
+	    }
+	    break;
+	default:
+	    button->ButtonSelected(button);
+	    break;
+	}
     }
     if (button->solutionButton == true)
     {
