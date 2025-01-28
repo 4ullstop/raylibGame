@@ -111,7 +111,7 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
 	    printf("enter action complete\n");
             break;
         case ED_Reset:
-	    if (isPlayerSharingPuzzle == true)
+	    if (isPlayerSharingPuzzle == true && openSharedValues->mainSharedValues != NULL)
 	    {
 		HandleProducerInput(master, currSelectedButton, NULL, openSharedValues, isConsumer);
 	    }
@@ -162,7 +162,7 @@ Button* HandleCursorSelection(Button* currSelectedButton, ButtonMaster* puzzle, 
 
     printf("about to push cursor\n");
     currSelectedButton = PushCursor(currSelectedButton, puzzle);
-    if (isSharedPuzzle == true)
+    if (isSharedPuzzle == true && openSharedValues->mainSharedValues != NULL)
     {
 	printf("about to handle producer input\n");
 	HandleProducerInput(puzzle, oldButton, currSelectedButton, openSharedValues, isConsumer);
@@ -174,7 +174,7 @@ Button* HandleCursorSelection(Button* currSelectedButton, ButtonMaster* puzzle, 
 
 void HandleCursorMovement(Button* currSelectedButton, Button* newButton, ButtonMaster* puzzle, OpenSharedValues* openSharedValues, bool isConsumer, bool isSharedPuzzle)
 {
-    if (isSharedPuzzle == true)
+    if (isSharedPuzzle == true && openSharedValues->mainSharedValues != NULL)
     {
 	printf("handing cursor movement for shared puzzle\n");
 	HandleProducerInput(puzzle, currSelectedButton, newButton, openSharedValues, isConsumer);
@@ -237,7 +237,8 @@ void PollConsumer(OpenSharedValues* openSharedValues, ButtonMaster* puzzle, enum
     default:
 	printf("ERROR DEFAULT RUN IN POLL CONSUMER SWITCH STATEMENT\n");
     }
-    puzzle->cursoredButton = cursoredButton;    
+    puzzle->cursoredButton = cursoredButton;
+    if (openSharedValues->mainSharedValues == NULL) return;
     openSharedValues->mainSharedValues->flag = 0;
 }
 
@@ -353,7 +354,7 @@ bool SubmitButton(Button* button, ButtonMaster* puzzle, OpenSharedValues* openSh
 	    button->ButtonSelected(button);
 	    break;
 	case EPT_WindowPower:
-	    if (button->sharedWindowOpened == false)
+	    if (button->sharedWindowOpened == false && openSharedValues->mainSharedValues != NULL)
 	    {
 		OpenSecondGame(openSharedValues, exitCode, gametype);
 		button->sharedWindowOpened = true;

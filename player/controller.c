@@ -181,6 +181,7 @@ void PollPlayerSecondaryInputs(FPSPlayer* player, Raycast* interactRay, QueryBox
 
 void LerpPlayer(FPSPlayer* player, ButtonMaster* puzzle)
 {
+    printf("lerping player now\n");
     float distance = Vector3Distance(player->location, puzzle->location);
     if (distance <= 5.0f)
     {
@@ -217,7 +218,6 @@ void LerpPlayer(FPSPlayer* player, ButtonMaster* puzzle)
 
 void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode, OpenSharedValues* openSharedValues, bool isPlayerSharingPuzzle, enum Gametype gametype, ExitCode* exitCode)
 {
-    printf("polling inputs\n");
     if (interactedItem == NULL)
     {
 	printf("interacted item is null\n");
@@ -247,7 +247,7 @@ void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode, O
 	    }
 	}
     }
-    
+
     if (IsKeyPressed(KEY_E))
     {
 	*mode = EGM_Normal;
@@ -283,7 +283,8 @@ void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode, O
 	    openSharedValues->mainSharedValues->ActiveWindowA = true;
 	}
     }
-	
+
+    
     if (interactedItem->associatedPuzzle->puzzleInputType == EPIT_Disabled) return;
     
     bool directionalKeyPressed = false;
@@ -295,14 +296,16 @@ void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode, O
     if (IsKeyPressed(KEY_R))
     {
 	inputDirection = ED_Reset;
-	openSharedValues->puzzleSharedValues->inputDirection = inputDirection;
+	if (openSharedValues->puzzleSharedValues != NULL)
+	{
+	    openSharedValues->puzzleSharedValues->inputDirection = inputDirection;
+	}
         MoveCursor(ED_Reset, interactedItem, mode, openSharedValues, isPlayerSharingPuzzle, gametype, exitCode);
     }
 
     
-    if (isPlayerSharingPuzzle == true)
+    if (isPlayerSharingPuzzle == true && openSharedValues->mainSharedValues != NULL)
     {
-	printf("polling consumer even though we should not be sharing puzzles\n");
 	if (IsPuzzleConsumer(interactedItem->associatedPuzzle, openSharedValues))
 	{
 	    PollConsumer(openSharedValues, interactedItem->associatedPuzzle, mode);
@@ -313,12 +316,11 @@ void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode, O
 
     if ((interactedItem->associatedPuzzle->sharedPuzzle == true && interactedItem->associatedPuzzle->isCursorOnScreen == false) && isPlayerSharingPuzzle == false) return;
 
-    if (isPlayerSharingPuzzle == true)
+    if (isPlayerSharingPuzzle == true && openSharedValues->mainSharedValues != NULL)
     {
 	IsButtonCursorOnScreen(interactedItem->associatedPuzzle);
     }
 
-    
     if (IsKeyPressed(KEY_LEFT))
     {
 	inputDirection = ED_Left;
@@ -366,7 +368,6 @@ void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode, O
    
     if (directionalKeyPressed == true)
     {
-	printf("here\n");
 	if (interactedItem->showsArrowKeyHint == true && interactedItem->id == 2)
         {
             interactedItem->associatedPuzzle->player->playerHUD[3]->hidden = true;
@@ -375,7 +376,6 @@ void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode, O
         interactedItem->associatedPuzzle->shouldBlinkCursor = true;
 	printf("direcitonal determination compelte\n");
     }
-   
 }
 
 void IsButtonCursorOnScreen(ButtonMaster* puzzle)

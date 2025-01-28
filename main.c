@@ -70,6 +70,7 @@ int main(int argc, char* argv[])
     openSharedValues.eventHandle = &eventHandle;
     openSharedValues.puzzleHandle = &puzzleHandle;
     openSharedValues.mainSharedValues = NULL;
+    openSharedValues.puzzleSharedValues = NULL;
     
     hideObjects = false;
     printf("%i\n", argc);
@@ -356,7 +357,7 @@ void CallAllPolls(float dTime, modelInfo** models, QueryBox** areaBoxes, Interac
     }
     else if (gamemode == EGM_Puzzle)
     {
-        PollPlayerPuzzle(&player, dTime, interactedItem, &gamemode, &openSharedValues, openSharedValues.mainSharedValues->sharingPuzzles, gametype, exitCode);
+        PollPlayerPuzzle(&player, dTime, interactedItem, &gamemode, &openSharedValues, &openSharedValues, gametype, exitCode);
     }
     else if (gamemode == EGM_Inactive)
     {

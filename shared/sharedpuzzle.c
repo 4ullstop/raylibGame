@@ -65,6 +65,7 @@ Button* HandleConsumerInput(ButtonMaster* puzzle, Button* button, OpenSharedValu
 
 bool IsPuzzleConsumer(ButtonMaster* puzzle, OpenSharedValues* openSharedValues)
 {
+    if (openSharedValues->mainSharedValues == NULL) return false;
     if (puzzle->gameAPuzzle == true)
     {
 	if (openSharedValues->mainSharedValues->ActiveWindowA == true)
