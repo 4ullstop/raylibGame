@@ -327,7 +327,7 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
 
     ConstructSinglePuzzle(&lastPuzzleIndex,
 			  1,
-			  1,
+			  2,
 			  (Vector3){1.0f, 1.0f, 1.0f},
 			  player,
 			  Puzzle_17,

@@ -162,7 +162,7 @@ Button* HandleCursorSelection(Button* currSelectedButton, ButtonMaster* puzzle, 
 
     printf("about to push cursor\n");
     currSelectedButton = PushCursor(currSelectedButton, puzzle);
-    if (isSharedPuzzle == true && openSharedValues->mainSharedValues != NULL)
+    if (isSharedPuzzle == true && openSharedValues->mainSharedValues != NULL && currSelectedButton->puzzleType != EPT_WindowPower)
     {
 	printf("about to handle producer input\n");
 	HandleProducerInput(puzzle, oldButton, currSelectedButton, openSharedValues, isConsumer);
@@ -339,6 +339,7 @@ void ChangeSelection(Button* button, ButtonMaster* puzzle, OpenSharedValues* ope
 
 bool SubmitButton(Button* button, ButtonMaster* puzzle, OpenSharedValues* openSharedValues, enum Gametype gametype, ExitCode* exitCode)
 {
+    printf("button submitted\n");
     button->model->texture = button->buttonTextures->selected;
     button->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = button->model->texture;
     button->submitted = true;
@@ -354,16 +355,22 @@ bool SubmitButton(Button* button, ButtonMaster* puzzle, OpenSharedValues* openSh
 	    button->ButtonSelected(button);
 	    break;
 	case EPT_WindowPower:
-	    if (button->sharedWindowOpened == false && openSharedValues->mainSharedValues != NULL)
+	    if (button->sharedWindowOpened == false)
 	    {
+		printf("second game should be opening\n");
 		OpenSecondGame(openSharedValues, exitCode, gametype);
 		button->sharedWindowOpened = true;
 	    }
 	    break;
 	default:
 	    button->ButtonSelected(button);
+	    printf("button was defaulted\n");
 	    break;
 	}
+    }
+    else
+    {
+	printf("button selected is null or the gametype is\n");
     }
     if (button->solutionButton == true)
     {
@@ -439,7 +446,7 @@ void CheckForSolution(Button* button, ButtonMaster* puzzle, enum Gamemode* mode)
 	    answerFound = true;
 	    PuzzleCompleted(puzzle);
 	    puzzle->puzzleInputType = EPIT_ResetOnly;
-//	    return; //this is new lets see what this will do
+	    return; //this is new lets see what this will do
       	}
 	else
 	{

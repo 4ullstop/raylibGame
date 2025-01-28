@@ -269,7 +269,16 @@ int main(int argc, char* argv[])
 	printf("shared value for game b created\n");
 
     }
+
+    
 */
+
+    if (gametype == EGT_B)
+    {
+	openSharedValues.mainSharedValues = (SharedMemory *)AttachChildProcessToMemory(&hMapFile, sizeof(SharedMemory), "sceneb");
+	InitSharedPuzzleGameB(&puzzleHandle, &openSharedValues, &exitCodes, "puzzle");
+	if (CheckForErrors(&exitCodes, &destructionLocations)) goto KillProgram;
+    }
     SetWindowLocationForGameType(gametype);
 
     exitCodes.gameLoaded = true;

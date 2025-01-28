@@ -44,6 +44,8 @@ void* SetupSharedMemoryAndCreateProcess(STARTUPINFO* si, PROCESS_INFORMATION* pi
 	printf("\n");
 	return NULL;
     }
+    printf("Memory setup and window creation successful\n");
+    printf("\n");
 }
 
 void* SetupSharedMemory(HANDLE* hMapFile, size_t valueSize, char* mapFileName)
