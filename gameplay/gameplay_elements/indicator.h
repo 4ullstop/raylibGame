@@ -6,6 +6,6 @@
 #include "../../initialization/corestructs.h"
 #endif
 
-void ConstructSingleIndicator(modelInfo** allModels, Texture2D** gameTextures, char* modelFileLocation, Vector3 location, int gameTextureIndex, int* lastIndicatorIndex, int* lastModelIndex);
+void ConstructSingleIndicator(modelInfo** allModels, Texture2D** gameTextures, Indicator** allIndicators, char* modelFileLocation, Vector3 location, int gameTextureIndex, int* lastIndicatorIndex, int* lastModelIndex, ExitCode* exitCode);
 
 void UpdateShaderForIndicator(Indicator* indicator);

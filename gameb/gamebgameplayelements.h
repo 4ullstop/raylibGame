@@ -4,4 +4,4 @@
 #include "gamebdoors.h"
 #endif
 
-void ConstructGameBGameplayElements(modelInfo** models, int* lastModelIndex, Texture2D** allTextures, int numOfDoors, GameplayElements* gameplayElements, Door* allDoors[], ExitCode* exitCode);
+void ConstructGameBGameplayElements(modelInfo** models, int* lastModelIndex, Texture2D** allTextures, int numOfDoors, GameplayElements* gameplayElements, Door** allDoors, Indicator** indicators, ExitCode* exitCode);

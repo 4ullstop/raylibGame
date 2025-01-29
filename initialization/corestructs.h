@@ -40,6 +40,9 @@
 #define NUMBER_OF_SWITCH_BOXES_A 1
 #define NUMBER_OF_SWITCH_BOXES_B 0
 
+#define NUMBER_OF_INDICATORS_A 1
+#define NUMBER_OF_INDICATORS_B 0
+
 #ifndef E_BUTTON_SIZES
 #define E_BUTTON_SIZES
 enum ButtonTextureSizes
@@ -312,6 +315,8 @@ typedef struct GameplayElements
     Door* associatedDoor;
     SwitchBox** switchBox;
 
+    Indicator** indicators;
+    
     int numOfSwitchBoxes;
     
     int switchId;

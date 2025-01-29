@@ -8,7 +8,7 @@ void PollAllGameplayElements(Door** allDoors, double deltaTime, int numOfDoors)
     PollDoors(allDoors, deltaTime, numOfDoors);
 }
 
-void ConstructGameplayElements(modelInfo** models, int* lastModelIndex, Texture2D** allTextures, int numOfDoors, GameplayElements* gameplayElements, Door** allDoors, ExitCode* exitCode, enum Gametype gametype)
+void ConstructGameplayElements(modelInfo** models, int* lastModelIndex, Texture2D** allTextures, int numOfDoors, GameplayElements* gameplayElements, Door** allDoors, Indicator** indicators, ExitCode* exitCode, enum Gametype gametype)
 {
     if (gameplayElements == NULL)
     {
@@ -17,12 +17,12 @@ void ConstructGameplayElements(modelInfo** models, int* lastModelIndex, Texture2
     }
     if (gametype == EGT_A)
     {
-	ConstructGameAGameplayElements(models, lastModelIndex, allTextures, numOfDoors, gameplayElements, allDoors, exitCode);
+	ConstructGameAGameplayElements(models, lastModelIndex, allTextures, numOfDoors, gameplayElements, allDoors, indicators, exitCode);
 	gameplayElements->numOfDoors = numOfDoors;
     }
     else
     {
-	ConstructGameBGameplayElements(models, lastModelIndex, allTextures, numOfDoors, gameplayElements, allDoors, exitCode);
+	ConstructGameBGameplayElements(models, lastModelIndex, allTextures, numOfDoors, gameplayElements, allDoors, indicators, exitCode);
 	gameplayElements->numOfDoors = numOfDoors;	
     }
 }

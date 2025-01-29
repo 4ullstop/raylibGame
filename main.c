@@ -139,6 +139,7 @@ int main(int argc, char* argv[])
         numOfTextures = NUMBER_OF_TEXTURES_A;
 	gameplayElements.numOfSwitchBoxes = 1;
 	gameplayElements.doors = (Door**)malloc(sizeof(Door*) * NUMBER_OF_DOORS_A);
+	gameplayElements.indicators = (Indicator**)malloc(sizeof(Indicator*) * NUMBER_OF_INDICATORS_A);
 	exitCodes.gameVersion = "A";
     }
     else
@@ -147,6 +148,7 @@ int main(int argc, char* argv[])
         numOfTextures = NUMBER_OF_TEXTURES_B;
 	gameplayElements.numOfSwitchBoxes = 0;
 	gameplayElements.doors = malloc(sizeof(Door*) * NUMBER_OF_DOORS_B);
+	gameplayElements.indicators = (Indicator**)malloc(sizeof(Indicator*) * NUMBER_OF_INDICATORS_B);
 	exitCodes.gameVersion = "B";
     }
 
@@ -169,7 +171,7 @@ int main(int argc, char* argv[])
         LoadAllTextures(texturesA, gametype, &exitCodes);
 	if (CheckForErrors(&exitCodes, &destructionLocations)) goto KillProgram; 
 
-        ConstructGameplayElements(modelsA, &lastModelIndex, texturesA, NUMBER_OF_DOORS_A, &gameplayElements, gameplayElements.doors, &exitCodes, gametype);
+        ConstructGameplayElements(modelsA, &lastModelIndex, texturesA, NUMBER_OF_DOORS_A, &gameplayElements, gameplayElements.doors, gameplayElements.indicators, &exitCodes, gametype);
 	if (CheckForErrors(&exitCodes, &destructionLocations)) goto KillProgram; 
         ConstructPuzzles(allPuzzlesA, modelsA, &lastModelIndex, gametype, &player, &gameplayElements, texturesA, openSharedValues.mainSharedValues, &exitCodes);
 	if (CheckForErrors(&exitCodes, &destructionLocations)) goto KillProgram; 
@@ -186,7 +188,7 @@ int main(int argc, char* argv[])
 	LoadAllTextures(texturesB, gametype, &exitCodes);
 	if (CheckForErrors(&exitCodes, &destructionLocations)) goto KillProgram; 
 	
-        ConstructGameplayElements(modelsB, &lastModelIndex, texturesB, NUMBER_OF_DOORS_B, &gameplayElements, allDoorsB, &exitCodes, gametype);
+        ConstructGameplayElements(modelsB, &lastModelIndex, texturesB, NUMBER_OF_DOORS_B, &gameplayElements, allDoorsB, gameplayElements.indicators, &exitCodes, gametype);
 	if (CheckForErrors(&exitCodes, &destructionLocations)) goto KillProgram; 
 	
         ConstructPuzzles(allPuzzlesB, modelsB, &lastModelIndex, gametype, &player, &gameplayElements, texturesB, openSharedValues.mainSharedValues, &exitCodes);

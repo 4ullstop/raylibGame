@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void ConstructSingleIndicator(modelInfo** allModels, Texture2D** gameTextures, char* modelFileLocation, Vector3 location, int gameTextureIndex, int* lastIndicatorIndex, int* lastModelIndex)
+void ConstructSingleIndicator(modelInfo** allModels, Texture2D** gameTextures, Indicator** allIndicators, char* modelFileLocation, Vector3 location, int gameTextureIndex, int* lastIndicatorIndex, int* lastModelIndex, ExitCode* exitCode)
 {
     Indicator* indicator = malloc(sizeof(Indicator));
     if (indicator == NULL)
@@ -17,7 +17,7 @@ void ConstructSingleIndicator(modelInfo** allModels, Texture2D** gameTextures, c
     indicator->model->modelLocation = indicator->location;
     indicator->model->model = LoadModel(modelFileLocation);
     indicator->indicatorTexture = IT_Off;
-    indicator->model->texture = gameTextures[gameTextureIndex];
+    indicator->model->texture = *gameTextures[gameTextureIndex];
     indicator->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = indicator->model->texture;
     allModels[*lastModelIndex] = indicator->model;
     *lastModelIndex = *lastModelIndex + 1;
