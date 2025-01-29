@@ -3,7 +3,8 @@
 
 #ifndef SHARED_MEM_HEADER
 #define SHARED_MEM_HEADER
-#include "../initialization/corestructs.h"
+//#include "../initialization/corestructs.h"
+#include "../initialization/windowstructs.h"
 #include "processthreadsapi.h"
 #endif
 
@@ -56,6 +57,8 @@ typedef struct OpenSharedValues
     HANDLE* hMapFile;
     HANDLE* eventHandle;
     HANDLE* puzzleHandle;
+
+    WindowData* windowData;
     
 } OpenSharedValues;
 #endif

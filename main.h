@@ -9,6 +9,7 @@
 #include "models/src/texture.h"
 #include "shared/sharedstructs.h"
 #include "destruction/destroyobjects.h"
+#include "initialization/windowstructs.h"
 
 
 void CallAllPolls(float dTime, modelInfo** models, QueryBox** areaBoxes, Interactable* interactedItem, OverlapBox** overlapBoxes, int numberOfModelss, int numOfAreaQueryBoxes, ExitCode* exitCode);

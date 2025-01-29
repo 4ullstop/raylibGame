@@ -54,6 +54,8 @@ TickNode interactedItemTickNode = {0};
 
 bool hideObjects;
 
+WindowData windowData = {0};
+
 int main(int argc, char* argv[])
 {
     ExitCode exitCodes = {0};
@@ -71,6 +73,7 @@ int main(int argc, char* argv[])
     openSharedValues.puzzleHandle = &puzzleHandle;
     openSharedValues.mainSharedValues = NULL;
     openSharedValues.puzzleSharedValues = NULL;
+    openSharedValues.windowData = &windowData;
     
     hideObjects = false;
     printf("%i\n", argc);
@@ -87,7 +90,7 @@ int main(int argc, char* argv[])
 	windowTitle = "Sceneb";
     }
     
-    CreateWindow(800, 450, windowTitle);
+    CreateWindow(800, 450, windowTitle, &windowData);
 
     printf("\n");
     printf("num of argc: %i\n", argc);
@@ -278,8 +281,9 @@ int main(int argc, char* argv[])
 	openSharedValues.mainSharedValues = (SharedMemory *)AttachChildProcessToMemory(&hMapFile, sizeof(SharedMemory), "sceneb");
 	InitSharedPuzzleGameB(&puzzleHandle, &openSharedValues, &exitCodes, "puzzle");
 	if (CheckForErrors(&exitCodes, &destructionLocations)) goto KillProgram;
+	SetWindowLocationForGameType(gametype, &windowData);
     }
-    SetWindowLocationForGameType(gametype);
+    //   SetWindowLocationForGameType(gametype);
 
     exitCodes.gameLoaded = true;
     
@@ -357,12 +361,14 @@ KillProgram:
 
 void CallAllPolls(float dTime, modelInfo** models, QueryBox** areaBoxes, Interactable* interactedItem, OverlapBox** overlapBoxes, int numberOfModels, int numOfAreaQueryBoxes, ExitCode* exitCode)
 {
+    PollWindow(dTime, &windowData);
     bool gameA = gametype == EGT_A;
     if (gamemode == EGM_Normal)
     {
         PollPlayer(dTime, &pcam, &player, &colPacket, models, numberOfModels, gameA);
         PollPlayerSecondary(&player, &ray, areaBoxes, &gamemode, interactedItem, numOfAreaQueryBoxes, &hideObjects, dTime, gametype, &openSharedValues);
         PollOverlaps(overlapBoxes, &player);
+	
     }
     else if (gamemode == EGM_Puzzle)
     {

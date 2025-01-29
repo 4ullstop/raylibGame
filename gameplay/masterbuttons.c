@@ -361,6 +361,7 @@ bool SubmitButton(Button* button, ButtonMaster* puzzle, OpenSharedValues* openSh
 	    if (button->sharedWindowOpened == false)
 	    {
 		printf("second game should be opening\n");
+		openSharedValues->windowData->SetupWindowMovement(gametype, openSharedValues->windowData);
 		OpenSecondGame(openSharedValues, exitCode, gametype);
 		button->sharedWindowOpened = true;
 	    }
