@@ -36,8 +36,6 @@ void SetWindowLocationForGameType(enum Gametype gametype, WindowData* windowData
     }
     locY = midpointY - (windowH / 2);
 
-//    SetWindowPosition(locX, locY);
-
     windowData->windowGoalLoc.x = locX;
     windowData->windowGoalLoc.y = locY;
 

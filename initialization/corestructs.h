@@ -265,6 +265,31 @@ typedef struct SwitchBox
 } SwitchBox;
 #endif
 
+#ifndef INDICATOR_TEXTURES
+#define INDICATOR_TEXTURES
+enum IndicatorTexture
+{
+    IT_Off,
+    IT_On
+};
+#endif
+
+#ifndef INDICATOR
+#define INDICATOR
+typedef struct Indicator
+{
+    void (*PowerOnIndicator)(struct Indicator* indicator);
+
+    modelInfo* model;
+
+    enum IndicatorTexture indicatorTexture;
+    
+    Vector3 location;
+
+    int id;
+} Indicator;
+#endif
+
 #ifndef GAMEPLAY_ELEMENT_TYPE
 #define GAMEPLAY_ELEMENT_TYPE
 enum GameplayElementType

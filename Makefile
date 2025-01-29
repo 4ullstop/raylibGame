@@ -49,7 +49,10 @@ SRC = main.c \
 	  gameplay\switchbox.c \
 	  gamea\gameaswitchboxes.c \
 	  gameb\gamebswitchboxes.c \
-	  gameplay\puzzles\poweronpuzzle.c
+	  gameplay\puzzles\poweronpuzzle.c \
+	  gameplay\gameplay_elements\indicator.c \
+	  gamea\gameaindicators.c \
+	  gameb\gamebindicators.c
 OBJ = intermediate\main.o \
       intermediate\window.o \
       intermediate\camera.o \
@@ -100,7 +103,10 @@ OBJ = intermediate\main.o \
 	  intermediate\switchbox.o \
 	  intermediate\gameaswitchboxes.o \
 	  intermediate\gamebswitchboxes.o \
-	  intermediate\poweronpuzzle.o
+	  intermediate\poweronpuzzle.o \
+	  intermediate\indicator.o \
+	  intermediate\gameaindicators.o \
+	  intermediate\gamebindicators.o
 !IFNDEF OUTPUT
 OUTPUT = scenea.exe
 !ENDIF
@@ -272,6 +278,15 @@ intermediate\gamebswitchboxes.o: gameb\gamebswitchboxes.c intermediate
 
 intermediate\poweronpuzzle.o: gameplay\puzzles\poweronpuzzle.c intermediate
 	$(CC) $(CFLAGS) -c gameplay\puzzles\poweronpuzzle.c -o intermediate\poweronpuzzle.o $(INCLUDE)
+
+intermediate\indicator.o: gameplay\gameplay_elements\indicator.c intermediate
+	$(CC) $(CFLAGS) -c gameplay\gameplay_elements\indicator.c -o intermediate\indicator.o $(INCLUDE)
+
+intermediate\gameaindicators.o: gamea\gameaindicators.c intermediate
+	$(CC) $(CFLAGS) -c gamea\gameaindicators.c -o intermediate\gameaindicators.o $(INCLUDE)
+
+intermediate\gamebindicators.o: gameb\gamebindicators.c intermediate
+	$(CC) $(CFLAGS) -c gameb\gamebindicators.c -o intermediate\gamebindicators.o $(INCLUDE)
 
 # Clean rule to delete
 clean:
