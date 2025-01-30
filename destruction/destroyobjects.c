@@ -200,6 +200,7 @@ void DestructAllGameplayElements(GameplayElements* gameplayElements, int numOfDo
 {
 //    DestructAllDoors(gameplayElements->doors, numOfDoors);
     DestroySwitchBoxes(gameplayElements);
+    DestroyIndicators(gameplayElements);
 }
 
 void DestroySwitchBoxes(GameplayElements* gameplayElements)
@@ -233,3 +234,14 @@ void DestructAllDoors(Door** allDoors, int numOfDoors)
     }
     free(allDoors); 
 }
+
+void DestroyIndicators(GameplayElements* gameplayElements)
+{
+    int indicatorNum = gameplayElements->numOfIndicators;
+    for (int i = 0; i < indicatorNum; i++)
+    {
+	free(gameplayElements->indicators[i]);
+	gameplayElements->indicators[i] = NULL;
+    }
+}
+

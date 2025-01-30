@@ -140,6 +140,7 @@ int main(int argc, char* argv[])
 	gameplayElements.numOfSwitchBoxes = 1;
 	gameplayElements.doors = (Door**)malloc(sizeof(Door*) * NUMBER_OF_DOORS_A);
 	gameplayElements.indicators = (Indicator**)malloc(sizeof(Indicator*) * NUMBER_OF_INDICATORS_A);
+	gameplayElements.numOfIndicators = NUMBER_OF_INDICATORS_A;
 	exitCodes.gameVersion = "A";
     }
     else
@@ -149,6 +150,7 @@ int main(int argc, char* argv[])
 	gameplayElements.numOfSwitchBoxes = 0;
 	gameplayElements.doors = malloc(sizeof(Door*) * NUMBER_OF_DOORS_B);
 	gameplayElements.indicators = (Indicator**)malloc(sizeof(Indicator*) * NUMBER_OF_INDICATORS_B);
+	gameplayElements.numOfIndicators = NUMBER_OF_INDICATORS_B;
 	exitCodes.gameVersion = "B";
     }
 

@@ -39,5 +39,7 @@ void DestroySwitchBoxes(GameplayElements* gameplayElements);
 
 void DestroySwitches(SwitchBox* switchBox);
 
+void DestroyIndicators(GameplayElements* gameplayElements);
+
 
 

@@ -318,7 +318,8 @@ typedef struct GameplayElements
 
     Indicator** indicators;
     Indicator* associatedIndicator;
-    
+
+    int numOfIndicators;
     int numOfSwitchBoxes;
     
     int switchId;
