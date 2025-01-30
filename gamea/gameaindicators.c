@@ -16,6 +16,83 @@ void ConstructGameAIndicators(modelInfo** dynamicModels, Texture2D** gameATextur
 			     &lastIndicatorIndex,
 			     lastModelIndex,
 			     exitCode);
+
+    ConstructSingleIndicator(dynamicModels,
+			     gameATextures,
+			     allIndicators,
+			     "D:/CFiles/FirstGame/models/obj/indicators/indicator_02.obj",
+			     (Vector3){10.0f, 0.3f, 15.0f},
+			     13,
+			     102,
+			     &lastIndicatorIndex,
+			     lastModelIndex,
+			     exitCode);
+
+    ConstructSingleIndicator(dynamicModels,
+			     gameATextures,
+			     allIndicators,
+			     "D:/CFiles/FirstGame/models/obj/indicators/indicator_03.obj",
+			     (Vector3){10.0f, 0.3f, 15.0f},
+			     13,
+			     103,
+			     &lastIndicatorIndex,
+			     lastModelIndex,
+			     exitCode);
+
+    ConstructSingleIndicator(dynamicModels,
+			     gameATextures,
+			     allIndicators,
+			     "D:/CFiles/FirstGame/models/obj/indicators/indicator_04.obj",
+			     (Vector3){10.0f, 0.3f, 15.0f},
+			     13,
+			     104,
+			     &lastIndicatorIndex,
+			     lastModelIndex,
+			     exitCode);
+
+    ConstructSingleIndicator(dynamicModels,
+			     gameATextures,
+			     allIndicators,
+			     "D:/CFiles/FirstGame/models/obj/indicators/indicator_05.obj",
+			     (Vector3){10.0f, 0.3f, 15.0f},
+			     13,
+			     105,
+			     &lastIndicatorIndex,
+			     lastModelIndex,
+			     exitCode);
+
+    ConstructSingleIndicator(dynamicModels,
+			     gameATextures,
+			     allIndicators,
+			     "D:/CFiles/FirstGame/models/obj/indicators/indicator_06.obj",
+			     (Vector3){10.0f, 0.3f, 15.0f},
+			     13,
+			     106,
+			     &lastIndicatorIndex,
+			     lastModelIndex,
+			     exitCode);
+
+    ConstructSingleIndicator(dynamicModels,
+			     gameATextures,
+			     allIndicators,
+			     "D:/CFiles/FirstGame/models/obj/indicators/indicator_07.obj",
+			     (Vector3){10.0f, 0.3f, 15.0f},
+			     13,
+			     107,
+			     &lastIndicatorIndex,
+			     lastModelIndex,
+			     exitCode);
+
+    ConstructSingleIndicator(dynamicModels,
+			     gameATextures,
+			     allIndicators,
+			     "D:/CFiles/FirstGame/models/obj/indicators/indicator_08.obj",
+			     (Vector3){10.0f, 0.3f, 15.0f},
+			     13,
+			     108,
+			     &lastIndicatorIndex,
+			     lastModelIndex,
+			     exitCode);
 			     
 }
    
