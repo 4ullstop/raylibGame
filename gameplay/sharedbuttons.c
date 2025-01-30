@@ -344,6 +344,11 @@ Indicator* FindIndicator(int id, Indicator** indicators, int numOfIndicators)
     printf("about to find indicator\n");
     for (int i = 0; i < numOfIndicators; i++)
     {
+	if (indicators[i] == NULL)
+	{
+	    printf("indicator here is null\n");
+	    continue;
+	}
 	printf("here in indicators\n");
 	if (indicators[i]->id == id)
 	{
@@ -354,7 +359,7 @@ Indicator* FindIndicator(int id, Indicator** indicators, int numOfIndicators)
     }
     return NULL;
 }
-
+ 
 void EnactGameplayElement(GameplayElements* gameplayElement, int gameplayElementIndex, int switchId, enum GameplayElementType gameplayElementType)
 {
     printf("enacting gameplay element\n");
@@ -364,6 +369,9 @@ void EnactGameplayElement(GameplayElements* gameplayElement, int gameplayElement
 	{
 	case GET_NULL:
 	    printf("Value not set in gameplayElementType\n");
+	    break;
+	case GET_Basic:
+	    gameplayElement->associatedIndicator->PowerOnIndicator(gameplayElement->associatedIndicator);
 	    break;
 	case GET_Door:
 	    gameplayElement->associatedDoor->isLowering = true;

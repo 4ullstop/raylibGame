@@ -32,6 +32,8 @@ void ConstructSingleIndicator(modelInfo** allModels, Texture2D** gameTextures, I
     allModels[*lastModelIndex] = indicator->model;
     *lastModelIndex = *lastModelIndex + 1;
 
+    allIndicators[*lastIndicatorIndex] = indicator;
+
     *lastIndicatorIndex = *lastIndicatorIndex + 1;
     exitCode->numOfModelsLoaded = exitCode->numOfModelsLoaded + 1;
     printf("indicator constructed\n");

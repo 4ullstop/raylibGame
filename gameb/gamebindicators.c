@@ -4,5 +4,6 @@
 void ConstructGameBIndicators(modelInfo** dynamicModels, Texture2D** gameBTextures, int* lastModelIndex, Indicator** allIndicators, ExitCode* exitCode)
 {
     int lastIndicatorIndex = 0;
+
     
 }
