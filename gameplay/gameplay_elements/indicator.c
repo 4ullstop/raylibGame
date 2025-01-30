@@ -2,20 +2,30 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void ConstructSingleIndicator(modelInfo** allModels, Texture2D** gameTextures, Indicator** allIndicators, char* modelFileLocation, Vector3 location, int gameTextureIndex, int* lastIndicatorIndex, int* lastModelIndex, ExitCode* exitCode)
+void ConstructSingleIndicator(modelInfo** allModels, Texture2D** gameTextures, Indicator** allIndicators, char* modelFileLocation, Vector3 location, int gameTextureIndex, int indicatorId, int* lastIndicatorIndex, int* lastModelIndex, ExitCode* exitCode)
 {
+    printf("Constructing single indicator\n");
     Indicator* indicator = malloc(sizeof(Indicator));
     if (indicator == NULL)
     {
 	EditReturnCodeInfo(1000, "Failed to allocate memory for indicator", exitCode);
 	return;
     }
+    indicator->model = malloc(sizeof(modelInfo));
+    if (indicator->model == NULL)
+    {
+	EditReturnCodeInfo(1000, "Failed to allocate memory for indicator mesh", exitCode);
+    }
+    
     indicator->model->collisionDisabled = true;
+    indicator->model->modelVisible = true; 
     indicator->location = location;
-    indicator->id = *lastIndicatorIndex;
+    printf("here\n");
+    indicator->id = indicatorId;
     indicator->PowerOnIndicator = UpdateShaderForIndicator;
     indicator->model->modelLocation = indicator->location;
     indicator->model->model = LoadModel(modelFileLocation);
+    printf("model loaded\n");
     indicator->indicatorTexture = IT_Off;
     indicator->model->texture = *gameTextures[gameTextureIndex];
     indicator->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = indicator->model->texture;
@@ -23,7 +33,10 @@ void ConstructSingleIndicator(modelInfo** allModels, Texture2D** gameTextures, I
     *lastModelIndex = *lastModelIndex + 1;
 
     *lastIndicatorIndex = *lastIndicatorIndex + 1;
+    exitCode->numOfModelsLoaded = exitCode->numOfModelsLoaded + 1;
+    printf("indicator constructed\n");
 }
+
 
 void UpdateShaderForIndicator(Indicator* indicator)
 {

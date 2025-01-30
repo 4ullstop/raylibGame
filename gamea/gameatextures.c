@@ -15,7 +15,8 @@ void RetrieveGameATextureFiles(char** textureFiles)
     "D:/CFiles/FirstGame/models/obj/dock.png", //9
     "D:/CFiles/FirstGame/models/obj/water.png", //10
     "D:/CFiles/FirstGame/models/obj/ground.png", //11
-    "D:/CFiles/FirstGame/models/obj/lighthouseuv.png" //12
+    "D:/CFiles/FirstGame/models/obj/lighthouseuv.png", //12
+    "D:/CFiles/FirstGame/models/obj/indicators/indicatoruv.png" //13
     };
 
     LoopThroughFiles(textureFiles, gameATextures);

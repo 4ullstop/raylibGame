@@ -16,10 +16,10 @@
     The current size of this array is : 48
     The current size of AssociatedDoors in GameplayElements is: 48
 */
-#define NUMBER_OF_MODELS_A 219//45
+#define NUMBER_OF_MODELS_A 220 //45
 #define NUMBER_OF_MODELS_B 101 //24
 
-#define NUMBER_OF_TEXTURES_A 13 //this will always be one more than what is in the file
+#define NUMBER_OF_TEXTURES_A 14 //this will always be one more than what is in the file
 #define NUMBER_OF_TEXTURES_B 9
 
 #define NUMBER_OF_INTERACTABLES_A 17 //9
@@ -298,6 +298,7 @@ typedef struct Indicator
 enum GameplayElementType
 {
     GET_NULL,
+    GET_Basic,
     GET_Door,
     GET_SwitchBox
 };
@@ -316,6 +317,7 @@ typedef struct GameplayElements
     SwitchBox** switchBox;
 
     Indicator** indicators;
+    Indicator* associatedIndicator;
     
     int numOfSwitchBoxes;
     

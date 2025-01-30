@@ -313,6 +313,15 @@ void AssignGameplayElementsToPuzzles(ButtonMaster* puzzle, GameplayElements* gam
 	puzzle->associatedGameplayElements = NULL;
 	printf("should be null\n");
 	break;
+    case GET_Basic:
+	puzzle->associatedGameplayElements->associatedIndicator = FindIndicator(gameplayElementIndex, gameplayElements->indicators, NUMBER_OF_INDICATORS_A);
+	
+	if (puzzle->associatedGameplayElements->associatedIndicator == NULL)
+	{
+	    printf("Associated indicator is null error\n:");
+	    return;
+	}
+	break;
     case GET_Door:
 	puzzle->associatedGameplayElements->associatedDoor = gameplayElements->doors[gameplayElementIndex];
 	puzzle->associatedGameplayElements->switchBox = NULL;
@@ -328,6 +337,22 @@ void AssignGameplayElementsToPuzzles(ButtonMaster* puzzle, GameplayElements* gam
     default:
 	printf("ERROR DEFUALT RUN IN ASSIGNATION OF GAMEPLAY ELEMENTS\n");
     }
+}
+
+Indicator* FindIndicator(int id, Indicator** indicators, int numOfIndicators)
+{
+    printf("about to find indicator\n");
+    for (int i = 0; i < numOfIndicators; i++)
+    {
+	printf("here in indicators\n");
+	if (indicators[i]->id == id)
+	{
+	    printf("here in indicators 2.0\n");
+	    return indicators[i];
+	}
+	printf("here in indicators 2.3\n");
+    }
+    return NULL;
 }
 
 void EnactGameplayElement(GameplayElements* gameplayElement, int gameplayElementIndex, int switchId, enum GameplayElementType gameplayElementType)

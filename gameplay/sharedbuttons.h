@@ -46,3 +46,5 @@ void DetermineStartVal(int* min, enum PuzzleOnOffDirection direction);
 void AssignAllPuzzlesSolutionButtons(ButtonMaster** allPuzzles, int numOfPuzzles, ExitCode* exitCode);
 
 void AssignSolutionButtonsToPuzzle(ButtonMaster* puzzle, ExitCode* exitCode);
+
+Indicator* FindIndicator(int id, Indicator** indicators, int numOfIndicators);
