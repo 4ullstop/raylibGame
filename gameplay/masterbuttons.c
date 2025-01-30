@@ -160,6 +160,7 @@ Button* HandleCursorSelection(Button* currSelectedButton, ButtonMaster* puzzle, 
     printf("about to check for solution\n");
     if (CheckForSolution(currSelectedButton, puzzle, gameMode) == true)
     {
+	printf("solution check is true returning null\n");
 	return NULL;
     }
 
@@ -247,6 +248,7 @@ void PollConsumer(OpenSharedValues* openSharedValues, ButtonMaster* puzzle, enum
 
 Button* PushCursor(Button* button, ButtonMaster* master)
 {
+    printf("about to push cursor\n");
     int circledButtonNum = 8;
     Button* buttons[] = {
         button->nAbove,
@@ -470,6 +472,7 @@ bool CheckForSolution(Button* button, ButtonMaster* puzzle, enum Gamemode* mode)
 	    return false;
 	}
     }
+    return false;
 }
 
 void AddButtonToErrorList(Button* button, ErrorButtons** errorButton)
