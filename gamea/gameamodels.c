@@ -53,7 +53,7 @@ void CreateModelsForGameA(modelInfo** models, int* lastModelIndex, Texture2D** a
 		      allTextures,
 		      exitCode,
 		      "D:/CFiles/FirstGame/models/obj/lighthouse.obj",
-		      false,
+		      true,
 		      true,
 		      (Vector3){10.0f, -0.3f, 15.0f},
 		      12);   
@@ -62,7 +62,7 @@ void CreateModelsForGameA(modelInfo** models, int* lastModelIndex, Texture2D** a
 		      lastModelIndex,
 		      allTextures,
 		      exitCode,
-		      "D:/CFiles/FirstGame/models/obj/lighthouseStairs.obj",
+		      "D:/CFiles/FirstGame/models/obj/lighthouseStairs_02.obj",
 		      false,
 		      true,
 		      (Vector3){10.0f, 0.0f, 15.0f},
@@ -107,5 +107,15 @@ void CreateModelsForGameA(modelInfo** models, int* lastModelIndex, Texture2D** a
 		      false,
 		      (Vector3){0.0f, 0.0f, 0.0f},
 		      0);
+
+    CreateSingleModel(models,
+		      lastModelIndex,
+		      allTextures,
+		      exitCode,
+		      "D:/CFiles/FirstGame/models/obj/lighthousecol_01.obj",
+		      false,
+		      false,
+		      (Vector3){10.0f, -0.3f, 15.0f},
+		      12);
 
 }

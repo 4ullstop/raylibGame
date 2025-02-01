@@ -27,7 +27,7 @@ void PollPlayer(float deltaTime, PlayerCam* pcam, FPSPlayer* player, CollisionPa
 
     if (gameA == true)
     {
-//	printf("%f, %f, %f\n", pcam->position.x, pcam->position.y, pcam->position.z);
+	printf("%f, %f, %f\n", pcam->position.x, pcam->position.y, pcam->position.z);
     }
 
 }

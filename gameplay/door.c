@@ -11,20 +11,20 @@ void ConstructSingleDoor(modelInfo** dynamicModels, Texture2D** gameTextures, in
 	EditReturnCodeInfo(100, "Failed to allocate memory for door\n", exitCode);
 	return;
     }
-    door->doorModel.collisionDisabled = false;
-    door->doorModel.modelVisible = true;
+    door->doorModel->collisionDisabled = false;
+    door->doorModel->modelVisible = true;
     door->id = *lastModelIndex;
     door->location = doorLocation;
     door->doorType = doorType;
-    door->doorModel.modelLocation = doorLocation;
+    door->doorModel->modelLocation = doorLocation;
     door->speed = 1.0f;
     door->isLowering = false;
-    door->doorModel.model = LoadModel(modelFileLocation);
+    door->doorModel->model = LoadModel(modelFileLocation);
     exitCode->numOfModelsLoaded = exitCode->numOfModelsLoaded + 1;
-    door->doorModel.texture = *gameTextures[textureIndex];
-    door->doorModel.model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = door->doorModel.texture;
+    door->doorModel->texture = *gameTextures[textureIndex];
+    door->doorModel->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = door->doorModel->texture;
     CustomDoorParameters(door, doorType, destVal, hingeOffset);
-    dynamicModels[*lastModelIndex] = &door->doorModel;
+    dynamicModels[*lastModelIndex] = door->doorModel;
     *lastModelIndex = *lastModelIndex + 1;
     
     allDoors[*lastDoorIndex] = door;
@@ -78,7 +78,7 @@ void LowerDoor(Door* door, double deltaTime)
         {
             Vector3 direction = Vector3Normalize(Vector3Subtract(door->openPosition, door->location));
             door->location = Vector3Add(door->location, Vector3Scale(direction, door->speed * deltaTime));
-            door->doorModel.modelLocation = door->location;
+            door->doorModel->modelLocation = door->location;
         }
         else
         {
@@ -100,13 +100,13 @@ void SwingDoor(Door* door, double deltaTime)
 	{
 	    printf("DegToRad 90: %f, angleR: %f\n", goalAngle, angleR);
 	    door->currAngle = door->currAngle + (0.5 * deltaTime);
-	    door->doorModel.modelLocation = door->location;
-      	    door->doorModel.model.transform = MatrixRotateXYZ((Vector3){0.0f, 1.0f * door->currAngle, 0.0f});
+	    door->doorModel->modelLocation = door->location;
+      	    door->doorModel->model.transform = MatrixRotateXYZ((Vector3){0.0f, 1.0f * door->currAngle, 0.0f});
 	}
 	else
 	{
 	    door->isLowering = false;
-	    UpdateSwingCollision(&door->doorModel, door);
+	    UpdateSwingCollision(door->doorModel, door);
 	}
     }
 }

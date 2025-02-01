@@ -22,7 +22,7 @@ void ConstructGameADoors(modelInfo** dynamicModels, Texture2D** gameATextures, i
 			lastModelIndex,
 			allDoors,
 			exitCode,
-			(Vector3){6.5f, -0.4f, -34.85f},
+			(Vector3){6.9f, -0.4f, -35.0f},
 			DT_Hinged,
 			"D:/CFiles/FirstGame/models/obj/gate.obj",
 			9,
@@ -35,9 +35,9 @@ void ConstructGameADoors(modelInfo** dynamicModels, Texture2D** gameATextures, i
 			lastModelIndex,
 			allDoors,
 			exitCode,
-			(Vector3){-3.45f, -10.0f, -4.0f},
+			(Vector3){-12.3f, 0.0f, 16.65f},
 			DT_Hinged,
-			"D:/CFiles/FirstGame/models/obj/gate_02.obj",
+			"D:/CFiles/FirstGame/models/obj/gate_03.obj",
 			9,
 			90.0f,
 			0.5f,
@@ -55,5 +55,6 @@ void ConstructGameADoors(modelInfo** dynamicModels, Texture2D** gameATextures, i
 			90.0f,
 			0.5f,
 			&lastDoorIndex);
-			
+
+    
 }
