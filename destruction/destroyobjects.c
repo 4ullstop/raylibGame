@@ -81,14 +81,15 @@ void DestructAllPuzzles(ButtonMaster** allPuzzles, int numberOfPuzzles)
     {
 	DestructAllPlainSubmittedButtons(allPuzzles[i]);
         DestructAllButtons(allPuzzles[i]);
+	/*
         if (allPuzzles[i]->associatedGameplayElements != NULL)
         {
             free(allPuzzles[i]->associatedGameplayElements);
             allPuzzles[i]->associatedGameplayElements = NULL;
-        }
+	    }*/
         DestructAllSolutionLocations(allPuzzles[i]);
         
-        printf("solution locations destroyed\n");
+        printf("solution locations destroyed: %i\n", i);
         free(allPuzzles[i]);
         allPuzzles[i] = NULL;
     }
@@ -123,6 +124,8 @@ void DestructAllButtons(ButtonMaster* master)
 
 void DestructAllPlainSubmittedButtons(ButtonMaster* puzzle)
 {
+    printf("destroying plain submitted buttons\n");
+    //something is causing the game to crash here on destruct, look into this later
     PlainSubmittedButtons* current = puzzle->plainSubmittedButtons;
     PlainSubmittedButtons* next;
 
@@ -136,6 +139,7 @@ void DestructAllPlainSubmittedButtons(ButtonMaster* puzzle)
 
 void DestructAllSolutionLocations(ButtonMaster* master)
 {
+    printf("destroying solution locations\n");
     free(master->correctOrder);
     free(master->solutionLocations);
     master->solutionLocations = NULL;
