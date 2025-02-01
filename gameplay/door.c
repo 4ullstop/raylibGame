@@ -5,15 +5,22 @@
 
 void ConstructSingleDoor(modelInfo** dynamicModels, Texture2D** gameTextures, int* lastModelIndex, Door** allDoors, ExitCode* exitCode, Vector3 doorLocation, enum DoorType doorType, char* modelFileLocation, int textureIndex, float destVal, float hingeOffset, int* lastDoorIndex)
 {
+    printf("about to create first door\n");
     Door* door = malloc(sizeof(Door));
     if (door == NULL)
     {
 	EditReturnCodeInfo(100, "Failed to allocate memory for door\n", exitCode);
 	return;
     }
+    door->doorModel = malloc(sizeof(modelInfo));
+    if (door->doorModel == NULL)
+    {
+	EditReturnCodeInfo(100, "Failed to allocate memory for door mesh\n", exitCode);
+	return;
+    }
     door->doorModel->collisionDisabled = false;
     door->doorModel->modelVisible = true;
-    door->id = *lastModelIndex;
+    door->id = *lastDoorIndex;
     door->location = doorLocation;
     door->doorType = doorType;
     door->doorModel->modelLocation = doorLocation;

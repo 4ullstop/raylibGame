@@ -304,7 +304,7 @@ void PowerOnPuzzle(ButtonMaster* puzzle)
     }
 }
 
-void AssignGameplayElementsToPuzzles(ButtonMaster* puzzle, GameplayElements* gameplayElements, enum GameplayElementType gameplayElementType, int gameplayElementIndex)
+void AssignGameplayElementsToPuzzles(ButtonMaster* puzzle, GameplayElements* gameplayElements, enum GameplayElementType gameplayElementType, int gameplayElementIndex, int indicatorIndex)
 {
     puzzle->gameplayElementType = gameplayElementType;
     switch (gameplayElementType)
@@ -314,11 +314,11 @@ void AssignGameplayElementsToPuzzles(ButtonMaster* puzzle, GameplayElements* gam
 	printf("should be null\n");
 	break;
     case GET_Basic:
-	puzzle->associatedGameplayElements->associatedIndicator = FindIndicator(gameplayElementIndex, gameplayElements->indicators, NUMBER_OF_INDICATORS_A);
+	puzzle->associatedGameplayElements->associatedIndicator = FindIndicator(indicatorIndex, gameplayElements->indicators, NUMBER_OF_INDICATORS_A);
 	
 	if (puzzle->associatedGameplayElements->associatedIndicator == NULL)
 	{
-	    printf("Associated indicator is null error\n:");
+	    printf("Associated indicator is null error\n");
 	    return;
 	}
 	break;
@@ -326,6 +326,9 @@ void AssignGameplayElementsToPuzzles(ButtonMaster* puzzle, GameplayElements* gam
 	puzzle->associatedGameplayElements->associatedDoor = gameplayElements->doors[gameplayElementIndex];
 	puzzle->associatedGameplayElements->switchBox = NULL;
 	printf("assigning door as gameplayElement\n");
+	if (indicatorIndex == 0) break;
+	puzzle->associatedGameplayElements->associatedIndicator = FindIndicator(indicatorIndex, gameplayElements->indicators, NUMBER_OF_INDICATORS_A);
+	printf("indicator also assigned to GET DOOR\n");
 	break;
     case GET_SwitchBox:
 	puzzle->associatedGameplayElements->associatedDoor = NULL;
@@ -375,6 +378,8 @@ void EnactGameplayElement(GameplayElements* gameplayElement, int gameplayElement
 	    break;
 	case GET_Door:
 	    gameplayElement->associatedDoor->isLowering = true;
+	    if (gameplayElement->associatedIndicator == NULL) break;
+	    gameplayElement->associatedIndicator->PowerOnIndicator(gameplayElement->associatedIndicator);
 	    break;
 	case GET_SwitchBox:
 	    printf("checking switch box\n");
@@ -388,7 +393,7 @@ void EnactGameplayElement(GameplayElements* gameplayElement, int gameplayElement
     printf("gameplay element enacted\n");
 }
 
-void ConstructSinglePuzzle(int* lastPuzzleIndex, int columns, int rows, Vector3 location, FPSPlayer* player, void(*puzzleLocConstruct)(ButtonMaster*), enum GameplayElementType gameplayElementType, GameplayElements* gameplayElements, int gameplayElementIndex, ButtonMaster** gameAPuzzles, Vector2Int highlightStart, bool hasHighlightStartLoc, enum PuzzleState puzzleState, float buttonSpread, bool sharedPuzzle, bool gameA, Vector3 puzzleLerpOffset, ExitCode* exitCode)
+void ConstructSinglePuzzle(int* lastPuzzleIndex, int columns, int rows, Vector3 location, FPSPlayer* player, void(*puzzleLocConstruct)(ButtonMaster*), enum GameplayElementType gameplayElementType, GameplayElements* gameplayElements, int gameplayElementIndex, int indicatorIndex, ButtonMaster** gameAPuzzles, Vector2Int highlightStart, bool hasHighlightStartLoc, enum PuzzleState puzzleState, float buttonSpread, bool sharedPuzzle, bool gameA, Vector3 puzzleLerpOffset, ExitCode* exitCode)
 {
     if (lastPuzzleIndex == NULL || player == NULL)
     {
@@ -462,7 +467,7 @@ void ConstructSinglePuzzle(int* lastPuzzleIndex, int columns, int rows, Vector3 
 	EditReturnCodeInfo(201, "Failed to allocate memory for puzzle's associated gameplay elements\n", exitCode);
     }
 
-    AssignGameplayElementsToPuzzles(puzzle, gameplayElements, gameplayElementType, gameplayElementIndex);
+    AssignGameplayElementsToPuzzles(puzzle, gameplayElements, gameplayElementType, gameplayElementIndex, indicatorIndex);
 
 /*
     if (hasGameplayElements == true)

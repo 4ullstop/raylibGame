@@ -94,5 +94,27 @@ void ConstructGameAIndicators(modelInfo** dynamicModels, Texture2D** gameATextur
 			     &lastIndicatorIndex,
 			     lastModelIndex,
 			     exitCode);
+
+    ConstructSingleIndicator(dynamicModels,
+			     gameATextures,
+			     allIndicators,
+			     "D:/CFiles/FirstGame/models/obj/indicators/indicator_10.obj",
+			     (Vector3){0.0f, -1.2f, 0.0f},
+			     13,
+			     109,
+			     &lastIndicatorIndex,
+			     lastModelIndex,
+			     exitCode);
+
+    ConstructSingleIndicator(dynamicModels,
+			     gameATextures,
+			     allIndicators,
+			     "D:/CFiles/FirstGame/models/obj/indicators/indicator_11.obj",
+			     (Vector3){0.0f, -1.2f, 0.0f},
+			     13,
+			     110,
+			     &lastIndicatorIndex,
+			     lastModelIndex,
+			     exitCode);
 }
    

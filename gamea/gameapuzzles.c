@@ -21,6 +21,7 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
 			  GET_SwitchBox,
 			  gameplayElements,
 			  0,
+			  0,
 			  gameAPuzzles,
 			  (Vector2Int){0, 0},
 			  true,
@@ -35,12 +36,13 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
     ConstructSinglePuzzle(&lastPuzzleIndex,
 			  1,
 			  1,
-			  (Vector3){2.3f, 1.0f, -35.0f},
+			  (Vector3){15.3f, -0.3f, -36.0f},
 			  player,
 			  Puzzle_02,
-			  GET_Door,
+			  GET_Basic,
 			  gameplayElements,
-			  1,
+			  0,
+			  109,
 			  gameAPuzzles,
 			  nullStartLoc,
 			  false,
@@ -55,16 +57,17 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
     ConstructSinglePuzzle(&lastPuzzleIndex,
 			  5,
 			  1,
-			  (Vector3){-1.0f, 1.2f, -35.0f},
+			  (Vector3){8.0f, -0.2f, -37.9f},
 			  player,
 			  Puzzle_03,
-			  GET_NULL,
+			  GET_Door,
 			  gameplayElements,
-			  0,
+			  1,
+			  110,
 			  gameAPuzzles,
 			  (Vector2Int){0, 1},
 			  true,
-			  EPS_active,
+			  EPS_inactive,
 			  0.3f,
 			  false,
 			  true,
@@ -79,6 +82,7 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
 			  Puzzle_04,
 			  GET_Basic,
 			  gameplayElements,
+			  0,
 			  101,
 			  gameAPuzzles,
 			  (Vector2Int){0, 0},
@@ -100,6 +104,7 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
 			  GET_SwitchBox,
 			  gameplayElements,
 			  0,
+			  0,
 			  gameAPuzzles,
 			  (Vector2Int){0, 0},
 			  true,
@@ -119,6 +124,7 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
 			  Puzzle_06,
 			  GET_Basic,
 			  gameplayElements,
+			  0,
 			  102,
 			  gameAPuzzles,
 			  (Vector2Int){2, 0},
@@ -140,6 +146,7 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
 			  GET_NULL,
 			  gameplayElements,
 			  0,
+			  0,
 			  gameAPuzzles,
 			  (Vector2Int){1, 0},
 			  true, 
@@ -159,6 +166,7 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
 			  Puzzle_08,
 			  GET_Basic,
 			  gameplayElements,
+			  0,
 			  103,
 			  gameAPuzzles,
 			  (Vector2Int){0, 2},
@@ -180,6 +188,7 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
 			  GET_NULL,
 			  gameplayElements,
 			  0,
+			  0,
 			  gameAPuzzles,
 			  (Vector2Int){0, 0},
 			  false, 
@@ -200,6 +209,7 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
 			  GET_Basic,
 			  gameplayElements,
 			  0,
+			  0,
 			  gameAPuzzles,
 			  (Vector2Int){4, 2},
 			  true, 
@@ -218,6 +228,7 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
 			  Puzzle_11,
 			  GET_Basic,
 			  gameplayElements,
+			  0,
 			  105,
 			  gameAPuzzles,
 			  (Vector2Int){0, 2},
@@ -238,6 +249,7 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
 			  Puzzle_12,
 			  GET_Basic,
 			  gameplayElements,
+			  0,
 			  104,
 			  gameAPuzzles,
 			  (Vector2Int){0, 1},
@@ -257,6 +269,7 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
 			  Puzzle_13,
 			  GET_Basic,
 			  gameplayElements,
+			  0,
 			  106,
 			  gameAPuzzles,
 			  (Vector2Int){0, 1},
@@ -276,6 +289,7 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
 			  Puzzle_14,
 			  GET_Basic,
 			  gameplayElements,
+			  0,
 			  107,
 			  gameAPuzzles,
 			  (Vector2Int){1, 2},
@@ -295,6 +309,7 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
 			  Puzzle_15,
 			  GET_Basic,
 			  gameplayElements,
+			  0,
 			  108,
 			  gameAPuzzles,
 			  (Vector2Int){0, 0},
@@ -315,6 +330,7 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
 			  GET_SwitchBox,
 			  gameplayElements,
 			  0,
+			  0,
 			  gameAPuzzles,
 			  (Vector2Int){0, 0},
 			  true,
@@ -334,6 +350,7 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
 			  GET_NULL,
 			  gameplayElements,
 			  0,
+			  0,
 			  gameAPuzzles,
 			  (Vector2Int){0, 0},
 			  true,
@@ -350,8 +367,8 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
     }
 
 
-    RotateButtonMaster(gameAPuzzles[1], -90.0f, (Vector3){0.0f, 1.0f, 0.0f});
-    RotateButtonMaster(gameAPuzzles[2], -90.0f, (Vector3){0.0f, 1.0f, 0.0f});
+    RotateButtonMaster(gameAPuzzles[1], 115.0f, (Vector3){0.0f, 1.0f, 0.0f});
+    RotateButtonMaster(gameAPuzzles[2], 45.0f, (Vector3){0.0f, 1.0f, 0.0f});
     RotateButtonMaster(gameAPuzzles[3], 45.0f, (Vector3){0.0f, 1.0f, 0.0f});
     RotateButtonMaster(gameAPuzzles[5], 90.0f, (Vector3){0.0f, 1.0f, 0.0f});
     RotateButtonMaster(gameAPuzzles[6], 90.f, (Vector3){0.0f, 1.0f, 0.0f});
@@ -369,7 +386,7 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
 
     AddGameAPuzzlesToSharedMemory(gameAPuzzles, sharedMemory);
     
-
+    gameAPuzzles[1]->puzzleToPowerOn = gameAPuzzles[2];
     gameAPuzzles[2]->puzzleToPowerOn = gameAPuzzles[6];
 
     gameAPuzzles[3]->puzzleToPowerOn = gameAPuzzles[5];
@@ -578,7 +595,7 @@ void Puzzle_03(ButtonMaster* puzzle)
     puzzle->solutionLocations[1] = (Vector2Int){3, 0};
 
     puzzle->textureSizes = malloc(sizeof(enum ButtonTextureSizes) * puzzle->numberOfSolutions);
-    puzzle->textureSizes[0] = EBTS_02;
+    puzzle->textureSizes[0] = EBTS_01;
     puzzle->textureSizes[1] = EBTS_05;
 }
 
@@ -605,9 +622,9 @@ void Puzzle_05(ButtonMaster* puzzle)
     puzzle->solutionLocations[1] = (Vector2Int){0, 1};
 
     puzzle->textureSizes = malloc(sizeof(enum ButtonTextureSizes) * puzzle->numberOfSolutions);
-    puzzle->textureSizes[0] = EBTS_02;
-    puzzle->textureSizes[1] = EBTS_04;
-    puzzle->textureSizes[2] = EBTS_07;
+    puzzle->textureSizes[0] = EBTS_01;
+    puzzle->textureSizes[1] = EBTS_03;
+    puzzle->textureSizes[2] = EBTS_05;
 }
 
 /*

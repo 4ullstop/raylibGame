@@ -35,7 +35,7 @@ void CreateModelsForGameA(modelInfo** models, int* lastModelIndex, Texture2D** a
 		      "D:/CFiles/FirstGame/models/obj/dock_02.obj",
 		      false,
 		      true,
-		      (Vector3){0.0f, 2.0f, 0.0f},
+		      (Vector3){-1.0f, 2.0f, 0.0f},
 		      9);
     
     CreateSingleModel(models,
@@ -117,5 +117,25 @@ void CreateModelsForGameA(modelInfo** models, int* lastModelIndex, Texture2D** a
 		      false,
 		      (Vector3){10.0f, -0.3f, 15.0f},
 		      12);
+
+    CreateSingleModel(models,
+		      lastModelIndex,
+		      allTextures,
+		      exitCode,
+		      "D:/CFiles/FirstGame/models/obj/dock_collision.obj",
+		      true,
+		      false,
+		      (Vector3){0.0f, 3.0f, 0.0f},
+		      0);
+
+    CreateSingleModel(models,
+		      lastModelIndex,
+		      allTextures,
+		      exitCode,
+		      "D:/CFiles/FirstGame/models/obj/dockExtCol.obj",
+		      false,
+		      false,
+		      (Vector3){0.0f, -0.2f, 0.0f},
+		      0);
 
 }

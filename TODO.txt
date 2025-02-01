@@ -135,7 +135,7 @@ Things that could be redone to make them better:
 
 Ideas about game b now:
  - Gameb will entirely be the introduction to the connection between the two windows
- - 
+
 
 Things for game b to start:
  - You'll have to design the starting area for gamea as well as gameb
@@ -143,4 +143,6 @@ Things for game b to start:
 
 
 Something that could be much better about the design is the fact that I'm still not teaching the basics very well
+ 
+
  
