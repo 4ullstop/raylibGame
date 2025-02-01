@@ -144,5 +144,6 @@ Things for game b to start:
 
 Something that could be much better about the design is the fact that I'm still not teaching the basics very well
  
-
+ - Decide where the puzzles go
+ - Create visual indicator for switch boxes
  

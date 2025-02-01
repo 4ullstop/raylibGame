@@ -4,18 +4,6 @@
 void ConstructGameADoors(modelInfo** dynamicModels, Texture2D** gameATextures, int* lastModelIndex, Door** allDoors, ExitCode* exitCode)
 {
     int lastDoorIndex = 0;
-    ConstructSingleDoor(dynamicModels,
-			gameATextures,
-			lastModelIndex,
-			allDoors,
-			exitCode,
-			(Vector3){0.0f, 0.0f, -13.8f},
-			DT_Vertical,
-			"D:/CFiles/FirstGame/models/obj/door.obj",
-			2,
-			3.0f,
-			0.0f,
-			&lastDoorIndex);
 	
     ConstructSingleDoor(dynamicModels,
 			gameATextures,

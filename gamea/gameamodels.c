@@ -6,6 +6,12 @@
 void CreateModelsForGameA(modelInfo** models, int* lastModelIndex, Texture2D** allTextures, ExitCode* exitCode)
 {
     //room 1
+    Vector3 lighthouseLoc = (Vector3){3.0f, -0.3f, -1.0f};
+
+    //10.0f 15.0f
+    // 3.0f, -1.0f
+    //-7.0f, -16.0f
+    
     exitCode->numOfLoadedItems = 0;
 
     CreateSingleModel(models,
@@ -55,7 +61,7 @@ void CreateModelsForGameA(modelInfo** models, int* lastModelIndex, Texture2D** a
 		      "D:/CFiles/FirstGame/models/obj/lighthouse.obj",
 		      true,
 		      true,
-		      (Vector3){10.0f, -0.3f, 15.0f},
+		      lighthouseLoc,
 		      12);   
 
     CreateSingleModel(models,
@@ -65,7 +71,7 @@ void CreateModelsForGameA(modelInfo** models, int* lastModelIndex, Texture2D** a
 		      "D:/CFiles/FirstGame/models/obj/lighthouseStairs_02.obj",
 		      false,
 		      true,
-		      (Vector3){10.0f, 0.0f, 15.0f},
+		      (Vector3){lighthouseLoc.x, 0.0f, lighthouseLoc.y},
 		      0);   
 
     CreateSingleModel(models,
@@ -115,7 +121,7 @@ void CreateModelsForGameA(modelInfo** models, int* lastModelIndex, Texture2D** a
 		      "D:/CFiles/FirstGame/models/obj/lighthousecol_01.obj",
 		      false,
 		      false,
-		      (Vector3){10.0f, -0.3f, 15.0f},
+		      lighthouseLoc,
 		      12);
 
     CreateSingleModel(models,

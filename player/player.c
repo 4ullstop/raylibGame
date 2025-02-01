@@ -6,7 +6,7 @@
 void PlayerSetup(FPSPlayer* player, PlayerCam* cam, UIElements** hud, enum Gamemode* mode)
 {
     //player->location = (Vector3){0.0, 5.0, -21.0};
-    player->location = (Vector3){21.0, 30.0, -37.0};
+    player->location = (Vector3){1.0, 20.0, -37.0};
     player->currPos = player->location;
     player->lastPos = player->location;
     player->velocity = (Vector3){0.0f, 0.0f, 0.0f};
@@ -27,7 +27,7 @@ void PollPlayer(float deltaTime, PlayerCam* pcam, FPSPlayer* player, CollisionPa
 
     if (gameA == true)
     {
-//	printf("%f, %f, %f\n", pcam->position.x, pcam->position.y, pcam->position.z);
+	printf("%f, %f, %f\n", pcam->position.x, pcam->position.y, pcam->position.z);
     }
 
 }
