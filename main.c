@@ -107,7 +107,7 @@ int main(int argc, char* argv[])
     ConstructUIElements(ui);
 
     PlayerCamSetup(&pcam);
-    PlayerSetup(&player, &pcam, ui, &gamemode);
+    PlayerSetup(&player, &pcam, ui, &gamemode, gametype);
     //DO NOT PUT ANYTHING ABOVE THESE LINES, YOUR CODE WILL NOT WORK
 
     Interactable interactedItem = {0};
@@ -258,7 +258,7 @@ int main(int argc, char* argv[])
 	if (CheckForErrors(&exitCodes, &destructionLocations)) goto KillProgram; 
     }
 
-    colPacket.eRadius = (Vector3){1.0f, 2.0f, 1.0f};
+    colPacket.eRadius = (Vector3){1.0f, 1.7f, 1.0f};
 /*
     if (gametype == EGT_A)
     {
@@ -279,8 +279,8 @@ int main(int argc, char* argv[])
 
     
 */
-
-    if (gametype == EGT_B)
+    bool debug = true;
+    if (gametype == EGT_B && debug == false)
     {
 	openSharedValues.mainSharedValues = (SharedMemory *)AttachChildProcessToMemory(&hMapFile, sizeof(SharedMemory), "sceneb");
 	InitSharedPuzzleGameB(&puzzleHandle, &openSharedValues, &exitCodes, "puzzle");

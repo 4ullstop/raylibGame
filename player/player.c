@@ -3,10 +3,18 @@
 
 
 
-void PlayerSetup(FPSPlayer* player, PlayerCam* cam, UIElements** hud, enum Gamemode* mode)
+void PlayerSetup(FPSPlayer* player, PlayerCam* cam, UIElements** hud, enum Gamemode* mode, enum Gametype gametype)
 {
     //player->location = (Vector3){0.0, 5.0, -21.0};
-    player->location = (Vector3){1.0, 20.0, -37.0};
+    switch (gametype)
+    {
+    case EGT_A:
+	player->location = (Vector3){1.0, 20.0, -37.0};
+	break;
+    case EGT_B:
+	player->location = (Vector3){1.0, 5.0, -10.0};	
+    }
+
     player->currPos = player->location;
     player->lastPos = player->location;
     player->velocity = (Vector3){0.0f, 0.0f, 0.0f};
@@ -40,7 +48,7 @@ void PollPlayerSecondary(FPSPlayer* player, Raycast* interactRay, QueryBox** are
 
 void DrawPlayerCollisionCapsule(Vector3 location)
 {
-    DrawCapsuleWires((Vector3){location.x, location.y + 1.0f, location.z}, (Vector3){location.x, location.y - 1.0f, location.z}, 1.0f, 8, 8, VIOLET);
+    DrawCapsuleWires((Vector3){location.x, location.y + 0.85f, location.z}, (Vector3){location.x, location.y - 0.85f, location.z}, 1.0f, 8, 8, VIOLET);
 }
 
 void PollPlayerPuzzle(FPSPlayer* player, float deltaTime, Interactable* interactedItem, enum Gamemode* mode, OpenSharedValues* openSharedValues, bool isPlayerSharingPuzzles, enum Gametype gametype, ExitCode* exitCode)

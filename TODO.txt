@@ -130,7 +130,6 @@ What I need to do to be complete for the section that I am working on now:
 
 Things that could be redone to make them better:
  - Make the assigning of special textures a little more easy to handle
- - Figure out what is up with the collision in the stairs in the lighthouse
  - Fix the UI bc a lot of it doesn't line up with what it used to
 
 Ideas about game b now:
@@ -145,3 +144,4 @@ Things for game b to start:
 Something that could be much better about the design is the fact that I'm still not teaching the basics very well
  
  
+- Now that you've fixed the player camera position, it's wonky when you lerp infront of the puzzle, fix that

@@ -17,10 +17,10 @@
     The current size of AssociatedDoors in GameplayElements is: 48
 */
 #define NUMBER_OF_MODELS_A 240 //45
-#define NUMBER_OF_MODELS_B 101 //24
+#define NUMBER_OF_MODELS_B 103 //24
 
 #define NUMBER_OF_TEXTURES_A 14 //this will always be one more than what is in the file
-#define NUMBER_OF_TEXTURES_B 9
+#define NUMBER_OF_TEXTURES_B 10
 
 #define NUMBER_OF_INTERACTABLES_A 17 //9
 #define NUMBER_OF_INTERACTABLES_B 8
@@ -40,7 +40,7 @@
 #define NUMBER_OF_SWITCH_BOXES_A 1
 #define NUMBER_OF_SWITCH_BOXES_B 0
 
-#define NUMBER_OF_INDICATORS_A 13
+#define NUMBER_OF_INDICATORS_A 13 
 #define NUMBER_OF_INDICATORS_B 0
 
 #ifndef E_BUTTON_SIZES

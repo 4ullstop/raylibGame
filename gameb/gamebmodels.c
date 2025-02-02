@@ -26,6 +26,26 @@ void CreateModelsForGameB(modelInfo** models, int* lastModelIndex, Texture2D** a
 		      true,
 		      (Vector3){0.0f, 0.0f, 0.0f},
 		      0);
+
+    CreateSingleModel(models,
+		      lastModelIndex,
+		      allTextures,
+		      exitCode,
+		      "D:/CFiles/FirstGame/models/obj/gameb/buildings/cabin.obj",
+		      false,
+		      true,
+		      (Vector3){0.0f, 0.0f, 0.0f},
+		      9);
+
+    CreateSingleModel(models,
+		      lastModelIndex,
+		      allTextures,
+		      exitCode,
+		      "D:/CFiles/FirstGame/models/obj/gameb/buildings/cabinstairs.obj",
+		      false,
+		      true,
+		      (Vector3){0.0f, 0.0f, 0.0f},
+		      0);
 }
 
 

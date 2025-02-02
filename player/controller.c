@@ -188,7 +188,7 @@ void LerpPlayer(FPSPlayer* player, ButtonMaster* puzzle)
         printf("distance is checked\n");
         
         player->a = player->location;
-        Vector3 normalStart = Vector3Add(puzzle->puzzleNormalDirection, puzzle->location);
+        Vector3 normalStart = Vector3Add(puzzle->puzzleNormalDirection, (Vector3){puzzle->location.x, puzzle->location.y + 0.5f, puzzle->location.z});
         Vector3 normalEnd = Vector3Add(Vector3Add(puzzle->location, puzzle->puzzleLerpOffset), Vector3Scale(puzzle->puzzleNormalDirection, 2.0f));
         player->b = normalEnd;
 
@@ -521,7 +521,7 @@ void CollideAndSlide(CollisionPacket* colPacket, FPSPlayer* player, double delta
     
     player->location = finalPosition;
 
-    player->attachedCam->position = player->location;
+    player->attachedCam->position = (Vector3){player->location.x, player->location.y + 0.5f, player->location.z};
     player->attachedCam->target = Vector3Add(player->attachedCam->target, player->velocity);
 }
 

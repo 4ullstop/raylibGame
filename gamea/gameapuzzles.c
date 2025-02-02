@@ -8,7 +8,7 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
     int lastPuzzleIndex = 0;
 
     Vector2Int nullStartLoc = (Vector2Int){0, 0};
-    float lighthouseZHeight = 5.0f;
+    float lighthouseZHeight = 5.4f;
     Vector3 nullLerpLoc = (Vector3){0.0f, 0.0f, 0.0f};
     
     //Second Starter puzzle
