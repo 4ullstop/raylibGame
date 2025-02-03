@@ -364,7 +364,7 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
     ConstructSinglePuzzle(&lastPuzzleIndex,
 			  3,
 			  8,
-			  (Vector3){0.0f, 1.0f, 0.0f},
+			  (Vector3){0.0f, 1.0f, -35.0f},
 			  player,
 			  Puzzle_18,
 			  GET_NULL,
@@ -377,7 +377,7 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
 			  EPS_active,
 			  0.3f,
 			  true,
-			  false,
+			  true,
 			  nullLerpLoc,
 			  exitCode);
     
@@ -545,7 +545,6 @@ void AssignSpecialTexturesGameA(ButtonMaster** allPuzzles, Texture2D** allTextur
     AssignButtonSpecialTextureAndAction(&allPuzzles[17]->childButtons[3][0], TCL_OFF);
     AssignButtonSpecialTextureAndAction(&allPuzzles[17]->childButtons[4][2], TCL_OFF);
     AssignButtonSpecialTextureAndAction(&allPuzzles[17]->childButtons[4][1], TCL_OFF);
-    AssignButtonSpecialTextureAndAction(&allPuzzles[17]->childButtons[4][0], TCL_OFF);
     AssignButtonSpecialTextureAndAction(&allPuzzles[17]->childButtons[5][1], TCL_OFF);
     AssignButtonSpecialTextureAndAction(&allPuzzles[17]->childButtons[6][2], TCL_OFF);
     AssignButtonSpecialTextureAndAction(&allPuzzles[17]->childButtons[7][0], TCL_OFF);
