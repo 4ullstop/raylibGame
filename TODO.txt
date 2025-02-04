@@ -148,5 +148,3 @@ Something that could be much better about the design is the fact that I'm still 
 
 
 - Moving from one puzzle to the other without messing around with it for a minute (shared puzzles) causes sync issues with cursor
-- Consumer game does not exit you if completed
-- Resetting doesn't work if the player traps themselves

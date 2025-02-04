@@ -112,9 +112,16 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
 	    printf("enter action complete\n");
             break;
         case ED_Reset:
+	    openSharedValues->puzzleSharedValues->inputDirection = ED_Reset;
+	    printf("\n");
+	    printf("case ed reset\n");
+	    printf("\n");
 	    if (isPlayerSharingPuzzle == true && openSharedValues->mainSharedValues != NULL)
 	    {
-		HandleProducerInput(master, currSelectedButton, NULL, openSharedValues, isConsumer);
+		printf("\n");
+		printf("handling producer input reset\n");
+		printf("\n");
+		HandleProducerInput(master, currSelectedButton, currSelectedButton, openSharedValues, isConsumer);
 	    }
 
             ResetPuzzle(master, false);
@@ -171,11 +178,21 @@ Button* HandleCursorSelection(Button* currSelectedButton, ButtonMaster* puzzle, 
     if (CheckForSolution(currSelectedButton, puzzle, gameMode) == true)
     {
 	printf("solution check is true returning null\n");
+	if (isConsumer == true)
+	{
+	    printf("consumer found solution should be exiting puzzle view\n");
+	    printf("\n");
+	}
+	if (openSharedValues->mainSharedValues != NULL && openSharedValues->mainSharedValues->sharingPuzzles == true)
+	{
+	    openSharedValues->puzzleSharedValues->inputDirection = ED_Enter;
+	    HandleProducerInput(puzzle, oldButton, currSelectedButton, openSharedValues, isConsumer);
+	}
 	return NULL;
     }
 
 
-    currSelectedButton = PushCursor(currSelectedButton, puzzle);
+    currSelectedButton = PushCursor(currSelectedButton, puzzle, openSharedValues);
 
     if (currSelectedButton == NULL)
     {
@@ -230,6 +247,8 @@ void PollConsumer(OpenSharedValues* openSharedValues, ButtonMaster* puzzle, enum
 	return;
     }
 
+    printf("\n");
+    printf("in consumer polling\n");
     Button* cursoredButton = FindCursoredButton(puzzle);
 
     if (cursoredButton == NULL)
@@ -242,6 +261,8 @@ void PollConsumer(OpenSharedValues* openSharedValues, ButtonMaster* puzzle, enum
     if (openSharedValues->puzzleSharedValues->inputDirection > 0 && openSharedValues->puzzleSharedValues->inputDirection < 5)
     {
 	inputDirection = ED_Direction;
+	printf("inputDirection set to Direction\n");
+	printf("\n");
     }
     else
     {
@@ -254,15 +275,19 @@ void PollConsumer(OpenSharedValues* openSharedValues, ButtonMaster* puzzle, enum
 	RemoveHighlight(cursoredButton);
 	cursoredButton = HandleConsumerInput(puzzle, cursoredButton, openSharedValues);
 	AddHighlight(cursoredButton);
+	printf("direction read in consumer\n");
 	break;
     case ED_Enter:
 	printf("consumer about to change selection\n");
 	ChangeSelection(cursoredButton, puzzle, NULL, EGT_NULL, NULL);
 	CheckForSolution(cursoredButton, puzzle, mode);
-	cursoredButton = PushCursor(cursoredButton, puzzle);
+	cursoredButton = PushCursor(cursoredButton, puzzle, openSharedValues);
 	printf("consumer button pushed\n");
 	break;
     case ED_Reset:
+	printf("\n");
+	printf("reseting puzzle in consumer\n");
+	printf("\n");
 	ResetPuzzle(puzzle, false);
 	break;
     default:
@@ -274,7 +299,7 @@ void PollConsumer(OpenSharedValues* openSharedValues, ButtonMaster* puzzle, enum
     printf("consumer read and complete, flag is returned\n");
 }
 
-Button* PushCursor(Button* button, ButtonMaster* master)
+Button* PushCursor(Button* button, ButtonMaster* master, OpenSharedValues* openSharedValues)
 {
     printf("about to push cursor right now\n");
     int circledButtonNum = 8;
@@ -327,6 +352,12 @@ Button* PushCursor(Button* button, ButtonMaster* master)
     {
         //nothing was found reset the puzzle
         printf("nothing was found, should reset puzzle\n");
+	
+	if (openSharedValues->mainSharedValues != NULL && openSharedValues->mainSharedValues->sharingPuzzles == true)
+	{
+	    openSharedValues->puzzleSharedValues->inputDirection = ED_Reset;
+	    HandleProducerInput(master, button, button, openSharedValues, IsPuzzleConsumer(master, openSharedValues));
+	}
         ResetPuzzle(master, false);
 	printf("puzzle reset\n");
         return NULL;
