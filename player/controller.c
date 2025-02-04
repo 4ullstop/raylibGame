@@ -404,6 +404,7 @@ void IsButtonCursorOnScreen(ButtonMaster* puzzle)
 	if (puzzle->cursoredButton == NULL)
 	{
 	    printf("Cursored button is null\n");
+	    return;
 	}
 	if (puzzle->cursoredButton->buttonVectorLocation.x + 1 < puzzle->rows / 2)
 	{
@@ -416,6 +417,10 @@ void IsButtonCursorOnScreen(ButtonMaster* puzzle)
     }
     else
     {
+	if (puzzle->cursoredButton == NULL)
+	{
+	    return;
+	}
 	if (puzzle->cursoredButton->buttonVectorLocation.x >= (puzzle->rows / 2))
 	{
 	    puzzle->isCursorOnScreen = true;

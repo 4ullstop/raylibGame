@@ -145,3 +145,8 @@ Something that could be much better about the design is the fact that I'm still 
  
  
 - Now that you've fixed the player camera position, it's wonky when you lerp infront of the puzzle, fix that
+
+
+- Moving from one puzzle to the other without messing around with it for a minute (shared puzzles) causes sync issues with cursor
+- Consumer game does not exit you if completed
+- Resetting doesn't work if the player traps themselves

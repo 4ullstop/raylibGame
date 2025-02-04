@@ -167,32 +167,28 @@ Button* HandleCursorSelection(Button* currSelectedButton, ButtonMaster* puzzle, 
 {
     Button* oldButton = currSelectedButton;
 
-    printf("about to change selection\n");
     ChangeSelection(currSelectedButton, puzzle, openSharedValues, gametype, exitCode);
-    printf("about to check for solution\n");
     if (CheckForSolution(currSelectedButton, puzzle, gameMode) == true)
     {
 	printf("solution check is true returning null\n");
 	return NULL;
     }
 
-    if (isConsumer == true)
-    {
-	printf("consumer about to push cursor\n");
-    }
-    else
-    {
-	printf("producer about to push cursor\n");
-    }
+
     currSelectedButton = PushCursor(currSelectedButton, puzzle);
+
+    if (currSelectedButton == NULL)
+    {
+	return NULL;
+    }
     if (isSharedPuzzle == true && openSharedValues->mainSharedValues != NULL && currSelectedButton->puzzleType != EPT_WindowPower)
     {
-	printf("about to handle producer input\n");
 	HandleProducerInput(puzzle, oldButton, currSelectedButton, openSharedValues, isConsumer);
     }
 
-    return currSelectedButton;
     printf("cursor selection complete for producer\n");
+    return currSelectedButton;
+    
 }
 
 void HandleCursorMovement(Button* currSelectedButton, Button* newButton, ButtonMaster* puzzle, OpenSharedValues* openSharedValues, bool isConsumer, bool isSharedPuzzle)
@@ -332,6 +328,7 @@ Button* PushCursor(Button* button, ButtonMaster* master)
         //nothing was found reset the puzzle
         printf("nothing was found, should reset puzzle\n");
         ResetPuzzle(master, false);
+	printf("puzzle reset\n");
         return NULL;
     }
 }
