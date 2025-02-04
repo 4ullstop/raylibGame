@@ -6,6 +6,15 @@ void UpdateShaderForButtonAtlas(Button* button, enum TextureCoordinateLocations 
 {
     button->buttonTextureLocation = textureLocation;
 
+    if (textureLocation == TCL_Window)
+    {
+	printf("\n");
+	printf("\n");
+	printf("texture location: %i\n", textureLocation);
+	printf("\n");
+	printf("\n");
+    }
+        
     if (button->buttonState == EBS_off) return;
     const float uvWidth = 1.0f / 8.0f;
     const float uvHeight = 1.0f / 8.0f;

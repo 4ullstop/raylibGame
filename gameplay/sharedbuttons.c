@@ -437,6 +437,7 @@ void ConstructSinglePuzzle(int* lastPuzzleIndex, int columns, int rows, Vector3 
     puzzle->plainSubmittedButtons = NULL;
     puzzle->numOfPlainSubmittedButtons = 0;
     puzzle->sharedReach = NULL;
+    puzzle->sharedPuzzleTwinId = 0;
     puzzle->gameplayElementIndex = gameplayElementIndex;
     puzzle->plainSubmittedButtonsMax = columns - 1;
     puzzle->OnPuzzleSolved = OnPuzzleCompleted;
@@ -565,6 +566,7 @@ void AssignButtonSpecialTextureAndAction(Button* button, enum TextureCoordinateL
 	break;
     case TCL_Window:
 	button->puzzleType = EPT_WindowPower;
+	UpdateShaderForButtonAtlas(button, 48);
 	break;
     default:
 	break;
@@ -588,11 +590,12 @@ void DetermineAndUpdateTexture(Button* button, enum ButtonState state)
 {
     printf("determining value\n");
     int startingValue = 2;
-    if (button->buttonRules != NULL)
+    if (button->buttonRules != NULL && button->buttonRules->toggleRule != NULL)
     {
         DetermineStartVal(&startingValue, button->buttonRules->toggleRule->puzzleOODirection);
     }
     startingValue += button->textureSizes;
+    if (button->textureSizes == EBTS_NULL) return;
     UpdateShaderForButtonAtlas(button, startingValue);
 }
 

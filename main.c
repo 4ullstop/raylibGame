@@ -279,7 +279,7 @@ int main(int argc, char* argv[])
 
     
 */
-    bool debug = true;
+    bool debug = false;
     if (gametype == EGT_B && debug == false)
     {
 	openSharedValues.mainSharedValues = (SharedMemory *)AttachChildProcessToMemory(&hMapFile, sizeof(SharedMemory), "sceneb");
@@ -376,7 +376,7 @@ void CallAllPolls(float dTime, modelInfo** models, QueryBox** areaBoxes, Interac
     }
     else if (gamemode == EGM_Puzzle)
     {
-        PollPlayerPuzzle(&player, dTime, interactedItem, &gamemode, &openSharedValues, &openSharedValues, gametype, exitCode);
+        PollPlayerPuzzle(&player, dTime, interactedItem, &gamemode, &openSharedValues, gametype, exitCode);
     }
     else if (gamemode == EGM_Inactive)
     {

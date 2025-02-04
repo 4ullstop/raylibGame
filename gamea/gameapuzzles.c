@@ -344,7 +344,7 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
     ConstructSinglePuzzle(&lastPuzzleIndex,
 			  1,
 			  1,
-			  (Vector3){1.0f, 1.0f, 1.0f},
+			  (Vector3){3.0f, 1.0f, -35.0f},
 			  player,
 			  Puzzle_17,
 			  GET_NULL,
@@ -424,6 +424,9 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
 void AddGameAPuzzlesToSharedMemory(ButtonMaster** allPuzzles, SharedMemory* sharedMemory)
 {
     AddPuzzleToSharedPuzzles(allPuzzles[14], sharedMemory, 0, true);
+
+    allPuzzles[14]->sharedPuzzleId = 1;
+    allPuzzles[17]->sharedPuzzleId = 2;
 }
 
 /*
@@ -876,7 +879,8 @@ void Puzzle_17(ButtonMaster* puzzle)
     puzzle->solutionLocations[0] = (Vector2Int){0, 0};
 
     puzzle->textureSizes = malloc(sizeof(enum ButtonTextureSizes) * puzzle->numberOfSolutions);
-    puzzle->textureSizes[0] = EBTS_01;
+    puzzle->textureSizes[0] = EBTS_NULL;
+
 }
 	       
 void Puzzle_18(ButtonMaster* puzzle)
@@ -892,5 +896,5 @@ void Puzzle_18(ButtonMaster* puzzle)
     puzzle->textureSizes = malloc(sizeof(enum ButtonTextureSizes) * puzzle->numberOfSolutions);
     puzzle->textureSizes[0] = EBTS_01;
     puzzle->textureSizes[1] = EBTS_03;
-    puzzle->textureSizes[3] = EBTS_06;
+    puzzle->textureSizes[2] = EBTS_06;
 }

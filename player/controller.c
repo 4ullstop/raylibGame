@@ -150,6 +150,7 @@ void PollPlayerSecondaryInputs(FPSPlayer* player, Raycast* interactRay, QueryBox
 			    openSharedValues->mainSharedValues->gameBCurrPuzzleId = interactedItem->associatedPuzzle->sharedPuzzleId;
 			}
 		        openSharedValues->mainSharedValues->sharingPuzzles = IsPlayerReadyToSharePuzzles(openSharedValues->mainSharedValues);
+			
 		    }
 		    printf("here 5\n");
                 }
@@ -216,8 +217,15 @@ void LerpPlayer(FPSPlayer* player, ButtonMaster* puzzle)
     }
 }
 
-void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode, OpenSharedValues* openSharedValues, bool isPlayerSharingPuzzle, enum Gametype gametype, ExitCode* exitCode)
+void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode, OpenSharedValues* openSharedValues, enum Gametype gametype, ExitCode* exitCode)
 {
+
+    bool isPlayerSharingPuzzle = false;
+    if (openSharedValues->mainSharedValues != NULL)
+    {
+	isPlayerSharingPuzzle = openSharedValues->mainSharedValues->sharingPuzzles;
+    }
+
     if (interactedItem == NULL)
     {
 	printf("interacted item is null\n");
@@ -248,6 +256,7 @@ void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode, O
 	}
     }
 
+
     if (IsKeyPressed(KEY_E))
     {
 	*mode = EGM_Normal;
@@ -268,6 +277,7 @@ void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode, O
     }
 
     Vector2 windowPos = GetWindowPosition();
+
     
     if (IsKeyPressed(KEY_F))
     {
@@ -292,7 +302,6 @@ void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode, O
     enum Direction inputDirection = 0;
 
     
-    
     if (IsKeyPressed(KEY_R))
     {
 	inputDirection = ED_Reset;
@@ -308,18 +317,26 @@ void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode, O
     {
 	if (IsPuzzleConsumer(interactedItem->associatedPuzzle, openSharedValues))
 	{
+	    if (interactedItem->associatedPuzzle->gameAPuzzle == true)
+	    {
+//		printf("the consumer is gamea puzzle, this shouldn't be possible\n");
+	    }
 	    PollConsumer(openSharedValues, interactedItem->associatedPuzzle, mode);
 	}
     }
+
+
     
     if (interactedItem->associatedPuzzle->puzzleInputType == EPIT_ResetOnly) return;
 
     if ((interactedItem->associatedPuzzle->sharedPuzzle == true && interactedItem->associatedPuzzle->isCursorOnScreen == false) && isPlayerSharingPuzzle == false) return;
 
+
     if (isPlayerSharingPuzzle == true && openSharedValues->mainSharedValues != NULL)
     {
 	IsButtonCursorOnScreen(interactedItem->associatedPuzzle);
     }
+
 
     if (IsKeyPressed(KEY_LEFT))
     {
@@ -347,6 +364,7 @@ void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode, O
 	inputDirection = ED_Enter;
     }
 
+    
     if (inputDirection > 0)
     {
 	if (openSharedValues->puzzleSharedValues != NULL)
@@ -355,6 +373,7 @@ void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode, O
 	}
 
 	MoveCursor(inputDirection, interactedItem, mode, openSharedValues, isPlayerSharingPuzzle, gametype, exitCode);
+	printf("move cursor complete in game\n");
     }
 
     /*
@@ -365,7 +384,7 @@ void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode, O
         interactedItem = NULL;
     }
     */
-   
+    
     if (directionalKeyPressed == true)
     {
 	if (interactedItem->showsArrowKeyHint == true && interactedItem->id == 2)
@@ -382,6 +401,10 @@ void IsButtonCursorOnScreen(ButtonMaster* puzzle)
 {
     if (puzzle->gameAPuzzle == true)
     {
+	if (puzzle->cursoredButton == NULL)
+	{
+	    printf("Cursored button is null\n");
+	}
 	if (puzzle->cursoredButton->buttonVectorLocation.x + 1 < puzzle->rows / 2)
 	{
 	    puzzle->isCursorOnScreen = true;

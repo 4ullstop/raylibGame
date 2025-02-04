@@ -115,6 +115,9 @@ void ConstructGameBPuzzles(ButtonMaster** gameBPuzzles, Texture2D** allTextures,
 void AddGameBPuzzlesToSharedMemory(ButtonMaster** allPuzzles, SharedMemory* sharedMemory)
 {
     AddPuzzleToSharedPuzzles(allPuzzles[2], sharedMemory, 0, false);
+
+    allPuzzles[2]->sharedPuzzleId = 1;
+    allPuzzles[3]->sharedPuzzleId = 2;
 }
 
 void AssignSpecialTexturesGameB(ButtonMaster** allPuzzles, Texture2D** allTextures)

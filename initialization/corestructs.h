@@ -54,7 +54,8 @@ enum ButtonTextureSizes
     EBTS_05,
     EBTS_06,
     EBTS_07,
-    EBTS_08
+    EBTS_08,
+    EBTS_NULL
 };
 #endif
 
@@ -585,6 +586,8 @@ typedef struct ButtonMaster
     int gameplayElementIndex;
 
     enum GameplayElementType gameplayElementType;
+
+    bool sharedPuzzleTwinId;
 } ButtonMaster;
 #endif
 

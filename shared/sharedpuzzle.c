@@ -15,6 +15,7 @@ void InitSharedPuzzleGameA(HANDLE* puzzleHMapFile, OpenSharedValues* openSharedV
 void InitSharedPuzzleGameB(HANDLE* puzzleHMapFile, OpenSharedValues* openSharedValues, ExitCode* exitCode, char* mapFileName)
 {
     openSharedValues->puzzleSharedValues = (PuzzleSharedValues*) AttachChildProcessToMemory(puzzleHMapFile, sizeof(PuzzleSharedValues), mapFileName);
+    
     if (openSharedValues->puzzleSharedValues == NULL)
     {
 	EditReturnCodeInfo(901, "Failed to attach child process for puzzle", exitCode);
@@ -25,8 +26,10 @@ void InitSharedPuzzleGameB(HANDLE* puzzleHMapFile, OpenSharedValues* openSharedV
 
 bool IsPlayerReadyToSharePuzzles(SharedMemory* mainSharedValues)
 {
-    if (mainSharedValues->gameAInSharedPuzzle == true && mainSharedValues->gameBInSharedPuzzle == true)
+    printf("gameASharedPuzzleId: %i, gameBSharedPuzzleId: %i\n", mainSharedValues->gameACurrPuzzleId, mainSharedValues->gameBCurrPuzzleId);
+    if (mainSharedValues->gameAInSharedPuzzle == true && mainSharedValues->gameBInSharedPuzzle == true && mainSharedValues->gameACurrPuzzleId == mainSharedValues->gameBCurrPuzzleId)
     {
+	
 	printf("you ahve interacted with a shared puzzle preapre to be sharing\n");
 	mainSharedValues->sharingPuzzles = true;
 	return true;
@@ -39,6 +42,7 @@ void HandleProducerInput(ButtonMaster* puzzle, Button* oldButton, Button* newBut
 {
     if (isConsumer == false)
     {
+	printf("is consumer is false\n");
 	if (openSharedValues->puzzleSharedValues->inputDirection == ED_Reset)
 	{
 	    openSharedValues->mainSharedValues->flag = 1;
@@ -48,6 +52,7 @@ void HandleProducerInput(ButtonMaster* puzzle, Button* oldButton, Button* newBut
 	openSharedValues->puzzleSharedValues->sharedCursorLocation = newButton->buttonVectorLocation;
 	openSharedValues->puzzleSharedValues->oldSharedCursorLocation = oldButton->buttonVectorLocation;
 	printf("button location in A, x: %i, y: %i\n", newButton->buttonVectorLocation.x, newButton->buttonVectorLocation.y);
+	puzzle->cursoredButton = newButton;
 	openSharedValues->mainSharedValues->flag = 1;
     }
 }

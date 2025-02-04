@@ -74,7 +74,7 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
     switch (direction)
     {
         case ED_Up:
-            if (currSelectedButton->nAbove->buttonState == EBS_off) return;
+            if (currSelectedButton->nAbove->buttonState == EBS_off || aboveCurrSelected == EBS_off) return;
             if (currSelectedButton->isAboveEdge == true && checkForEdges == true)
             {
                 return;
@@ -82,7 +82,7 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
 	    HandleCursorMovement(currSelectedButton, aboveCurrSelected, master, openSharedValues, isConsumer, isPlayerSharingPuzzle);
             break;
         case ED_Down:
-            if (currSelectedButton->nBelow->buttonState == EBS_off) return;
+            if (currSelectedButton->nBelow->buttonState == EBS_off || belowCurrSelected == EBS_off) return;
             if (currSelectedButton->isBelowEdge == true && checkForEdges == true)
             {
                 return;
@@ -90,7 +90,7 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
 	    HandleCursorMovement(currSelectedButton, belowCurrSelected, master, openSharedValues, isConsumer, isPlayerSharingPuzzle);
             break;
         case ED_Left:
-            if (currSelectedButton->nLeft->buttonState == EBS_off) return;
+            if (currSelectedButton->nLeft->buttonState == EBS_off || leftCurrSelected == EBS_off) return;
             if (currSelectedButton->isLeftEdge == true && checkForEdges == true)
             {
                 return;
@@ -98,7 +98,7 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
 	    HandleCursorMovement(currSelectedButton, leftCurrSelected, master, openSharedValues, isConsumer, isPlayerSharingPuzzle);
             break;
         case ED_Right:
-            if (currSelectedButton->nRight->buttonState == EBS_off) return;
+            if (currSelectedButton->nRight->buttonState == EBS_off || rightCurrSelected == EBS_off) return;
             if (currSelectedButton->isRightEdge == true && checkForEdges == true)
             {
                 return;
@@ -108,6 +108,7 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
         case ED_Enter:
 	    Button* oldButton = master->cursoredButton;
 	    master->cursoredButton = HandleCursorSelection(currSelectedButton, master, mode, isPlayerSharingPuzzle, isConsumer, openSharedValues, gametype, exitCode);
+
 	    printf("enter action complete\n");
             break;
         case ED_Reset:
@@ -126,14 +127,23 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
 
 void SharedButtonNeighborDetermination(Button** leftCurrSelected, Button** rightCurrSelected, Button** aboveCurrSelected, Button** belowCurrSelected, Button* currSelectedButton, ButtonMaster* puzzle)
 {
+    printf("making determination\n");
     if (puzzle->gameAPuzzle == true)
     {
 	if (currSelectedButton->buttonVectorLocation.x + 1 == (puzzle->rows / 2))
 	{
+	    if (puzzle->childButtons[0][currSelectedButton->buttonVectorLocation.y].buttonState == EBS_off) return;
 	    *rightCurrSelected = &puzzle->childButtons[0][currSelectedButton->buttonVectorLocation.y];
 	}
 	else if (currSelectedButton->buttonVectorLocation.x == 0)
 	{
+	    printf("about to make left side determination\n");
+	    if (puzzle->childButtons[(puzzle->rows / 2) - 1][currSelectedButton->buttonVectorLocation.y].buttonState == EBS_off)
+	    {
+		*leftCurrSelected  = currSelectedButton;
+		return;
+	    }
+	    printf("left curr selected assigned\n");
 	    *leftCurrSelected = &puzzle->childButtons[(puzzle->rows / 2) - 1][currSelectedButton->buttonVectorLocation.y];
 	}
     }
@@ -142,10 +152,12 @@ void SharedButtonNeighborDetermination(Button** leftCurrSelected, Button** right
 	printf("button location: %i\n", currSelectedButton->buttonVectorLocation.x);
 	if (currSelectedButton->buttonVectorLocation.x + 1 == puzzle->rows)
 	{
+	    if (puzzle->childButtons[(puzzle->rows / 2)][currSelectedButton->buttonVectorLocation.y].buttonState == EBS_off) return;
 	    *rightCurrSelected = &puzzle->childButtons[(puzzle->rows / 2)][currSelectedButton->buttonVectorLocation.y];
 	}
 	else if (currSelectedButton->buttonVectorLocation.x == (puzzle->rows / 2))
 	{
+	    if (puzzle->childButtons[puzzle->rows - 1][currSelectedButton->buttonVectorLocation.y].buttonState == EBS_off) return;
 	    *leftCurrSelected = &puzzle->childButtons[puzzle->rows - 1][currSelectedButton->buttonVectorLocation.y];
  	}
     }
@@ -164,7 +176,14 @@ Button* HandleCursorSelection(Button* currSelectedButton, ButtonMaster* puzzle, 
 	return NULL;
     }
 
-    printf("about to push cursor\n");
+    if (isConsumer == true)
+    {
+	printf("consumer about to push cursor\n");
+    }
+    else
+    {
+	printf("producer about to push cursor\n");
+    }
     currSelectedButton = PushCursor(currSelectedButton, puzzle);
     if (isSharedPuzzle == true && openSharedValues->mainSharedValues != NULL && currSelectedButton->puzzleType != EPT_WindowPower)
     {
@@ -172,7 +191,7 @@ Button* HandleCursorSelection(Button* currSelectedButton, ButtonMaster* puzzle, 
 	HandleProducerInput(puzzle, oldButton, currSelectedButton, openSharedValues, isConsumer);
     }
 
-    
+    return currSelectedButton;
     printf("cursor selection complete for producer\n");
 }
 
@@ -204,13 +223,23 @@ Button* FindCursoredButton(ButtonMaster* puzzle)
 	    }
 	}
     }
+    return NULL;
 }
 
 void PollConsumer(OpenSharedValues* openSharedValues, ButtonMaster* puzzle, enum Gamemode* mode)
 {
     if (openSharedValues->mainSharedValues->flag == 0) return;
+    if (IsPuzzleConsumer(puzzle, openSharedValues) == false)
+    {
+	return;
+    }
 
     Button* cursoredButton = FindCursoredButton(puzzle);
+
+    if (cursoredButton == NULL)
+    {
+	printf("cursored button is null\n");
+    }
 
     enum Direction inputDirection = 0;
     
@@ -231,9 +260,11 @@ void PollConsumer(OpenSharedValues* openSharedValues, ButtonMaster* puzzle, enum
 	AddHighlight(cursoredButton);
 	break;
     case ED_Enter:
+	printf("consumer about to change selection\n");
 	ChangeSelection(cursoredButton, puzzle, NULL, EGT_NULL, NULL);
 	CheckForSolution(cursoredButton, puzzle, mode);
 	cursoredButton = PushCursor(cursoredButton, puzzle);
+	printf("consumer button pushed\n");
 	break;
     case ED_Reset:
 	ResetPuzzle(puzzle, false);
@@ -244,11 +275,12 @@ void PollConsumer(OpenSharedValues* openSharedValues, ButtonMaster* puzzle, enum
     puzzle->cursoredButton = cursoredButton;
     if (openSharedValues->mainSharedValues == NULL) return;
     openSharedValues->mainSharedValues->flag = 0;
+    printf("consumer read and complete, flag is returned\n");
 }
 
 Button* PushCursor(Button* button, ButtonMaster* master)
 {
-    printf("about to push cursor\n");
+    printf("about to push cursor right now\n");
     int circledButtonNum = 8;
     Button* buttons[] = {
         button->nAbove,
@@ -348,7 +380,19 @@ bool SubmitButton(Button* button, ButtonMaster* puzzle, OpenSharedValues* openSh
     button->model->texture = button->buttonTextures->selected;
     button->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = button->model->texture;
     button->submitted = true;
-    if (button->ButtonSelected != NULL && gametype != EGT_NULL)
+    if (gametype == EGT_NULL)
+    {
+	printf("gametype is NULL\n");
+    }
+    if (button == NULL)
+    {
+	printf("the button is null\n");
+    }
+    if (button->ButtonSelected == NULL)
+    {
+	printf("only the button selected is null\n");
+    }
+    if (button->ButtonSelected != NULL)
     {
 	//Somehow, I need to pass in the OpenSharedValues, exitcode and gametype here
 	switch(button->puzzleType)
@@ -360,7 +404,7 @@ bool SubmitButton(Button* button, ButtonMaster* puzzle, OpenSharedValues* openSh
 	    button->ButtonSelected(button);
 	    break;
 	case EPT_WindowPower:
-	    if (button->sharedWindowOpened == false)
+	    if (button->sharedWindowOpened == false && gametype != EGT_NULL)
 	    {
 		printf("second game should be opening\n");
 		openSharedValues->windowData->SetupWindowMovement(gametype, openSharedValues->windowData);
