@@ -148,3 +148,9 @@ Something that could be much better about the design is the fact that I'm still 
 
 
 - Moving from one puzzle to the other without messing around with it for a minute (shared puzzles) causes sync issues with cursor
+  - maybe not anymore?
+- When you enter into a puzzle, you need to check whether there are any submitted buttons, and submit them on the puzzle that is being accessed
+  - Somewhere store the information of the submitted buttons
+  - This list must be cleared every time you exit a shared puzzle
+  - The list must be filled everytime you enter a shared puzzle
+  - The list must be cleared every time the puzzle resets

@@ -15,7 +15,11 @@ typedef struct
     Vector2Int sharedCursorLocation;
     Vector2Int oldSharedCursorLocation;
     enum Direction inputDirection;
-    bool submitButtonPressed; 
+    bool submitButtonPressed;
+
+    Vector2Int preSubmittedButtons[48];
+    int numOfPreSubmittedButtons;
+    int preSubmitIndex;
 } PuzzleSharedValues;
 #endif
 

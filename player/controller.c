@@ -88,7 +88,7 @@ void PollPlayerInput(PlayerCam* pcam, double deltaTime, FPSPlayer* player, Colli
     CalculatePlayerVelocity(player, deltaTime);
 }
 
-void PollPlayerSecondaryInputs(FPSPlayer* player, Raycast* interactRay, QueryBox** areaBoxes, enum Gamemode* mode, Interactable* interactedItem, int numOfAreaQueryBoxes, OpenSharedValues* openSharedValues, enum Gametype gameType)
+void PollPlayerSecondaryInputs(FPSPlayer* player, Raycast* interactRay, QueryBox** areaBoxes, enum Gamemode* mode, Interactable* interactedItem, int numOfAreaQueryBoxes, OpenSharedValues* openSharedValues, enum Gametype gameType, ExitCode* exitCode)
 {
     if (IsKeyPressed(KEY_E))
     {
@@ -137,6 +137,7 @@ void PollPlayerSecondaryInputs(FPSPlayer* player, Raycast* interactRay, QueryBox
 		    if (openSharedValues->mainSharedValues != NULL && interactedItem->associatedPuzzle->sharedPuzzle == true)
 		    {
 			printf("interacted item is a shared puzzle\n");
+
 			if (gameType == EGT_A)
 			{
 			    printf("game type is game a setting shared values\n");
@@ -150,6 +151,7 @@ void PollPlayerSecondaryInputs(FPSPlayer* player, Raycast* interactRay, QueryBox
 			    openSharedValues->mainSharedValues->gameBCurrPuzzleId = interactedItem->associatedPuzzle->sharedPuzzleId;
 			}
 		        openSharedValues->mainSharedValues->sharingPuzzles = IsPlayerReadyToSharePuzzles(openSharedValues->mainSharedValues);
+		   	EnteringDetermination(interactedItem->associatedPuzzle, openSharedValues, gameType, exitCode, mode);
 			
 		    }
 		    printf("here 5\n");
@@ -263,6 +265,7 @@ void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode, O
 	interactedItem->associatedPuzzle = NULL;
 	interactedItem = NULL;
 	if (openSharedValues->mainSharedValues == NULL) return;
+	WipePreSubmittedList(openSharedValues);
 	if (gametype == EGT_A)
 	{
 	    openSharedValues->mainSharedValues->gameAInSharedPuzzle = false;

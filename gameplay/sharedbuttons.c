@@ -151,6 +151,7 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
     dynamicModels[*lastModelIndex] = master->childButtons[i][j].model;
     *lastModelIndex = *lastModelIndex + 1;
 
+    /*
     if (master->sharedPuzzle)
     {
 	if (master->gameAPuzzle == true)
@@ -168,7 +169,7 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
 	    }
 	}
     }
-
+    */
 											       
 											       
     if (j < 1)

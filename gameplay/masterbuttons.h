@@ -66,3 +66,14 @@ Button* FindCursoredButton(ButtonMaster* puzzle);
 Button* HandleCursorSelection(Button* currSelectedButton, ButtonMaster* puzzle, enum Gamemode* gameMode, bool isSharedPuzzle, bool isConsumer, OpenSharedValues* openSharedValues, enum Gametype gametype, ExitCode* exitCode);
 
 void SharedButtonNeighborDetermination(Button** leftCurrSelected, Button** rightCurrSelected, Button** aboveCurrSelected, Button** belowCurrSelected, Button* currSelectedButton, ButtonMaster* puzzle);
+
+void EnteringDetermination(ButtonMaster* puzzle, OpenSharedValues* openSharedValues, enum Gametype gametype, ExitCode* exitCode, enum Gamemode* gamemode);
+
+void MakeDeterminationForPreSubmittedButtons(ButtonMaster* puzzle, Button* button, OpenSharedValues* openSharedValues);
+
+void AddButtonToPreSubmittedList(Button* button, OpenSharedValues* openSharedValues);
+
+void WipePreSubmittedList(OpenSharedValues* openSharedValues);
+
+void RunThroughPreSubmittedButtons(OpenSharedValues* openSharedValues, ButtonMaster* puzzle, enum Gametype gametype, ExitCode* exitCode, enum Gamemode* gamemode);
+

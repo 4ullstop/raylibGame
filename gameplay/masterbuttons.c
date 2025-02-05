@@ -108,7 +108,7 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
         case ED_Enter:
 	    Button* oldButton = master->cursoredButton;
 	    master->cursoredButton = HandleCursorSelection(currSelectedButton, master, mode, isPlayerSharingPuzzle, isConsumer, openSharedValues, gametype, exitCode);
-
+	    MakeDeterminationForPreSubmittedButtons(master, oldButton, openSharedValues);
 	    printf("enter action complete\n");
             break;
         case ED_Reset:
@@ -123,13 +123,97 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
 		printf("\n");
 		HandleProducerInput(master, currSelectedButton, currSelectedButton, openSharedValues, isConsumer);
 	    }
-
+	    WipePreSubmittedList(openSharedValues);
             ResetPuzzle(master, false);
             break;
          default:
             printf("error default case run on switching highlight");
             break;
     }
+}
+
+void EnteringDetermination(ButtonMaster* puzzle, OpenSharedValues* openSharedValues, enum Gametype gametype, ExitCode* exitCode, enum Gamemode* gamemode)
+{
+    printf("making entering determination\n");
+    if (puzzle->sharedPuzzle == false || openSharedValues->mainSharedValues == NULL) return;
+    printf("past early returns\n");
+    printf("\n");
+    if (IsPlayerReadyToSharePuzzles(openSharedValues->mainSharedValues) == false)
+    {
+	printf("player ready to share puzzles is false\n");
+	for (int i = 0; i < puzzle->rows; i++)
+	{
+	    for (int j = 0; j < puzzle->columns; j++)
+	    {
+		if (puzzle->childButtons[i][j].buttonState == EBS_selected)
+		{
+		    MakeDeterminationForPreSubmittedButtons(puzzle, &puzzle->childButtons[i][j], openSharedValues);
+		}
+	    }
+	}
+    }
+    else
+    {
+	//run through the current list of pre submitted buttons and determine if the puzzle needs to adjust
+	printf("run through pre submitted button list\n");
+	RunThroughPreSubmittedButtons(openSharedValues, puzzle, gametype, exitCode, gamemode);
+	int x = openSharedValues->puzzleSharedValues->sharedCursorLocation.x;
+	int y = openSharedValues->puzzleSharedValues->sharedCursorLocation.y;
+	puzzle->cursoredButton = &puzzle->childButtons[x][y];
+	puzzle->cursoredButton->highlighted = true;
+    }
+}
+
+void RunThroughPreSubmittedButtons(OpenSharedValues* openSharedValues, ButtonMaster* puzzle, enum Gametype gametype, ExitCode* exitCode, enum Gamemode* gamemode)
+{
+    for (int i = 0, n = openSharedValues->puzzleSharedValues->preSubmitIndex; i < n; i++)
+    {
+	int x = openSharedValues->puzzleSharedValues->preSubmittedButtons[i].x;
+	int y = openSharedValues->puzzleSharedValues->preSubmittedButtons[i].y;
+	Button* currButton = &puzzle->childButtons[x][y];
+	printf("adding button and changing selection\n");
+	printf("\n");
+	ChangeSelection(currButton, puzzle, openSharedValues, gametype, exitCode);
+	CheckForSolution(currButton, puzzle, gamemode); 
+    }
+    for (int i = 0; i < puzzle->rows; i++)
+    {
+	for (int j = 0; j < puzzle->columns; j++)
+	{
+	    if (puzzle->childButtons[i][j].highlighted == true) puzzle->childButtons[i][j].highlighted = false;
+	}
+    }
+}
+
+void MakeDeterminationForPreSubmittedButtons(ButtonMaster* puzzle, Button* button, OpenSharedValues* openSharedValues)
+{
+    if (puzzle->sharedPuzzle == false || openSharedValues->mainSharedValues == NULL) return;
+    //if the puzzle is supposed to be shared but it is not currently shared...
+    if (IsPlayerReadyToSharePuzzles(openSharedValues->mainSharedValues) == false) 
+    {
+	//add the currently selected button to the presubmitted button list
+	//for our other puzzle to pick up on when the player actually interacts with it
+	openSharedValues->puzzleSharedValues->sharedCursorLocation = puzzle->cursoredButton->buttonVectorLocation;
+	AddButtonToPreSubmittedList(button, openSharedValues);
+    }
+}
+
+void AddButtonToPreSubmittedList(Button* button, OpenSharedValues* openSharedValues)
+{
+    int index = openSharedValues->puzzleSharedValues->preSubmitIndex;
+    openSharedValues->puzzleSharedValues->preSubmittedButtons[index].x = button->buttonVectorLocation.x;
+    openSharedValues->puzzleSharedValues->preSubmittedButtons[index].y = button->buttonVectorLocation.y;
+    openSharedValues->puzzleSharedValues->preSubmitIndex = openSharedValues->puzzleSharedValues->preSubmitIndex + 1;
+}
+
+void WipePreSubmittedList(OpenSharedValues* openSharedValues)
+{
+    if (openSharedValues->mainSharedValues == NULL || openSharedValues->puzzleSharedValues->preSubmitIndex == 0) return;
+    for (int i = 0, n = openSharedValues->puzzleSharedValues->preSubmitIndex + 1; i < n; i++)
+    {
+	openSharedValues->puzzleSharedValues->preSubmittedButtons[i] = (Vector2Int){0, 0};
+    }
+    openSharedValues->puzzleSharedValues->preSubmitIndex = 0;
 }
 
 void SharedButtonNeighborDetermination(Button** leftCurrSelected, Button** rightCurrSelected, Button** aboveCurrSelected, Button** belowCurrSelected, Button* currSelectedButton, ButtonMaster* puzzle)
