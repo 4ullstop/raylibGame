@@ -65,7 +65,7 @@ int main(int argc, char* argv[])
     SharedMemory* sharedMemValA = malloc(sizeof(SharedMemory));
     sharedMemValA->sharedValTesting = 23;
     
-
+    SharedPuzzleList* sharedPuzzleList = (SharedPuzzleList*)malloc(sizeof(sharedPuzzleList));
     openSharedValues.si = &si;
     openSharedValues.pi = &pi;
     openSharedValues.hMapFile = &hMapFile;
@@ -106,7 +106,7 @@ int main(int argc, char* argv[])
     UIElements* ui[UI_ELEMENT_TOTAL];
     ConstructUIElements(ui);
 
-    PlayerCamSetup(&pcam);
+     PlayerCamSetup(&pcam);
     PlayerSetup(&player, &pcam, ui, &gamemode, gametype);
     //DO NOT PUT ANYTHING ABOVE THESE LINES, YOUR CODE WILL NOT WORK
 

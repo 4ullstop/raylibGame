@@ -20,6 +20,8 @@ typedef struct
     Vector2Int preSubmittedButtons[48];
     int numOfPreSubmittedButtons;
     int preSubmitIndex;
+
+    int puzzleId;
 } PuzzleSharedValues;
 #endif
 
@@ -33,6 +35,8 @@ typedef struct SharedMemory
     int flag;
 
     int flagProducer;
+
+    int flagExtConsumer;
     bool gameClosing;
 
     int pairsOfSharedPuzzles;
@@ -69,6 +73,6 @@ typedef struct OpenSharedValues
 
     WindowData* windowData;
 
-    
+    int submitIndexBuffer;
 } OpenSharedValues;
 #endif

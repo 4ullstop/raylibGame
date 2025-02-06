@@ -167,3 +167,14 @@ When you enter a puzzle that is shared:
    - 
  - The producer must read this report and adjust the current puzzle as needed
    - The producer must report to the consumer that it has interacted with a puzzle that is shared which will put into motion the consumer's ability to report for any changes
+
+
+The current issue is, is the fact that we aren't finding the associated puzzle and instead just testing the one that the player is currently in whether they are in it or not.
+ - When you enter a puzzle as a producer, you need to check against all of the puzzles in the consumer's side for the correct one and then use the correct one to make determinations
+ on whether there have been submitted buttons
+
+
+Where am I?:
+ - You have created the SharedPuzzleList and it's ability to add things to the list, you now need to enact that ability whenever a puzzle is created or something like that?
+ - You need to call the external consumer poll at all times during the game
+ - You need to test the implementation's functionality

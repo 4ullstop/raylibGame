@@ -132,6 +132,48 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
     }
 }
 
+//this is to be called external no matter whether the consumer is in a puzzle or not
+void PollConsumerExternal(OpenSharedValues* openSharedValues, enum Gamemode* mode, enum Gametype gametype, SharedPuzzleList* sharedPuzzleList, ExitCode* exitCode)
+{
+    if (openSharedValues->mainSharedValues == NULL) return;
+    if (openSharedValues->mainSharedValues->flagExtConsumer == 0) return;
+    if (openSharedValues->puzzleSharedValues->puzzleId == 0) return;
+
+    ButtonMaster* sharedPuzzle = SearchForPuzzle(sharedPuzzleList, openSharedValues->puzzleSharedValues->puzzleId);
+    if (sharedPuzzle == NULL)
+    {
+	printf("Error puzzle not found\n");
+	openSharedValues->mainSharedValues->flagExtConsumer = 0;
+	return;
+    }
+    WipePreSubmittedList(openSharedValues);
+    FillListFromBuffer(openSharedValues, puzzle);
+    openSharedValues->puzzleSharedValues->sharedCursorLocation = puzzle->cursoredButton->buttonVectorLocation;
+    openSharedValues->puzzleSharedValues->preSubmitIndex = openSharedVales->subimtIndexBuffer;
+    openSharedValues->mainSharedValues->consumerPost = true;
+    openSharedValues->mainSharedValues->preSubmitCheck = false;
+    openSharedValues->mainSharedValues->flagExtConsumer = 0;
+    printf("\n");
+    printf("\n");
+    printf("consumer inputs posted\n");
+    printf("\n");
+    printf("\n");
+}
+
+ButtonMaster* SearchForSharedPuzzle(SharedPuzzleList* sharedPuzzles, int puzzleId)
+{
+    SharedPuzzleList* current = sharedPuzzleList;
+    while (current != NULL)
+    {
+	if (sharedPuzzleList->sharedId == puzzleId)
+	{
+	    return sharedPuzzleList->puzzle;
+	}
+	current = current->next;
+    }
+    return NULL;
+}
+
 void EnteringDetermination(ButtonMaster* puzzle, OpenSharedValues* openSharedValues, enum Gametype gametype, ExitCode* exitCode, enum Gamemode* gamemode)
 {
     printf("making entering determination\n");
@@ -143,47 +185,12 @@ void EnteringDetermination(ButtonMaster* puzzle, OpenSharedValues* openSharedVal
     if (IsPuzzleConsumer(puzzle, openSharedValues) == false)
     {
 	//yo consumer are there any submitted buttons?
-//	openSharedValues->mainSharedValues->consumerPost = false;
+	if (openSharedValues->mainSharedValues->sharingPuzzles == true) return;
 	openSharedValues->mainSharedValues->flag = 1;
+	openSharedValues->puzzleSharedValues->puzzleId = puzzle->sharedPuzzleId;
 	openSharedValues->mainSharedValues->preSubmitCheck = true;
 	openSharedValues->mainSharedValues->flagProducer = 1;
-	/*
-	while (openSharedValues->mainSharedValues->consumerPost == false)
-	{
-	    printf("in loop\n");
-	    continue;
-	    }*/
-	//read the list, alter puzzle accordingly
-
     }
-    /*
-    if (IsPlayerReadyToSharePuzzles(openSharedValues->mainSharedValues) == false)
-    {
-	printf("player ready to share puzzles is false\n");
-	for (int i = 0; i < puzzle->rows; i++)
-	{
-	    for (int j = 0; j < puzzle->columns; j++)
-	    {
-		if (puzzle->childButtons[i][j].buttonState == EBS_selected)
-		{
-		    MakeDeterminationForPreSubmittedButtons(puzzle, &puzzle->childButtons[i][j], openSharedValues);
-		}
-	    }
-	}
-    }
-    else
-    {
-	//run through the current list of pre submitted buttons and determine if the puzzle needs to adjust
-	printf("run through pre submitted button list\n");
-	openSharedValues->mainSharedValues->preSubmitCheck = true;
-	openSharedValues->mainSharedValues->flag = 1;
-	RunThroughPreSubmittedButtons(openSharedValues, puzzle, gametype, exitCode, gamemode);
-	int x = openSharedValues->puzzleSharedValues->sharedCursorLocation.x;
-	int y = openSharedValues->puzzleSharedValues->sharedCursorLocation.y;
-	puzzle->cursoredButton = &puzzle->childButtons[x][y];
-	puzzle->cursoredButton->highlighted = true;
-    }
-    */
 }
 
 void FillListFromBuffer(OpenSharedValues* openSharedValues, ButtonMaster* puzzle)
@@ -197,6 +204,7 @@ void FillListFromBuffer(OpenSharedValues* openSharedValues, ButtonMaster* puzzle
 	current = current->next;
 	i++;
     }
+    
 }
 
 void RunThroughPreSubmittedButtons(OpenSharedValues* openSharedValues, ButtonMaster* puzzle, enum Gametype gametype, ExitCode* exitCode, enum Gamemode* gamemode)
@@ -226,8 +234,8 @@ void MakeDeterminationForPreSubmittedButtons(ButtonMaster* puzzle, Button* butto
     printf("\n");
     //regardless of whether the shared memory is open or not, put the information of the submitted buttons into  the buffer to be read later
     if (puzzle->sharedPuzzle == false) return;
-    //openSharedValues->cursoredButtonBuffer = button;
     AddButtonToPreSubmittedBuffer(button, &puzzle->submitBuffer);
+    openSharedValues->submitIndexBuffer = openSharedValues->submitIndexBuffer + 1;
 }
 
 void AddButtonToPreSubmittedBuffer(Button* button, PreSubmittedList** head)
@@ -256,21 +264,6 @@ void AddButtonToPreSubmittedBuffer(Button* button, PreSubmittedList** head)
     lastNode->next = newNode;
 }
 
-/*
-void WipePreSubmittedBuffer(OpenSharedValues* openSharedValues)
-{
-    PreSubmittedList* curr = openSharedValues->submitBuffer;
-    PreSubmittedList* next;
-
-    while (curr != NULL)
-    {
-	next = curr->next;
-	free(curr);
-	curr = next;
-    }
-    openSharedValues->submitBuffer = NULL;
-}
-*/
 void AddButtonToPreSubmittedList(Button* button, OpenSharedValues* openSharedValues)
 {
     int index = openSharedValues->puzzleSharedValues->preSubmitIndex;
@@ -446,12 +439,19 @@ void PollConsumer(OpenSharedValues* openSharedValues, ButtonMaster* puzzle, enum
 	//wipe the list
 	//fill the list if any
 	WipePreSubmittedList(openSharedValues);
+	//openSharedValues->puzzleSharedValues->preSubmitIndex = 0;
+	//openSharedValues->submitIndexBuffer = 0;
 	FillListFromBuffer(openSharedValues, puzzle);
-	
-	openSharedValues->mainSharedValues->consumerPost == true;
+	openSharedValues->puzzleSharedValues->sharedCursorLocation = puzzle->cursoredButton->buttonVectorLocation;
+	openSharedValues->puzzleSharedValues->preSubmitIndex = openSharedValues->submitIndexBuffer;
+	openSharedValues->mainSharedValues->consumerPost = true;
 	openSharedValues->mainSharedValues->preSubmitCheck = false;
 	openSharedValues->mainSharedValues->flag = 0;
+	printf("\n");
+	printf("\n");
 	printf("consumer inputs posted\n");
+	printf("\n");
+	printf("\n");
 	return;
     }
     

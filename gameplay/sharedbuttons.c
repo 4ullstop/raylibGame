@@ -490,6 +490,29 @@ void ConstructSinglePuzzle(int* lastPuzzleIndex, int columns, int rows, Vector3 
     exitCode->numOfPuzzlesLoaded = exitCode->numOfPuzzlesLoaded + 1;
 }
 
+void AddPuzzleToSharedPuzzleList(ButtonMaster* puzzle, SharedPuzzleList** head)
+{
+    SharedPuzzleList* newNode = (SharedPuzzleList*)malloc(sizeof(SharedPuzzleList));
+    if (newNode == NULL)
+    {
+	printf("ERROR, FAILED TO ALLOCATE MEMORY FOR SHARED PUZZLE LIST\n");
+	return;
+    }
+    newNode->puzzle = puzzle;
+    newNode->sharedId = puzzle->sharedPuzzleId;
+    newNode->next = NULL;
+    if (*head == NULL)
+    {
+	*head = newNode;
+	return;
+    }
+    SharedPuzzleList* lastNode = *head;
+    while(lastNode->next != NULL)
+    {
+	lastNode = lastNode->next;
+    }
+    lastNode->next = newNode;
+}
 
 //this is our function that will need to be assigned to our function pointer for special
 //button actions

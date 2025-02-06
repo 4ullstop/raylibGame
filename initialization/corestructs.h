@@ -764,3 +764,13 @@ typedef struct
     
 } GameButtonTextures;
 #endif
+
+#ifndef SHARED_PUZZLE_LIST
+#define SHARED_PUZZLE_LIST
+typedef struct SharedPuzzleList
+{
+    struct SharedPuzzleList* next;
+    int sharedId;
+    ButtonMaster* puzzle;
+} SharedPuzzleList;
+#endif
