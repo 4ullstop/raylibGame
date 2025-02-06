@@ -151,7 +151,7 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
     dynamicModels[*lastModelIndex] = master->childButtons[i][j].model;
     *lastModelIndex = *lastModelIndex + 1;
 
-    /*
+/*
     if (master->sharedPuzzle)
     {
 	if (master->gameAPuzzle == true)
@@ -169,7 +169,8 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
 	    }
 	}
     }
-    */
+*/
+    
 											       
 											       
     if (j < 1)
@@ -442,6 +443,7 @@ void ConstructSinglePuzzle(int* lastPuzzleIndex, int columns, int rows, Vector3 
     puzzle->gameplayElementIndex = gameplayElementIndex;
     puzzle->plainSubmittedButtonsMax = columns - 1;
     puzzle->OnPuzzleSolved = OnPuzzleCompleted;
+    puzzle->submitBuffer = NULL;
     puzzle->puzzleLerpOffset = puzzleLerpOffset;
     puzzle->puzzleNormalDirection = (Vector3){0};
     puzzle->associatedGameplayElements = malloc(sizeof(GameplayElements));

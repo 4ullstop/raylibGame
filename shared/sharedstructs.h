@@ -32,6 +32,7 @@ typedef struct SharedMemory
     int sharedValTesting;
     int flag;
 
+    int flagProducer;
     bool gameClosing;
 
     int pairsOfSharedPuzzles;
@@ -43,6 +44,10 @@ typedef struct SharedMemory
     int gameBCurrPuzzleId;
 
     bool sharingPuzzles;
+
+    bool preSubmitCheck;
+
+    bool consumerPost;
 } SharedMemory;
 #endif
 
@@ -63,6 +68,7 @@ typedef struct OpenSharedValues
     HANDLE* puzzleHandle;
 
     WindowData* windowData;
+
     
 } OpenSharedValues;
 #endif

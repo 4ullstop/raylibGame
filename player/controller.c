@@ -226,8 +226,11 @@ void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode, O
     if (openSharedValues->mainSharedValues != NULL)
     {
 	isPlayerSharingPuzzle = openSharedValues->mainSharedValues->sharingPuzzles;
+	PollProducer(openSharedValues, interactedItem->associatedPuzzle, mode, gametype, exitCode);
     }
 
+
+    
     if (interactedItem == NULL)
     {
 	printf("interacted item is null\n");
@@ -324,7 +327,7 @@ void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode, O
 	    {
 //		printf("the consumer is gamea puzzle, this shouldn't be possible\n");
 	    }
-	    PollConsumer(openSharedValues, interactedItem->associatedPuzzle, mode);
+	    PollConsumer(openSharedValues, interactedItem->associatedPuzzle, mode, gametype, exitCode);
 	}
     }
 

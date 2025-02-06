@@ -492,6 +492,15 @@ enum ReachWindowLocation
 };
 #endif
 
+#ifndef PRESUBMITTED_LIST
+#define PRESUBMITTED_LIST
+typedef struct PreSubmittedList
+{
+    struct PreSubmittedList* next;
+    Button* submittedButton;
+} PreSubmittedList;
+#endif
+
 #ifndef SHARED_REACH
 #define SHARED_REACH
 typedef struct
@@ -557,7 +566,6 @@ typedef struct ButtonMaster
 
     int numOfSolved;
     int numOfSelected;
-
     enum PuzzleInputType puzzleInputType;
 
     PlainSubmittedButtons* plainSubmittedButtons;
@@ -588,6 +596,9 @@ typedef struct ButtonMaster
     enum GameplayElementType gameplayElementType;
 
     bool sharedPuzzleTwinId;
+
+    PreSubmittedList* submitBuffer;
+    
 } ButtonMaster;
 #endif
 

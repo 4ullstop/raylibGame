@@ -154,3 +154,16 @@ Something that could be much better about the design is the fact that I'm still 
   - This list must be cleared every time you exit a shared puzzle
   - The list must be filled everytime you enter a shared puzzle
   - The list must be cleared every time the puzzle resets
+Okay so this works when you have both windows open, but when only one is, it doesn't
+ - Need to create some sort of buffer to store this information in?
+ - Or when the memory is opened, run through the determination
+ - What if the button is submitted and then unsubmitted, you need to check this case as well - or maybe not, it might just cause a visual bug that won't be seen
+
+
+When you enter a puzzle that is shared:
+ - The consumer must report if there have been buttons that are submitted as well as the current location of the cursor
+   - We must keep track of all of the buttons that have been submitted (this is only necessary if the puzzle is shared)
+   - We must keep track of the cursor's current location
+   - 
+ - The producer must read this report and adjust the current puzzle as needed
+   - The producer must report to the consumer that it has interacted with a puzzle that is shared which will put into motion the consumer's ability to report for any changes

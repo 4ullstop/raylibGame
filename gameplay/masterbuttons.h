@@ -59,7 +59,7 @@ void RemoveHead(PlainSubmittedButtons** head, ButtonMaster* puzzle);
 
 void HandleCursorMovement(Button* currSelectedButton, Button* newButton, ButtonMaster* puzzle, OpenSharedValues* openSharedValues, bool isConsumer, bool isSharedPuzzle);
 
-void PollConsumer(OpenSharedValues* openSharedValues, ButtonMaster* puzzle, enum Gamemode* mode);
+void PollConsumer(OpenSharedValues* openSharedValues, ButtonMaster* puzzle, enum Gamemode* mode, enum Gametype gametye, ExitCode* exitCode);
 
 Button* FindCursoredButton(ButtonMaster* puzzle);
 
@@ -77,3 +77,10 @@ void WipePreSubmittedList(OpenSharedValues* openSharedValues);
 
 void RunThroughPreSubmittedButtons(OpenSharedValues* openSharedValues, ButtonMaster* puzzle, enum Gametype gametype, ExitCode* exitCode, enum Gamemode* gamemode);
 
+void FillListFromBuffer(OpenSharedValues* openSharedValues, ButtonMaster* puzzle);
+
+void AddButtonToPreSubmittedBuffer(Button* button, PreSubmittedList** head);
+
+void WipePreSubmittedBuffer(OpenSharedValues* openSharedValues);
+
+void PollProducer(OpenSharedValues* openSharedValues, ButtonMaster* puzzle,  enum Gamemode* mode, enum Gametype gametype, ExitCode* exitCode);
