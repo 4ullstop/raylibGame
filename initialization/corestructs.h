@@ -600,6 +600,8 @@ typedef struct ButtonMaster
     PreSubmittedList* submitBuffer;
 
     bool inputRecieved; //only if the enter button is pressed
+
+    int numOfSubmittedButtons;
 } ButtonMaster;
 #endif
 

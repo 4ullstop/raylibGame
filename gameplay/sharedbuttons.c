@@ -428,6 +428,7 @@ void ConstructSinglePuzzle(int* lastPuzzleIndex, int columns, int rows, Vector3 
     puzzle->highlightStartLoc = highlightStart;
     puzzle->hasHighlightStartLoc = hasHighlightStartLoc;
     puzzle->shouldReadTick = false;
+    puzzle->numOfSubmittedButtons = 0;
     puzzle->puzzleUnSolved = false;
     puzzle->shouldBlinkCursor = true;
     puzzle->cursoredButton = NULL;
@@ -490,7 +491,7 @@ void ConstructSinglePuzzle(int* lastPuzzleIndex, int columns, int rows, Vector3 
     exitCode->numOfPuzzlesLoaded = exitCode->numOfPuzzlesLoaded + 1;
 }
 
-void FillSharedPuzzleList(ButtonMaster** allPuzzles, int numOfPuzzles, SharedPuzzleList* sharedPuzzleList)
+void FillSharedPuzzleList(ButtonMaster** allPuzzles, int numOfPuzzles, SharedPuzzleList** sharedPuzzleList)
 {
     printf("about to assign shared buttons\n");
     for (int i = 0; i < numOfPuzzles; i++)
@@ -500,7 +501,7 @@ void FillSharedPuzzleList(ButtonMaster** allPuzzles, int numOfPuzzles, SharedPuz
 	    printf("in loop, puzzle found, maing assignation\n");
 	    printf("\n");
 	    printf("\n");
-	    AddPuzzleToSharedPuzzleList(allPuzzles[i], &sharedPuzzleList);
+	    AddPuzzleToSharedPuzzleList(allPuzzles[i], sharedPuzzleList);
 	}
     }
 }
@@ -515,6 +516,7 @@ void AddPuzzleToSharedPuzzleList(ButtonMaster* puzzle, SharedPuzzleList** head)
 	return;
     }
     newNode->puzzle = puzzle;
+    printf("sharedPuzzleId: %i\n", puzzle->sharedPuzzleId);
     newNode->sharedId = puzzle->sharedPuzzleId;
     newNode->next = NULL;
     if (*head == NULL)

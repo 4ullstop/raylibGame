@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-void ConstructPuzzles(ButtonMaster** allPuzzles, modelInfo** dynamicModels, int* lastModelIndex, enum Gametype gametype, FPSPlayer* player, GameplayElements* gameplayElements, Texture2D** allTextures, SharedMemory* sharedMemory, SharedPuzzleList* sharedPuzzleList, ExitCode* exitCode)
+void ConstructPuzzles(ButtonMaster** allPuzzles, modelInfo** dynamicModels, int* lastModelIndex, enum Gametype gametype, FPSPlayer* player, GameplayElements* gameplayElements, Texture2D** allTextures, SharedMemory* sharedMemory, SharedPuzzleList** sharedPuzzleList, ExitCode* exitCode)
 {
     if (gametype == EGT_A)
     {
@@ -171,7 +171,17 @@ void PollConsumerExternal(OpenSharedValues* openSharedValues, enum Gamemode* mod
 	printf("for some reason game b is the consumer\n");
 	return;
     }
+    else if (gametype == EGT_A && openSharedValues->mainSharedValues->ActiveWindowA == true)
+    {
+	printf("game is consuming when it shouldn't be returning\n");
+	return;
+    }
+    else
+    {
+	printf("this is game a speaking\n");
+    }
 
+    printf("puzzleId from openSharedValues: %i\n", openSharedValues->puzzleSharedValues->puzzleId);
     ButtonMaster* sharedPuzzle = SearchForSharedPuzzle(sharedPuzzleList, openSharedValues->puzzleSharedValues->puzzleId);
     if (sharedPuzzle == NULL)
     {
@@ -185,7 +195,9 @@ void PollConsumerExternal(OpenSharedValues* openSharedValues, enum Gamemode* mod
     WipePreSubmittedList(openSharedValues);
     FillListFromBuffer(openSharedValues, sharedPuzzle);
     openSharedValues->puzzleSharedValues->sharedCursorLocation = sharedPuzzle->cursoredButton->buttonVectorLocation;
-    openSharedValues->puzzleSharedValues->preSubmitIndex = openSharedValues->submitIndexBuffer;
+    openSharedValues->puzzleSharedValues->preSubmitIndex = sharedPuzzle->numOfSubmittedButtons;
+    printf("preSubmitIndex in consumer: %i\n", openSharedValues->puzzleSharedValues->preSubmitIndex);
+    printf("sharedPuzzle->numOfSelected: %i\n", sharedPuzzle->numOfSelected);
     openSharedValues->puzzleSharedValues->inputRecieved = sharedPuzzle->inputRecieved;
     openSharedValues->mainSharedValues->consumerPost = true;
     openSharedValues->mainSharedValues->preSubmitCheck = false;
@@ -212,8 +224,9 @@ ButtonMaster* SearchForSharedPuzzle(SharedPuzzleList* sharedPuzzles, int puzzleI
 	{
 	    return current->puzzle;
 	}
+	printf("searching for puzzle: %i\n", current->sharedId);	
 	current = current->next;
-	printf("searching for puzzle\n");
+
     }
     return NULL;
 }
@@ -231,11 +244,11 @@ void EnteringDetermination(ButtonMaster* puzzle, OpenSharedValues* openSharedVal
     if (IsPuzzleConsumer(puzzle, openSharedValues) == false)
     {
 	//yo consumer are there any submitted buttons?
-	if (openSharedValues->mainSharedValues->sharingPuzzles == true) return;
+//	if (openSharedValues->mainSharedValues->sharingPuzzles == true) return;
 	printf("entering determination here\n");
 //	openSharedValues->mainSharedValues->flag = 1;
 	openSharedValues->puzzleSharedValues->puzzleId = puzzle->sharedPuzzleId;
-	printf("grabbing puzzle id\n");
+	printf("grabbing puzzle id: %i\n", puzzle->sharedPuzzleId);
 	openSharedValues->mainSharedValues->preSubmitCheck = true;
 //	openSharedValues->mainSharedValues->flagProducer = 1;
 	openSharedValues->mainSharedValues->flagExtConsumer = 1;
@@ -284,6 +297,9 @@ void RunThroughPreSubmittedButtons(OpenSharedValues* openSharedValues, ButtonMas
 
 	CheckForSolution(currButton, puzzle, gamemode); 
     }
+
+    if (openSharedValues->puzzleSharedValues->inputRecieved == false) return;
+    
     for (int i = 0; i < puzzle->rows; i++)
     {
 	for (int j = 0; j < puzzle->columns; j++)
@@ -300,7 +316,7 @@ void MakeDeterminationForPreSubmittedButtons(ButtonMaster* puzzle, Button* butto
     //regardless of whether the shared memory is open or not, put the information of the submitted buttons into  the buffer to be read later
     if (puzzle->sharedPuzzle == false) return;
     AddButtonToPreSubmittedBuffer(button, &puzzle->submitBuffer);
-    openSharedValues->submitIndexBuffer = openSharedValues->submitIndexBuffer + 1;
+    openSharedValues->submitIndexBuffer = puzzle->numOfSelected;
 }
 
 void AddButtonToPreSubmittedBuffer(Button* button, PreSubmittedList** head)
@@ -484,6 +500,7 @@ void PollProducer(OpenSharedValues* openSharedValues, ButtonMaster* puzzle, enum
 	if (openSharedValues->puzzleSharedValues->inputRecieved == false)
 	{
 	    KillProducerPoll(openSharedValues);
+	    return;
 	}
 	int x = openSharedValues->puzzleSharedValues->sharedCursorLocation.x;
 	int y = openSharedValues->puzzleSharedValues->sharedCursorLocation.y;
@@ -694,6 +711,7 @@ bool SubmitButton(Button* button, ButtonMaster* puzzle, OpenSharedValues* openSh
     button->model->texture = button->buttonTextures->selected;
     button->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = button->model->texture;
     button->submitted = true;
+    puzzle->numOfSubmittedButtons = puzzle->numOfSubmittedButtons + 1;
     if (gametype == EGT_NULL)
     {
 	printf("gametype is NULL\n");
@@ -765,6 +783,7 @@ void UnsubmitButton(Button* button, ButtonMaster* puzzle, bool isFromAuto)
 	button->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = button->model->texture;
 	return;
     }
+    puzzle->numOfSubmittedButtons = puzzle->numOfSubmittedButtons - 1;
     AddHighlight(button);
 }
 
@@ -927,6 +946,7 @@ void ResetPuzzle(ButtonMaster* puzzle, bool resultOfFailure)
     puzzle->shouldBlinkCursor = false;
     puzzle->numOfSelected = 0;
     puzzle->numOfSolved = 0;
+    puzzle->numOfSubmittedButtons = 0;
     if (resultOfFailure == true)
     {
 	puzzle->puzzleInputType = EPIT_Disabled;

@@ -65,7 +65,7 @@ int main(int argc, char* argv[])
     SharedMemory* sharedMemValA = malloc(sizeof(SharedMemory));
     sharedMemValA->sharedValTesting = 23;
     
-    SharedPuzzleList sharedPuzzleList = {0};
+    SharedPuzzleList* sharedPuzzleList = NULL;
     openSharedValues.si = &si;
     openSharedValues.pi = &pi;
     openSharedValues.hMapFile = &hMapFile;
@@ -313,13 +313,14 @@ int main(int argc, char* argv[])
 
         if (gametype == EGT_A)
         {
-            CallAllPolls(deltaTime, modelsA, areaQueryBoxesA, &interactedItem, allBoxesA, numOfModels, numOfQueryBoxes, &sharedPuzzleList, &exitCodes);
+            CallAllPolls(deltaTime, modelsA, areaQueryBoxesA, &interactedItem, allBoxesA, numOfModels, numOfQueryBoxes, sharedPuzzleList, &exitCodes);
             PollAllGameplayElements(gameplayElements.doors, deltaTime, numOfDoors);
+
             Draw(modelsA, &ray, areaQueryBoxesA, ui, allBoxesA, numOfModels, numOfQueryBoxes, numOfInteractables, allPuzzlesA);
         }
         else
         {
-            CallAllPolls(deltaTime, modelsB, areaQueryBoxesB, &interactedItem, allBoxesB, numOfModels, numOfQueryBoxes, &sharedPuzzleList, &exitCodes);
+            CallAllPolls(deltaTime, modelsB, areaQueryBoxesB, &interactedItem, allBoxesB, numOfModels, numOfQueryBoxes, sharedPuzzleList, &exitCodes);
             PollAllGameplayElements(allDoorsB, deltaTime, numOfDoors);
             Draw(modelsB, &ray, areaQueryBoxesB, ui, allBoxesB, numOfModels, numOfQueryBoxes, numOfInteractables, allPuzzlesB);
         }
