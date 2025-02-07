@@ -598,7 +598,8 @@ typedef struct ButtonMaster
     bool sharedPuzzleTwinId;
 
     PreSubmittedList* submitBuffer;
-    
+
+    bool inputRecieved; //only if the enter button is pressed
 } ButtonMaster;
 #endif
 

@@ -21,6 +21,8 @@ typedef struct
     int numOfPreSubmittedButtons;
     int preSubmitIndex;
 
+    bool inputRecieved;
+    
     int puzzleId;
 } PuzzleSharedValues;
 #endif

@@ -88,3 +88,5 @@ void PollProducer(OpenSharedValues* openSharedValues, ButtonMaster* puzzle,  enu
 ButtonMaster* SearchForSharedPuzzle(SharedPuzzleList* sharedPuzzles, int puzzleId);
 
 void PollConsumerExternal(OpenSharedValues* openSharedValues, enum Gamemode* gamemode, enum Gametype gametype, SharedPuzzleList* sharedPuzzleList, ExitCode* exitCode);
+
+void KillProducerPoll(OpenSharedValues* openSharedValues);

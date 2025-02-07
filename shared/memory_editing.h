@@ -6,6 +6,4 @@
 #include "sharedstructs.h"
 #endif
 
-void InitSharedMemoryValues(SharedMemory* sharedMemory, int pairsOfSharedPuzzles);
-
 void AddPuzzleToSharedPuzzles(ButtonMaster* puzzleToAdd, SharedMemory* sharedMemory, int location, bool gameA);

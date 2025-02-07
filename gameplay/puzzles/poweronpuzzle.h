@@ -11,3 +11,5 @@ void OpenSecondGame(OpenSharedValues* openSharedValues, ExitCode* exitCode, enum
 void GameAOpening(OpenSharedValues* openSharedValues, ExitCode* exitCode);
 
 void GameBOpening(OpenSharedValues* openSharedValues, ExitCode* exitCode);
+
+void InitSharedMemoryValues(SharedMemory* sharedMemory);
