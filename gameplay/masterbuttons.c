@@ -202,7 +202,9 @@ void EnteringDetermination(ButtonMaster* puzzle, OpenSharedValues* openSharedVal
     
     printf("past early returns\n");
     printf("\n");
-   
+
+    
+    
     if (IsPuzzleConsumer(puzzle, openSharedValues) == false)
     {
 	//yo consumer are there any submitted buttons?
@@ -235,6 +237,11 @@ void FillListFromBuffer(OpenSharedValues* openSharedValues, ButtonMaster* puzzle
 
 void RunThroughPreSubmittedButtons(OpenSharedValues* openSharedValues, ButtonMaster* puzzle, enum Gametype gametype, ExitCode* exitCode, enum Gamemode* gamemode)
 {
+    if (openSharedValues->puzzleSharedValues->preSubmitIndex + 1 == puzzle->numOfSelected)
+    {
+	printf("the number of submitted is the same as the report\n");
+	return;
+    }
     for (int i = 0, n = openSharedValues->puzzleSharedValues->preSubmitIndex; i < n; i++)
     {
 	int x = openSharedValues->puzzleSharedValues->preSubmittedButtons[i].x;
@@ -242,8 +249,14 @@ void RunThroughPreSubmittedButtons(OpenSharedValues* openSharedValues, ButtonMas
 	Button* currButton = &puzzle->childButtons[x][y];
 	printf("adding button and changing selection\n");
 	printf("\n");
-	if (currButton->buttonState == EBS_selected) continue;
+
+	if (currButton->submitted == true)
+	{
+	    printf("current state is selected, do not change\n");
+	    continue;
+	}
 	ChangeSelection(currButton, puzzle, openSharedValues, gametype, exitCode);
+
 	CheckForSolution(currButton, puzzle, gamemode); 
     }
     for (int i = 0; i < puzzle->rows; i++)

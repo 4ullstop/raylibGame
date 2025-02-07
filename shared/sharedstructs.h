@@ -53,7 +53,7 @@ typedef struct SharedMemory
 
     bool consumerPost;
 
-
+    
 
 } SharedMemory;
 #endif
