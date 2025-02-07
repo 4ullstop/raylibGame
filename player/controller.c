@@ -315,6 +315,7 @@ void PollPlayerPuzzleInputs(Interactable* interactedItem, enum Gamemode* mode, O
 	{
 	    openSharedValues->puzzleSharedValues->inputDirection = inputDirection;
 	}
+	printf("r key pressed\n");
         MoveCursor(ED_Reset, interactedItem, mode, openSharedValues, isPlayerSharingPuzzle, gametype, exitCode);
     }
 

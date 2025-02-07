@@ -133,7 +133,11 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
 	    printf("enter action complete\n");
             break;
         case ED_Reset:
-	    openSharedValues->puzzleSharedValues->inputDirection = ED_Reset;
+	    if (openSharedValues->puzzleSharedValues != NULL)
+	    {
+		openSharedValues->puzzleSharedValues->inputDirection = ED_Reset;		
+	    }
+
 	    master->inputRecieved = false;
 	    printf("\n");
 	    printf("case ed reset\n");
@@ -696,7 +700,7 @@ void ChangeSelection(Button* button, ButtonMaster* puzzle, OpenSharedValues* ope
 	bool solutionButton = SubmitButton(button, puzzle, openSharedValues, gametype, exitCode);
 	if (solutionButton == false)
 	{
-	    AddPlainButtonToSubmittedList(button, &puzzle->plainSubmittedButtons, puzzle);
+	    //AddPlainButtonToSubmittedList(button, &puzzle->plainSubmittedButtons, puzzle);
 	}
     }
     else
@@ -943,6 +947,7 @@ void ClearSolvedButtons(SolvedButtons* solvedButtons)
 
 void ResetPuzzle(ButtonMaster* puzzle, bool resultOfFailure)
 {
+    printf("in reset puzzle\n");
     puzzle->shouldBlinkCursor = false;
     puzzle->numOfSelected = 0;
     puzzle->numOfSolved = 0;

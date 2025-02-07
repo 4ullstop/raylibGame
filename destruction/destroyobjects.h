@@ -9,13 +9,13 @@
 
 void DestroyAllModels(modelInfo** models, int numOfModels, Texture2D** allTextures, int numOfTextures);
 
-void EnduceTearDown(modelInfo** models, int numOfModels, Texture2D** allTextures, int numOfTextures, ButtonMaster** allPuzzles, int numOfPuzzles, QueryBox** areaQueryBoxes, int numOfQueryBoxes, int numOfInteractables, OverlapBox** allOverlapBoxes, int numOfOverlapBoxes, GameplayElements* gameplayElements, int numOfDoors, STARTUPINFO* si, HANDLE* hMapFile, PROCESS_INFORMATION* pi, enum DestructionLocations destructionLocations, void* sharedMemVal, ExitCode* exitCode, enum Gametype gametype);
+void EnduceTearDown(modelInfo** models, int numOfModels, Texture2D** allTextures, int numOfTextures, ButtonMaster** allPuzzles, int numOfPuzzles, SharedPuzzleList** sharedPuzzleList, QueryBox** areaQueryBoxes, int numOfQueryBoxes, int numOfInteractables, OverlapBox** allOverlapBoxes, int numOfOverlapBoxes, GameplayElements* gameplayElements, int numOfDoors, STARTUPINFO* si, HANDLE* hMapFile, PROCESS_INFORMATION* pi, enum DestructionLocations destructionLocations, void* sharedMemVal, ExitCode* exitCode, enum Gametype gametype);
 
 void UnloadAllTextures(Texture2D** allTextures, int numOfTextures);
 
 void FreeAllTextures(Texture2D** allTextures, int numOfTextures);
 
-void DestructAllPuzzles(ButtonMaster** allPuzzles, int numberOfPuzzles);
+void DestructAllPuzzles(ButtonMaster** allPuzzles, int numberOfPuzzles, SharedPuzzleList** sharedPuzzleList);
 
 void DestructAllButtons(ButtonMaster* master);
 
@@ -41,5 +41,4 @@ void DestroySwitches(SwitchBox* switchBox);
 
 void DestroyIndicators(GameplayElements* gameplayElements);
 
-
-
+void DestroySharedPuzzleList(SharedPuzzleList** sharedPuzzleList);

@@ -348,11 +348,11 @@ KillProgram:
     }
     if (gametype == EGT_A)
     {
-	EnduceTearDown(modelsA, exitCodes.numOfModelsLoaded, texturesA, numOfTextures, allPuzzlesA, exitCodes.numOfPuzzlesLoaded, areaQueryBoxesA, exitCodes.numOfQueryBoxesLoaded, exitCodes.numOfInteractablesLoaded, allBoxesA, exitCodes.numOfOverlapBoxesLoaded, &gameplayElements, exitCodes.numOfDoorsLoaded, &si, &hMapFile, &pi, destructionLocations, openSharedValues.mainSharedValues, &exitCodes, gametype);
+	EnduceTearDown(modelsA, exitCodes.numOfModelsLoaded, texturesA, numOfTextures, allPuzzlesA, exitCodes.numOfPuzzlesLoaded, &sharedPuzzleList, areaQueryBoxesA, exitCodes.numOfQueryBoxesLoaded, exitCodes.numOfInteractablesLoaded, allBoxesA, exitCodes.numOfOverlapBoxesLoaded, &gameplayElements, exitCodes.numOfDoorsLoaded, &si, &hMapFile, &pi, destructionLocations, openSharedValues.mainSharedValues, &exitCodes, gametype);
     }
     else
     {
-	EnduceTearDown(modelsB, exitCodes.numOfModelsLoaded, texturesB, numOfTextures, allPuzzlesB, exitCodes.numOfPuzzlesLoaded, areaQueryBoxesB, exitCodes.numOfQueryBoxesLoaded, exitCodes.numOfInteractablesLoaded, allBoxesB, exitCodes.numOfOverlapBoxesLoaded, &gameplayElements, exitCodes.numOfDoorsLoaded, &si, &hMapFile, &pi, destructionLocations,openSharedValues.mainSharedValues, &exitCodes, gametype);
+	EnduceTearDown(modelsB, exitCodes.numOfModelsLoaded, texturesB, numOfTextures, allPuzzlesB, exitCodes.numOfPuzzlesLoaded, &sharedPuzzleList, areaQueryBoxesB, exitCodes.numOfQueryBoxesLoaded, exitCodes.numOfInteractablesLoaded, allBoxesB, exitCodes.numOfOverlapBoxesLoaded, &gameplayElements, exitCodes.numOfDoorsLoaded, &si, &hMapFile, &pi, destructionLocations,openSharedValues.mainSharedValues, &exitCodes, gametype);
     }
     
     DestroyLines(ray.linesToDraw);

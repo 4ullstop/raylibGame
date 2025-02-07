@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-void EnduceTearDown(modelInfo** models, int numOfModels, Texture2D** allTextures, int numOfTextures, ButtonMaster** allPuzzles, int numOfPuzzles, QueryBox** areaQueryBoxes, int numOfQueryBoxes, int numOfInteractables, OverlapBox** allOverlapBoxes, int numOfOverlapBoxes, GameplayElements* gameplayElements, int numOfDoors, STARTUPINFO* si, HANDLE* hMapFile, PROCESS_INFORMATION* pi, enum DestructionLocations destructionLocations, void* sharedMemVal, ExitCode* exitCode, enum Gametype gametype)
+void EnduceTearDown(modelInfo** models, int numOfModels, Texture2D** allTextures, int numOfTextures, ButtonMaster** allPuzzles, int numOfPuzzles, SharedPuzzleList** sharedPuzzleList, QueryBox** areaQueryBoxes, int numOfQueryBoxes, int numOfInteractables, OverlapBox** allOverlapBoxes, int numOfOverlapBoxes, GameplayElements* gameplayElements, int numOfDoors, STARTUPINFO* si, HANDLE* hMapFile, PROCESS_INFORMATION* pi, enum DestructionLocations destructionLocations, void* sharedMemVal, ExitCode* exitCode, enum Gametype gametype)
 {
     //destroy textures
     UnloadAllTextures(allTextures, numOfTextures);
@@ -17,7 +17,7 @@ void EnduceTearDown(modelInfo** models, int numOfModels, Texture2D** allTextures
     if (destructionLocations == DL_Models && exitCode->gameLoaded == false) return;
 
     //destroy puzzles
-    DestructAllPuzzles(allPuzzles, numOfPuzzles);
+    DestructAllPuzzles(allPuzzles, numOfPuzzles, sharedPuzzleList);
     if (destructionLocations == DL_Puzzles && exitCode->gameLoaded == false) return;    
 
     DestroyAreasAndInteractables(areaQueryBoxes, numOfQueryBoxes, numOfInteractables);
@@ -75,7 +75,7 @@ void FreeAllTextures(Texture2D** allTextures, int numOfTextures)
     }
 }
 
-void DestructAllPuzzles(ButtonMaster** allPuzzles, int numberOfPuzzles)
+void DestructAllPuzzles(ButtonMaster** allPuzzles, int numberOfPuzzles, SharedPuzzleList** sharedPuzzleList)
 {
     for (int i = 0; i < numberOfPuzzles; i++)
     {
@@ -93,6 +93,8 @@ void DestructAllPuzzles(ButtonMaster** allPuzzles, int numberOfPuzzles)
         free(allPuzzles[i]);
         allPuzzles[i] = NULL;
     }
+    DestroySharedPuzzleList(sharedPuzzleList);
+    
     printf("puzzles freed\n");
 }
 
@@ -249,3 +251,16 @@ void DestroyIndicators(GameplayElements* gameplayElements)
     }
 }
 
+void DestroySharedPuzzleList(SharedPuzzleList** sharedPuzzleList)
+{
+    SharedPuzzleList* curr = *sharedPuzzleList;
+    SharedPuzzleList* next;
+
+    while (curr != NULL)
+    {
+	next = curr->next;
+	free(curr);
+	curr = next;
+    }
+    *sharedPuzzleList = NULL;
+}
