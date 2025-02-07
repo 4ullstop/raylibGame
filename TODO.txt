@@ -175,6 +175,6 @@ The current issue is, is the fact that we aren't finding the associated puzzle a
 
 
 Where am I?:
- - You have created the SharedPuzzleList and it's ability to add things to the list, you now need to enact that ability whenever a puzzle is created or something like that?
- - You need to call the external consumer poll at all times during the game
- - You need to test the implementation's functionality
+ - It works pretty much
+ - If you enter the puzzle twice the buttons become unsubmitted, need to create some sort of way to ensure that the buttons aren't getting re-upodated every single time we enter the puzzle
+ 

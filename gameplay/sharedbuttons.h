@@ -48,3 +48,7 @@ void AssignAllPuzzlesSolutionButtons(ButtonMaster** allPuzzles, int numOfPuzzles
 void AssignSolutionButtonsToPuzzle(ButtonMaster* puzzle, ExitCode* exitCode);
 
 Indicator* FindIndicator(int id, Indicator** indicators, int numOfIndicators);
+
+void AddPuzzleToSharedPuzzleList(ButtonMaster* puzzle, SharedPuzzleList** head); 
+
+void FillSharedPuzzleList(ButtonMaster** allPuzzles, int numOfPuzzles, SharedPuzzleList* sharedPuzzleList);

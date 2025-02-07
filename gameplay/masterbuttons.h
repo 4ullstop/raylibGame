@@ -13,7 +13,7 @@
 #include "../shared/sharedstructs.h"
 #endif
 
-void ConstructPuzzles(ButtonMaster** allPuzzles, modelInfo** dynamicModels, int* lastModelIndex, enum Gametype gametype, FPSPlayer* player, GameplayElements* gameplayElements, Texture2D** allTextures, SharedMemory* sharedMemory, ExitCode* exitCode);
+void ConstructPuzzles(ButtonMaster** allPuzzles, modelInfo** dynamicModels, int* lastModelIndex, enum Gametype gametype, FPSPlayer* player, GameplayElements* gameplayElements, Texture2D** allTextures, SharedMemory* sharedMemory, SharedPuzzleList* sharedPuzzleList, ExitCode* exitCode);
 
 void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gamemode* mode, OpenSharedValues* openSharedValues, bool isPlayerSharingPuzzle, enum Gametype gametype, ExitCode* exitCode);
 
@@ -84,3 +84,7 @@ void AddButtonToPreSubmittedBuffer(Button* button, PreSubmittedList** head);
 void WipePreSubmittedBuffer(OpenSharedValues* openSharedValues);
 
 void PollProducer(OpenSharedValues* openSharedValues, ButtonMaster* puzzle,  enum Gamemode* mode, enum Gametype gametype, ExitCode* exitCode);
+
+ButtonMaster* SearchForSharedPuzzle(SharedPuzzleList* sharedPuzzles, int puzzleId);
+
+void PollConsumerExternal(OpenSharedValues* openSharedValues, enum Gamemode* gamemode, enum Gametype gametype, SharedPuzzleList* sharedPuzzleList, ExitCode* exitCode);

@@ -5,16 +5,16 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-void ConstructPuzzles(ButtonMaster** allPuzzles, modelInfo** dynamicModels, int* lastModelIndex, enum Gametype gametype, FPSPlayer* player, GameplayElements* gameplayElements, Texture2D** allTextures, SharedMemory* sharedMemory, ExitCode* exitCode)
+void ConstructPuzzles(ButtonMaster** allPuzzles, modelInfo** dynamicModels, int* lastModelIndex, enum Gametype gametype, FPSPlayer* player, GameplayElements* gameplayElements, Texture2D** allTextures, SharedMemory* sharedMemory, SharedPuzzleList* sharedPuzzleList, ExitCode* exitCode)
 {
     if (gametype == EGT_A)
     {
         printf("last model index in construct puzzles: %i\n", *lastModelIndex);
-        ConstructGameAPuzzles(allPuzzles, allTextures, dynamicModels, lastModelIndex, player, gameplayElements, sharedMemory, exitCode);
+        ConstructGameAPuzzles(allPuzzles, allTextures, dynamicModels, lastModelIndex, player, gameplayElements, sharedMemory, sharedPuzzleList, exitCode);
     }
     else
     {
-        ConstructGameBPuzzles(allPuzzles, allTextures, dynamicModels, lastModelIndex, player, gameplayElements, sharedMemory, exitCode);
+        ConstructGameBPuzzles(allPuzzles, allTextures, dynamicModels, lastModelIndex, player, gameplayElements, sharedMemory, sharedPuzzleList, exitCode);
         printf("gametype b\n");
     }
 }
@@ -135,24 +135,39 @@ void MoveCursor(enum Direction direction, Interactable* interactedItem, enum Gam
 //this is to be called external no matter whether the consumer is in a puzzle or not
 void PollConsumerExternal(OpenSharedValues* openSharedValues, enum Gamemode* mode, enum Gametype gametype, SharedPuzzleList* sharedPuzzleList, ExitCode* exitCode)
 {
+    
     if (openSharedValues->mainSharedValues == NULL) return;
+    
+   
     if (openSharedValues->mainSharedValues->flagExtConsumer == 0) return;
+    printf("flag has been set cont\n");
     if (openSharedValues->puzzleSharedValues->puzzleId == 0) return;
+    printf("shared puzzle id is open cont\n");
 
-    ButtonMaster* sharedPuzzle = SearchForPuzzle(sharedPuzzleList, openSharedValues->puzzleSharedValues->puzzleId);
+    if (gametype == EGT_B && openSharedValues->mainSharedValues->ActiveWindowA == false)
+    {
+	printf("for some reason game b is the consumer\n");
+	return;
+    }
+
+    ButtonMaster* sharedPuzzle = SearchForSharedPuzzle(sharedPuzzleList, openSharedValues->puzzleSharedValues->puzzleId);
     if (sharedPuzzle == NULL)
     {
 	printf("Error puzzle not found\n");
+	printf("sharedPuzzleId: %i\n", openSharedValues->puzzleSharedValues->puzzleId);
 	openSharedValues->mainSharedValues->flagExtConsumer = 0;
 	return;
     }
+    if (IsPuzzleConsumer(sharedPuzzle, openSharedValues) == false) return;
+    printf("puzzle is consumer cont\n");
     WipePreSubmittedList(openSharedValues);
-    FillListFromBuffer(openSharedValues, puzzle);
-    openSharedValues->puzzleSharedValues->sharedCursorLocation = puzzle->cursoredButton->buttonVectorLocation;
-    openSharedValues->puzzleSharedValues->preSubmitIndex = openSharedVales->subimtIndexBuffer;
+    FillListFromBuffer(openSharedValues, sharedPuzzle);
+    openSharedValues->puzzleSharedValues->sharedCursorLocation = sharedPuzzle->cursoredButton->buttonVectorLocation;
+    openSharedValues->puzzleSharedValues->preSubmitIndex = openSharedValues->submitIndexBuffer;
     openSharedValues->mainSharedValues->consumerPost = true;
     openSharedValues->mainSharedValues->preSubmitCheck = false;
     openSharedValues->mainSharedValues->flagExtConsumer = 0;
+    openSharedValues->mainSharedValues->flagProducer = 1;
     printf("\n");
     printf("\n");
     printf("consumer inputs posted\n");
@@ -162,14 +177,20 @@ void PollConsumerExternal(OpenSharedValues* openSharedValues, enum Gamemode* mod
 
 ButtonMaster* SearchForSharedPuzzle(SharedPuzzleList* sharedPuzzles, int puzzleId)
 {
-    SharedPuzzleList* current = sharedPuzzleList;
+    printf("about to search for puzzle\n");
+    if (sharedPuzzles == NULL)
+    {
+	printf("shared puzzles is null\n");
+    }
+    SharedPuzzleList* current = sharedPuzzles;
     while (current != NULL)
     {
-	if (sharedPuzzleList->sharedId == puzzleId)
+	if (current->sharedId == puzzleId)
 	{
-	    return sharedPuzzleList->puzzle;
+	    return current->puzzle;
 	}
 	current = current->next;
+	printf("searching for puzzle\n");
     }
     return NULL;
 }
@@ -186,15 +207,20 @@ void EnteringDetermination(ButtonMaster* puzzle, OpenSharedValues* openSharedVal
     {
 	//yo consumer are there any submitted buttons?
 	if (openSharedValues->mainSharedValues->sharingPuzzles == true) return;
-	openSharedValues->mainSharedValues->flag = 1;
+	printf("entering determination here\n");
+//	openSharedValues->mainSharedValues->flag = 1;
 	openSharedValues->puzzleSharedValues->puzzleId = puzzle->sharedPuzzleId;
+	printf("grabbing puzzle id\n");
 	openSharedValues->mainSharedValues->preSubmitCheck = true;
-	openSharedValues->mainSharedValues->flagProducer = 1;
+//	openSharedValues->mainSharedValues->flagProducer = 1;
+	openSharedValues->mainSharedValues->flagExtConsumer = 1;
+	printf("setting producer flag\n");
     }
 }
 
 void FillListFromBuffer(OpenSharedValues* openSharedValues, ButtonMaster* puzzle)
 {
+
     PreSubmittedList* current = puzzle->submitBuffer;
     PreSubmittedList* next;
     int i = 0;
@@ -216,6 +242,7 @@ void RunThroughPreSubmittedButtons(OpenSharedValues* openSharedValues, ButtonMas
 	Button* currButton = &puzzle->childButtons[x][y];
 	printf("adding button and changing selection\n");
 	printf("\n");
+	if (currButton->buttonState == EBS_selected) continue;
 	ChangeSelection(currButton, puzzle, openSharedValues, gametype, exitCode);
 	CheckForSolution(currButton, puzzle, gamemode); 
     }
@@ -410,6 +437,7 @@ void PollProducer(OpenSharedValues* openSharedValues, ButtonMaster* puzzle, enum
 	puzzle->cursoredButton->highlighted = true;
 	openSharedValues->mainSharedValues->consumerPost = false;
 	openSharedValues->mainSharedValues->preSubmitCheck = false;
+	openSharedValues->mainSharedValues->flagProducer = 0;
     }
 
 }
@@ -432,7 +460,7 @@ void PollConsumer(OpenSharedValues* openSharedValues, ButtonMaster* puzzle, enum
     {
 	printf("cursored button is null\n");
     }
-
+/*
     if (openSharedValues->mainSharedValues->preSubmitCheck == true)
     {
 	//find any submitted buttons and then return
@@ -454,7 +482,7 @@ void PollConsumer(OpenSharedValues* openSharedValues, ButtonMaster* puzzle, enum
 	printf("\n");
 	return;
     }
-    
+*/    
     enum Direction inputDirection = 0;
     
     if (openSharedValues->puzzleSharedValues->inputDirection > 0 && openSharedValues->puzzleSharedValues->inputDirection < 5)

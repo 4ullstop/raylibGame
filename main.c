@@ -65,7 +65,7 @@ int main(int argc, char* argv[])
     SharedMemory* sharedMemValA = malloc(sizeof(SharedMemory));
     sharedMemValA->sharedValTesting = 23;
     
-    SharedPuzzleList* sharedPuzzleList = (SharedPuzzleList*)malloc(sizeof(sharedPuzzleList));
+    SharedPuzzleList sharedPuzzleList = {0};
     openSharedValues.si = &si;
     openSharedValues.pi = &pi;
     openSharedValues.hMapFile = &hMapFile;
@@ -175,7 +175,7 @@ int main(int argc, char* argv[])
 
         ConstructGameplayElements(modelsA, &lastModelIndex, texturesA, NUMBER_OF_DOORS_A, &gameplayElements, gameplayElements.doors, gameplayElements.indicators, &exitCodes, gametype);
 	if (CheckForErrors(&exitCodes, &destructionLocations)) goto KillProgram; 
-        ConstructPuzzles(allPuzzlesA, modelsA, &lastModelIndex, gametype, &player, &gameplayElements, texturesA, openSharedValues.mainSharedValues, &exitCodes);
+        ConstructPuzzles(allPuzzlesA, modelsA, &lastModelIndex, gametype, &player, &gameplayElements, texturesA, openSharedValues.mainSharedValues, &sharedPuzzleList, &exitCodes);
 	if (CheckForErrors(&exitCodes, &destructionLocations)) goto KillProgram; 
 	
         CreateModels(modelsA, &lastModelIndex, gametype, texturesA, &exitCodes);
@@ -193,7 +193,7 @@ int main(int argc, char* argv[])
         ConstructGameplayElements(modelsB, &lastModelIndex, texturesB, NUMBER_OF_DOORS_B, &gameplayElements, allDoorsB, gameplayElements.indicators, &exitCodes, gametype);
 	if (CheckForErrors(&exitCodes, &destructionLocations)) goto KillProgram; 
 	
-        ConstructPuzzles(allPuzzlesB, modelsB, &lastModelIndex, gametype, &player, &gameplayElements, texturesB, openSharedValues.mainSharedValues, &exitCodes);
+        ConstructPuzzles(allPuzzlesB, modelsB, &lastModelIndex, gametype, &player, &gameplayElements, texturesB, openSharedValues.mainSharedValues, &sharedPuzzleList, &exitCodes);
 	if (CheckForErrors(&exitCodes, &destructionLocations)) goto KillProgram; 
 	
 	printf("puzzles created for game b\n");
@@ -313,13 +313,13 @@ int main(int argc, char* argv[])
 
         if (gametype == EGT_A)
         {
-            CallAllPolls(deltaTime, modelsA, areaQueryBoxesA, &interactedItem, allBoxesA, numOfModels, numOfQueryBoxes, &exitCodes);
+            CallAllPolls(deltaTime, modelsA, areaQueryBoxesA, &interactedItem, allBoxesA, numOfModels, numOfQueryBoxes, &sharedPuzzleList, &exitCodes);
             PollAllGameplayElements(gameplayElements.doors, deltaTime, numOfDoors);
             Draw(modelsA, &ray, areaQueryBoxesA, ui, allBoxesA, numOfModels, numOfQueryBoxes, numOfInteractables, allPuzzlesA);
         }
         else
         {
-            CallAllPolls(deltaTime, modelsB, areaQueryBoxesB, &interactedItem, allBoxesB, numOfModels, numOfQueryBoxes, &exitCodes);
+            CallAllPolls(deltaTime, modelsB, areaQueryBoxesB, &interactedItem, allBoxesB, numOfModels, numOfQueryBoxes, &sharedPuzzleList, &exitCodes);
             PollAllGameplayElements(allDoorsB, deltaTime, numOfDoors);
             Draw(modelsB, &ray, areaQueryBoxesB, ui, allBoxesB, numOfModels, numOfQueryBoxes, numOfInteractables, allPuzzlesB);
         }
@@ -363,7 +363,7 @@ KillProgram:
     return 0;
 }
 
-void CallAllPolls(float dTime, modelInfo** models, QueryBox** areaBoxes, Interactable* interactedItem, OverlapBox** overlapBoxes, int numberOfModels, int numOfAreaQueryBoxes, ExitCode* exitCode)
+void CallAllPolls(float dTime, modelInfo** models, QueryBox** areaBoxes, Interactable* interactedItem, OverlapBox** overlapBoxes, int numberOfModels, int numOfAreaQueryBoxes, SharedPuzzleList* sharedPuzzleList, ExitCode* exitCode)
 {
     PollWindow(dTime, &windowData);
     bool gameA = gametype == EGT_A;
@@ -372,11 +372,13 @@ void CallAllPolls(float dTime, modelInfo** models, QueryBox** areaBoxes, Interac
         PollPlayer(dTime, &pcam, &player, &colPacket, models, numberOfModels, gameA);
         PollPlayerSecondary(&player, &ray, areaBoxes, &gamemode, interactedItem, numOfAreaQueryBoxes, &hideObjects, dTime, gametype, &openSharedValues, exitCode);
         PollOverlaps(overlapBoxes, &player);
+	PollConsumerExternal(&openSharedValues, &gamemode, gametype, sharedPuzzleList, exitCode);
 	
     }
     else if (gamemode == EGM_Puzzle)
     {
         PollPlayerPuzzle(&player, dTime, interactedItem, &gamemode, &openSharedValues, gametype, exitCode);
+	PollConsumerExternal(&openSharedValues, &gamemode, gametype, sharedPuzzleList, exitCode);
     }
     else if (gamemode == EGM_Inactive)
     {

@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h> 
 
-void ConstructGameBPuzzles(ButtonMaster** gameBPuzzles, Texture2D** allTextures, modelInfo** dynamicModels, int* lastModelIndex, FPSPlayer* player, GameplayElements* gameplayElements, SharedMemory* sharedMemory, ExitCode* exitCode)
+void ConstructGameBPuzzles(ButtonMaster** gameBPuzzles, Texture2D** allTextures, modelInfo** dynamicModels, int* lastModelIndex, FPSPlayer* player, GameplayElements* gameplayElements, SharedMemory* sharedMemory, SharedPuzzleList* sharedPuzzleList, ExitCode* exitCode)
 {
     int lastPuzzleIndex = 0;
 
@@ -110,6 +110,7 @@ void ConstructGameBPuzzles(ButtonMaster** gameBPuzzles, Texture2D** allTextures,
     AssignSpecialTexturesGameB(gameBPuzzles, allTextures);
 
     AddGameBPuzzlesToSharedMemory(gameBPuzzles, sharedMemory);
+    FillSharedPuzzleList(gameBPuzzles, NUMBER_OF_PUZZLES_B, sharedPuzzleList);
 }
 
 void AddGameBPuzzlesToSharedMemory(ButtonMaster** allPuzzles, SharedMemory* sharedMemory)

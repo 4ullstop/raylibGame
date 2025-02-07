@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include "../shared/memory_editing.h"
 
-void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures, modelInfo** dynamicModels, int* lastModelIndex, FPSPlayer* player, GameplayElements* gameplayElements, SharedMemory* sharedMemory, ExitCode* exitCode)
+void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures, modelInfo** dynamicModels, int* lastModelIndex, FPSPlayer* player, GameplayElements* gameplayElements, SharedMemory* sharedMemory, SharedPuzzleList* sharedPuzzleList, ExitCode* exitCode)
 {
     int lastPuzzleIndex = 0;
 
@@ -408,6 +408,8 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
 
     AddGameAPuzzlesToSharedMemory(gameAPuzzles, sharedMemory);
 
+
+    FillSharedPuzzleList(gameAPuzzles, NUMBER_OF_PUZZLES_A, sharedPuzzleList);
     gameAPuzzles[0]->puzzleToPowerOn = gameAPuzzles[15];
     gameAPuzzles[1]->puzzleToPowerOn = gameAPuzzles[2];
     gameAPuzzles[2]->puzzleToPowerOn = gameAPuzzles[6];

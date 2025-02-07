@@ -52,6 +52,9 @@ typedef struct SharedMemory
     bool preSubmitCheck;
 
     bool consumerPost;
+
+
+
 } SharedMemory;
 #endif
 

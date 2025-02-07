@@ -490,8 +490,24 @@ void ConstructSinglePuzzle(int* lastPuzzleIndex, int columns, int rows, Vector3 
     exitCode->numOfPuzzlesLoaded = exitCode->numOfPuzzlesLoaded + 1;
 }
 
+void FillSharedPuzzleList(ButtonMaster** allPuzzles, int numOfPuzzles, SharedPuzzleList* sharedPuzzleList)
+{
+    printf("about to assign shared buttons\n");
+    for (int i = 0; i < numOfPuzzles; i++)
+    {
+	if (allPuzzles[i]->sharedPuzzle == true)
+	{
+	    printf("in loop, puzzle found, maing assignation\n");
+	    printf("\n");
+	    printf("\n");
+	    AddPuzzleToSharedPuzzleList(allPuzzles[i], &sharedPuzzleList);
+	}
+    }
+}
+
 void AddPuzzleToSharedPuzzleList(ButtonMaster* puzzle, SharedPuzzleList** head)
 {
+    printf("about to add puzzle to list here\n");
     SharedPuzzleList* newNode = (SharedPuzzleList*)malloc(sizeof(SharedPuzzleList));
     if (newNode == NULL)
     {
@@ -504,6 +520,7 @@ void AddPuzzleToSharedPuzzleList(ButtonMaster* puzzle, SharedPuzzleList** head)
     if (*head == NULL)
     {
 	*head = newNode;
+	printf("*head id: %i\n", newNode->sharedId);
 	return;
     }
     SharedPuzzleList* lastNode = *head;
@@ -512,6 +529,14 @@ void AddPuzzleToSharedPuzzleList(ButtonMaster* puzzle, SharedPuzzleList** head)
 	lastNode = lastNode->next;
     }
     lastNode->next = newNode;
+    printf("shared id at next: %i\n", lastNode->next->sharedId);
+
+    SharedPuzzleList* temp = *head;
+    while (temp != NULL)
+    {
+	printf("shared id: %i\n", temp->sharedId);
+	temp = temp->next;
+    }
 }
 
 //this is our function that will need to be assigned to our function pointer for special
