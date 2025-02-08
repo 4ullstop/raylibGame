@@ -364,7 +364,7 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
     ConstructSinglePuzzle(&lastPuzzleIndex,
 			  3,
 			  8,
-			  (Vector3){0.0f, 1.0f, -35.0f},
+			  (Vector3){0.0f, 1.15f, -35.0f},
 			  player,
 			  Puzzle_18,
 			  GET_NULL,
@@ -373,6 +373,26 @@ void ConstructGameAPuzzles(ButtonMaster** gameAPuzzles, Texture2D** allTextures,
 			  0,
 			  gameAPuzzles,
 			  (Vector2Int){0, 0},
+			  true,
+			  EPS_active,
+			  0.3f,
+			  true,
+			  true,
+			  (Vector3){-1.1f, 0.0f, -1.0f},
+			  exitCode);
+
+    ConstructSinglePuzzle(&lastPuzzleIndex,
+			  3,
+			  6,
+			  (Vector3){0.0f, 1.0f, -40.0f},
+			  player,
+			  Puzzle_19,
+			  GET_NULL,
+			  gameplayElements,
+			  0,
+			  0,
+			  gameAPuzzles,
+			  (Vector2Int){4, 0},
 			  true,
 			  EPS_active,
 			  0.3f,
@@ -429,6 +449,7 @@ void AddGameAPuzzlesToSharedMemory(ButtonMaster** allPuzzles, SharedMemory* shar
 
     allPuzzles[14]->sharedPuzzleId = 1;
     allPuzzles[17]->sharedPuzzleId = 2;
+    allPuzzles[18]->sharedPuzzleId = 3;
 }
 
 /*
@@ -552,6 +573,16 @@ void AssignSpecialTexturesGameA(ButtonMaster** allPuzzles, Texture2D** allTextur
     AssignButtonSpecialTextureAndAction(&allPuzzles[17]->childButtons[5][1], TCL_OFF);
     AssignButtonSpecialTextureAndAction(&allPuzzles[17]->childButtons[6][2], TCL_OFF);
     AssignButtonSpecialTextureAndAction(&allPuzzles[17]->childButtons[7][0], TCL_OFF);
+
+    AssignButtonSpecialTextureAndAction(&allPuzzles[18]->childButtons[0][0], TCL_OFF);
+    AssignButtonSpecialTextureAndAction(&allPuzzles[18]->childButtons[2][0], TCL_OFF);
+    AssignButtonSpecialTextureAndAction(&allPuzzles[18]->childButtons[3][0], TCL_OFF);
+    AssignButtonSpecialTextureAndAction(&allPuzzles[18]->childButtons[5][0], TCL_OFF);
+    AssignButtonSpecialTextureAndAction(&allPuzzles[18]->childButtons[1][1], TCL_OFF);
+    AssignButtonSpecialTextureAndAction(&allPuzzles[18]->childButtons[4][1], TCL_OFF);
+    AssignButtonSpecialTextureAndAction(&allPuzzles[18]->childButtons[5][1], TCL_OFF);
+    AssignButtonSpecialTextureAndAction(&allPuzzles[18]->childButtons[2][2], TCL_OFF);
+    AssignButtonSpecialTextureAndAction(&allPuzzles[18]->childButtons[3][2], TCL_OFF);
     
     AssignSolutionsTextures(allPuzzles[0]);
     AssignSolutionsTextures(allPuzzles[2]);
@@ -570,6 +601,7 @@ void AssignSpecialTexturesGameA(ButtonMaster** allPuzzles, Texture2D** allTextur
     AssignSolutionsTextures(allPuzzles[15]);
     AssignSolutionsTextures(allPuzzles[16]);
     AssignSolutionsTextures(allPuzzles[17]);
+    AssignSolutionsTextures(allPuzzles[18]);
 }
 
 void AssignPuzzlesToSharedMemory(ButtonMaster** allPuzzles, ButtonMaster* sharedPuzzle)
@@ -898,4 +930,22 @@ void Puzzle_18(ButtonMaster* puzzle)
     puzzle->textureSizes[0] = EBTS_01;
     puzzle->textureSizes[1] = EBTS_03;
     puzzle->textureSizes[2] = EBTS_06;
+}
+
+void Puzzle_19(ButtonMaster* puzzle)
+{
+    int numOfSolutions = 4;
+    puzzle->numberOfSolutions = numOfSolutions;
+    puzzle->solutionLocations = malloc(sizeof(Vector2Int) * numOfSolutions);
+    puzzle->solutionButtons = malloc(sizeof(Button) * puzzle->numberOfSolutions);
+    puzzle->solutionLocations[0] = (Vector2Int){0, 4};
+    puzzle->solutionLocations[1] = (Vector2Int){0, 1};
+    puzzle->solutionLocations[2] = (Vector2Int){1, 2};
+    puzzle->solutionLocations[3] = (Vector2Int){2, 5};
+
+    puzzle->textureSizes = malloc(sizeof(enum ButtonTextureSizes) * puzzle->numberOfSolutions);
+    puzzle->textureSizes[0] = EBTS_01;
+    puzzle->textureSizes[1] = EBTS_03;
+    puzzle->textureSizes[2] = EBTS_05;
+    puzzle->textureSizes[3] = EBTS_07;
 }

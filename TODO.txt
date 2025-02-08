@@ -149,4 +149,4 @@ Something that could be much better about the design is the fact that I'm still 
 
 
 Where am I?:
- - The originial implementation where if we are sharing windows, submit some buttons still no longer updates on other screen if associated puzzle is entered into
+ - The game runs, so make more of the level, make more puzzles
