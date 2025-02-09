@@ -148,5 +148,17 @@ Something that could be much better about the design is the fact that I'm still 
 
 
 
-Where am I?:
- - The game runs, so make more of the level, make more puzzles
+You have one month to:
+ - Fix all of the bugs when sharing puzzles
+   - Pushing the cursor does not account for shared puzzle edges
+   - Moving puzzle has swapped for toggle puzzle? - not necessary to fix yet
+ - Fix the issue with the lines not lighting up when completed
+ - Create a level for the shared puzzle gameplay
+   - Create the split items between the world to signify when a puzzle is shared/which puzzles to share w/
+ - Refine the level for a
+   - Better intro to the puzzles
+   - Make the level flow a little better
+ - Design more shared puzzles to mess around with
+ - Consider adding more elements to the gameplay within the puzzles
+ - Consider figuring out sounds so you can add sfx to the puzzles
+
