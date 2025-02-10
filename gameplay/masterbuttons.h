@@ -90,3 +90,5 @@ ButtonMaster* SearchForSharedPuzzle(SharedPuzzleList* sharedPuzzles, int puzzleI
 void PollConsumerExternal(OpenSharedValues* openSharedValues, enum Gamemode* gamemode, enum Gametype gametype, SharedPuzzleList* sharedPuzzleList, ExitCode* exitCode);
 
 void KillProducerPoll(OpenSharedValues* openSharedValues);
+
+void SharedPuzzleEdgeDetection(ButtonMaster* puzzle, Button* button, OpenSharedValues* openSharedValues, bool* edges);

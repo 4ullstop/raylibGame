@@ -606,6 +606,36 @@ void PollConsumer(OpenSharedValues* openSharedValues, ButtonMaster* puzzle, enum
     printf("consumer read and complete, flag is returned\n");
 }
 
+void SharedPuzzleEdgeDetection(ButtonMaster* puzzle, Button* button, OpenSharedValues* openSharedValues, bool* edges)
+{
+    printf("\n");
+    printf("\n");
+    printf("shared puzzle edge detection\n");
+    if (puzzle->sharedPuzzle == true && (openSharedValues->mainSharedValues == NULL || openSharedValues->mainSharedValues->sharingPuzzles == false))
+    {
+	if (puzzle->gameAPuzzle == true)
+	{
+	    if (edges[1] == true) return;
+	    if (button->buttonVectorLocation.x + 1 == (puzzle->rows / 2))
+	    {
+		edges[0] = true;
+		return;
+	    }		
+	}
+	else
+	{
+	    if (edges[0] == true) return;
+	    printf("detecting game b buttonVectorLocation\n");
+	    if (button->buttonVectorLocation.x  == (puzzle->rows / 2))
+	    {
+		edges[1] = true;
+		printf("buttonVectorLocation is true returning\n");
+		return;
+	    }
+	}
+    }
+}
+
 Button* PushCursor(Button* button, ButtonMaster* master, OpenSharedValues* openSharedValues)
 {
     printf("about to push cursor right now\n");
@@ -621,22 +651,33 @@ Button* PushCursor(Button* button, ButtonMaster* master, OpenSharedValues* openS
         button->nRight->nAbove
     };
 
+    bool edgeDetectionChanged = false;
+
+    bool* edges = (bool*)malloc(sizeof(bool) * 4);
+
+    edges[0] = button->isRightEdge;
+    edges[1] = button->isLeftEdge;
+    edges[2] = button->isAboveEdge;
+    edges[3] = button->isBelowEdge;
+    
+    SharedPuzzleEdgeDetection(master, button, openSharedValues, edges);
+    
     Button* buttonToHopTo = NULL;
     for (int i = 0; i < circledButtonNum; i++)
     {
-	if (button->isRightEdge == true)
+	if (edges[0] == true)
 	{
 	    if (i == 6 || i == 7 || i == 5) continue;
 	}
-	if (button->isLeftEdge == true)
+	if (edges[1] == true)
 	{
 	    if (i == 2 || i == 3 || i == 1) continue;
        	}
-	if (button->isAboveEdge == true)
+	if (edges[2] == true)
 	{
 	    if (i == 0 || i == 1 || i == 7) continue;
 	}
-	if (button->isBelowEdge == true)
+	if (edges[3] == true)
 	{
 	    if (i == 3 || i == 5 || i == 4) continue;
        	}
@@ -669,6 +710,8 @@ Button* PushCursor(Button* button, ButtonMaster* master, OpenSharedValues* openS
 	printf("puzzle reset\n");
         return NULL;
     }
+
+    free(edges);
 }
 
 bool PushedCheckForEdges(Button* button)

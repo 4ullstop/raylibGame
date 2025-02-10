@@ -151,7 +151,7 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
     dynamicModels[*lastModelIndex] = master->childButtons[i][j].model;
     *lastModelIndex = *lastModelIndex + 1;
 
-
+/*
     if (master->sharedPuzzle)
     {
 	if (master->gameAPuzzle == true)
@@ -169,7 +169,7 @@ void ConstructSingleButton(ButtonMaster* master, int i, int j, int* lastModelInd
 	    }
 	}
     }
-
+*/
     
 											       
 											       
@@ -337,6 +337,7 @@ void AssignGameplayElementsToPuzzles(ButtonMaster* puzzle, GameplayElements* gam
 	puzzle->associatedGameplayElements->switchBox = &gameplayElements->switchBox[gameplayElementIndex];
 	puzzle->switchId = puzzle->associatedGameplayElements->switchBox[gameplayElementIndex]->lastSwitchId;
 	puzzle->associatedGameplayElements->switchBox[gameplayElementIndex]->lastSwitchId = puzzle->associatedGameplayElements->switchBox[gameplayElementIndex]->lastSwitchId + 1;
+	puzzle->associatedGameplayElements->associatedIndicator = FindIndicator(indicatorIndex, gameplayElements->indicators, NUMBER_OF_INDICATORS_A);
 	printf("assigned switchBox as gamepalyElement\n");
 	break;
     default:
@@ -386,6 +387,10 @@ void EnactGameplayElement(GameplayElements* gameplayElement, int gameplayElement
 	case GET_SwitchBox:
 	    printf("checking switch box\n");
 	    QuerySwitchBox(gameplayElement->switchBox, gameplayElementIndex, switchId);
+	    if (gameplayElement->associatedIndicator != NULL)
+	    {
+		gameplayElement->associatedIndicator->PowerOnIndicator(gameplayElement->associatedIndicator);
+	    }
 	    break;
 	default:
 	    printf("ERROR DEFAULT RUN IN ENACTGAMEPLAYELEMENT\n");
