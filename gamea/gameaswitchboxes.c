@@ -10,5 +10,5 @@ void ConstructGameASwitchBoxes(GameplayElements* gameplayElements, ExitCode* exi
 			     exitCode,
 			     3,
 			     &lastSwitchBoxIndex,
-			     gameplayElements->doors[3]);
+			     gameplayElements->doors[2]);
 }

@@ -36,7 +36,7 @@ void ConstructGameADoors(modelInfo** dynamicModels, Texture2D** gameATextures, i
 			lastModelIndex,
 			allDoors,
 			exitCode,
-			(Vector3){10.5f, -10.0f, 3.0f},
+			(Vector3){3.5f, 0.0f, -13.0f},
 			DT_Hinged,
 			"D:/CFiles/FirstGame/models/obj/lighthousedoor.obj",
 			9,

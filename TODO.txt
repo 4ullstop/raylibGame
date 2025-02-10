@@ -151,7 +151,6 @@ Something that could be much better about the design is the fact that I'm still 
 You have one month to:
  - Fix all of the bugs when sharing puzzles
    - Moving puzzle has swapped for toggle puzzle? - not necessary to fix yet
- - Game crashes when trying to open door
  - Create a level for the shared puzzle gameplay
    - Create the split items between the world to signify when a puzzle is shared/which puzzles to share w/
  - Refine the level for a
