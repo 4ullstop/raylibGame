@@ -20,6 +20,10 @@ void Puzzle_04B(ButtonMaster* puzzle);
 
 void Puzzle_05B(ButtonMaster* puzzle);
 
+void Puzzle_06B(ButtonMaster* puzzle);
+
+void Puzzle_07B(ButtonMaster* puzzle);
+
 void AssignSpecialTexturesGameB(ButtonMaster** allPuzzles, Texture2D** allTextures);
 
 void AddGameBPuzzlesToSharedMemory(ButtonMaster** allPuzzles, SharedMemory* sharedMemory);

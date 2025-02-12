@@ -162,3 +162,12 @@ You have one month to:
  - Figure out how to package the game for simple downloadability
 
 Spend some time figuring out how to really sell your game to ppl
+
+
+Just a list of the things that have to be learned
+ - How to submit the buttons properly for a solution
+ - How to properly move around puzzles
+ - The directions of the puzhing cursor
+ - How you can unsubmit the buttons in the puzzles
+ - What shared puzzles are and how they work
+ - How to tell when a puzzle is shared and when it is not
