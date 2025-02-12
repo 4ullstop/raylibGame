@@ -386,7 +386,11 @@ void SharedButtonNeighborDetermination(Button** leftCurrSelected, Button** right
     {
 	if (currSelectedButton->buttonVectorLocation.x + 1 == (puzzle->rows / 2))
 	{
-	    if (puzzle->childButtons[0][currSelectedButton->buttonVectorLocation.y].buttonState == EBS_off) return;
+	    if (puzzle->childButtons[0][currSelectedButton->buttonVectorLocation.y].buttonState == EBS_off)
+	    {
+		*rightCurrSelected = currSelectedButton;
+		return;
+	    }
 	    *rightCurrSelected = &puzzle->childButtons[0][currSelectedButton->buttonVectorLocation.y];
 	}
 	else if (currSelectedButton->buttonVectorLocation.x == 0)
@@ -400,18 +404,25 @@ void SharedButtonNeighborDetermination(Button** leftCurrSelected, Button** right
 	    printf("left curr selected assigned\n");
 	    *leftCurrSelected = &puzzle->childButtons[(puzzle->rows / 2) - 1][currSelectedButton->buttonVectorLocation.y];
 	}
-    }
-    else
+    }    else
     {
 	printf("button location: %i\n", currSelectedButton->buttonVectorLocation.x);
 	if (currSelectedButton->buttonVectorLocation.x + 1 == puzzle->rows)
 	{
-	    if (puzzle->childButtons[(puzzle->rows / 2)][currSelectedButton->buttonVectorLocation.y].buttonState == EBS_off) return;
+	    if (puzzle->childButtons[(puzzle->rows / 2)][currSelectedButton->buttonVectorLocation.y].buttonState == EBS_off)
+	    {
+		*rightCurrSelected = currSelectedButton;
+		return;
+	    }
 	    *rightCurrSelected = &puzzle->childButtons[(puzzle->rows / 2)][currSelectedButton->buttonVectorLocation.y];
 	}
 	else if (currSelectedButton->buttonVectorLocation.x == (puzzle->rows / 2))
 	{
-	    if (puzzle->childButtons[puzzle->rows - 1][currSelectedButton->buttonVectorLocation.y].buttonState == EBS_off) return;
+	    if (puzzle->childButtons[puzzle->rows - 1][currSelectedButton->buttonVectorLocation.y].buttonState == EBS_off)
+	    {
+		*leftCurrSelected = currSelectedButton;
+		return;
+	    }
 	    *leftCurrSelected = &puzzle->childButtons[puzzle->rows - 1][currSelectedButton->buttonVectorLocation.y];
  	}
     }
