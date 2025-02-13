@@ -167,6 +167,8 @@ Spend some time figuring out how to really sell your game to ppl
 Just a list of the things that have to be learned
  - How to submit the buttons properly for a solution
  - How to properly move around puzzles
+ - How the cursor reacts to the different rules of the puzzles	
+ - When and why the puzzles reset
  - The directions of the puzhing cursor
  - How you can unsubmit the buttons in the puzzles
  - What shared puzzles are and how they work

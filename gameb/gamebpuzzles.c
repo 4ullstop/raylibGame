@@ -252,22 +252,25 @@ void AssignSpecialTexturesGameB(ButtonMaster** allPuzzles, Texture2D** allTextur
     AssignSolutionsTextures(allPuzzles[3]);
     AssignSolutionsTextures(allPuzzles[4]);
     AssignSolutionsTextures(allPuzzles[5]);
+    AssignSolutionsTextures(allPuzzles[6]);
 }
 
 void Puzzle_01B(ButtonMaster* puzzle)
 {
-    int numOfSolutions = 3;
+    int numOfSolutions = 4;
     puzzle->numberOfSolutions = numOfSolutions;
     puzzle->solutionLocations = malloc(sizeof(Vector2Int) * numOfSolutions);
     puzzle->solutionButtons = malloc(sizeof(Button) * puzzle->numberOfSolutions);
     puzzle->solutionLocations[0] = (Vector2Int){1, 0};
     puzzle->solutionLocations[1] = (Vector2Int){2, 2};
     puzzle->solutionLocations[2] = (Vector2Int){0, 1};
+    puzzle->solutionLocations[3] = (Vector2Int){2, 1};
     
     puzzle->textureSizes = malloc(sizeof(enum ButtonTextureSizes) * puzzle->numberOfSolutions);
     puzzle->textureSizes[0] = EBTS_02;
     puzzle->textureSizes[1] = EBTS_04;
     puzzle->textureSizes[2] = EBTS_07;
+    puzzle->textureSizes[3] = EBTS_08;
 
 }
 
