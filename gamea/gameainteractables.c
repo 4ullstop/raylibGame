@@ -300,4 +300,18 @@ void CreateGameAInteractables(Interactable** interactables, QueryBox** areaQuery
 				0,
 				nullOffset,
 				exitCode);
+
+    ConstructSingleInteractable(&lastInteractableIndex,
+				ITT_Puzzle,
+				false,
+				2.0f,
+				2.0f,
+				2.0f,
+				allPuzzles[21],
+				PuzzleInteract,
+				interactables,
+				areaQueryBoxes,
+				0,
+				nullOffset,
+				exitCode);
 }

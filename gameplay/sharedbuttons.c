@@ -615,6 +615,7 @@ void AssignButtonSpecialTextureAndAction(Button* button, enum TextureCoordinateL
 	break;
     case TCL_SUB:
 	button->buttonState = EBS_selected;
+	button->submitted = true;
 	button->model->texture = button->buttonTextures->selected;
 	button->model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = button->model->texture;
 	button->shouldStaySubmitted = true;
@@ -630,7 +631,7 @@ void AssignButtonSpecialTextureAndAction(Button* button, enum TextureCoordinateL
 	break;
     }
     
-    AssignToggleAction(button, textureLocations);
+//    AssignToggleAction(button, textureLocations);
 }
 
 void AssignSolutionsTextures(ButtonMaster* puzzle)

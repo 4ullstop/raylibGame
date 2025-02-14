@@ -759,6 +759,7 @@ void ChangeSelection(Button* button, ButtonMaster* puzzle, OpenSharedValues* ope
     }
     else
     {
+	printf("Unsubmitting submitted button\n");
 	UnsubmitButton(button, puzzle, false);
     }
 }
@@ -1027,6 +1028,7 @@ void ResetPuzzle(ButtonMaster* puzzle, bool resultOfFailure)
 	    {
 		printf("button should stay submitted\n");
 		puzzle->childButtons[i][j].buttonState = EBS_selected;
+		puzzle->childButtons[i][j].submitted = true;
 		puzzle->childButtons[i][j].model->texture = puzzle->childButtons[i][j].buttonTextures->selected;
 		puzzle->childButtons[i][j].model->model.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = puzzle->childButtons[i][j].model->texture;
 		continue;
