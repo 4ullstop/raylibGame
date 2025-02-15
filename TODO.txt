@@ -169,8 +169,7 @@ Just a list of the things that have to be learned
  - How to properly move around puzzles
  - How the cursor reacts to the different rules of the puzzles	
  - When and why the puzzles reset
- - The directions of the puzhing cursor
  - How you can unsubmit the buttons in the puzzles
  - What shared puzzles are and how they work
  - How to tell when a puzzle is shared and when it is not
- 
+ - The directions of the puzhing cursor 
